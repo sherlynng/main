@@ -829,9 +829,27 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |find all pairs of tutor/tutees that are matching-in-progress |easily set a pair to matched or unmatched depending if they have agreed upon the tutoring
 
-|`* *` |user |
+|`* *` |user |indicate the special request by tutor/tutee (e.g. prefer female tutor)|consider these factors when performing match
+
+|`* *` |user |change theme of the app |personalise the app to user’s preference
 
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
+
+|`*` |user |add upload tutors’ qualifications via pdf file |add in data easily without typing them down individually
+
+|`*` |user |view the location markers of tutor/tutee on a map |see the geographical concentration of tutors/tutees 
+
+|`*` |user |automatically send email to the matched pair of tutor and tutee |inform both parties efficiently
+
+|`*` |user |allow a tutor/tutee to have multiple subject to teach/learn |have more possibilities when matching tutors and tutees
+
+|`*` |user |mark a tutor/tutee as matched with some other tutor/tutee for a certain subject |identify tutor/tutee status
+
+|`*` |user |sort the matching list by distance |pair tutor/tutee who lives nearer to each other
+
+|`*` |user |sync database to google |work on multiple devices without losing data
+
+|`*` |user |view statistics on tutor/tutee numbers and statuses |have a clearer picture of the status of tutor/tutee
 |=======================================================================
 
 _{More to be added}_
