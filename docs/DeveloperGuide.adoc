@@ -835,6 +835,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |change theme of the app |personalise the app to user’s preference
 
+|`* *` |forgetful user | view password hint |recall my password
+
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
 
 |`*` |user |add upload tutors’ qualifications via pdf file |add in data easily without typing them down individually
