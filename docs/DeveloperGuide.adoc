@@ -809,8 +809,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |edit the <<criteria, criteria>> of a tutor/tutee |change criteria without re-adding the entry
 
-|`* * *` |user |select a tutee and get a list of tutors meeting the tutee’s criteria| easily find a suitable tutor
-
 |`* * *` |user |list all tutors or tutees separately |view a cleaner list without mixing tutors and tutees
 
 |`* * *` |user |set a tutor/tutee’s <<status, status>> |know who is available
@@ -837,6 +835,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |forgetful user | view password hint |recall my password
 
+|`* *` |user with poor eyesight |change the font and font size |easily read the output text
+
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
 
 |`*` |user |add upload tutors’ qualifications via pdf file |add in data easily without typing them down individually
@@ -845,6 +845,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |user |automatically send email to the matched pair of tutor and tutee |inform both parties efficiently
 
+|`*` |user |select a particular criteria and get tutors/tutees fulfilling that criteria | easily find a suitable tutor/tutee if one criteria takes priority 
+
 |`*` |user |allow a tutor/tutee to have multiple subject to teach/learn |have more possibilities when matching tutors and tutees
 
 |`*` |user |sort the matching list by distance |pair tutor/tutee who lives nearer to each other
@@ -852,9 +854,10 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`*` |user |sync database to google |work on multiple devices without losing data
 
 |`*` |user |view statistics on tutor/tutee numbers and statuses |have a clearer picture of the status of tutor/tutee
-|=======================================================================
 
-_{More to be added}_
+|`*` |user |auto-match tutor and tutee based on available time slots |save time in matching schedules 
+
+|=======================================================================
 
 [appendix]
 == Use Cases
