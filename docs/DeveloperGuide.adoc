@@ -905,6 +905,24 @@ Windows, Linux, Unix, OS-X
 [[private-contact-detail]] Private contact detail::
 A contact detail that is not meant to be shared with others
 
+[[criteria]] Criteria::
+Subject and grade level
+
+[match]] Match::
+A tutor and a tutee are paired for a subject 
+
+[[matched]] Matched::
+Tutor and tutee have confirmed the match and are ready to start lessons 
+
+[[matching-in-progress]] Matching in progress::
+Waiting for tutor and tutee to confirm the match
+
+[[status]] Status::
+Includes unmatch, matching-in-progress, matched
+
+[[unmatch]] Unmatch::
+A tutor/tutee does not have any match
+
 [appendix]
 == Product Survey
 
