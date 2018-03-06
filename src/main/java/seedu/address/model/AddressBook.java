@@ -49,6 +49,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         resetData(toBeCopied);
     }
 
+
     //// list overwrite operations
 
     public void setPersons(List<Person> persons) throws DuplicatePersonException {
@@ -112,6 +113,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         // This can cause the tags master list to have additional tags that are not tagged to any person
         // in the person list.
         persons.setPerson(target, syncedEditedPerson);
+        removeUnusedTags();
     }
 
     /**
@@ -184,4 +186,20 @@ public class AddressBook implements ReadOnlyAddressBook {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(persons, tags);
     }
+
+   
+
+    /**
+     *
+     * Removes unsed {@code tag} from this {@code AddressBook}.
+     * @@author yamgent
+     * Reused from https://github.com/se-edu/addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
+     */
+    private void removeUnusedTags() {
+           Set<Tag> tagsInPersons = persons.asObservableList().stream()
+                           .map(Person::getTags)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+        tags.setTags(tagsInPersons);
+}
 }
