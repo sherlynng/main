@@ -885,6 +885,80 @@ Use case ends.
 +
 Use case resumes at step 2.
 
+[discrete]
+=== Use case: Edit the criteria of a certain tutor/tutee
+
+*MSS*
+
+1.  User requests to edit a criteria of a certain tutor/tutee
+2.  AddressBook updates the criteria
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The given tutor/tutee is invalid.
++
+[none]
+** 1a1. AddressBook shows an error message.
++
+Use case ends.
+
+[discrete]
+=== Use case: Input a certain criteria of a tutee/tutor and get back a list of tutor/tutee fulfilling that criteria
+
+*MSS*
+
+1.  User requests a certain criteria of tutee/tutor (e.g. budget: below 200)
+2.  AddressBook shows a list of tutor/tutee fulfilling that criteria
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The given criteria is invalid
++
+[none]
+** 1a1. AddressBook shows an error message.
++
+Use case resumes at step 1.
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+[discrete]
+=== Use case: Match tutor and tutee
+
+*MSS*
+
+1.  User requests to show a list of all tutors/tutees
+2.  AddressBook returns a list of all tutors/tutees
+3.  User selects a tutor/tutee for matching
+4.  AddressBook returns a list of tutees/tutors that fulfils the criteria of tutor/tutee selected
+5.  User creates a match with the most suitable criteria
+6.  AddressBook creates the match and updates the status of the matched tutor and tutee to ‘Matching-in-progress’
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+[none]
+* 4a. The list is empty (no tutor/tutee fulfills the criteria)
++
+Use case ends.
+
 _{More to be added}_
 
 [appendix]
