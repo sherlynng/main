@@ -801,13 +801,35 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new person |
+|`* * *` |user |add a new tutor/tutee |
 
-|`* * *` |user |delete a person |remove entries that I no longer need
+|`* * *` |user |delete a tutor/tutee |remove entries that I no longer need
 
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+|`* * *` |user |find a tutor/tutee by name |locate details of persons without having to go through the entire list
+
+|`* * *` |user |edit the criteria of a tutor/tutee |change criteria without re-adding the entry
+
+|`* * *` |user |select a tutee and get a list of tutors meeting the tutee’s criteria| easily find a suitable tutor
+
+|`* * *` |user |list all tutors or tutees separately |view a cleaner list without mixing tutors and tutees
+
+|`* * *` |user |set a tutor/tutee’s status |know who is available
 
 |`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+
+|`* *` |user |protect the app with a password |ensure confidentiality of the contacts
+
+|`* *` |user |tag a person with role, subject, level, and status |identify details of each tutor/tutee easily
+
+|`* *` |user |sort matching list by budget |find the best match at the lowest price  
+
+|`* *` |user |rate a tutor according to tutee’s feedback |identify tutors’ capability for future references
+
+|`* *` |user |store a list of all tutor/tutee that have been matched |I can have a cleaner list consisting of only unmatched tutor/tutee and also able to refer to past records if required
+
+|`* *` |user |find all pairs of tutor/tutees that are matching-in-progress |easily set a pair to matched or unmatched depending if they have agreed upon the tutoring
+
+|`* *` |user |
 
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
 |=======================================================================
