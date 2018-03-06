@@ -782,13 +782,14 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Target user profile*:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
+* Tutor coordinator
+* has a need to manage and schedule a significant number of tutors and tutees 
+* prefer desktop applications over other types
 * can type fast
 * prefers typing over mouse input
-* is reasonably comfortable using CLI apps
+* is reasonably comfortable using CLI applications
 
-*Value proposition*: manage contacts faster than a typical mouse/GUI driven app
+*Value proposition*: efficient pairing of tutees and tutors based on criteria such as subject, budget, location, availability
 
 [appendix]
 == User Stories
