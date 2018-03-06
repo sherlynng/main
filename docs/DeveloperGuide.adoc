@@ -964,7 +964,33 @@ Use case resumes at step 2.
 +
 Use case ends.
 
-_{More to be added}_
+[discrete]
+=== Use case: Confirm a match 
+
+*MSS*
+
+1.  User requests for a list of pending matches 
+2.  AddressBook shows a list of ‘Matching-in-progress’ entries 
+3.  User select a particular entry
+4.  AddressBook updates the status of the tutor and tutee 
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+[none]
+Use case ends.
+
+[none]
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
 
 [appendix]
 == Non Functional Requirements
