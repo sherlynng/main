@@ -908,7 +908,7 @@ A contact detail that is not meant to be shared with others
 [[criteria]] Criteria::
 Subject and grade level
 
-[match]] Match::
+[[match]] Match::
 A tutor and a tutee are paired for a subject 
 
 [[matched]] Matched::
