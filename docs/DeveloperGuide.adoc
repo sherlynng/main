@@ -783,13 +783,13 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 *Target user profile*:
 
 * Tutor coordinator
-* has a need to manage and schedule a significant number of tutors and tutees 
+* has a need to manage and schedule a significant number of tutors and students 
 * prefer desktop applications over other types
 * can type fast
 * prefers typing over mouse input
 * is reasonably comfortable using CLI applications
 
-*Value proposition*: efficient pairing of tutees and tutors based on criteria such as subject, budget, location, availability
+*Value proposition*: efficient pairing of students and tutors based on criteria such as subject, budget, location, availability
 
 [appendix]
 == User Stories
@@ -801,35 +801,35 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new tutor/tutee |
+|`* * *` |user |add a new tutor/student |
 
-|`* * *` |user |delete a tutor/tutee |remove entries that I no longer need
+|`* * *` |user |delete a tutor/student |remove entries that I no longer need
 
-|`* * *` |user |find a tutor/tutee by name |locate details of persons without having to go through the entire list
+|`* * *` |user |find a tutor/student by name |locate details of persons without having to go through the entire list
 
-|`* * *` |user |edit the <<criteria, criteria>> of a tutor/tutee |change criteria without re-adding the entry
+|`* * *` |user |edit the <<criteria, criteria>> of a tutor/student |change criteria without re-adding the entry
 
-|`* * *` |user |list all tutors or tutees separately |view a cleaner list without mixing tutors and tutees
+|`* * *` |user |list all tutors or students separately |view a cleaner list without mixing tutors and students
 
-|`* * *` |user |set a tutor/tutee’s <<status, status>> |know who is available
+|`* * *` |user |set a tutor/student’s <<status, status>> |know who is available
 
-|`* * *` |user |mark a tutor/tutee as <<matched, matched>> with some other tutor/tutee for a certain subject |identify tutor/tutee status
+|`* * *` |user |mark a tutor/student as <<matched, matched>> with some other tutor/student for a certain subject |identify tutor/student status
 
 |`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
 |`* *` |user |protect the app with a password |ensure confidentiality of the contacts
 
-|`* *` |user |tag a person with role, subject, level, and status |identify details of each tutor/tutee easily
+|`* *` |user |tag a person with role, subject, level, and status |identify details of each tutor/student easily
 
 |`* *` |user |sort matching list by budget |find the best match at the lowest price  
 
-|`* *` |user |rate a tutor according to tutee’s feedback |identify tutors’ capability for future references
+|`* *` |user |rate a tutor according to student’s feedback |identify tutors’ capability for future references
 
-|`* *` |user |store a list of all tutor/tutee that have been matched |I can have a cleaner list consisting of only unmatched tutor/tutee and also able to refer to past records if required
+|`* *` |user |store a list of all tutor/student that have been matched |I can have a cleaner list consisting of only unmatched tutor/student and also able to refer to past records if required
 
-|`* *` |user |find all pairs of tutor/tutees that are <<matching-in-progress, matching in progress>> |easily set a pair to matched or unmatched depending if they have agreed upon the tutoring
+|`* *` |user |find all pairs of tutor/students that are <<matching-in-progress, matching in progress>> |easily set a pair to matched or unmatched depending if they have agreed upon the tutoring
 
-|`* *` |user |indicate the special request by tutor/tutee (e.g. prefer female tutor)|consider these factors when performing match
+|`* *` |user |indicate the special request by tutor/student (e.g. prefer female tutor)|consider these factors when performing match
 
 |`* *` |user |change theme of the app |personalise the app to user’s preference
 
@@ -841,21 +841,21 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |user |add upload tutors’ qualifications via pdf file |add in data easily without typing them down individually
 
-|`*` |user |view the location markers of tutor/tutee on a map |see the geographical concentration of tutors/tutees 
+|`*` |user |view the location markers of tutor/student on a map |see the geographical concentration of tutors/students 
 
-|`*` |user |automatically send email to the matched pair of tutor and tutee |inform both parties efficiently
+|`*` |user |automatically send email to the matched pair of tutor and student |inform both parties efficiently
 
-|`*` |user |select a particular criteria and get tutors/tutees fulfilling that criteria | easily find a suitable tutor/tutee if one criteria takes priority 
+|`*` |user |select a particular criteria and get tutors/students fulfilling that criteria | easily find a suitable tutor/student if one criteria takes priority 
 
-|`*` |user |allow a tutor/tutee to have multiple subject to teach/learn |have more possibilities when matching tutors and tutees
+|`*` |user |allow a tutor/student to have multiple subject to teach/learn |have more possibilities when matching tutors and students
 
-|`*` |user |sort the matching list by distance |pair tutor/tutee who lives nearer to each other
+|`*` |user |sort the matching list by distance |pair tutor/student who lives nearer to each other
 
 |`*` |user |sync database to google |work on multiple devices without losing data
 
-|`*` |user |view statistics on tutor/tutee numbers and statuses |have a clearer picture of the status of tutor/tutee
+|`*` |user |view statistics on tutor/student numbers and statuses |have a clearer picture of the status of tutor/student
 
-|`*` |user |auto-match tutor and tutee based on available time slots |save time in matching schedules 
+|`*` |user |auto-match tutor and student based on available time slots |save time in matching schedules 
 
 |=======================================================================
 
@@ -891,11 +891,11 @@ Use case ends.
 Use case resumes at step 2.
 
 [discrete]
-=== Use case: Edit the criteria of a certain tutor/tutee
+=== Use case: Edit the criteria of a certain tutor/student
 
 *MSS*
 
-1.  User requests to edit a criteria of a certain tutor/tutee
+1.  User requests to edit a criteria of a certain tutor/student
 2.  AddressBook updates the criteria
 +
 Use case ends.
@@ -903,7 +903,7 @@ Use case ends.
 *Extensions*
 
 [none]
-* 1a. The given tutor/tutee is invalid.
+* 1a. The given tutor/student is invalid.
 +
 [none]
 ** 1a1. AddressBook shows an error message.
@@ -911,12 +911,12 @@ Use case ends.
 Use case ends.
 
 [discrete]
-=== Use case: Input a certain criteria of a tutee/tutor and get back a list of tutor/tutee fulfilling that criteria
+=== Use case: Input a certain criteria of a student/tutor and get back a list of tutor/student fulfilling that criteria
 
 *MSS*
 
-1.  User requests a certain criteria of tutee/tutor (e.g. budget: below 200)
-2.  AddressBook shows a list of tutor/tutee fulfilling that criteria
+1.  User requests a certain criteria of student/tutor (e.g. budget: below 200)
+2.  AddressBook shows a list of tutor/student fulfilling that criteria
 +
 Use case ends.
 
@@ -936,16 +936,16 @@ Use case resumes at step 1.
 Use case ends.
 
 [discrete]
-=== Use case: Match tutor and tutee
+=== Use case: Match tutor and student
 
 *MSS*
 
-1.  User requests to show a list of all tutors/tutees
-2.  AddressBook returns a list of all tutors/tutees
-3.  User selects a tutor/tutee for matching
-4.  AddressBook returns a list of tutees/tutors that fulfils the criteria of tutor/tutee selected
+1.  User requests to show a list of all tutors/students
+2.  AddressBook returns a list of all tutors/students
+3.  User selects a tutor/student for matching
+4.  AddressBook returns a list of students/tutors that fulfils the criteria of tutor/student selected
 5.  User creates a match with the most suitable criteria
-6.  AddressBook creates the match and updates the status of the matched tutor and tutee to ‘Matching-in-progress’
+6.  AddressBook creates the match and updates the status of the matched tutor and student to ‘Matching-in-progress’
 +
 Use case ends.
 
@@ -960,7 +960,7 @@ Use case ends.
 Use case resumes at step 2.
 
 [none]
-* 4a. The list is empty (no tutor/tutee fulfills the criteria)
+* 4a. The list is empty (no tutor/student fulfills the criteria)
 +
 Use case ends.
 
@@ -972,7 +972,7 @@ Use case ends.
 1.  User requests for a list of pending matches 
 2.  AddressBook shows a list of ‘Matching-in-progress’ entries 
 3.  User select a particular entry
-4.  AddressBook updates the status of the tutor and tutee 
+4.  AddressBook updates the status of the tutor and student 
 +
 Use case ends.
 
@@ -1016,19 +1016,19 @@ A contact detail that is not meant to be shared with others
 Subject and grade level
 
 [[match]] Match::
-A tutor and a tutee are paired for a subject 
+A tutor and a student are paired for a subject 
 
 [[matched]] Matched::
-Tutor and tutee have confirmed the match and are ready to start lessons 
+Tutor and student have confirmed the match and are ready to start lessons 
 
 [[matching-in-progress]] Matching in progress::
-Waiting for tutor and tutee to confirm the match
+Waiting for tutor and student to confirm the match
 
 [[status]] Status::
 Includes unmatch, matching-in-progress, matched
 
 [[unmatch]] Unmatch::
-A tutor/tutee does not have any match
+A tutor/student does not have any match
 
 [appendix]
 == Product Survey
