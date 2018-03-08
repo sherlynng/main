@@ -103,7 +103,8 @@ public class AddressBookTest {
         addressBookWithAmyandBob.removeTag(new Tag(VALID_TAG_FRIEND));
         Person amyWithoutFriendTag = new PersonBuilder(AMY).withTags().build();
         Person bobWithoutFriendTag = new PersonBuilder(BOB).withTags(VALID_TAG_HUSBAND).build();
-        AddressBook expectedAddressBook = new AddressBookBuilder().withPerson(amyWithoutFriendTag).withPerson(bobWithoutFriendTag).build();
+        AddressBook expectedAddressBook = new AddressBookBuilder()
+                .withPerson(amyWithoutFriendTag).withPerson(bobWithoutFriendTag).build();
         assertEquals(expectedAddressBook, addressBookWithAmyandBob);
     }
 
