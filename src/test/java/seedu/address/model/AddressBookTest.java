@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_UNUSED;
-import static seedu.address.testutil.TypicalPersons.*;
-
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.AMY;
+import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +34,8 @@ public class AddressBookTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private final AddressBook addressBook = new AddressBook();
-    private final AddressBook addressBookWithAmyandBob = new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
+    private final AddressBook addressBookWithAmyandBob =
+            new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
 
 
     @Test
@@ -80,7 +83,8 @@ public class AddressBookTest {
     @Test
     /**
      * @@author yamgent
-     * Reused from https://github.com/se-edu/addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
+     * Reused from https://github.com/se-edu/
+     * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
      */
     public void removeTag_nonExistingTag_addressBookUnchanged() throws PersonNotFoundException {
         addressBookWithAmyandBob.removeTag(new Tag(VALID_TAG_UNUSED));
@@ -91,9 +95,11 @@ public class AddressBookTest {
     @Test
     /**
      * @@author yamgent
-     * Reused from https://github.com/se-edu/addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
+     * Reused from https://github.com/se-edu/
+     * addressbook-level4/pull/790/
+     * commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
      */
-    public void removeTag_tagUsedByMultiplePersons_tagRemoved() throws PersonNotFoundException{
+    public void removeTag_tagUsedByMultiplePersons_tagRemoved() throws PersonNotFoundException {
         addressBookWithAmyandBob.removeTag(new Tag(VALID_TAG_FRIEND));
         Person amyWithoutFriendTag = new PersonBuilder(AMY).withTags().build();
         Person bobWithoutFriendTag = new PersonBuilder(BOB).withTags(VALID_TAG_HUSBAND).build();
