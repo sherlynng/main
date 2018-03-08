@@ -1019,7 +1019,7 @@ Subject and grade level
 A tutor and a student are paired for a subject
 
 [[matched]] Matched::
-Tutor and student have confirmed the match and are ready to start lessons 
+Tutor and student have confirmed the match and are ready to start lessons
 
 [[matching-in-progress]] Matching in progress::
 Waiting for tutor and student to confirm the match
