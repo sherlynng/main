@@ -234,5 +234,5 @@ public class AddressBook implements ReadOnlyAddressBook {
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
         tags.setTags(tagsInPersons);
-}
+    }
 }
