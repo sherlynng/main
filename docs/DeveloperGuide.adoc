@@ -783,7 +783,7 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 *Target user profile*:
 
 * Tutor coordinator
-* has a need to manage and schedule a significant number of tutors and students 
+* has a need to manage and schedule a significant number of tutors and students
 * prefer desktop applications over other types
 * can type fast
 * prefers typing over mouse input
@@ -821,7 +821,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |tag a person with role, subject, level, and status |identify details of each tutor/student easily
 
-|`* *` |user |sort matching list by budget |find the best match at the lowest price  
+|`* *` |user |sort matching list by budget |find the best match at the lowest price
 
 |`* *` |user |rate a tutor according to student’s feedback |identify tutors’ capability for future references
 
@@ -841,11 +841,11 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |user |add upload tutors’ qualifications via pdf file |add in data easily without typing them down individually
 
-|`*` |user |view the location markers of tutor/student on a map |see the geographical concentration of tutors/students 
+|`*` |user |view the location markers of tutor/student on a map |see the geographical concentration of tutors/students
 
 |`*` |user |automatically send email to the matched pair of tutor and student |inform both parties efficiently
 
-|`*` |user |select a particular criteria and get tutors/students fulfilling that criteria | easily find a suitable tutor/student if one criteria takes priority 
+|`*` |user |select a particular criteria and get tutors/students fulfilling that criteria | easily find a suitable tutor/student if one criteria takes priority
 
 |`*` |user |allow a tutor/student to have multiple subject to teach/learn |have more possibilities when matching tutors and students
 
@@ -855,7 +855,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |user |view statistics on tutor/student numbers and statuses |have a clearer picture of the status of tutor/student
 
-|`*` |user |auto-match tutor and student based on available time slots |save time in matching schedules 
+|`*` |user |auto-match tutor and student based on available time slots |save time in matching schedules
 
 |=======================================================================
 
@@ -965,14 +965,14 @@ Use case resumes at step 2.
 Use case ends.
 
 [discrete]
-=== Use case: Confirm a match 
+=== Use case: Confirm a match
 
 *MSS*
 
-1.  User requests for a list of pending matches 
-2.  AddressBook shows a list of ‘Matching-in-progress’ entries 
+1.  User requests for a list of pending matches
+2.  AddressBook shows a list of ‘Matching-in-progress’ entries
 3.  User select a particular entry
-4.  AddressBook updates the status of the tutor and student 
+4.  AddressBook updates the status of the tutor and student
 +
 Use case ends.
 
@@ -1016,7 +1016,7 @@ A contact detail that is not meant to be shared with others
 Subject and grade level
 
 [[match]] Match::
-A tutor and a student are paired for a subject 
+A tutor and a student are paired for a subject
 
 [[matched]] Matched::
 Tutor and student have confirmed the match and are ready to start lessons 
