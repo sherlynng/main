@@ -229,7 +229,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
      */
     private void removeUnusedTags() {
-           Set<Tag> tagsInPersons = persons.asObservableList().stream()
+        Set<Tag> tagsInPersons = persons.asObservableList().stream()
                            .map(Person::getTags)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
