@@ -8,7 +8,7 @@ fix: team/
 :imagesDir: images
 :stylesDir: stylesheets
 
-AddressBook - Level 4 was developed by the https://travis-ci.org/CS2103JAN2018-W11-B1/main.svg?branch=master team. +
+STUtor is developed by the https://travis-ci.org/CS2103JAN2018-W11-B1/main.svg?branch=master team. +
 _{The dummy content given below serves as a placeholder to be used by future forks of the project.}_ +
 {empty} +
 We are a team based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
