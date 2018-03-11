@@ -117,8 +117,10 @@ public class ModelManager extends ComponentManager implements Model {
                 && filteredPersons.equals(other.filteredPersons);
     }
 
+    @Override
     public void deleteTag (Tag tag)throws PersonNotFoundException {
         addressBook.removeTag(tag);
+        indicateAddressBookChanged();
     }
 
 
