@@ -62,8 +62,7 @@ public class RemoveTagCommand extends UndoableCommand {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof RemoveTagCommand // instanceof handles nulls
-                && this.targetTag.equals(((RemoveTagCommand) other).targetTag))// state check
-                ;
+                && this.targetTag.equals(((RemoveTagCommand) other).targetTag)); // state check
     }
 }
 
