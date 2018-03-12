@@ -10,7 +10,7 @@ public class ListTutorCommand extends Command {
     public static final String COMMAND_WORD = "listTutor";
     public static final String COMMAND_WORD_ALIAS = "lt";
 
-    public static final String MESSAGE_SUCCESS = "Listed all persons";
+    public static final String MESSAGE_SUCCESS = "Listed all tutors";
 
 
     @Override
