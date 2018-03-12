@@ -22,18 +22,9 @@ Role: Project Supervisor
 
 '''
 
-=== Yan Hong Yao Alvin
-image::aussiroth.jpg[width="150", align="left"]
-{empty}[http://github.com/aussiroth[github]] [<<johndoe#, portfolio>>]
-
-Role: 
-Responsibilities: Logic
-
-'''
-
 === Danny Ng Ming Xuan
-image::yijinl.jpg[width="150", align="left"]
-{empty}[http://github.com/yijinl[github]] [<<johndoe#, portfolio>>]
+image::dannyngmx94.jpg[width="150", align="left"]
+{empty}[http://github.com/dannyngmx94[github]] [<<johndoe#, portfolio>>]
 
 Role: 
 Responsibilities: UI
@@ -41,8 +32,8 @@ Responsibilities: UI
 '''
 
 === Ng Xin Ler
-image::m133225.jpg[width="150", align="left"]
-{empty}[http://github.com/m133225[github]] [<<johndoe#, portfolio>>]
+image::sherlynng.jpg[width="150", align="left"]
+{empty}[http://github.com/sherylnng[github]] [<<johndoe#, portfolio>>]
 
 Role: 
 Responsibilities: Storage
@@ -50,10 +41,19 @@ Responsibilities: Storage
 '''
 
 === Wang Zi
-image::yl_coder.jpg[width="150", align="left"]
-{empty}[http://github.com/yl-coder[github]] [<<johndoe#, portfolio>>]
+image::alexawangzi.jpg[width="150", align="left"]
+{empty}[http://github.com/alexawangzi[github]] [<<johndoe#, portfolio>>]
 
 Role: 
 Responsibilities: Model
+
+'''
+
+=== Yan Hong Yao Alvin
+image::aussiroth.jpg[width="150", align="left"]
+{empty}[http://github.com/aussiroth[github]] [<<johndoe#, portfolio>>]
+
+Role: 
+Responsibilities: Logic
 
 '''
