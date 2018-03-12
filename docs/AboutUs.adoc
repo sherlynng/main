@@ -4,7 +4,7 @@
 :stylesDir: stylesheets
 
 STUtor is developed by the https://travis-ci.org/CS2103JAN2018-W11-B1/main.svg?branch=master team. +
-	
+
 We are a team based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
 
 == Project Team
@@ -21,7 +21,7 @@ Role: Project Supervisor
 image::dannyngmx94.jpg[width="150", align="left"]
 {empty}[http://github.com/dannyngmx94[github]] [<<johndoe#, portfolio>>]
 
-Role: 
+Role: Placeholder
 Responsibilities: UI
 
 '''
@@ -30,7 +30,7 @@ Responsibilities: UI
 image::sherlynng.jpg[width="150", align="left"]
 {empty}[http://github.com/sherylnng[github]] [<<johndoe#, portfolio>>]
 
-Role: 
+Role: Placeholder
 Responsibilities: Storage
 
 '''
@@ -39,7 +39,7 @@ Responsibilities: Storage
 image::alexawangzi.jpg[width="150", align="left"]
 {empty}[http://github.com/alexawangzi[github]] [<<johndoe#, portfolio>>]
 
-Role: 
+Role: Placeholder
 Responsibilities: Model
 
 '''
@@ -48,7 +48,7 @@ Responsibilities: Model
 image::aussiroth.jpg[width="150", align="left"]
 {empty}[http://github.com/aussiroth[github]] [<<johndoe#, portfolio>>]
 
-Role: 
+Role: Placeholder
 Responsibilities: Logic
 
 '''
