@@ -167,6 +167,10 @@ public class EditCommand extends UndoableCommand {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
+            setPrice(toCopy.price);
+            setSubject(toCopy.subject);
+            setLevel(toCopy.level);
+            setStatus(toCopy.status);
             setTags(toCopy.tags);
         }
 
