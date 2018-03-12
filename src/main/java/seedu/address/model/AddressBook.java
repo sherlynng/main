@@ -187,8 +187,13 @@ public class AddressBook implements ReadOnlyAddressBook {
         return Objects.hash(persons, tags);
     }
 
+    /**
+     * Removes {@code tag} from this {@code AddressBook}.
+     * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
+     */
+
     public void removeTag(Tag tag) throws PersonNotFoundException {
-        for( Person person : persons){
+        for (Person person : persons) {
             removeTagFromPerson(tag, person);
         }
     }
@@ -198,15 +203,16 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Removes {@code tag} from {@code person} in this {@code AddressBook}.
      * @throws PersonNotFoundException if the {@code person} is not in this {@code AddressBook}.
      * @@author yamgent
-     * Reused from https://github.com/se-edu/addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
+     * Reused from https://github.com/se-edu/
+     * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
      */
     private void removeTagFromPerson(Tag tag, Person person) throws PersonNotFoundException {
         Set<Tag> updatedTags = new HashSet<>(person.getTags());
-        if (!updatedTags.remove(tag)){
+        if (!updatedTags.remove(tag)) {
             return;
         }
         Person updatedPerson =
-                new Person (person.getName(), person.getPhone(), person.getEmail(),person.getAddress(), updatedTags);
+                new Person (person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), updatedTags);
         try {
             updatePerson(person, updatedPerson);
         } catch (DuplicatePersonException dupe) {
@@ -219,13 +225,14 @@ public class AddressBook implements ReadOnlyAddressBook {
      *
      * Removes unsed {@code tag} from this {@code AddressBook}.
      * @@author yamgent
-     * Reused from https://github.com/se-edu/addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
+     * Reused from https://github.com/se-edu/
+     * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
      */
     private void removeUnusedTags() {
-           Set<Tag> tagsInPersons = persons.asObservableList().stream()
+        Set<Tag> tagsInPersons = persons.asObservableList().stream()
                            .map(Person::getTags)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
         tags.setTags(tagsInPersons);
-}
+    }
 }
