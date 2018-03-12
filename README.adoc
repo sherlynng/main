@@ -1,4 +1,4 @@
-= Address Book (Level 4)
+= STUtor
 ifdef::env-github,env-browser[:relfileprefix: docs/]
 
 https://travis-ci.org/CS2103JAN2018-W11-B1/main[image:https://travis-ci.org/CS2103JAN2018-W11-B1/main.svg?branch=master[Build Status]]
