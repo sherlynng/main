@@ -59,6 +59,11 @@ public class AddCommandParser implements Parser<AddCommand> {
             Level level = ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).get();
             Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+            //Add required attributes to the tag list as in documentation
+            tagList.add(ParserUtil.parseTag(price.toString()));
+            tagList.add(ParserUtil.parseTag(subject.toString()));
+            tagList.add(ParserUtil.parseTag(level.toString()));
+            tagList.add(ParserUtil.parseTag(status.toString()));
 
             Person person = new Person(name, phone, email, address, price, subject, level, status, tagList);
 

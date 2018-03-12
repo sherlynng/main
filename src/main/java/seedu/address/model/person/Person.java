@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -40,6 +41,7 @@ public class Person {
         this.subject = subject;
         this.level = level;
         this.status = status;
+
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }
