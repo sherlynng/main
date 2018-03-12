@@ -1,9 +1,4 @@
 = About Us
-:relfilepre
-
-
-
-fix: team/
 
 :imagesDir: images
 :stylesDir: stylesheets
