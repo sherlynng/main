@@ -19,8 +19,7 @@
 		<subject isPrivate="false">Economics</subject>
 		<level isPrivate="false">Secondary 2</level>
 		<status isPrivate="false">NotMatched</status>
-		
-    </persons>
+	</persons>
     <persons>
         <name>Heinz Kurz</name>
         <phone isPrivate="false">95352563</phone>
