@@ -139,13 +139,20 @@ public class PersonBuilder {
         return this;
     }
 
-    public void setTags() {
+    /**
+     * Sets the required attribute tags for the person
+     */
+    private void setTags() {
         tags.add(new Tag(price.toString()));
         tags.add(new Tag(subject.toString()));
         tags.add(new Tag(level.toString()));
         tags.add(new Tag(status.toString()));
     }
 
+    /**
+     * Builds a person based off the attributes in this class
+     * @return Person with set attributes
+     */
     public Person build() {
         setTags();
         return new Person(name, phone, email, address, price, subject, level, status, tags);

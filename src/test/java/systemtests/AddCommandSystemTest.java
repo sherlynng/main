@@ -12,7 +12,6 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_ONE;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
@@ -24,8 +23,6 @@ import static seedu.address.logic.commands.CommandTestUtil.STATUS_DESC_UNMATCHED
 import static seedu.address.logic.commands.CommandTestUtil.STATUS_UNMATCHED;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_MATH;
-import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_MATH;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;

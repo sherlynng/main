@@ -1,7 +1,6 @@
 package seedu.address.ui.testutil;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static seedu.address.ui.PersonCard.TAG_COLOR_STYLES;
 
 import java.util.Arrays;

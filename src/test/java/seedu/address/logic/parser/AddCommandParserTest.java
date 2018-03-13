@@ -71,7 +71,7 @@ public class AddCommandParserTest {
 
         // multiple names - last name accepted
         assertParseSuccess(parser, NAME_DESC_AMY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB+ SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
                 + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
 
         // multiple phones - last phone accepted
