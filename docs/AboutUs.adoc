@@ -21,7 +21,7 @@ Role: Project Supervisor
 image::dannyngmx94.jpg[width="150", align="left"]
 {empty}[http://github.com/dannyngmx94[github]] [<<johndoe#, portfolio>>]
 
-Role: Placeholder
+Role: Testing
 Responsibilities: UI
 
 '''
@@ -30,7 +30,7 @@ Responsibilities: UI
 image::sherlynng.jpg[width="150", align="left"]
 {empty}[http://github.com/sherylnng[github]] [<<johndoe#, portfolio>>]
 
-Role: Placeholder
+Role: Documentation, Code quality
 Responsibilities: Storage
 
 '''
@@ -39,7 +39,7 @@ Responsibilities: Storage
 image::alexawangzi.jpg[width="150", align="left"]
 {empty}[http://github.com/alexawangzi[github]] [<<johndoe#, portfolio>>]
 
-Role: Placeholder
+Role: Integration, Scheduling and tracking
 Responsibilities: Model
 
 '''
@@ -48,7 +48,7 @@ Responsibilities: Model
 image::aussiroth.jpg[width="150", align="left"]
 {empty}[http://github.com/aussiroth[github]] [<<johndoe#, portfolio>>]
 
-Role: Placeholder
+Role: Team Lead
 Responsibilities: Logic
 
 '''
