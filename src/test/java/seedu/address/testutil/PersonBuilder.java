@@ -3,6 +3,8 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -139,7 +141,20 @@ public class PersonBuilder {
         return this;
     }
 
+    public void setTags() {
+        try {
+            tags.add(ParserUtil.parseTag(price.toString()));
+            tags.add(ParserUtil.parseTag(level.toString()));
+            tags.add(ParserUtil.parseTag(status.toString()));
+            tags.add(ParserUtil.parseTag(subject.toString()));
+        }
+        catch (IllegalValueException ive) {
+            throw new AssertionError("error at personbuilder setting tags");
+        }
+    }
+
     public Person build() {
+        setTags();
         return new Person(name, phone, email, address, price, subject, level, status, tags);
     }
 

@@ -124,8 +124,14 @@ public class EditCommand extends UndoableCommand {
 
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
-
+        
         try {
+            //clean out old person's attribute tags
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getPrice().toString()));
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getLevel().toString()));
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getSubject().toString()));
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getStatus().toString()));
+
             attributeTags.add(ParserUtil.parseTag(updatedPrice.toString()));
             attributeTags.add(ParserUtil.parseTag(updatedSubject.toString()));
             attributeTags.add(ParserUtil.parseTag(updatedLevel.toString()));
