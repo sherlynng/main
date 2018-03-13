@@ -22,9 +22,6 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Level;
-import seedu.address.model.person.Status;
-import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
 
 /**

@@ -17,8 +17,11 @@ import java.util.Set;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.Parser;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -104,7 +107,8 @@ public class EditCommand extends UndoableCommand {
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
      */
-    private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+    private static Person createEditedPerson(
+            Person personToEdit, EditPersonDescriptor editPersonDescriptor) throws CommandException {
         assert personToEdit != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
@@ -117,6 +121,17 @@ public class EditCommand extends UndoableCommand {
         Level updatedLevel = editPersonDescriptor.getLevel().orElse(personToEdit.getLevel());
         Status updatedStatus = editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+
+        try {
+            updatedTags.add(ParserUtil.parseTag(updatedPrice.toString()));
+            updatedTags.add(ParserUtil.parseTag(updatedSubject.toString()));
+            updatedTags.add(ParserUtil.parseTag(updatedLevel.toString()));
+            updatedTags.add(ParserUtil.parseTag(updatedStatus.toString()));
+        }
+        catch (IllegalValueException iae){
+            throw new CommandException("Warning: At least one of entered attributes Price, Subject, Level, Status" +
+                    "cannot be used as a tag.");
+        }
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
                 updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedTags);
