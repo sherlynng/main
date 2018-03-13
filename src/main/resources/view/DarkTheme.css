@@ -311,6 +311,11 @@
     -fx-border-width: 0;
 }
 
+#browserPane {
+    -fx-background-color: #ffffff;
+    -fx-border-width: 0;
+}
+
 #commandTypeLabel {
     -fx-font-size: 11px;
     -fx-text-fill: #F70D1A;

@@ -17,13 +17,19 @@ import java.util.Set;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Price;
+import seedu.address.model.person.Status;
+import seedu.address.model.person.Subject;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -100,16 +106,42 @@ public class EditCommand extends UndoableCommand {
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
      */
-    private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+    private static Person createEditedPerson(
+            Person personToEdit, EditPersonDescriptor editPersonDescriptor) throws CommandException {
         assert personToEdit != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
+
+        Price updatedPrice = editPersonDescriptor.getPrice().orElse(personToEdit.getPrice());
+        Subject updatedSubject = editPersonDescriptor.getSubject().orElse(personToEdit.getSubject());
+        Level updatedLevel = editPersonDescriptor.getLevel().orElse(personToEdit.getLevel());
+        Status updatedStatus = editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        //create a new modifiable set of tags
+        Set<Tag> attributeTags = new HashSet<>(updatedTags);
+
+        try {
+            //clean out old person's attribute tags
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getPrice().toString()));
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getLevel().toString()));
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getSubject().toString()));
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getStatus().toString()));
+
+            attributeTags.add(ParserUtil.parseTag(updatedPrice.toString()));
+            attributeTags.add(ParserUtil.parseTag(updatedSubject.toString()));
+            attributeTags.add(ParserUtil.parseTag(updatedLevel.toString()));
+            attributeTags.add(ParserUtil.parseTag(updatedStatus.toString()));
+        } catch (IllegalValueException ive) {
+            throw new CommandException("Warning: At least one of entered attributes Price, Subject, Level, Status "
+                    + "cannot be used as a tag.");
+        }
+
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
+                updatedPrice, updatedSubject, updatedLevel, updatedStatus, attributeTags);
     }
 
     @Override
@@ -140,6 +172,10 @@ public class EditCommand extends UndoableCommand {
         private Phone phone;
         private Email email;
         private Address address;
+        private Price price;
+        private Subject subject;
+        private Level level;
+        private Status status;
         private Set<Tag> tags;
 
         public EditPersonDescriptor() {}
@@ -153,6 +189,10 @@ public class EditCommand extends UndoableCommand {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
+            setPrice(toCopy.price);
+            setSubject(toCopy.subject);
+            setLevel(toCopy.level);
+            setStatus(toCopy.status);
             setTags(toCopy.tags);
         }
 
@@ -193,6 +233,38 @@ public class EditCommand extends UndoableCommand {
 
         public Optional<Address> getAddress() {
             return Optional.ofNullable(address);
+        }
+
+        public void setPrice(Price price) {
+            this.price = price;
+        }
+
+        public Optional<Price> getPrice() {
+            return Optional.ofNullable(price);
+        }
+
+        public void setSubject(Subject subject) {
+            this.subject = subject;
+        }
+
+        public Optional<Subject> getSubject() {
+            return Optional.ofNullable(subject);
+        }
+
+        public void setLevel(Level level) {
+            this.level = level;
+        }
+
+        public Optional<Level> getLevel() {
+            return Optional.ofNullable(level);
+        }
+
+        public void setStatus(Status status) {
+            this.status = status;
+        }
+
+        public Optional<Status> getStatus() {
+            return Optional.ofNullable(status);
         }
 
         /**

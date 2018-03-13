@@ -1,5 +1,5 @@
 = About Us
-
+:relfileprefix: team/
 :imagesDir: images
 :stylesDir: stylesheets
 

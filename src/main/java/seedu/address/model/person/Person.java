@@ -19,18 +19,28 @@ public class Person {
     private final Phone phone;
     private final Email email;
     private final Address address;
+    private final Price price;
+    private final Subject subject;
+    private final Level level;
+    private Status status;
 
     private final UniqueTagList tags;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Address address, Price price, Subject subject,
+                  Level level, Status status, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.price = price;
+        this.subject = subject;
+        this.level = level;
+        this.status = status;
+
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }
@@ -45,6 +55,22 @@ public class Person {
 
     public Email getEmail() {
         return email;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     public Address getAddress() {
