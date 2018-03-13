@@ -27,7 +27,7 @@ public class PersonBuilder {
     public static final String DEFAULT_PRICE = "100";
     public static final String DEFAULT_SUBJECT = "English";
     public static final String DEFAULT_LEVEL = "Secondary 1";
-    public static final String DEFAULT_STATUS = "notMatched";
+    public static final String DEFAULT_STATUS = "NotMatched";
     public static final String DEFAULT_TAGS = "friends";
 
     private Name name;
@@ -139,7 +139,15 @@ public class PersonBuilder {
         return this;
     }
 
+    public void setTags() {
+        tags.add(new Tag(price.toString()));
+        tags.add(new Tag(subject.toString()));
+        tags.add(new Tag(level.toString()));
+        tags.add(new Tag(status.toString()));
+    }
+
     public Person build() {
+        setTags();
         return new Person(name, phone, email, address, price, subject, level, status, tags);
     }
 

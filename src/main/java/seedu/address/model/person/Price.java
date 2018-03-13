@@ -21,4 +21,9 @@ public class Price {
         return (Integer.parseInt(test) > 0);
     }
 
+    @Override
+    public String toString() {
+        return this.value;
+    }
+
 }

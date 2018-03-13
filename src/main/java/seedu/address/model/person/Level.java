@@ -41,7 +41,7 @@ public class Level {
      */
     public static boolean isValidLevel(String test) {
 
-        return SET_ALL_LEVEL.contains(new Level(test));
+        return SET_ALL_LEVEL.contains(test);
     }
 
     @Override

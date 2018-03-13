@@ -40,6 +40,7 @@ public class Person {
         this.subject = subject;
         this.level = level;
         this.status = status;
+
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }

@@ -35,6 +35,7 @@ public class XmlAdaptedPerson {
     private String email;
     @XmlElement(required = true)
     private String address;
+    @XmlElement(required = true)
     private String price;
     @XmlElement(required = true)
     private String subject;
@@ -55,11 +56,16 @@ public class XmlAdaptedPerson {
     /**
      * Constructs an {@code XmlAdaptedPerson} with the given person details.
      */
-    public XmlAdaptedPerson(String name, String phone, String email, String address, List<XmlAdaptedTag> tagged) {
+    public XmlAdaptedPerson(String name, String phone, String email, String address,
+                            String price, String status, String subject, String level, List<XmlAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.price = price;
+        this.status = status;
+        this.subject = subject;
+        this.level = level;
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
@@ -75,6 +81,10 @@ public class XmlAdaptedPerson {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
+        level = source.getLevel().value;
+        subject = source.getSubject().value;
+        status = source.getStatus().value;
+        price = source.getPrice().value;
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));

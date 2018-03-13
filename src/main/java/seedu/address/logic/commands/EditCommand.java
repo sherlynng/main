@@ -17,8 +17,10 @@ import java.util.Set;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -104,7 +106,8 @@ public class EditCommand extends UndoableCommand {
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
      */
-    private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+    private static Person createEditedPerson(
+            Person personToEdit, EditPersonDescriptor editPersonDescriptor) throws CommandException {
         assert personToEdit != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
@@ -118,8 +121,27 @@ public class EditCommand extends UndoableCommand {
         Status updatedStatus = editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
+        //create a new modifiable set of tags
+        Set<Tag> attributeTags = new HashSet<>(updatedTags);
+
+        try {
+            //clean out old person's attribute tags
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getPrice().toString()));
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getLevel().toString()));
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getSubject().toString()));
+            attributeTags.remove(ParserUtil.parseTag(personToEdit.getStatus().toString()));
+
+            attributeTags.add(ParserUtil.parseTag(updatedPrice.toString()));
+            attributeTags.add(ParserUtil.parseTag(updatedSubject.toString()));
+            attributeTags.add(ParserUtil.parseTag(updatedLevel.toString()));
+            attributeTags.add(ParserUtil.parseTag(updatedStatus.toString()));
+        } catch (IllegalValueException ive) {
+            throw new CommandException("Warning: At least one of entered attributes Price, Subject, Level, Status "
+                    + "cannot be used as a tag.");
+        }
+
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedTags);
+                updatedPrice, updatedSubject, updatedLevel, updatedStatus, attributeTags);
     }
 
     @Override
@@ -167,6 +189,10 @@ public class EditCommand extends UndoableCommand {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
+            setPrice(toCopy.price);
+            setSubject(toCopy.subject);
+            setLevel(toCopy.level);
+            setStatus(toCopy.status);
             setTags(toCopy.tags);
         }
 
