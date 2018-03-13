@@ -10,11 +10,13 @@ https://gitter.im/se-edu/Lobby[image:https://badges.gitter.im/se-edu/Lobby.svg[G
 == UI Mock Up
 
 * List Student
+
 ifdef::env-github[]
 image::docs/images/UiListStudent.png[width="600"]
 endif::[]
 
 * Match Student and Tutor
+
 ifdef::env-github[]
 image::docs/images/UiMatch.png[width="600"]
 endif::[]
