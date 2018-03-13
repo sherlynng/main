@@ -22,10 +22,14 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Tutor;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.StudentBuilder;
+import seedu.address.testutil.TutorBuilder;
 
 public class AddCommandTest {
 
@@ -47,6 +51,34 @@ public class AddCommandTest {
 
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validPerson), commandResult.feedbackToUser);
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+    }
+
+    @Test
+    public void execute_studentAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+
+
+
+
+        Student validStudent = new StudentBuilder().build();
+
+        CommandResult commandResult = getAddCommandForPerson(validStudent, modelStub).execute();
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validStudent), commandResult.feedbackToUser);
+        assertEquals(Arrays.asList(validStudent), modelStub.personsAdded);
+        assertTrue(modelStub.personsAdded.get(modelStub.personsAdded.size() - 1) instanceof Student);
+    }
+
+    @Test
+    public void execute_tutorAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Tutor validTutor = new TutorBuilder().build();
+
+        CommandResult commandResult = getAddCommandForPerson(validTutor, modelStub).execute();
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validTutor), commandResult.feedbackToUser);
+        assertEquals(Arrays.asList(validTutor), modelStub.personsAdded);
+        assertTrue(modelStub.personsAdded.get(modelStub.personsAdded.size() - 1) instanceof Tutor);
     }
 
     @Test
