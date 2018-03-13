@@ -5,9 +5,13 @@ import java.util.Set;
 
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Price;
+import seedu.address.model.person.Status;
+import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -20,12 +24,20 @@ public class PersonBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "alice@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_PRICE = "100";
+    public static final String DEFAULT_SUBJECT = "English";
+    public static final String DEFAULT_LEVEL = "Secondary 1";
+    public static final String DEFAULT_STATUS = "notMatched";
     public static final String DEFAULT_TAGS = "friends";
 
     private Name name;
     private Phone phone;
     private Email email;
     private Address address;
+    private Price price;
+    private Subject subject;
+    private Level level;
+    private Status status;
     private Set<Tag> tags;
 
     public PersonBuilder() {
@@ -33,6 +45,10 @@ public class PersonBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
+        price = new Price(DEFAULT_PRICE);
+        subject = new Subject(DEFAULT_SUBJECT);
+        level = new Level(DEFAULT_LEVEL);
+        status = new Status(DEFAULT_STATUS);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
     }
 
@@ -44,6 +60,10 @@ public class PersonBuilder {
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
+        price = personToCopy.getPrice();
+        subject = personToCopy.getSubject();
+        level = personToCopy.getLevel();
+        status = personToCopy.getStatus();
         tags = new HashSet<>(personToCopy.getTags());
     }
 
@@ -87,8 +107,40 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Price} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withLevel(String level) {
+        this.level = new Level(level);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Price} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withSubject(String subject) {
+        this.subject = new Subject(subject);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Price} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withStatus(String status) {
+        this.status = new Status(status);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Price} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withPrice(String price) {
+        this.price = new Price(price);
+        return this;
+    }
+
     public Person build() {
-        return new Person(name, phone, email, address, tags);
+        return new Person(name, phone, email, address, price, subject, level, status, tags);
     }
 
 }
