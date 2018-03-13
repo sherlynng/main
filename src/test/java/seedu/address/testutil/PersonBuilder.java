@@ -151,7 +151,7 @@ public class PersonBuilder {
 
     /**
      * Builds a person based off the attributes in this class
-     * @return Person containing these attributes
+     * @return Person with set attributes
      */
     public Person build() {
         setTags();
