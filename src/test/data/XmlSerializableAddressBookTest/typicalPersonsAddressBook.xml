@@ -7,6 +7,10 @@
         <phone>85355255</phone>
         <email>alice@example.com</email>
         <address>123, Jurong West Ave 6, #08-111</address>
+		<price>50</price>
+		<subject>Math</subject>
+		<level>Secondary 1</level>
+		<status>NotMatched</status>
         <tagged>friends</tagged>
     </persons>
     <persons>
@@ -14,6 +18,10 @@
         <phone>98765432</phone>
         <email>johnd@example.com</email>
         <address>311, Clementi Ave 2, #02-25</address>
+		<price>150</price>
+		<subject>English</subject>
+		<level>Secondary 2</level>
+		<status>NotMatched</status>
         <tagged>owesMoney</tagged>
         <tagged>friends</tagged>
     </persons>
@@ -22,31 +30,68 @@
         <phone>95352563</phone>
         <email>heinz@example.com</email>
         <address>wall street</address>
+		<price>20</price>
+		<subject>Physics</subject>
+		<level>Secondary 3</level>
+		<status>NotMatched</status>
     </persons>
     <persons>
         <name>Daniel Meier</name>
         <phone>87652533</phone>
         <email>cornelia@example.com</email>
         <address>10th street</address>
+		<price>70</price>
+		<subject>Chemistry</subject>
+		<level>Secondary 4</level>
+		<status>NotMatched</status>
     </persons>
     <persons>
         <name>Elle Meyer</name>
         <phone>9482224</phone>
         <email>werner@example.com</email>
         <address>michegan ave</address>
+		<price>210</price>
+		<subject>Math</subject>
+		<level>Secondary 3</level>
+		<status>NotMatched</status>
     </persons>
     <persons>
         <name>Fiona Kunz</name>
         <phone>9482427</phone>
         <email>lydia@example.com</email>
         <address>little tokyo</address>
+		<price>99</price>
+		<subject>English</subject>
+		<level>Secondary 2</level>
+		<status>NotMatched</status>
     </persons>
     <persons>
         <name>George Best</name>
         <phone>9482442</phone>
         <email>anna@example.com</email>
         <address>4th street</address>
+		<price>320</price>
+		<subject>Economics</subject>
+		<level>Secondary 1</level>
+		<status>NotMatched</status>
     </persons>
     <tags>friends</tags>
     <tags>owesMoney</tags>
+	<tags>320</tags>
+	<tags>99</tags>
+	<tags>210</tags>
+	<tags>70</tags>
+	<tags>20</tags>
+	<tags>150</tags>
+	<tags>50</tags>
+	<tags>Math</tags>
+	<tags>English</tags>
+	<tags>Economics</tags>
+	<tags>Chemistry</tags>
+	<tags>Physics</tags>
+	<tags>Secondary 1</tags>
+	<tags>Secondary 2</tags>
+	<tags>Secondary 3</tags>
+	<tags>Secondary 4</tags>
+	<tags>NotMatched</tags>
 </addressbook>

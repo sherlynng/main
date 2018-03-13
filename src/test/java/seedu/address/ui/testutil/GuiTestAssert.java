@@ -1,7 +1,7 @@
 package seedu.address.ui.testutil;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static seedu.address.ui.PersonCard.TAG_COLOR_STYLES;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,7 +53,7 @@ public class GuiTestAssert {
      * @see PersonCard#getTagColorStyleFor(String)
      */
     private static String getTagColorStyleFor(String tagName) {
-        switch (tagName) {
+        /*switch (tagName) {
         case "classmates":
         case "owesMoney":
             return "teal";
@@ -75,7 +75,8 @@ public class GuiTestAssert {
         default:
             fail(tagName + " does not have a color assigned.");
             return "";
-        }
+        }*/
+        return TAG_COLOR_STYLES[Math.abs(tagName.hashCode()) % TAG_COLOR_STYLES.length];
     }
 
     /**
