@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import guitests.guihandles.BrowserPanelHandle;
 import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
@@ -44,6 +45,16 @@ public class GuiTestAssert {
         assertEquals(expectedPerson.getAddress().value, actualCard.getAddress());
 
         assertTagsEqual(expectedPerson, actualCard);
+    }
+
+    /**
+     * Asserts that {@code actualBrowser} displays the details of {@code expectedPerson}.
+     */
+    public static void assertBrowserDisplaysPerson(Person expectedPerson, BrowserPanelHandle actualBrowser) {
+        assertEquals(expectedPerson.getName().fullName, actualBrowser.getName());
+        assertEquals(expectedPerson.getPhone().value, actualBrowser.getPhone());
+        assertEquals(expectedPerson.getEmail().value, actualBrowser.getEmail());
+        assertEquals(expectedPerson.getAddress().value, actualBrowser.getAddress());
     }
 
     /**
