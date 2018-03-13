@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.AddCommand.MESSAGE_USAGE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
@@ -43,10 +44,10 @@ public class AddCommandParser implements Parser<AddCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
                         PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_STATUS, PREFIX_TAG);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_EMAIL,
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
                 PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_STATUS)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
         }
 
         try {
@@ -59,6 +60,11 @@ public class AddCommandParser implements Parser<AddCommand> {
             Level level = ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).get();
             Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+
+            if (!tagList.contains(new Tag("Student")) && !tagList.contains(new Tag("Tutor"))) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
+            }
+
             //Add required attributes to the tag list as in documentation
             tagList.add(ParserUtil.parseTag(price.toString()));
             tagList.add(ParserUtil.parseTag(subject.toString()));

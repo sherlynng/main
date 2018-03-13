@@ -15,7 +15,7 @@ public class Status {
     public static final String[] STATUS_VALUES = new String[] { "Matched", "NotMatched"};
     public static final HashSet<String> SET_ALL_STATUS = new HashSet<>(Arrays.asList(STATUS_VALUES));
 
-    public static final String MESSAGE_STATUS_CONSTRAINTS = "Subject should be one of: \n"
+    public static final String MESSAGE_STATUS_CONSTRAINTS = "Status should be one of: \n"
             + SET_ALL_STATUS.toString()
             + "\n";
 
