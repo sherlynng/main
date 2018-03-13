@@ -12,9 +12,11 @@ import seedu.address.model.person.Person;
  */
 public class PersonCard extends UiPart<Region> {
 
-    private static final String FXML = "PersonListCard.fxml";
     public static final String[] TAG_COLOR_STYLES =
         {"teal", "red", "yellow", "blue", "orange", "brown", "green", "pink", "black", "grey"};
+
+    private static final String FXML = "PersonListCard.fxml";
+
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
