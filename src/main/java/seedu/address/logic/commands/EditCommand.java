@@ -20,7 +20,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.Parser;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -124,7 +123,7 @@ public class EditCommand extends UndoableCommand {
 
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
-        
+
         try {
             //clean out old person's attribute tags
             attributeTags.remove(ParserUtil.parseTag(personToEdit.getPrice().toString()));
@@ -136,10 +135,9 @@ public class EditCommand extends UndoableCommand {
             attributeTags.add(ParserUtil.parseTag(updatedSubject.toString()));
             attributeTags.add(ParserUtil.parseTag(updatedLevel.toString()));
             attributeTags.add(ParserUtil.parseTag(updatedStatus.toString()));
-        }
-        catch (IllegalValueException ive){
-            throw new CommandException("Warning: At least one of entered attributes Price, Subject, Level, Status " +
-                    "cannot be used as a tag.");
+        } catch (IllegalValueException ive) {
+            throw new CommandException("Warning: At least one of entered attributes Price, Subject, Level, Status "
+                    + "cannot be used as a tag.");
         }
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
