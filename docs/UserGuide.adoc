@@ -64,15 +64,16 @@ Format: `help`
 === Adding a person: `add` or `a`
 
 Adds a person to the address book +
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS $/BUDGET sub/SUBJECT lvl/EDUCATION_LEVEL [t/TAG]...`
 
 [TIP]
 A person can have any number of tags (including 0)
+The budget, subject, education level and status of each person will be displayed as tags
 
 Examples:
 
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 $/150 sub/Math lvl/Secondary 1`
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 $/200 sub/Physics lvl/Secondary 4 t/criminal`
 
 === Listing all persons : `list` or `l`
 
@@ -82,7 +83,7 @@ Format: `list`
 === Editing a person : `edit` or `e`
 
 Edits an existing person in the address book. +
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [$/BUDGET] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [t/TAG]...`
 
 ****
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
@@ -90,6 +91,8 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person's tags by typing `t/` without specifying any tags after it.
+* The attribute tags will still remain after any changes to the other tags.
+* The attribute tags will automatically update to reflect any changes to the actual attributes.
 ****
 
 Examples:
