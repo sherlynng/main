@@ -5,8 +5,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.ArrayList;
@@ -41,6 +45,14 @@ public class CommandTestUtil {
     public static final String VALID_TAG_FRIEND = "friends";
     public static final String VALID_TAG_OWES_MONEY = "owesMoney";
     public static final String VALID_TAG_UNUSED = "unused";
+    public static final String SUBJECT_ENGLISH = "English";
+    public static final String SUBJECT_MATH = "Math";
+    public static final String SUBJECT_ECONOMICS = "Economics";
+    public static final String LEVEL_ONE = "Secondary 1";
+    public static final String LEVEL_TWO = "Secondary 2";
+    public static final String PRICE_AMY = "98";
+    public static final String PRICE_BOB = "113";
+    public static final String STATUS_UNMATCHED = "NotMatched";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -58,6 +70,15 @@ public class CommandTestUtil {
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+
+    public static final String SUBJECT_DESC_ENGLISH = " " + PREFIX_SUBJECT + "English";
+    public static final String SUBJECT_DESC_MATH = " " + PREFIX_SUBJECT + "Math";
+    public static final String SUBJECT_DESC_ECONOMICS = " " + PREFIX_SUBJECT + "Economics";
+    public static final String LEVEL_DESC_ONE = " " + PREFIX_LEVEL + "Secondary 1";
+    public static final String LEVEL_DESC_TWO = " " + PREFIX_LEVEL + "Secondary 2";
+    public static final String PRICE_DESC_AMY = " " + PREFIX_PRICE + "98";
+    public static final String PRICE_DESC_BOB = " " + PREFIX_PRICE + "113";
+    public static final String STATUS_DESC_UNMATCHED = " " + PREFIX_STATUS + "NotMatched";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
