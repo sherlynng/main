@@ -18,6 +18,9 @@ public interface Model {
     /** {@code Predicate} that filter all person with student tag */
     Predicate<Person> PREDICATE_SHOW_ALL_STUDENTS = person -> person.getTags().contains(new Tag("student"));
 
+    /** {@code Predicate} that filter all person with student tag */
+    Predicate<Person> PREDICATE_SHOW_ALL_TUTORS = person -> person.getTags().contains(new Tag("tutor"));
+
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyAddressBook newData);
 

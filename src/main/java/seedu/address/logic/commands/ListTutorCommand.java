@@ -1,6 +1,6 @@
 package seedu.address.logic.commands;
 
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_TUTORS;
 
 /**
  * Lists all persons in the address book to the user.
@@ -15,7 +15,7 @@ public class ListTutorCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_TUTORS);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }
