@@ -48,6 +48,10 @@ public class CommandTestUtil {
     public static final String SUBJECT_ENGLISH = "English";
     public static final String SUBJECT_MATH = "Math";
     public static final String SUBJECT_ECONOMICS = "Economics";
+    public static final String VALID_SUBJECT_AMY = "Math";
+    public static final String VALID_SUBJECT_BOB = "English";
+    public static final String VALID_LEVEL_AMY = "Secondary 3";
+    public static final String VALID_LEVEL_BOB = "Secondary 4";
     public static final String LEVEL_ONE = "Secondary 1";
     public static final String LEVEL_TWO = "Secondary 2";
     public static final String PRICE_AMY = "98";
@@ -76,6 +80,10 @@ public class CommandTestUtil {
     public static final String SUBJECT_DESC_ECONOMICS = " " + PREFIX_SUBJECT + "Economics";
     public static final String LEVEL_DESC_ONE = " " + PREFIX_LEVEL + "Secondary 1";
     public static final String LEVEL_DESC_TWO = " " + PREFIX_LEVEL + "Secondary 2";
+    public static final String SUBJECT_DESC_AMY = " " + PREFIX_SUBJECT + "Math";
+    public static final String SUBJECT_DESC_BOB = " " + PREFIX_SUBJECT + "English";
+    public static final String LEVEL_DESC_AMY = " " + PREFIX_LEVEL + "Secondary 3";
+    public static final String LEVEL_DESC_BOB = " " + PREFIX_LEVEL + "Secondary 4";
     public static final String PRICE_DESC_AMY = " " + PREFIX_PRICE + "98";
     public static final String PRICE_DESC_BOB = " " + PREFIX_PRICE + "113";
     public static final String STATUS_DESC_UNMATCHED = " " + PREFIX_STATUS + "NotMatched";
