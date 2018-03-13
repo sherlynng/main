@@ -38,7 +38,7 @@ public class Subject {
      */
     public static boolean isValidSubject(String test) {
 
-        return SET_ALL_SUBJECT.contains(new Subject(test));
+        return SET_ALL_SUBJECT.contains(test);
     }
 
     @Override

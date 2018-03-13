@@ -122,19 +122,22 @@ public class EditCommand extends UndoableCommand {
         Status updatedStatus = editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
+        //create a new modifiable set of tags
+        Set<Tag> attributeTags = new HashSet<>(updatedTags);
+
         try {
-            updatedTags.add(ParserUtil.parseTag(updatedPrice.toString()));
-            updatedTags.add(ParserUtil.parseTag(updatedSubject.toString()));
-            updatedTags.add(ParserUtil.parseTag(updatedLevel.toString()));
-            updatedTags.add(ParserUtil.parseTag(updatedStatus.toString()));
+            attributeTags.add(ParserUtil.parseTag(updatedPrice.toString()));
+            attributeTags.add(ParserUtil.parseTag(updatedSubject.toString()));
+            attributeTags.add(ParserUtil.parseTag(updatedLevel.toString()));
+            attributeTags.add(ParserUtil.parseTag(updatedStatus.toString()));
         }
-        catch (IllegalValueException iae){
-            throw new CommandException("Warning: At least one of entered attributes Price, Subject, Level, Status" +
+        catch (IllegalValueException ive){
+            throw new CommandException("Warning: At least one of entered attributes Price, Subject, Level, Status " +
                     "cannot be used as a tag.");
         }
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedTags);
+                updatedPrice, updatedSubject, updatedLevel, updatedStatus, attributeTags);
     }
 
     @Override

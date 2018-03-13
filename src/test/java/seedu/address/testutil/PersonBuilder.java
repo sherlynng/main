@@ -27,7 +27,7 @@ public class PersonBuilder {
     public static final String DEFAULT_PRICE = "100";
     public static final String DEFAULT_SUBJECT = "English";
     public static final String DEFAULT_LEVEL = "Secondary 1";
-    public static final String DEFAULT_STATUS = "notMatched";
+    public static final String DEFAULT_STATUS = "NotMatched";
     public static final String DEFAULT_TAGS = "friends";
 
     private Name name;

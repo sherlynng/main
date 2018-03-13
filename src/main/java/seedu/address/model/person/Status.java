@@ -37,7 +37,7 @@ public class Status {
      */
     public static boolean isValidStatus(String test) {
 
-        return SET_ALL_STATUS.contains(new Subject(test));
+        return SET_ALL_STATUS.contains(test);
     }
 
     @Override
