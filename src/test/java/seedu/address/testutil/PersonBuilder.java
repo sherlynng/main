@@ -149,6 +149,10 @@ public class PersonBuilder {
         tags.add(new Tag(status.toString()));
     }
 
+    /**
+     * Builds a person based off the attributes in this class
+     * @return Person containing these attributes
+     */
     public Person build() {
         setTags();
         return new Person(name, phone, email, address, price, subject, level, status, tags);
