@@ -11,6 +11,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
 import seedu.address.model.person.Status;
+import seedu.address.model.person.Student;
 import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
@@ -18,7 +19,7 @@ import seedu.address.model.util.SampleDataUtil;
 /**
  * A utility class to help with building Person objects.
  */
-public class PersonBuilder {
+public class StudentBuilder {
 
     public static final String DEFAULT_NAME = "Alice Pauline";
     public static final String DEFAULT_PHONE = "85355255";
@@ -40,7 +41,7 @@ public class PersonBuilder {
     private Status status;
     private Set<Tag> tags;
 
-    public PersonBuilder() {
+    public StudentBuilder() {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
@@ -55,22 +56,14 @@ public class PersonBuilder {
     /**
      * Initializes the PersonBuilder with the data of {@code personToCopy}.
      */
-    public PersonBuilder(Person personToCopy) {
-        name = personToCopy.getName();
-        phone = personToCopy.getPhone();
-        email = personToCopy.getEmail();
-        address = personToCopy.getAddress();
-        price = personToCopy.getPrice();
-        subject = personToCopy.getSubject();
-        level = personToCopy.getLevel();
-        status = personToCopy.getStatus();
-        tags = new HashSet<>(personToCopy.getTags());
+    public StudentBuilder(Person personToCopy) {
+       super();
     }
 
     /**
      * Sets the {@code Name} of the {@code Person} that we are building.
      */
-    public PersonBuilder withName(String name) {
+    public StudentBuilder withName(String name) {
         this.name = new Name(name);
         return this;
     }
@@ -78,7 +71,7 @@ public class PersonBuilder {
     /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
      */
-    public PersonBuilder withTags(String ... tags) {
+    public StudentBuilder withTags(String ... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
@@ -86,7 +79,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Address} of the {@code Person} that we are building.
      */
-    public PersonBuilder withAddress(String address) {
+    public StudentBuilder withAddress(String address) {
         this.address = new Address(address);
         return this;
     }
@@ -94,7 +87,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Phone} of the {@code Person} that we are building.
      */
-    public PersonBuilder withPhone(String phone) {
+    public StudentBuilder withPhone(String phone) {
         this.phone = new Phone(phone);
         return this;
     }
@@ -102,7 +95,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Email} of the {@code Person} that we are building.
      */
-    public PersonBuilder withEmail(String email) {
+    public StudentBuilder withEmail(String email) {
         this.email = new Email(email);
         return this;
     }
@@ -110,7 +103,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Price} of the {@code Person} that we are building.
      */
-    public PersonBuilder withLevel(String level) {
+    public StudentBuilder withLevel(String level) {
         this.level = new Level(level);
         return this;
     }
@@ -118,7 +111,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Price} of the {@code Person} that we are building.
      */
-    public PersonBuilder withSubject(String subject) {
+    public StudentBuilder withSubject(String subject) {
         this.subject = new Subject(subject);
         return this;
     }
@@ -126,7 +119,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Price} of the {@code Person} that we are building.
      */
-    public PersonBuilder withStatus(String status) {
+    public StudentBuilder withStatus(String status) {
         this.status = new Status(status);
         return this;
     }
@@ -134,7 +127,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Price} of the {@code Person} that we are building.
      */
-    public PersonBuilder withPrice(String price) {
+    public StudentBuilder withPrice(String price) {
         this.price = new Price(price);
         return this;
     }
@@ -146,9 +139,9 @@ public class PersonBuilder {
         tags.add(new Tag(status.toString()));
     }
 
-    public Person build() {
+    public Student build() {
         setTags();
-        return new Person(name, phone, email, address, price, subject, level, status, tags);
+        return new Student(name, phone, email, address, price, subject, level, status, tags);
     }
 
 }
