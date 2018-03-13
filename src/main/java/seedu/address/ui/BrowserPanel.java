@@ -1,22 +1,14 @@
 package seedu.address.ui;
 
-import java.net.URL;
 import java.util.logging.Logger;
-
-import org.fxmisc.easybind.EasyBind;
 
 import com.google.common.eventbus.Subscribe;
 
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import javafx.scene.web.WebView;
-import seedu.address.MainApp;
+
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.Person;
@@ -54,7 +46,10 @@ public class BrowserPanel extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
-    private void loadPersonDetails(Person person){
+    /**
+     * Loads a {@code person}'s details into the browser panel.
+     */
+    private void loadPersonDetails(Person person) {
         details.setText("Details:");
         grid.setVisible(true);
         name.setText(person.getName().fullName);
