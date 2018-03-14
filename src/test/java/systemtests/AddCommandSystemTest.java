@@ -24,7 +24,7 @@ import static seedu.address.logic.commands.CommandTestUtil.STATUS_UNMATCHED;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_STUDENT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
@@ -35,7 +35,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_STUDENT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.AMY;
@@ -77,7 +77,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         Person toAdd = AMY;
         String command = "   " + AddCommand.COMMAND_WORD + "  " + NAME_DESC_AMY + "  " + PHONE_DESC_AMY + " "
                 + EMAIL_DESC_AMY + "   " + ADDRESS_DESC_AMY + "   " + SUBJECT_DESC_AMY + "  " + LEVEL_DESC_AMY + "  "
-                + STATUS_DESC_UNMATCHED + "  " + PRICE_DESC_AMY + "  " + TAG_DESC_FRIEND + " ";
+                + STATUS_DESC_UNMATCHED + "  " + PRICE_DESC_AMY + "  " + TAG_DESC_FRIEND + " "
+                + TAG_DESC_STUDENT + " ";
         assertCommandSuccess(command, toAdd);
 
         /* Case: undo adding Amy to the list -> Amy deleted */
@@ -94,33 +95,33 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: add a person with all fields same as another person in the address book except name -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_AMY).withPrice(PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
-                .withLevel(VALID_LEVEL_AMY).withTags(VALID_TAG_FRIEND).withStatus(STATUS_UNMATCHED).build();
+                .withLevel(VALID_LEVEL_AMY).withTags(VALID_TAG_STUDENT).withStatus(STATUS_UNMATCHED).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + PRICE_DESC_AMY + LEVEL_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + TAG_DESC_FRIEND;
+                + PRICE_DESC_AMY + LEVEL_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + TAG_DESC_STUDENT;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a person with all fields same as another person in the address book except phone -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_AMY).withPrice(PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
-                .withLevel(VALID_LEVEL_AMY).withTags(VALID_TAG_FRIEND).withStatus(STATUS_UNMATCHED).build();
+                .withLevel(VALID_LEVEL_AMY).withTags(VALID_TAG_STUDENT).withStatus(STATUS_UNMATCHED).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + PRICE_DESC_AMY + LEVEL_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + TAG_DESC_FRIEND;
+                + PRICE_DESC_AMY + LEVEL_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + TAG_DESC_STUDENT;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a person with all fields same as another person in the address book except email -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_BOB)
                 .withAddress(VALID_ADDRESS_AMY).withPrice(PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
-                .withLevel(VALID_LEVEL_AMY).withTags(VALID_TAG_FRIEND).withStatus(STATUS_UNMATCHED).build();
+                .withLevel(VALID_LEVEL_AMY).withTags(VALID_TAG_STUDENT).withStatus(STATUS_UNMATCHED).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_BOB + ADDRESS_DESC_AMY
-                + PRICE_DESC_AMY + LEVEL_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + TAG_DESC_FRIEND;
+                + PRICE_DESC_AMY + LEVEL_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + TAG_DESC_STUDENT;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a person with all fields same as another person in the address book except address -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_BOB).withPrice(PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
-                .withLevel(VALID_LEVEL_AMY).withTags(VALID_TAG_FRIEND).withStatus(STATUS_UNMATCHED).build();
+                .withLevel(VALID_LEVEL_AMY).withTags(VALID_TAG_STUDENT).withStatus(STATUS_UNMATCHED).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_BOB
-                + PRICE_DESC_AMY + LEVEL_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + TAG_DESC_FRIEND;
+                + PRICE_DESC_AMY + LEVEL_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + TAG_DESC_STUDENT;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add to empty address book -> added */
@@ -129,8 +130,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: add a person with tags, command with parameters in random order -> added */
         toAdd = BOB;
-        command = AddCommand.COMMAND_WORD + TAG_DESC_FRIEND + PHONE_DESC_BOB + ADDRESS_DESC_BOB + NAME_DESC_BOB
-                + TAG_DESC_HUSBAND + EMAIL_DESC_BOB + LEVEL_DESC_BOB + SUBJECT_DESC_BOB
+        command = AddCommand.COMMAND_WORD + PHONE_DESC_BOB + ADDRESS_DESC_BOB + NAME_DESC_BOB
+                + TAG_DESC_STUDENT + TAG_DESC_FRIEND + EMAIL_DESC_BOB + LEVEL_DESC_BOB + SUBJECT_DESC_BOB
                 + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB;
         assertCommandSuccess(command, toAdd);
 
@@ -165,22 +166,22 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: missing name -> rejected */
         command = AddCommand.COMMAND_WORD + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY;
-        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT + AddCommand.MESSAGE_USAGE, AddCommand.MESSAGE_USAGE));
 
         /* Case: missing phone -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY;
-        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT + AddCommand.MESSAGE_USAGE, AddCommand.MESSAGE_USAGE));
 
         /* Case: missing email -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + ADDRESS_DESC_AMY
                 + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY;
-        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT + AddCommand.MESSAGE_USAGE, AddCommand.MESSAGE_USAGE));
 
         /* Case: missing address -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
                 + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY;
-        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT + AddCommand.MESSAGE_USAGE, AddCommand.MESSAGE_USAGE));
 
         /* Case: invalid keyword -> rejected */
         command = "adds " + PersonUtil.getPersonDetails(toAdd);

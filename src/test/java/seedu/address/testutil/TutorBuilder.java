@@ -1,6 +1,5 @@
 package seedu.address.testutil;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
@@ -11,7 +10,6 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
 import seedu.address.model.person.Status;
-import seedu.address.model.person.Student;
 import seedu.address.model.person.Subject;
 import seedu.address.model.person.Tutor;
 import seedu.address.model.tag.Tag;
@@ -140,6 +138,10 @@ public class TutorBuilder {
         tags.add(new Tag(status.toString()));
     }
 
+    /**
+     * Builds a stutor based off the attributes in this class
+     * @return Tutor with set attributes
+     */
     public Tutor build() {
         setTags();
         return new Tutor(name, phone, email, address, price, subject, level, status, tags);

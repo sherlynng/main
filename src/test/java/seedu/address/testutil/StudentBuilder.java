@@ -1,6 +1,5 @@
 package seedu.address.testutil;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
@@ -139,6 +138,10 @@ public class StudentBuilder {
         tags.add(new Tag(status.toString()));
     }
 
+    /**
+     * Builds a student based off the attributes in this class
+     * @return Student with set attributes
+     */
     public Student build() {
         setTags();
         return new Student(name, phone, email, address, price, subject, level, status, tags);
