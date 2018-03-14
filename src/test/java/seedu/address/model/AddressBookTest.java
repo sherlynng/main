@@ -2,7 +2,7 @@ package seedu.address.model;
 
 import static org.junit.Assert.assertEquals;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_STUDENT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_UNUSED;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.AMY;
@@ -101,8 +101,13 @@ public class AddressBookTest {
      */
     public void removeTag_tagUsedByMultiplePersons_tagRemoved() throws PersonNotFoundException {
         addressBookWithAmyandBob.removeTag(new Tag(VALID_TAG_FRIEND));
-        Person amyWithoutFriendTag = new PersonBuilder(AMY).withTags().build();
-        Person bobWithoutFriendTag = new PersonBuilder(BOB).withTags(VALID_TAG_HUSBAND).build();
+        Person amyWithoutFriendTag = new PersonBuilder(AMY).withTags(VALID_TAG_STUDENT).build();
+
+
+
+
+        Person bobWithoutFriendTag = new PersonBuilder(BOB).withTags(VALID_TAG_STUDENT).build();
+
         AddressBook expectedAddressBook = new AddressBookBuilder()
                 .withPerson(amyWithoutFriendTag).withPerson(bobWithoutFriendTag).build();
         assertEquals(expectedAddressBook, addressBookWithAmyandBob);

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- AddressBook save file which contains the same Person values as in
+<!--
+
+
+
+
+AddressBook save file which contains the same Person values as in
 {@code TypicalPersons#getTypicalAddressBook()}-->
 <addressbook>
     <persons>
@@ -11,7 +16,7 @@
 		<subject>Math</subject>
 		<level>Secondary 1</level>
 		<status>NotMatched</status>
-        <tagged>friends</tagged>
+        <tagged>Student</tagged>
     </persons>
     <persons>
         <name>Benson Meier</name>
@@ -23,7 +28,7 @@
 		<level>Secondary 2</level>
 		<status>NotMatched</status>
         <tagged>owesMoney</tagged>
-        <tagged>friends</tagged>
+        <tagged>Student</tagged>
     </persons>
     <persons>
         <name>Carl Kurz</name>
@@ -34,6 +39,7 @@
 		<subject>Physics</subject>
 		<level>Secondary 3</level>
 		<status>NotMatched</status>
+        <tagged>Student</tagged>
     </persons>
     <persons>
         <name>Daniel Meier</name>
@@ -44,6 +50,7 @@
 		<subject>Chemistry</subject>
 		<level>Secondary 4</level>
 		<status>NotMatched</status>
+        <tagged>Student</tagged>
     </persons>
     <persons>
         <name>Elle Meyer</name>
@@ -54,6 +61,7 @@
 		<subject>Math</subject>
 		<level>Secondary 3</level>
 		<status>NotMatched</status>
+        <tagged>Student</tagged>
     </persons>
     <persons>
         <name>Fiona Kunz</name>
@@ -64,6 +72,7 @@
 		<subject>English</subject>
 		<level>Secondary 2</level>
 		<status>NotMatched</status>
+        <tagged>Student</tagged>
     </persons>
     <persons>
         <name>George Best</name>
@@ -74,8 +83,9 @@
 		<subject>Economics</subject>
 		<level>Secondary 1</level>
 		<status>NotMatched</status>
+        <tagged>Student</tagged>
     </persons>
-    <tags>friends</tags>
+    <tags>Student</tags>
     <tags>owesMoney</tags>
 	<tags>320</tags>
 	<tags>99</tags>
