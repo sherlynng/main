@@ -46,19 +46,19 @@ public class TypicalPersons {
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
             .withEmail("cornelia@example.com").withAddress("10th street")
             .withPrice("70").withSubject("Chemistry").withStatus("NotMatched").withLevel("Secondary 4")
-            .withTags("Student") .build();
+            .withTags("Student").build();
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("9482224")
             .withEmail("werner@example.com").withAddress("michegan ave")
             .withPrice("210").withSubject("Math").withStatus("NotMatched").withLevel("Secondary 3")
-            .withTags("Student") .build();
+            .withTags("Student").build();
     public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("9482427")
             .withEmail("lydia@example.com").withAddress("little tokyo")
             .withPrice("99").withSubject("English").withStatus("NotMatched").withLevel("Secondary 2")
-            .withTags("Student") .build();
+            .withTags("Student").build();
     public static final Person GEORGE = new PersonBuilder().withName("George Best").withPhone("9482442")
             .withEmail("anna@example.com").withAddress("4th street")
             .withPrice("320").withSubject("Economics").withStatus("NotMatched").withLevel("Secondary 1")
-            .withTags("Student") .build();
+            .withTags("Student").build();
 
     // Manually added
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("8482424")
