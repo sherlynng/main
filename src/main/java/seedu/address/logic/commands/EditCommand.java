@@ -136,7 +136,7 @@ public class EditCommand extends UndoableCommand {
             attributeTags.add(ParserUtil.parseTag(updatedLevel.toString()));
             attributeTags.add(ParserUtil.parseTag(updatedStatus.toString()));
         } catch (IllegalValueException ive) {
-            throw new CommandException("Warning: At least one of entered attributes Price, Subject, Level, Status "
+            throw new CommandException("Error: At least one of entered attributes Price, Subject, Level, Status "
                     + "cannot be used as a tag.");
         }
 
@@ -200,7 +200,8 @@ public class EditCommand extends UndoableCommand {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address, this.tags);
+            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address,
+                    this.price, this.subject, this.level, this.status, this.tags);
         }
 
         public void setName(Name name) {
