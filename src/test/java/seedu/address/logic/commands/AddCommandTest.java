@@ -57,9 +57,6 @@ public class AddCommandTest {
     public void execute_studentAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
 
-
-
-
         Student validStudent = new StudentBuilder().build();
 
         CommandResult commandResult = getAddCommandForPerson(validStudent, modelStub).execute();
