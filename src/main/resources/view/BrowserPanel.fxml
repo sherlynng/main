@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="browserPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="browserPane" maxHeight="-Infinity" maxWidth="900" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="name" layoutX="14.0" layoutY="56.0" prefHeight="59.0" prefWidth="462.0" styleClass="browser_big_label" text="Alex Yeoh" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0">
          <font>
@@ -19,7 +19,7 @@
       <GridPane fx:id="grid" layoutX="-1.0" layoutY="160.0" prefHeight="247.0" prefWidth="614.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="160.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="270.0" minWidth="10.0" prefWidth="171.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="426.6666564941406" minWidth="10.0" prefWidth="379.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="640" minWidth="10.0" prefWidth="379.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints />
