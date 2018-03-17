@@ -12,6 +12,7 @@ import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 
 /**
  * The Browser Panel of the App.
@@ -36,6 +37,16 @@ public class BrowserPanel extends UiPart<Region> {
     private Label address;
     @FXML
     private Label email;
+    @FXML
+    private Label role;
+    @FXML
+    private Label status;
+    @FXML
+    private Label subject;
+    @FXML
+    private Label level;
+    @FXML
+    private Label budget;
 
     public BrowserPanel() {
         super(FXML);
@@ -56,6 +67,18 @@ public class BrowserPanel extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
+        status.setText(person.getStatus().value);
+        subject.setText(person.getSubject().value);
+        level.setText(person.getLevel().value);
+        budget.setText("$" + person.getPrice().value);
+
+        if (person.getTags().contains(new Tag("Student"))
+            || person.getTags().contains(new Tag("student"))) {
+            role.setText("Student");
+        }
+        else {
+            role.setText("Tutor");
+        }
     }
 
     @Subscribe
