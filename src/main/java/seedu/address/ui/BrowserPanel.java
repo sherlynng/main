@@ -26,8 +26,6 @@ public class BrowserPanel extends UiPart<Region> {
     @FXML
     private GridPane grid;
     @FXML
-    private Label details;
-    @FXML
     private Label name;
     @FXML
     private Label id;
@@ -51,7 +49,7 @@ public class BrowserPanel extends UiPart<Region> {
     public BrowserPanel() {
         super(FXML);
 
-        details.setText("");
+        name.setText("");
         grid.setVisible(false);
 
         registerAsAnEventHandler(this);
@@ -61,7 +59,6 @@ public class BrowserPanel extends UiPart<Region> {
      * Loads a {@code person}'s details into the browser panel.
      */
     private void loadPersonDetails(Person person) {
-        details.setText("Details:");
         grid.setVisible(true);
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);

@@ -132,6 +132,26 @@
     -fx-text-fill: #010504;
 }
 
+.browser_big_label {
+     -fx-font-family: "Segoe UI";
+     -fx-font-size: 40px;
+     -fx-text-fill: #fffacd;
+     -fx-text-weight: bold
+ }
+
+.browser_label {
+     -fx-font-family: "Segoe UI";
+     -fx-font-size: 15px;
+     -fx-text-fill: #ffffff;
+     -fx-text-weight: bold
+ }
+
+.browser_label_details {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+}
+
 .anchor-pane {
      -fx-background-color: derive(#1d1d1d, 20%);
 }
@@ -311,11 +331,6 @@
     -fx-border-width: 0;
 }
 
-#browserPane {
-    -fx-background-color: #ffffff;
-    -fx-border-width: 0;
-}
-
 #commandTypeLabel {
     -fx-font-size: 11px;
     -fx-text-fill: #F70D1A;
@@ -395,6 +410,7 @@
 
 #tags .black {
     -fx-text-fill: white;
+    -fx-background-color: black;
     -fx-background-color: black;
 }
 
