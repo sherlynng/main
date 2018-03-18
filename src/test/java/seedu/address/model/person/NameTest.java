@@ -40,7 +40,7 @@ public class NameTest {
     }
 
     @Test
-    public void checkNameEquality(){
+    public void checkNameEquality() {
         //test name against non-name type
         assertFalse(new Name("Stutor").equals(null));
         assertFalse(new Name("Stutor").equals(new Address("Stutor")));

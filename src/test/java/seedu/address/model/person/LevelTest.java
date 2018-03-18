@@ -38,7 +38,7 @@ public class LevelTest {
     }
 
     @Test
-    public void checkLevelEquality(){
+    public void checkLevelEquality() {
         //test level against non-level type
         assertFalse(new Level("upperSec").equals(null));
         assertFalse(new Level("upperSec").equals(new Tag("upperSec")));

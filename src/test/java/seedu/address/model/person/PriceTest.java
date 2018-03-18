@@ -35,7 +35,7 @@ public class PriceTest {
     }
 
     @Test
-    public void checkPriceEquality(){
+    public void checkPriceEquality() {
         //test price against non-price type
         assertFalse(new Price("100").equals(null));
         assertFalse(new Price("100").equals(new Tag("100")));

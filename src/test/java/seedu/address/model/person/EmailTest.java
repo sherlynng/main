@@ -61,7 +61,7 @@ public class EmailTest {
     }
 
     @Test
-    public void checkEmailEquality(){
+    public void checkEmailEquality() {
         //test email against non-email type
         assertFalse(new Email("test@abc.com").equals(null));
         assertFalse(new Email("test@abc.com").equals(new Address("test@abc.com")));

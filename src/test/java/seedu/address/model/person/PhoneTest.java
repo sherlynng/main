@@ -40,7 +40,7 @@ public class PhoneTest {
     }
 
     @Test
-    public void checkPhoneEquality(){
+    public void checkPhoneEquality() {
         //test phone against non-phone type
         assertFalse(new Phone("91009222").equals(null));
         assertFalse(new Phone("91009222").equals(new Address("91009222")));

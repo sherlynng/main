@@ -77,6 +77,7 @@ public class CommandTestUtil {
     public static final String INVALID_SUBJECT_DESC = " " + PREFIX_SUBJECT + "fake news"; //not a listed subject
     public static final String INVALID_LEVEL_DESC = " " + PREFIX_LEVEL + "kindergarden"; //not a listed level
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+    public static final String INVALID_STATUS_DESC = " " + PREFIX_STATUS + "veryverymatched"; //not a listed status
 
     public static final String SUBJECT_DESC_ENGLISH = " " + PREFIX_SUBJECT + "english";
     public static final String SUBJECT_DESC_ECONOMICS = " " + PREFIX_SUBJECT + "economics";

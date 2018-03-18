@@ -36,7 +36,7 @@ public class SubjectTest {
     }
 
     @Test
-    public void checkSubjectEquality(){
+    public void checkSubjectEquality() {
         //test name against non-name type
         assertFalse(new Subject("math").equals(null));
         assertFalse(new Subject("math").equals(new Address("math")));
