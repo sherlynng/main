@@ -12,8 +12,8 @@ import java.util.HashSet;
  */
 public class Subject {
 
-    public static final String[] SUBJECT_VALUES = new String[] { "English", "Math",
-        "Physics", "Chemistry", "Economics" };
+    public static final String[] SUBJECT_VALUES = new String[] { "english", "math",
+        "physics", "chemistry", "economics" };
     public static final HashSet<String> SET_ALL_SUBJECT = new HashSet<>(Arrays.asList(SUBJECT_VALUES));
 
     public static final String MESSAGE_SUBJECT_CONSTRAINTS = "Subject should be one of: \n"

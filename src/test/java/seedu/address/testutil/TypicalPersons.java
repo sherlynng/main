@@ -33,40 +33,40 @@ public class TypicalPersons {
 
     public static final Person ALICE = new PersonBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
-            .withPrice("50").withSubject("Math").withStatus("NotMatched").withLevel("Secondary 1")
-            .withTags("Student").build();
+            .withPrice("50").withSubject("math").withStatus("notMatched").withLevel("lowerSec")
+            .withTags("student").build();
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
-            .withPrice("150").withSubject("English").withStatus("NotMatched").withLevel("Secondary 2")
-            .withTags("owesMoney", "Student").build();
+            .withPrice("150").withSubject("english").withStatus("notMatched").withLevel("upperSec")
+            .withTags("owesMoney", "student").build();
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withEmail("heinz@example.com").withAddress("wall street")
-            .withPrice("20").withSubject("Physics").withStatus("NotMatched").withLevel("Secondary 3")
-            .withTags("Student").build();
+            .withPrice("20").withSubject("physics").withStatus("notMatched").withLevel("upperSec")
+            .withTags("student").build();
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
             .withEmail("cornelia@example.com").withAddress("10th street")
-            .withPrice("70").withSubject("Chemistry").withStatus("NotMatched").withLevel("Secondary 4")
-            .withTags("Student").build();
+            .withPrice("70").withSubject("chemistry").withStatus("notMatched").withLevel("upperSec")
+            .withTags("student").build();
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("9482224")
             .withEmail("werner@example.com").withAddress("michegan ave")
-            .withPrice("210").withSubject("Math").withStatus("NotMatched").withLevel("Secondary 3")
-            .withTags("Student").build();
+            .withPrice("210").withSubject("math").withStatus("notMatched").withLevel("upperSec")
+            .withTags("student").build();
     public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("9482427")
             .withEmail("lydia@example.com").withAddress("little tokyo")
-            .withPrice("99").withSubject("English").withStatus("NotMatched").withLevel("Secondary 2")
-            .withTags("Student").build();
+            .withPrice("99").withSubject("english").withStatus("notMatched").withLevel("upperSec")
+            .withTags("student").build();
     public static final Person GEORGE = new PersonBuilder().withName("George Best").withPhone("9482442")
             .withEmail("anna@example.com").withAddress("4th street")
-            .withPrice("320").withSubject("Economics").withStatus("NotMatched").withLevel("Secondary 1")
-            .withTags("Student").build();
+            .withPrice("320").withSubject("economics").withStatus("notMatched").withLevel("lowerSec")
+            .withTags("student").build();
 
     // Manually added
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("8482424")
-            .withEmail("stefan@example.com").withAddress("little india").withSubject("Math")
-            .withLevel("Secondary 4").withPrice("1234").withStatus("NotMatched").build();
+            .withEmail("stefan@example.com").withAddress("little india").withSubject("math")
+            .withLevel("upperSec").withPrice("1234").withStatus("notMatched").build();
     public static final Person IDA = new PersonBuilder().withName("Ida Mueller").withPhone("8482131")
-            .withEmail("hans@example.com").withAddress("chicago ave").withSubject("English")
-            .withLevel("Secondary 3").withPrice("4321").withStatus("NotMatched").build();
+            .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
+            .withLevel("upperSec").withPrice("4321").withStatus("notMatched").build();
 
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final Person AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)

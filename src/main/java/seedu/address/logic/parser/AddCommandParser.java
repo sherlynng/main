@@ -61,7 +61,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-            if (!tagList.contains(new Tag("Student")) && !tagList.contains(new Tag("Tutor"))) {
+            if (!tagList.contains(new Tag("student")) && !tagList.contains(new Tag("tutor"))) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
             }
 
