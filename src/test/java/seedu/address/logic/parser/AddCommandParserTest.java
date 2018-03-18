@@ -14,7 +14,6 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PRICE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_SUBJECT_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_LOWER_SEC;
 import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_UPPER_SEC;
 import static seedu.address.logic.commands.CommandTestUtil.LEVEL_LOWER;
