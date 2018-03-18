@@ -22,8 +22,6 @@ public class PriceTest {
 
     @Test
     public void isValidPrice() {
-        // null price
-        Assert.assertThrows(NullPointerException.class, () -> Address.isValidAddress(null));
 
         // invalid prices
         assertFalse(Price.isValidPrice("-5")); // negative numbers
