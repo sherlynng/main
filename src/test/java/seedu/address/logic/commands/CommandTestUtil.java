@@ -44,10 +44,8 @@ public class CommandTestUtil {
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friends";
     public static final String VALID_TAG_STUDENT = "student";
-    public static final String VALID_TAG_OWES_MONEY = "owesMoney";
     public static final String VALID_TAG_UNUSED = "unused";
     public static final String SUBJECT_ENGLISH = "english";
-    public static final String SUBJECT_MATH = "math";
     public static final String SUBJECT_ECONOMICS = "economics";
     public static final String VALID_SUBJECT_AMY = "math";
     public static final String VALID_SUBJECT_BOB = "english";
@@ -75,10 +73,12 @@ public class CommandTestUtil {
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
+    public static final String INVALID_PRICE_DESC = " " + PREFIX_PRICE + "-1"; //negative number
+    public static final String INVALID_SUBJECT_DESC = " " + PREFIX_SUBJECT + "fake news"; //not a listed subject
+    public static final String INVALID_LEVEL_DESC = " " + PREFIX_LEVEL + "kindergarden"; //not a listed level
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
 
     public static final String SUBJECT_DESC_ENGLISH = " " + PREFIX_SUBJECT + "english";
-    public static final String SUBJECT_DESC_MATH = " " + PREFIX_SUBJECT + "math";
     public static final String SUBJECT_DESC_ECONOMICS = " " + PREFIX_SUBJECT + "economics";
     public static final String LEVEL_DESC_LOWER_SEC = " " + PREFIX_LEVEL + "lowerSec";
     public static final String LEVEL_DESC_UPPER_SEC = " " + PREFIX_LEVEL + "upperSec";
