@@ -16,7 +16,7 @@ public class PriceTest {
 
     @Test
     public void constructor_invalidPrice_throwsIllegalArgumentException() {
-        String invalidPrice = "";
+        String invalidPrice = "-1";
         Assert.assertThrows(IllegalArgumentException.class, () -> new Price(invalidPrice));
     }
 
@@ -26,10 +26,10 @@ public class PriceTest {
         Assert.assertThrows(NullPointerException.class, () -> Address.isValidAddress(null));
 
         // invalid prices
-        assertFalse(Price.isValidPrice("")); // empty string
-        assertFalse(Price.isValidPrice("-100")); // negative number
+        assertFalse(Price.isValidPrice("-5")); // negative numbers
+        assertFalse(Price.isValidPrice("-100"));
 
-        // valid addresses
+        // valid prices
         assertTrue(Price.isValidPrice("25"));
         assertTrue(Price.isValidPrice("5")); // single digit
         assertTrue(Price.isValidPrice("123456")); // large number
