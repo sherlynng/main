@@ -11,10 +11,10 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_ONE;
-import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_TWO;
-import static seedu.address.logic.commands.CommandTestUtil.LEVEL_ONE;
-import static seedu.address.logic.commands.CommandTestUtil.LEVEL_TWO;
+import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_LOWER_SEC;
+import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_UPPER_SEC;
+import static seedu.address.logic.commands.CommandTestUtil.LEVEL_LOWER;
+import static seedu.address.logic.commands.CommandTestUtil.LEVEL_UPPER;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
@@ -71,37 +71,41 @@ public class AddCommandParserTest {
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED
                 + PRICE_DESC_BOB + TAG_DESC_FRIEND + TAG_DESC_STUDENT, new AddCommand(expectedPerson));
 
         // multiple names - last name accepted
         assertParseSuccess(parser, NAME_DESC_AMY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC
+                + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
                 + TAG_DESC_FRIEND + TAG_DESC_STUDENT, new AddCommand(expectedPerson));
 
 
         // multiple phones - last phone accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC
+                + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
                 + TAG_DESC_FRIEND + TAG_DESC_STUDENT, new AddCommand(expectedPerson));
 
         // multiple emails - last email accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_AMY + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC
+                + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
                 + TAG_DESC_FRIEND + TAG_DESC_STUDENT, new AddCommand(expectedPerson));
 
         // multiple addresses - last address accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_AMY
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC
+                + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
                 + TAG_DESC_FRIEND + TAG_DESC_STUDENT, new AddCommand(expectedPerson));
 
         // multiple tags - all accepted
         Person expectedPersonMultipleTags = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(SUBJECT_ECONOMICS)
-                .withPrice(PRICE_BOB).withLevel(LEVEL_TWO).withStatus(STATUS_UNMATCHED)
+                .withPrice(PRICE_BOB).withLevel(LEVEL_UPPER).withStatus(STATUS_UNMATCHED)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND, VALID_TAG_STUDENT).build();
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_ECONOMICS + PRICE_DESC_BOB + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED
+                + SUBJECT_DESC_ECONOMICS + PRICE_DESC_BOB + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND + TAG_DESC_STUDENT, new AddCommand(expectedPersonMultipleTags));
     }
 
@@ -110,9 +114,9 @@ public class AddCommandParserTest {
         // zero tags
         Person expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
                 .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withSubject(SUBJECT_ENGLISH)
-                .withPrice(PRICE_AMY).withLevel(LEVEL_ONE).withStatus(STATUS_UNMATCHED).withTags().build();
+                .withPrice(PRICE_AMY).withLevel(LEVEL_LOWER).withStatus(STATUS_UNMATCHED).withTags().build();
         assertParseFailure(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                        + PRICE_DESC_AMY + SUBJECT_DESC_AMY + LEVEL_DESC_ONE + STATUS_DESC_UNMATCHED,
+                        + PRICE_DESC_AMY + SUBJECT_DESC_AMY + LEVEL_DESC_LOWER_SEC + STATUS_DESC_UNMATCHED,
                 MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
     }
 
@@ -122,27 +126,27 @@ public class AddCommandParserTest {
 
         // missing name prefix
         assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_ENGLISH + LEVEL_DESC_ONE + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
+                + SUBJECT_DESC_ENGLISH + LEVEL_DESC_LOWER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
                 expectedMessage);
 
         // missing phone prefix
         assertParseFailure(parser, NAME_DESC_BOB + VALID_PHONE_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_ENGLISH + LEVEL_DESC_ONE + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
+                + SUBJECT_DESC_ENGLISH + LEVEL_DESC_LOWER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
                 expectedMessage);
 
         // missing email prefix
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + VALID_EMAIL_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_ENGLISH + LEVEL_DESC_ONE + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
+                + SUBJECT_DESC_ENGLISH + LEVEL_DESC_LOWER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
                 expectedMessage);
 
         // missing address prefix
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + VALID_ADDRESS_BOB
-                + SUBJECT_DESC_ENGLISH + LEVEL_DESC_ONE + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
+                + SUBJECT_DESC_ENGLISH + LEVEL_DESC_LOWER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
                 expectedMessage);
 
         // all prefixes missing
         assertParseFailure(parser, VALID_NAME_BOB + VALID_PHONE_BOB + VALID_EMAIL_BOB + VALID_ADDRESS_BOB
-                + SUBJECT_DESC_ENGLISH + LEVEL_DESC_ONE + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
+                + SUBJECT_DESC_ENGLISH + LEVEL_DESC_LOWER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
                 expectedMessage);
     }
 
@@ -150,38 +154,38 @@ public class AddCommandParserTest {
     public void parse_invalidValue_failure() {
         // invalid name
         assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
+                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_NAME_CONSTRAINTS);
 
         // invalid phone
         assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
+                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Phone.MESSAGE_PHONE_CONSTRAINTS);
 
         // invalid email
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
+                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Email.MESSAGE_EMAIL_CONSTRAINTS);
 
         // invalid address
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC
-                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
+                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Address.MESSAGE_ADDRESS_CONSTRAINTS);
 
         // invalid tag
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
+                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
                 + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_TAG_CONSTRAINTS);
 
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC
-                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
+                + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
                 Name.MESSAGE_NAME_CONSTRAINTS);
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_TWO + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_ECONOMICS + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED
+                        + PRICE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
     }
 }
