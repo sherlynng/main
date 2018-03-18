@@ -37,7 +37,7 @@ public class Subject {
      * Returns if a given string is a valid subject description.
      */
     public static boolean isValidSubject(String test) {
-
+        test = test.toLowerCase();
         return SET_ALL_SUBJECT.contains(test);
     }
 

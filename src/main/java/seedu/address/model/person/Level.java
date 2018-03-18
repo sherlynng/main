@@ -13,7 +13,7 @@ import java.util.HashSet;
 public class Level {
 
     public static final String[] LEVEL_VALUES =
-            new String[] { "lowerSec", "upperSec", "lowerPri", "upperPri" };
+            new String[] { "lowersec", "uppersec", "lowerpri", "upperpri" };
     public static final HashSet<String> SET_ALL_LEVEL = new HashSet<>(Arrays.asList(LEVEL_VALUES));
 
     public static final String MESSAGE_LEVEL_CONSTRAINTS = "Person Level should be "
@@ -40,7 +40,7 @@ public class Level {
      * Returns if a given string is a valid level description.
      */
     public static boolean isValidLevel(String test) {
-
+        test = test.toLowerCase();
         return SET_ALL_LEVEL.contains(test);
     }
 
