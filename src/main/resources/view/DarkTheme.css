@@ -152,6 +152,14 @@
     -fx-text-fill: #ffffff;
 }
 
+.browser_stackPane_odd {
+    -fx-background-color: #333333
+}
+
+.browser_stackPane_even {
+    -fx-background-color: #4C4C4C
+}
+
 .anchor-pane {
      -fx-background-color: derive(#1d1d1d, 20%);
 }

@@ -33,22 +33,22 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <StackPane prefHeight="21.0" prefWidth="172.0" style="-fx-background-color: #333333;" GridPane.rowIndex="1" />
-            <StackPane prefHeight="52.0" prefWidth="373.0" style="-fx-background-color: #333333;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <StackPane prefHeight="22.0" prefWidth="539.0" style="-fx-background-color: #4C4C4C;" GridPane.rowIndex="2" />
-            <StackPane prefHeight="22.0" prefWidth="539.0" style="-fx-background-color: #4C4C4C;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <StackPane prefHeight="22.0" prefWidth="539.0" style="-fx-background-color: #4C4C4C;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <StackPane prefHeight="22.0" prefWidth="539.0" style="-fx-background-color: #4C4C4C;" GridPane.rowIndex="4" />
-            <StackPane prefHeight="22.0" prefWidth="539.0" style="-fx-background-color: #4C4C4C;" GridPane.rowIndex="6" />
-            <StackPane prefHeight="22.0" prefWidth="539.0" style="-fx-background-color: #4C4C4C;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <StackPane prefHeight="22.0" prefWidth="539.0" style="-fx-background-color: #4C4C4C;" GridPane.rowIndex="8" />
-            <StackPane prefHeight="50.0" prefWidth="347.0" style="-fx-background-color: #4C4C4C;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <StackPane prefHeight="21.0" prefWidth="172.0" style="-fx-background-color: #333333;" GridPane.rowIndex="3" />
-            <StackPane prefHeight="21.0" prefWidth="172.0" style="-fx-background-color: #333333;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <StackPane prefHeight="21.0" prefWidth="172.0" style="-fx-background-color: #333333;" GridPane.rowIndex="5" />
-            <StackPane prefHeight="21.0" prefWidth="172.0" style="-fx-background-color: #333333;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <StackPane prefHeight="21.0" prefWidth="172.0" style="-fx-background-color: #333333;" GridPane.rowIndex="7" />
-            <StackPane prefHeight="21.0" prefWidth="172.0" style="-fx-background-color: #333333;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.rowIndex="1" />
+            <StackPane prefHeight="52.0" prefWidth="373.0" styleClass="browser_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.rowIndex="2" />
+            <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.rowIndex="4" />
+            <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.rowIndex="6" />
+            <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.rowIndex="8" />
+            <StackPane prefHeight="50.0" prefWidth="347.0" styleClass="browser_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.rowIndex="3" />
+            <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.rowIndex="5" />
+            <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.rowIndex="7" />
+            <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label styleClass="browser_label" text="Phone:" textFill="WHITE" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
