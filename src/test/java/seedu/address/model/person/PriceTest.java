@@ -15,9 +15,9 @@ public class PriceTest {
     }
 
     @Test
-    public void constructor_invalidPrice_throwsIllegalArgumentException() {
-        String invalidPrice = "-1";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Price(invalidPrice));
+    public void constructor_invalidPrice_throwsNumberFormatException() {
+        String invalidPrice = "";
+        Assert.assertThrows(NumberFormatException.class, () -> new Price(invalidPrice));
     }
 
     @Test

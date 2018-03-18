@@ -64,7 +64,6 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
-import sun.util.logging.PlatformLogger;
 
 public class EditCommandSystemTest extends AddressBookSystemTest {
 
