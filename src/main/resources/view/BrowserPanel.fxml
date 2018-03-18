@@ -49,7 +49,7 @@
             <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.rowIndex="7" />
             <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label styleClass="browser_label" text="Phone:" textFill="WHITE" GridPane.rowIndex="1">
+            <Label styleClass="browser_label" text="Phone:" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -57,63 +57,63 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label styleClass="browser_label" text="Address:" textFill="WHITE" GridPane.rowIndex="2">
+            <Label styleClass="browser_label" text="Address:" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <padding>
                   <Insets left="10.0" />
                </padding></Label>
-            <Label styleClass="browser_label" text="Email:" textFill="WHITE" GridPane.rowIndex="3">
+            <Label styleClass="browser_label" text="Email:" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <padding>
                   <Insets left="10.0" />
                </padding></Label>
-            <Label styleClass="browser_label" text="Role:" textFill="WHITE" GridPane.rowIndex="4">
+            <Label styleClass="browser_label" text="Role:" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <padding>
                   <Insets left="10.0" />
                </padding></Label>
-            <Label styleClass="browser_label" text="Status:" textFill="WHITE" GridPane.rowIndex="5">
+            <Label styleClass="browser_label" text="Status:" GridPane.rowIndex="5">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <padding>
                   <Insets left="10.0" />
                </padding></Label>
-            <Label styleClass="browser_label" text="Subject:" textFill="WHITE" GridPane.rowIndex="6">
+            <Label styleClass="browser_label" text="Subject:" GridPane.rowIndex="6">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <padding>
                   <Insets left="10.0" />
                </padding></Label>
-            <Label styleClass="browser_label" text="Level:" textFill="WHITE" GridPane.rowIndex="7">
+            <Label styleClass="browser_label" text="Level:" GridPane.rowIndex="7">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <padding>
                   <Insets left="10.0" />
                </padding></Label>
-            <Label styleClass="browser_label" text="Budget:" textFill="WHITE" GridPane.rowIndex="8">
+            <Label styleClass="browser_label" text="Budget:" GridPane.rowIndex="8">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <padding>
                   <Insets left="10.0" />
                </padding></Label>
-            <Label fx:id="phone" styleClass="browser_label_details" text="\$phone" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="address" styleClass="browser_label_details" text="\\$address" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="email" styleClass="browser_label_details" text="\\$email" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="role" styleClass="browser_label_details" text="\$role" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label fx:id="status" styleClass="browser_label_details" text="\$status" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label fx:id="subject" styleClass="browser_label_details" text="\$subject" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label fx:id="level" styleClass="browser_label_details" text="\$level" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label fx:id="budget" styleClass="browser_label_details" text="\$budget" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label fx:id="phone" styleClass="browser_label_details" text="\$phone" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="address" styleClass="browser_label_details" text="\\$address" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="email" styleClass="browser_label_details" text="\\$email" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="role" styleClass="browser_label_details" text="\$role" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="status" styleClass="browser_label_details" text="\$status" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="subject" styleClass="browser_label_details" text="\$subject" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="level" styleClass="browser_label_details" text="\$level" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label fx:id="budget" styleClass="browser_label_details" text="\$budget" GridPane.columnIndex="1" GridPane.rowIndex="8" />
          </children>
          <padding>
             <Insets bottom="5.0" top="5.0" />
