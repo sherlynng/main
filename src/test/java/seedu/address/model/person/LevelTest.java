@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.Assert;
 
 public class LevelTest {
@@ -34,5 +35,14 @@ public class LevelTest {
         assertTrue(Level.isValidLevel("lowerPri"));
         assertTrue(Level.isValidLevel("Upperpri")); //check case insensitive
         assertTrue(Level.isValidLevel("Lowersec"));
+    }
+
+    @Test
+    public void checkLevelEquality() {
+        //test level against non-level type
+        assertFalse(new Level("upperSec").equals(null));
+        assertFalse(new Level("upperSec").equals(new Tag("upperSec")));
+        //test correctly returns equal if level string is the same
+        assertTrue(new Level("upperSec").equals(new Level("upperSec")));
     }
 }

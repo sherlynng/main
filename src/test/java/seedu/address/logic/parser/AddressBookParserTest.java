@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
@@ -25,12 +26,16 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ListStudentCommand;
+import seedu.address.logic.commands.ListTutorCommand;
 import seedu.address.logic.commands.RedoCommand;
+import seedu.address.logic.commands.RemoveTagCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -194,6 +199,45 @@ public class AddressBookParserTest {
     public void parseCommand_undoCommandWordAliased_returnsUndoCommand() throws Exception {
         assertTrue(parser.parseCommand(UndoCommand.COMMAND_WORD_ALIAS) instanceof UndoCommand);
         assertTrue(parser.parseCommand("u 3") instanceof UndoCommand);
+    }
+
+    @Test
+    public void parseCommand_removeTag() throws Exception {
+        RemoveTagCommand command = (RemoveTagCommand) parser.parseCommand(
+                RemoveTagCommand.COMMAND_WORD + " " + VALID_TAG_FRIEND);
+        assertEquals(new RemoveTagCommand(new Tag(VALID_TAG_FRIEND)), command);
+    }
+
+    @Test
+    public void parseCommand_removeTagAliased() throws Exception {
+        RemoveTagCommand command = (RemoveTagCommand) parser.parseCommand(
+                RemoveTagCommand.COMMAND_WORD_ALIAS + " " + VALID_TAG_FRIEND);
+        assertEquals(new RemoveTagCommand(new Tag(VALID_TAG_FRIEND)), command);
+    }
+
+    @Test
+    public void parseCommand_listStudent() throws Exception {
+        assertTrue(parser.parseCommand(ListStudentCommand.COMMAND_WORD) instanceof ListStudentCommand);
+        assertTrue(parser.parseCommand(ListStudentCommand.COMMAND_WORD + " 3") instanceof ListStudentCommand);
+    }
+
+    @Test
+    public void parseCommand_listStudentAliased() throws Exception {
+        assertTrue(parser.parseCommand(ListStudentCommand.COMMAND_WORD_ALIAS) instanceof ListStudentCommand);
+        assertTrue(parser.parseCommand(
+                ListStudentCommand.COMMAND_WORD_ALIAS + " 3") instanceof ListStudentCommand);
+    }
+
+    @Test
+    public void parseCommand_listTutor() throws Exception {
+        assertTrue(parser.parseCommand(ListTutorCommand.COMMAND_WORD) instanceof ListTutorCommand);
+        assertTrue(parser.parseCommand(ListTutorCommand.COMMAND_WORD + " 3") instanceof ListTutorCommand);
+    }
+
+    @Test
+    public void parseCommand_listTutorAliased() throws Exception {
+        assertTrue(parser.parseCommand(ListTutorCommand.COMMAND_WORD_ALIAS) instanceof ListTutorCommand);
+        assertTrue(parser.parseCommand(ListTutorCommand.COMMAND_WORD_ALIAS + " 3") instanceof ListTutorCommand);
     }
 
     @Test

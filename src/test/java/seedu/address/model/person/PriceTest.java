@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.Assert;
 
 public class PriceTest {
@@ -31,5 +32,14 @@ public class PriceTest {
         assertTrue(Price.isValidPrice("25"));
         assertTrue(Price.isValidPrice("5")); // single digit
         assertTrue(Price.isValidPrice("123456")); // large number
+    }
+
+    @Test
+    public void checkPriceEquality() {
+        //test price against non-price type
+        assertFalse(new Price("100").equals(null));
+        assertFalse(new Price("100").equals(new Tag("100")));
+        //test correctly returns equal if price string is the same
+        assertTrue(new Name("100").equals(new Name("100")));
     }
 }
