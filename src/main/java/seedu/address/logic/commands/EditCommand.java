@@ -131,10 +131,10 @@ public class EditCommand extends UndoableCommand {
             attributeTags.remove(ParserUtil.parseTag(personToEdit.getSubject().toString()));
             attributeTags.remove(ParserUtil.parseTag(personToEdit.getStatus().toString()));
 
-            attributeTags.add(ParserUtil.parseTag(updatedPrice.toString()));
-            attributeTags.add(ParserUtil.parseTag(updatedSubject.toString()));
-            attributeTags.add(ParserUtil.parseTag(updatedLevel.toString()));
-            attributeTags.add(ParserUtil.parseTag(updatedStatus.toString()));
+            attributeTags.add(ParserUtil.parseTagWithType(updatedPrice.toString(), Tag.allTagTypes.PRICE));
+            attributeTags.add(ParserUtil.parseTagWithType(updatedSubject.toString(), Tag.allTagTypes.SUBJECT));
+            attributeTags.add(ParserUtil.parseTagWithType(updatedLevel.toString(), Tag.allTagTypes.LEVEL));
+            attributeTags.add(ParserUtil.parseTagWithType(updatedStatus.toString(), Tag.allTagTypes.STATUS));
         } catch (IllegalValueException ive) {
             throw new CommandException("Error: At least one of entered attributes Price, Subject, Level, Status "
                     + "cannot be used as a tag.");

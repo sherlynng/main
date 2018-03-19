@@ -12,7 +12,7 @@ public class Tag {
     public static final String MESSAGE_TAG_CONSTRAINTS = "Tags names should contain only "
             + "alphanumeric characters and spaces";
     public static final String TAG_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
-    public enum allTagTypes {SUBJECT, STATUS, LEVEL, PRICE, DEFAULT};
+    public enum allTagTypes {SUBJECT, STATUS, LEVEL, PRICE, DEFAULT}
 
     public final String tagName;
     public final allTagTypes tagType;

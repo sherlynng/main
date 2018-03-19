@@ -66,10 +66,10 @@ public class AddCommandParser implements Parser<AddCommand> {
             }
 
             //Add required attributes to the tag list as in documentation
-            tagList.add(ParserUtil.parseTag(price.toString()));
-            tagList.add(ParserUtil.parseTag(subject.toString()));
-            tagList.add(ParserUtil.parseTag(level.toString()));
-            tagList.add(ParserUtil.parseTag(status.toString()));
+            tagList.add(ParserUtil.parseTagWithType(price.toString(), Tag.allTagTypes.PRICE));
+            tagList.add(ParserUtil.parseTagWithType(subject.toString(), Tag.allTagTypes.SUBJECT));
+            tagList.add(ParserUtil.parseTagWithType(level.toString(), Tag.allTagTypes.LEVEL));
+            tagList.add(ParserUtil.parseTagWithType(status.toString(), Tag.allTagTypes.STATUS));
 
             Person person = new Person(name, phone, email, address, price, subject, level, status, tagList);
 

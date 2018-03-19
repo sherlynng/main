@@ -79,7 +79,7 @@ public class PersonCard extends UiPart<Region> {
                 return TAG_COLOR_STYLES[3];
             //fall through to default
             default:
-                return TAG_COLOR_STYLES[4];
+                return TAG_COLOR_STYLES[8];
         }
     }
 
