@@ -70,16 +70,16 @@ public class PersonCard extends UiPart<Region> {
     private String getTagColorStyleFor(Tag tag) {
         switch (tag.tagType) {
             case SUBJECT:
-                return TAG_COLOR_STYLES[0];
+                return TAG_COLOR_STYLES[0]; //subject is teal
             case LEVEL:
-                return TAG_COLOR_STYLES[1];
+                return TAG_COLOR_STYLES[1]; //level is red
             case STATUS:
-                return TAG_COLOR_STYLES[2];
+                return TAG_COLOR_STYLES[2]; //status is yellow
             case PRICE:
-                return TAG_COLOR_STYLES[3];
+                return TAG_COLOR_STYLES[3]; //price is blue
             //fall through to default
             default:
-                return TAG_COLOR_STYLES[8];
+                return TAG_COLOR_STYLES[8]; //all non-attribute are black
         }
     }
 
@@ -89,11 +89,7 @@ public class PersonCard extends UiPart<Region> {
     private void initTags(Person person) {
         person.getTags().forEach(tag -> {
             Label tagLabel = new Label(tag.tagName);
-            if (tag.tagType == Tag.allTagTypes.DEFAULT) {
-                tagLabel.getStyleClass().add(getTagColorStyleFor(tag.tagName));
-            } else {
-                tagLabel.getStyleClass().add(getTagColorStyleFor(tag));
-            }
+            tagLabel.getStyleClass().add(getTagColorStyleFor(tag));
             tags.getChildren().add(tagLabel);
         });
     }

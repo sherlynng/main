@@ -70,6 +70,9 @@ public class AddCommandParser implements Parser<AddCommand> {
             tagList.add(ParserUtil.parseTagWithType(subject.toString(), Tag.allTagTypes.SUBJECT));
             tagList.add(ParserUtil.parseTagWithType(level.toString(), Tag.allTagTypes.LEVEL));
             tagList.add(ParserUtil.parseTagWithType(status.toString(), Tag.allTagTypes.STATUS));
+            for (Tag tag : tagList) {
+                System.out.println(tag + " " + tag.tagType);
+            }
 
             Person person = new Person(name, phone, email, address, price, subject, level, status, tagList);
 

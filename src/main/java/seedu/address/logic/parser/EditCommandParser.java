@@ -57,6 +57,7 @@ public class EditCommandParser implements Parser<EditCommand> {
             ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE)).ifPresent(editPersonDescriptor::setPrice);
             ParserUtil.parseSubject(argMultimap.getValue(PREFIX_SUBJECT)).ifPresent(editPersonDescriptor::setSubject);
             ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).ifPresent(editPersonDescriptor::setLevel);
+            ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).ifPresent(editPersonDescriptor::setStatus);
             parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
