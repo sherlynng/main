@@ -793,7 +793,7 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Feature Contributions*:
 
-[width="59%",cols="30%,<35%,<35%",options="header",]
+[width="59%",cols="<30%,<35%,<35%",options="header",]
 |=======================================================================
 |Name |Minor Enhancement |Major Enhancement
 |Danny NG Ming Xuan |Create new command to filter the person list with respect to the various tags in
