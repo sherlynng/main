@@ -41,4 +41,12 @@ public class StatusTest {
         //test correctly returns equal if status string is the same
         assertTrue(new Status("matched").equals(new Status("matched")));
     }
+
+    @Test
+    public void checkStatusHashCode() {
+        Status status = new Status("notMatched");
+        assertTrue(status.hashCode() == status.value.hashCode());
+        status = new Status("matched");
+        assertTrue(status.hashCode() == status.value.hashCode());
+    }
 }

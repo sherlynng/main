@@ -45,4 +45,14 @@ public class LevelTest {
         //test correctly returns equal if level string is the same
         assertTrue(new Level("upperSec").equals(new Level("upperSec")));
     }
+
+    @Test
+    public void checkLevelHashCode() {
+        Level level = new Level("uppersec");
+        assertTrue(level.hashCode() == level.value.hashCode());
+        level = new Level("lowersec");
+        assertTrue(level.hashCode() == level.value.hashCode());
+        level = new Level("lowerpri");
+        assertTrue(level.hashCode() == level.value.hashCode());
+    }
 }

@@ -37,4 +37,9 @@ public class Price {
                 || (other instanceof Price // instanceof handles nulls
                 && this.value.equals(((Price) other).value)); // state check
     }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
 }

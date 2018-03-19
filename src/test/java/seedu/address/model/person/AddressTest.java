@@ -44,4 +44,14 @@ public class AddressTest {
         //test correctly returns equal if address string is the same
         assertTrue(new Address("Blk 456, Den Road, #01-355").equals(new Address("Blk 456, Den Road, #01-355")));
     }
+
+    @Test
+    public void checkAddressHashCode() {
+        Address address = new Address("Blk 456, Den Road, #01-355");
+        assertTrue(address.hashCode() == address.value.hashCode());
+        address = new Address("-");
+        assertTrue(address.hashCode() == address.value.hashCode());
+        address = new Address("Leng Inc; 1234 Market St; San Francisco CA 2349879; USA");
+        assertTrue(address.hashCode() == address.value.hashCode());
+    }
 }

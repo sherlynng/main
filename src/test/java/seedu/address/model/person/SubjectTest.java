@@ -43,4 +43,14 @@ public class SubjectTest {
         //test correctly returns equal if name string is the same
         assertTrue(new Subject("math").equals(new Subject("math")));
     }
+
+    @Test
+    public void checkSubjectHashCode() {
+        Subject subject = new Subject("math");
+        assertTrue(subject.hashCode() == subject.value.hashCode());
+        subject = new Subject("english");
+        assertTrue(subject.hashCode() == subject.value.hashCode());
+        subject = new Subject("chemistry");
+        assertTrue(subject.hashCode() == subject.value.hashCode());
+    }
 }

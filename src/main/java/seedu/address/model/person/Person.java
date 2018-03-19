@@ -95,6 +95,7 @@ public class Person {
             return false;
         }
 
+
         Person otherPerson = (Person) other;
         return otherPerson.getName().equals(this.getName())
                 && otherPerson.getPhone().equals(this.getPhone())

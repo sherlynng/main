@@ -42,4 +42,14 @@ public class PriceTest {
         //test correctly returns equal if price string is the same
         assertTrue(new Price("100").equals(new Price("100")));
     }
+
+    @Test
+    public void checkPriceHashCode() {
+        Price price = new Price("25");
+        assertTrue(price.hashCode() == price.value.hashCode());
+        price = new Price("5");
+        assertTrue(price.hashCode() == price.value.hashCode());
+        price = new Price("123456");
+        assertTrue(price.hashCode() == price.value.hashCode());
+    }
 }

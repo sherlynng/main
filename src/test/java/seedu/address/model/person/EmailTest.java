@@ -68,4 +68,14 @@ public class EmailTest {
         //test correctly returns equal if email string is the same
         assertTrue(new Email("test@abc.com").equals(new Email("test@abc.com")));
     }
+
+    @Test
+    public void checkEmailHashCode() {
+        Email email = new Email("PeterJack_1190@example.com");
+        assertTrue(email.hashCode() == email.value.hashCode());
+        email = new Email("test@localhost");
+        assertTrue(email.hashCode() == email.value.hashCode());
+        email = new Email("peter_jack@very-very-very-long-example.com");
+        assertTrue(email.hashCode() == email.value.hashCode());
+    }
 }
