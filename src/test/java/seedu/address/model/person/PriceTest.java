@@ -40,6 +40,6 @@ public class PriceTest {
         assertFalse(new Price("100").equals(null));
         assertFalse(new Price("100").equals(new Tag("100")));
         //test correctly returns equal if price string is the same
-        assertTrue(new Name("100").equals(new Name("100")));
+        assertTrue(new Price("100").equals(new Price("100")));
     }
 }

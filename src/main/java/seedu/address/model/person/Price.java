@@ -31,4 +31,10 @@ public class Price {
         return this.value;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Price // instanceof handles nulls
+                && this.value.equals(((Price) other).value)); // state check
+    }
 }
