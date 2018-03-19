@@ -793,20 +793,20 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Feature Contributions*:
 
-[width="80%",cols="30%,<30%,<30%",options="header",]
+[width="59%",cols="30%,<35%,<35%",options="header",]
 |=======================================================================
 |Name |Minor Enhancement |Major Enhancement
-|Danny [underline]#Ng# Ming Xuan |Create new command to filter the person list with respect to the various tags in
+|Danny NG Ming Xuan |Create new command to filter the person list with respect to the various tags in
 Person card. This will enable the user to view people with tags he/she is interested in.|Create `viewStats` command.
 This allows the user to view information such as number of students/tutors/matched and more in the form of graph.
-|[underline]#Ng# Xin Ler |Change browser panel to view Person's details and remove all attributes except tags in
+|NG Xin Ler |Change browser panel to view Person's details and remove all attributes except tags in
 Person card. This helps to improve the readability of Person details and prevents cluttering on the side panel.|
 Create `unmatch` command. This allows the user to unmatch a pair of Tutor and Student in the event where the pair is
 wrongly matched or either the Tutor or Student wants to change a matching.
-|[underline]#Wang# Zi |Create shortcut for the user in filling subject, level, status and role. For instance, `sub/eng` and `sub/english` both result in adding the subject English.
+|WANG Zi |Create shortcut for the user in filling subject, level, status and role. For instance, `sub/eng` and `sub/english` both result in adding the subject English.
 After that, accommodate case-insensitive input, and standardize display to follow <<proper-case, proper case>>.
 |Create `match` command. This allows the user to match a pair of Tutor and Student from a list of potential matches.
-|[underline]#Yan# Hong Yao Alvin | Automatically generate tags for some attribute fields. This makes them easy to view by the user |
+|YAN Hong Yao Alvin | Automatically generate tags for some attribute fields. This makes them easy to view by the user |
 Allow all non-name fields to be optional. This makes input easier for the user as the add command is extremely long otherwise.
 |=======================================================================
 
