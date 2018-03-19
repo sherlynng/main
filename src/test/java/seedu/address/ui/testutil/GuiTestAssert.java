@@ -49,6 +49,10 @@ public class GuiTestAssert {
         assertEquals(expectedPerson.getPhone().value, actualBrowser.getPhone());
         assertEquals(expectedPerson.getEmail().value, actualBrowser.getEmail());
         assertEquals(expectedPerson.getAddress().value, actualBrowser.getAddress());
+        assertEquals(expectedPerson.getStatus().value, actualBrowser.getStatus());
+        assertEquals(expectedPerson.getSubject().value, actualBrowser.getSubject());
+        assertEquals(expectedPerson.getLevel().value, actualBrowser.getLevel());
+        assertEquals("$" + expectedPerson.getPrice().value + " / hr", actualBrowser.getPrice());
     }
 
     /**
