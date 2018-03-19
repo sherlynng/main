@@ -44,7 +44,7 @@ public class BrowserPanel extends UiPart<Region> {
     @FXML
     private Label level;
     @FXML
-    private Label budget;
+    private Label price;
 
     public BrowserPanel() {
         super(FXML);
@@ -93,9 +93,9 @@ public class BrowserPanel extends UiPart<Region> {
             level.setText(person.getLevel().value);
         }
         if (person.getPrice().value == null) {
-            budget.setText(" - ");
+            price.setText(" - ");
         } else {
-            budget.setText("$" + person.getPrice().value);
+            price.setText("$" + person.getPrice().value + " / hr");
         }
         if (person.getTags().contains(new Tag("Student"))) {
             role.setText("Student");
