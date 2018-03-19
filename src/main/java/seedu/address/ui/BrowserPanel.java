@@ -60,21 +60,49 @@ public class BrowserPanel extends UiPart<Region> {
      */
     private void loadPersonDetails(Person person) {
         grid.setVisible(true);
-        name.setText(person.getName().fullName);
-        phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
-        email.setText(person.getEmail().value);
-        status.setText(person.getStatus().value);
-        subject.setText(person.getSubject().value);
-        level.setText(person.getLevel().value);
-        budget.setText("$" + person.getPrice().value);
 
-        if (person.getTags().contains(new Tag("Student"))
-            || person.getTags().contains(new Tag("student"))) {
-            role.setText("Student");
+        name.setText(person.getName().fullName);
+        if (person.getPhone().value == null) {
+            phone.setText(" - ");
+        } else {
+            phone.setText(person.getPhone().value);
         }
-        else {
+        if (person.getAddress().value == null) {
+            address.setText(" - ");
+        } else {
+            address.setText(person.getAddress().value);
+        }
+        if (person.getEmail().value == null) {
+            email.setText(" - ");
+        } else {
+            email.setText(person.getEmail().value);
+        }
+        if (person.getStatus().value == null) {
+            status.setText(" - ");
+        } else {
+            status.setText(person.getStatus().value);
+        }
+        if (person.getSubject().value == null) {
+            subject.setText(" - ");
+        } else {
+            subject.setText(person.getSubject().value);
+        }
+        if (person.getLevel().value == null) {
+            level.setText(" - ");
+        } else {
+            level.setText(person.getLevel().value);
+        }
+        if (person.getPrice().value == null) {
+            budget.setText(" - ");
+        } else {
+            budget.setText("$" + person.getPrice().value);
+        }
+        if (person.getTags().contains(new Tag("Student"))) {
+            role.setText("Student");
+        } else if (person.getTags().contains(new Tag("Tutor"))) {
             role.setText("Tutor");
+        } else {
+            role.setText(" - ");
         }
     }
 
