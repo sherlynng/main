@@ -29,7 +29,10 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_newPerson_success() throws Exception {
-        Person validPerson = new PersonBuilder().build();
+        Person validPerson = new PersonBuilder().withName("Hilda Lam").withPhone("9482445")
+                .withEmail("hilda@example.com").withAddress("5th street")
+                .withPrice("80").withSubject("English").withStatus("NotMatched").withLevel("Secondary 3")
+                .withTags("Student").build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.addPerson(validPerson);
