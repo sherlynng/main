@@ -459,18 +459,21 @@ The respective tagName and tagType can be obtained by splitting the read string 
 ** Pros: Easier for advanced users to edit without causing an error, easy to retrieve values from file.
 ** Cons: Risks causing issues with how `Tag` is saved as part of `XmlAdaptedPerson` and by itself as `XmlAdaptedTag`
 
-=== Making input case-insensitive
+=== Case-insensitive input
 
 ==== Current Implementation
-We made input of all fields case insensitive to reduce hassles for the user.
+We made input of fields case-insensitive to reduce hassles for the user.
 
 After parsing and validation, the field entered is converted to <<proper-case, proper case>> internally,
 so tags generated from the field information will be standardized and more readable for the user.
 
+The exceptions are `price` and `phone` as they consist only numbers and require no conversion.
+`email` is converted to all lower-case to follow the convention.
+
 ==== Model Implementation
 We utilise the `ProperCaseConverter` object to convert all parsed and valid input into proper case.
 See the example below for an actual implementation found in the `Role` class.
-All the fields utilise the `ProperCaseConverter` object in similar way.
+All the fields utilise the `ProperCaseConverter` object in a similar way.
 
 [source,java]
 ----
@@ -485,7 +488,7 @@ public class Role{
 }
 ----
 
-=== Create shortcuts for the user in filling fields
+=== Shortcuts for the user in filling fields
 
 ==== Current Implementation
 Due to the nature of the application, the user will input certain information repetitively.
@@ -530,7 +533,7 @@ Below is the function that performs conversion in the Role class. Other classes 
 ----
 
 [NOTE]
-The user can input short-cut in case insensitive fashion.
+The user can input shortcuts in case-insensitive fashion.
 For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com a/NUS #04-02 $/50 sub/PHy lvl/uP stat/nM t/T`
 , the stored entry will be `John Doe Phone: 98765432 Email: johnd@example.com Address: NUS #04-02 Tags: [Tutor][Upper Pri][50][Physics][Not Matched]`
 
