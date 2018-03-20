@@ -97,9 +97,11 @@ public class BrowserPanel extends UiPart<Region> {
         } else {
             price.setText("$" + person.getPrice().value + " / hr");
         }
-        if (person.getTags().contains(new Tag("Student"))) {
+        if (person.getTags().contains(new Tag("Student"))
+            || person.getTags().contains(new Tag("student"))) {
             role.setText("Student");
-        } else if (person.getTags().contains(new Tag("Tutor"))) {
+        } else if (person.getTags().contains(new Tag("Tutor"))
+                   || person.getTags().contains(new Tag("tutor"))) {
             role.setText("Tutor");
         } else {
             role.setText(" - ");
