@@ -528,11 +528,23 @@ Below is the function that performs conversion in the Role class. Other classes 
        return cur;
  }
 ----
-
 [NOTE]
 The user can input short-cut in case insensitive fashion.
 For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com a/NUS #04-02 $/50 sub/PHy lvl/uP stat/nM t/T`
 , the stored entry will be `John Doe Phone: 98765432 Email: johnd@example.com Address: NUS #04-02 Tags: [Tutor][Upper Pri][50][Physics][Not Matched]`
+
+=== Filter feature
+
+==== Current Implementation
+We have added the `filter` command which inherit from `Command`. The user can `filter` according to the attributes `Subject`, `Level` and `Status` of a person.
+
+The following sequence diagram shows how the filter command works:
+
+image::FilterCommandSequenceDiagram.png[width="800"]
+
+[NOTE]
+The user must input arguments in case sensitive and full fashion.
+For instance, the entry `filter maTH` will not work.
 
 == Documentation
 
