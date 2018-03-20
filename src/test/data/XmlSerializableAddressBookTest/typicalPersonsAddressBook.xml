@@ -16,7 +16,7 @@ AddressBook save file which contains the same Person values as in
 		<subject>math</subject>
 		<level>lowerSec</level>
 		<status>notMatched</status>
-        <tagged>student</tagged>
+        <tagged>student,DEFAULT</tagged>
     </persons>
     <persons>
         <name>Benson Meier</name>
@@ -28,7 +28,7 @@ AddressBook save file which contains the same Person values as in
 		<level>upperSec</level>
 		<status>notMatched</status>
         <tagged>owesMoney</tagged>
-        <tagged>student</tagged>
+        <tagged>student,DEFAULT</tagged>
     </persons>
     <persons>
         <name>Carl Kurz</name>
@@ -39,7 +39,7 @@ AddressBook save file which contains the same Person values as in
 		<subject>physics</subject>
 		<level>upperSec</level>
 		<status>notMatched</status>
-        <tagged>student</tagged>
+        <tagged>student,DEFAULT</tagged>
     </persons>
     <persons>
         <name>Daniel Meier</name>
@@ -50,7 +50,7 @@ AddressBook save file which contains the same Person values as in
 		<subject>chemistry</subject>
 		<level>upperSec</level>
 		<status>notMatched</status>
-        <tagged>student</tagged>
+        <tagged>student,DEFAULT</tagged>
     </persons>
     <persons>
         <name>Elle Meyer</name>
@@ -61,7 +61,7 @@ AddressBook save file which contains the same Person values as in
 		<subject>math</subject>
 		<level>upperSec</level>
 		<status>notMatched</status>
-        <tagged>student</tagged>
+        <tagged>student,DEFAULT</tagged>
     </persons>
     <persons>
         <name>Fiona Kunz</name>
@@ -72,7 +72,7 @@ AddressBook save file which contains the same Person values as in
 		<subject>english</subject>
 		<level>upperSec</level>
 		<status>notMatched</status>
-        <tagged>student</tagged>
+        <tagged>student,DEFAULT</tagged>
     </persons>
     <persons>
         <name>George Best</name>
@@ -83,23 +83,24 @@ AddressBook save file which contains the same Person values as in
 		<subject>economics</subject>
 		<level>lowerSec</level>
 		<status>notMatched</status>
-        <tagged>student</tagged>
+		<!-- create a tag with wrong tag type to ensure it will still load-->
+        <tagged>student,UNKNOWN</tagged>
     </persons>
-    <tags>student</tags>
-    <tags>owesMoney</tags>
-	<tags>320</tags>
-	<tags>99</tags>
-	<tags>210</tags>
-	<tags>70</tags>
-	<tags>20</tags>
-	<tags>150</tags>
-	<tags>50</tags>
-	<tags>math</tags>
-	<tags>english</tags>
-	<tags>economics</tags>
-	<tags>chemistry</tags>
-	<tags>physics</tags>
-	<tags>lowerSec</tags>
-	<tags>upperSec</tags>
-	<tags>notMatched</tags>
+    <tags>student,DEFAULT</tags>
+    <tags>owesMoney,DEFAULT</tags>
+	<tags>320,PRICE</tags>
+	<tags>99,PRICE</tags>
+	<tags>210,PRICE</tags>
+	<tags>70,PRICE</tags>
+	<tags>20,PRICE</tags>
+	<tags>150,PRICE</tags>
+	<tags>50,PRICE</tags>
+	<tags>math,SUBJECT</tags>
+	<tags>english,SUBJECT</tags>
+	<tags>economics,SUBJECT</tags>
+	<tags>chemistry,SUBJECT</tags>
+	<tags>physics,SUBJECT</tags>
+	<tags>lowerSec,LEVEL</tags>
+	<tags>upperSec,LEVEL</tags>
+	<tags>notMatched,STATUS</tags>
 </addressbook>
