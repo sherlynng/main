@@ -396,8 +396,8 @@ The image below shows the modifications made:
 image::BrowserPanelModifications.png[width="800"]
 
 ===== Current Implementation
-The UI is modified using SceneBuilder and the layout is specified in link:{repoURL}/main/blob/master/src/main/resources/view/BrowserPanel.fxml[`BrowserPanel.fxml`].
-link:{repoURL}/main/blob/master/src/main/java/seedu/address/ui/BrowserPanel.java[`BrowserPanel.java`] subscribes to `handlePersonPanelSelectionChangedEvent`, where this allows the browser panel to
+The UI is modified using SceneBuilder and the layout is specified in link:{repoURL}/blob/master/src/main/resources/view/BrowserPanel.fxml[`BrowserPanel.fxml`].
+link:{repoURL}/blob/master/src/main/java/seedu/address/ui/BrowserPanel.java[`BrowserPanel.java`] subscribes to `handlePersonPanelSelectionChangedEvent`, where this allows the browser panel to
 be updated whenever the user selects on a specific person.
 
 We choose to place the person's name at the top of the browser panel for easy identification of a person while
