@@ -391,9 +391,15 @@ Certain properties of the application can be controlled (e.g App name, logging l
 The browser panel is modified to show the selected person’s details instead of opening up a URL.
 This allows better visualization of a person’s details as each person now has up 9 attributes: `Name`, `Phone`,
 `Address`, `Email`, `Role`, `Status`, `Subject`, `Level`, `Price` to be displayed.
-The image below shows the modifications made:
+Below shows the modifications made:
 
-image::BrowserPanelModifications.png[width="800"]
+**Before**
+
+image::OldBrowserPanel.png[width="500"]
+
+**After**
+
+image::NewBrowserPanel.png[width="500"]
 
 ===== Current Implementation
 The UI is modified using SceneBuilder and the layout is specified in link:{repoURL}/blob/master/src/main/resources/view/BrowserPanel.fxml[`BrowserPanel.fxml`].
@@ -404,13 +410,32 @@ We choose to place the person's name at the top of the browser panel for easy id
 other details are organized in a table format for easy reference. Rows of the table are also alternately colored
 to increase readability.
 
+[NOTE]
+In the case if the person attribute is null (except `Name` cannot be null), it will be displayed as " - "
+
+===== Design Considerations
+====== Aspect: Layout of Browser Panel
+
+* **Alternative 1 (current choice):** Use table to display person details with a column specifying the type of attribute
+and the other specifying the actual content.
+** Pros: Easy to read and refer to.
+** Cons: May not look visually appealing.
+* **Alternative 2:** Centralized display of person details without usage of tables and reference to the type of attribute.
+** Pros: Visually appealing.
+** Cons: Locating an attribute may not be easy due to lack of labelling.
+
 ==== Person Card
 Person card is improved to show the list of person’s details more concisely and clearly.
-The image below shows the improvements made:
+Below shows the improvements made:
 
-image::PersonCardModifications.png[width="800"]
+**Before**
 
-===== Aspect: Removal of Unncessary Information
+image::OldPersonCard.png[width="300"]
+
+**After**
+
+image::NewPersonCard.png[width="300"]
+===== Removal of Unncessary Information
 Besides `Name`, all other details are removed from the person card. We choose to remove it as these details can
 be easily viewed by selecting on the person card since the browser panel now shows the full details of a person.
 
@@ -418,7 +443,7 @@ As such, we decided to only leave the neccessary details that the user will freq
 to in the person card. This helps to reduce cluttering on the side panel and allows the user to be able to view a
 longer list of people at one time.
 
-===== Aspect: Coloring of Tags
+===== Coloring of Tags
 To allow easy identification of the category that a tag belongs to, different colors are used for different attributes
 of a person. A standardized color is used for each attribute and its color is stored in `Tag` such that the color
 will be retained when the user reopens the application.
