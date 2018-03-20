@@ -40,10 +40,11 @@ public class XmlUtilTest {
     private static final String VALID_EMAIL = "hans@example";
     private static final String VALID_ADDRESS = "4th street";
     private static final String VALID_SUBJECT = "English";
-    private static final String VALID_LEVEL = "Secondary 1";
-    private static final String VALID_STATUS = "NotMatched";
+    private static final String VALID_LEVEL = "lowerSec";
+    private static final String VALID_STATUS = "notMatched";
     private static final String VALID_PRICE = "77";
-    private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(new XmlAdaptedTag("friends"));
+    private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(
+            new XmlAdaptedTag("friends"));
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

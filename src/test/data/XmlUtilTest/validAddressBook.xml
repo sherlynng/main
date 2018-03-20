@@ -6,9 +6,9 @@
         <email isPrivate="false">hans@example.com</email>
         <address isPrivate="false">4th street</address>
 		<price isPrivate="false">201</price>
-		<subject isPrivate="false">English</subject>
-		<level isPrivate="false">Secondary 1</level>
-		<status isPrivate="false">NotMatched</status>
+		<subject isPrivate="false">english</subject>
+		<level isPrivate="false">lowerSec</level>
+		<status isPrivate="false">notMatched</status>
     </persons>
     <persons>
         <name>Ruth Mueller</name>
@@ -16,9 +16,9 @@
         <email isPrivate="false">ruth@example.com</email>
         <address isPrivate="false">81th street</address>
 		<price isPrivate="false">202</price>
-		<subject isPrivate="false">Economics</subject>
-		<level isPrivate="false">Secondary 2</level>
-		<status isPrivate="false">NotMatched</status>
+		<subject isPrivate="false">economics</subject>
+		<level isPrivate="false">upperSec</level>
+		<status isPrivate="false">notMatched</status>
 	</persons>
     <persons>
         <name>Heinz Kurz</name>
@@ -26,9 +26,9 @@
         <email isPrivate="false">heinz@example.com</email>
         <address isPrivate="false">wall street</address>
 		<price isPrivate="false">203</price>
-		<subject isPrivate="false">Math</subject>
-		<level isPrivate="false">Secondary 3</level>
-		<status isPrivate="false">NotMatched</status>
+		<subject isPrivate="false">math</subject>
+		<level isPrivate="false">upperSec</level>
+		<status isPrivate="false">notMatched</status>
     </persons>
     <persons>
         <name>Cornelia Meier</name>
@@ -36,9 +36,9 @@
         <email isPrivate="false">cornelia@example.com</email>
         <address isPrivate="false">10th street</address>
 		<price isPrivate="false">204</price>
-		<subject isPrivate="false">English</subject>
-		<level isPrivate="false">Secondary 4</level>
-		<status isPrivate="false">NotMatched</status>
+		<subject isPrivate="false">english</subject>
+		<level isPrivate="false">upperSec</level>
+		<status isPrivate="false">notMatched</status>
     </persons>
     <persons>
         <name>Werner Meyer</name>
@@ -46,9 +46,9 @@
         <email isPrivate="false">werner@example.com</email>
         <address isPrivate="false">michegan ave</address>
 		<price isPrivate="false">205</price>
-		<subject isPrivate="false">Physics</subject>
-		<level isPrivate="false">Secondary 3</level>
-		<status isPrivate="false">NotMatched</status>
+		<subject isPrivate="false">physics</subject>
+		<level isPrivate="false">upperSec</level>
+		<status isPrivate="false">notMatched</status>
     </persons>
     <persons>
         <name>Lydia Kunz</name>
@@ -56,9 +56,9 @@
         <email isPrivate="false">lydia@example.com</email>
         <address isPrivate="false">little tokyo</address>
 		<price isPrivate="false">206</price>
-		<subject isPrivate="false">Chemistry</subject>
-		<level isPrivate="false">Secondary 2</level>
-		<status isPrivate="false">NotMatched</status>
+		<subject isPrivate="false">chemistry</subject>
+		<level isPrivate="false">upperSec</level>
+		<status isPrivate="false">notMatched</status>
     </persons>
     <persons>
         <name>Anna Best</name>
@@ -66,9 +66,9 @@
         <email isPrivate="false">anna@example.com</email>
         <address isPrivate="false">4th street</address>
 		<price isPrivate="false">207</price>
-		<subject isPrivate="false">English</subject>
-		<level isPrivate="false">Secondary 1</level>
-		<status isPrivate="false">NotMatched</status>
+		<subject isPrivate="false">english</subject>
+		<level isPrivate="false">lowerSec</level>
+		<status isPrivate="false">notMatched</status>
     </persons>
     <persons>
         <name>Stefan Meier</name>
@@ -76,9 +76,9 @@
         <email isPrivate="false">stefan@example.com</email>
         <address isPrivate="false">little india</address>
 		<price isPrivate="false">208</price>
-		<subject isPrivate="false">Math</subject>
-		<level isPrivate="false">Secondary 1</level>
-		<status isPrivate="false">NotMatched</status>
+		<subject isPrivate="false">math</subject>
+		<level isPrivate="false">lowerSec</level>
+		<status isPrivate="false">notMatched</status>
     </persons>
     <persons>
         <name>Martin Mueller</name>
@@ -86,8 +86,8 @@
         <email isPrivate="false">hans@example.com</email>
         <address isPrivate="false">chicago ave</address>
 		<price isPrivate="false">209</price>
-		<subject isPrivate="false">Chemistry</subject>
-		<level isPrivate="false">Secondary 2</level>
-		<status isPrivate="false">NotMatched</status>
+		<subject isPrivate="false">chemistry</subject>
+		<level isPrivate="false">upperSec</level>
+		<status isPrivate="false">notMatched</status>
     </persons>
 </addressbook>

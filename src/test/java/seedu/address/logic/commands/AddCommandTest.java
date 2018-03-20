@@ -78,9 +78,14 @@ public class AddCommandTest {
         assertTrue(modelStub.personsAdded.get(modelStub.personsAdded.size() - 1) instanceof Tutor);
     }
 
+
     @Test
     public void execute_duplicatePerson_throwsCommandException() throws Exception {
         ModelStub modelStub = new ModelStubThrowingDuplicatePersonException();
+
+
+
+
         Person validPerson = new PersonBuilder().build();
 
         thrown.expect(CommandException.class);

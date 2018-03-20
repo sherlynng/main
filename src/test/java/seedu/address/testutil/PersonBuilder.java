@@ -25,10 +25,10 @@ public class PersonBuilder {
     public static final String DEFAULT_EMAIL = "alice@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_PRICE = "100";
-    public static final String DEFAULT_SUBJECT = "English";
-    public static final String DEFAULT_LEVEL = "Secondary 1";
-    public static final String DEFAULT_STATUS = "NotMatched";
-    public static final String DEFAULT_TAGS = "Student";
+    public static final String DEFAULT_SUBJECT = "english";
+    public static final String DEFAULT_LEVEL = "lowerSec";
+    public static final String DEFAULT_STATUS = "notMatched";
+    public static final String DEFAULT_TAGS = "student";
 
     private Name name;
     private Phone phone;
@@ -143,10 +143,10 @@ public class PersonBuilder {
      * Sets the required attribute tags for the person
      */
     private void setTags() {
-        tags.add(new Tag(price.toString()));
-        tags.add(new Tag(subject.toString()));
-        tags.add(new Tag(level.toString()));
-        tags.add(new Tag(status.toString()));
+        tags.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
+        tags.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
+        tags.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
+        tags.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
     }
 
     /**

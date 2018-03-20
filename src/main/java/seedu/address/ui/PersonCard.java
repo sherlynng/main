@@ -6,6 +6,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -54,12 +55,32 @@ public class PersonCard extends UiPart<Region> {
     }
 
     /**
+     * Returns the color style for {@code tag}.
+     * Uses the tagType value inside the Tag to determine the colour.
+     */
+    private String getTagColorStyleFor(Tag tag) {
+        switch (tag.tagType) {
+        case SUBJECT:
+            return TAG_COLOR_STYLES[0]; //subject is teal
+        case LEVEL:
+            return TAG_COLOR_STYLES[1]; //level is red
+        case STATUS:
+            return TAG_COLOR_STYLES[2]; //status is yellow
+        case PRICE:
+            return TAG_COLOR_STYLES[3]; //price is blue
+        //fall through to default
+        default:
+            return TAG_COLOR_STYLES[8]; //all non-attribute are black
+        }
+    }
+
+    /**
      * Creates the tag labels for {@code person}.
      */
     private void initTags(Person person) {
         person.getTags().forEach(tag -> {
             Label tagLabel = new Label(tag.tagName);
-            tagLabel.getStyleClass().add(getTagColorStyleFor(tag.tagName));
+            tagLabel.getStyleClass().add(getTagColorStyleFor(tag));
             tags.getChildren().add(tagLabel);
         });
     }

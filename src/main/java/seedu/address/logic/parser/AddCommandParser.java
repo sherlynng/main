@@ -61,15 +61,18 @@ public class AddCommandParser implements Parser<AddCommand> {
             Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-            if (!tagList.contains(new Tag("Student")) && !tagList.contains(new Tag("Tutor"))) {
+            if (!tagList.contains(new Tag("student")) && !tagList.contains(new Tag("tutor"))) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
             }
 
             //Add required attributes to the tag list as in documentation
-            tagList.add(ParserUtil.parseTag(price.toString()));
-            tagList.add(ParserUtil.parseTag(subject.toString()));
-            tagList.add(ParserUtil.parseTag(level.toString()));
-            tagList.add(ParserUtil.parseTag(status.toString()));
+            tagList.add(ParserUtil.parseTagWithType(price.toString(), Tag.AllTagTypes.PRICE));
+            tagList.add(ParserUtil.parseTagWithType(subject.toString(), Tag.AllTagTypes.SUBJECT));
+            tagList.add(ParserUtil.parseTagWithType(level.toString(), Tag.AllTagTypes.LEVEL));
+            tagList.add(ParserUtil.parseTagWithType(status.toString(), Tag.AllTagTypes.STATUS));
+            for (Tag tag : tagList) {
+                System.out.println(tag + " " + tag.tagType);
+            }
 
             Person person = new Person(name, phone, email, address, price, subject, level, status, tagList);
 

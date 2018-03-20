@@ -1,5 +1,8 @@
 package seedu.address.model.person;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.AppUtil.checkArgument;
+
 /**
  * Represents a Person's price in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidPrice(String)}
@@ -11,6 +14,8 @@ public class Price {
 
 
     public Price(String value) {
+        requireNonNull(value);
+        checkArgument(isValidPrice(value), MESSAGE_PRICE_CONSTRAINTS);
         this.value = value;
     }
 

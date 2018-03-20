@@ -57,7 +57,7 @@ public class XmlAdaptedPerson {
      * Constructs an {@code XmlAdaptedPerson} with the given person details.
      */
     public XmlAdaptedPerson(String name, String phone, String email, String address,
-                            String price, String status, String subject, String level, List<XmlAdaptedTag> tagged) {
+                            String price, String subject, String level, String status, List<XmlAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
         this.email = email;
