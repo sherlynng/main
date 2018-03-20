@@ -398,16 +398,19 @@ private static Person createEditedPerson(...) {
 	/* code to update the attributes here */
 	//create a new modifiable set of tags
     Set<Tag> attributeTags = new HashSet<>(updatedTags);
-	attributeTags.remove(ParserUtil.parseTag(personToEdit.getPrice().toString()));
+	attributeTags.remove(new Tag(personToEdit.getPrice().toString()));
 	/* similar code to remove the other attribute tags... */
-	attributeTags.add(ParserUtil.parseTagWithType(updatedPrice.toString(), Tag.AllTagTypes.PRICE));
+	attributeTags.add(new Tag(updatedPrice.toString(), Tag.AllTagTypes.PRICE));
 	/* similar code to add the new attribute tags... */
 	return new Person(...)
 }	
 ----
+[NOTE]
+Since the `Price`, `Subject`, `Level` and `Status` attributes have been parsed and checked to conform to expected values, there is no need to reparse the values when creating them as a `Tag`. +
+The acceptable inputs for a `Tag` must necessarily allow all the acceptable inputs for `Price`, `Subject`, `Level and `Status` to prevent errors.
 
-
-The `Tag` class has been changed to support the ability to classify which attribute the tag was created from. This is done by adding an enum `allTagsType` to the `Tag` class.
+==== `Tag` class attributes
+The `Tag` class can support the ability to classify which attribute the tag was created from. This is done by adding an enum `allTagsType` to the `Tag` class.
 This is the current `Tag` class in UML notation.
 image::TagClassDiagram.png[width="200"]
 
