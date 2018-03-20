@@ -388,13 +388,16 @@ Certain properties of the application can be controlled (e.g App name, logging l
 === Making input case-insensitive
 
 ==== Current Implementation
-We made input of all fields case insensitive.
+We made input of all fields case insensitive to reduce hassles for the user.
+
 After parsing and validation, the field entered is converted to <<proper-case, proper case>> internally,
 so tags generated from the field information will be standardized and more readable for the user.
 
 ==== Model Implementation
 We utilise the `ProperCaseConverter` object to convert all parsed and valid input into proper case.
-See the example below for a actual implementation found in the `Role` class. All the fields utilise the `ProperCaseConverter` object in the same way.
+See the example below for an actual implementation found in the `Role` class.
+All the fields utilise the `ProperCaseConverter` object in similar way.
+
 [source,java]
 ----
 public class Role{
@@ -411,9 +414,11 @@ public class Role{
 === Create shortcuts for the user in filling fields
 
 ==== Current Implementation
-Due to the nature of the application, the user will input certain information repetitively. For example, role must be one of student or tutor.
+Due to the nature of the application, the user will input certain information repetitively.
+For example, `role` can only be one of `student` or `tutor`.
+
 Thus, we have created shortcuts to help improving efficiency in filling the fields.
-We currently support shortcuts for subject, level, status, and role.
+We currently support shortcuts for `subject`, `level`, `status`, and `role`.
 
 [width="59%",cols="<30%,<35%,<35%",options="header",]
 |=======================================================================
@@ -428,13 +433,13 @@ We currently support shortcuts for subject, level, status, and role.
 |level | `lvl/lp`| `lvl/lower pri`
 |status | `stat/nm`| `stat/not matched`
 |status | `stat/m`| `stat/matched`
-|role | `stat/t`| `stat/tutor`
-|role | `stat/s`| `stat/student`
+|role | `r/t`| `r/tutor`
+|role | `r/s`| `r/student`
 |=======================================================================
 
 ==== Model Implementation
 The shortcut is first validated, then the field information is converted to its full form.
-Below is the function that performs conversion in the Role class. Other classes follow the same implementation.
+Below is the function that performs conversion in the Role class. Other classes follow similar implementation.
 [source,java]
 ----
  public String convertToFullRole(String original) {
@@ -449,6 +454,12 @@ Below is the function that performs conversion in the Role class. Other classes 
        return cur;
  }
 ----
+
+==== Integration with case-insensitive input
+The user can input short-cut in case insensitive fashion.
+
+For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com a/NUS #04-02 $/50 sub/PHy lvl/uP stat/nM t/T`
+, the stored entry will be `John Doe Phone: 98765432 Email: johnd@example.com Address: NUS #04-02 Tags: [Tutor][Upper Pri][50][Physics][Not Matched]`
 
 == Documentation
 
