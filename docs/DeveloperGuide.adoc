@@ -395,6 +395,11 @@ This is the current `Tag` class in UML notation.
 image::TagClassDiagram.png[width="200"]
 
 This new attribute is used to implement the capability to standardize all tags created as a `Price` attribute to have the same color, all tags created as a `Subject` attribute to have the same color, and so on.
+This has been implemented as a new overloaded `getTagColorStyleFor` method, which takes in a Tag instead of a String.
+The method idea is implemented this way.
+[source,java]
+----
+----
 
 ==== Storage Implementation
 The method for storing tags has also been changed slightly. While previously just the `tagName` needed to be stored. Now both the `tagName` and `tagType` must be stored.
