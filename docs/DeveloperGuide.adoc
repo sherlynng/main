@@ -405,7 +405,7 @@ private static Person createEditedPerson(...) {
 	attributeTags.add(new Tag(updatedPrice.toString(), Tag.AllTagTypes.PRICE));
 	/* similar code to add the new attribute tags... */
 	return new Person(...)
-}	
+}
 ----
 [NOTE]
 Since the `Price`, `Subject`, `Level` and `Status` attributes have been parsed and checked to conform to expected values, there is no need to reparse the values when creating them as a `Tag`. +
