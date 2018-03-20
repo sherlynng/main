@@ -8,8 +8,11 @@ import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_LEVEL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_PRICE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_SUBJECT_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_BOB;
@@ -50,9 +53,12 @@ import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Price;
+import seedu.address.model.person.Subject;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -169,23 +175,43 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
                 EditCommand.MESSAGE_NOT_EDITED);
 
         /* Case: invalid name -> rejected */
-        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + INVALID_NAME_DESC,
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_NAME_DESC,
                 Name.MESSAGE_NAME_CONSTRAINTS);
 
         /* Case: invalid phone -> rejected */
-        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + INVALID_PHONE_DESC,
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_PHONE_DESC,
                 Phone.MESSAGE_PHONE_CONSTRAINTS);
 
         /* Case: invalid email -> rejected */
-        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + INVALID_EMAIL_DESC,
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_EMAIL_DESC,
                 Email.MESSAGE_EMAIL_CONSTRAINTS);
 
         /* Case: invalid address -> rejected */
-        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + INVALID_ADDRESS_DESC,
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_ADDRESS_DESC,
                 Address.MESSAGE_ADDRESS_CONSTRAINTS);
 
+        /* Case: invalid price -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_PRICE_DESC,
+                Price.MESSAGE_PRICE_CONSTRAINTS);
+
+        /* Case: invalid subject -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_SUBJECT_DESC,
+                Subject.MESSAGE_SUBJECT_CONSTRAINTS);
+
+        /* Case: invalid level -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_LEVEL_DESC,
+                Level.MESSAGE_LEVEL_CONSTRAINTS);
+
         /* Case: invalid tag -> rejected */
-        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + INVALID_TAG_DESC,
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_TAG_DESC,
                 Tag.MESSAGE_TAG_CONSTRAINTS);
 
         /* Case: edit a person with new values same as another person's values -> rejected */

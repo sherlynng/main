@@ -13,11 +13,11 @@ import java.util.HashSet;
 public class Level {
 
     public static final String[] LEVEL_VALUES =
-            new String[] { "Secondary 1", "Secondary 2", "Secondary 3", "Secondary 4" };
+            new String[] { "lowersec", "uppersec", "lowerpri", "upperpri" };
     public static final HashSet<String> SET_ALL_LEVEL = new HashSet<>(Arrays.asList(LEVEL_VALUES));
 
     public static final String MESSAGE_LEVEL_CONSTRAINTS = "Person Level should be "
-            + "of the format education<whitespace>grade "
+            + "of the format <grade><education> "
             + "and adhere to the following constraints:\n"
             + "1. The education should be one of the education system listed in.\n"
             + "2. This is followed by a whitespace and then a number to represent the grade. "
@@ -40,7 +40,7 @@ public class Level {
      * Returns if a given string is a valid level description.
      */
     public static boolean isValidLevel(String test) {
-
+        test = test.toLowerCase();
         return SET_ALL_LEVEL.contains(test);
     }
 

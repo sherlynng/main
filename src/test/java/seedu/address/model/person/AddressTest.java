@@ -34,4 +34,14 @@ public class AddressTest {
         assertTrue(Address.isValidAddress("-")); // one character
         assertTrue(Address.isValidAddress("Leng Inc; 1234 Market St; San Francisco CA 2349879; USA")); // long address
     }
+
+    @Test
+    public void checkAddressEquality() {
+        //test address against non-address type
+        assertFalse(new Address("Computing Drive").equals(null));
+        assertFalse(new Address("Computing Drive").equals(new Name("Computing Drive")));
+
+        //test correctly returns equal if address string is the same
+        assertTrue(new Address("Blk 456, Den Road, #01-355").equals(new Address("Blk 456, Den Road, #01-355")));
+    }
 }
