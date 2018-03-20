@@ -17,10 +17,8 @@ import java.util.Set;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
-import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -107,7 +105,7 @@ public class EditCommand extends UndoableCommand {
      * edited with {@code editPersonDescriptor}.
      */
     private static Person createEditedPerson(
-            Person personToEdit, EditPersonDescriptor editPersonDescriptor) throws CommandException {
+            Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
         assert personToEdit != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
@@ -124,21 +122,16 @@ public class EditCommand extends UndoableCommand {
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
 
-        try {
-            //clean out old person's attribute tags
-            attributeTags.remove(ParserUtil.parseTag(personToEdit.getPrice().toString()));
-            attributeTags.remove(ParserUtil.parseTag(personToEdit.getLevel().toString()));
-            attributeTags.remove(ParserUtil.parseTag(personToEdit.getSubject().toString()));
-            attributeTags.remove(ParserUtil.parseTag(personToEdit.getStatus().toString()));
+        //clean out old person's attribute tags, then add the new ones
+        attributeTags.remove(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
+        attributeTags.remove(new Tag(personToEdit.getLevel().toString(), Tag.AllTagTypes.LEVEL));
+        attributeTags.remove(new Tag(personToEdit.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
+        attributeTags.remove(new Tag(personToEdit.getStatus().toString(), Tag.AllTagTypes.STATUS));
 
-            attributeTags.add(ParserUtil.parseTag(updatedPrice.toString()));
-            attributeTags.add(ParserUtil.parseTag(updatedSubject.toString()));
-            attributeTags.add(ParserUtil.parseTag(updatedLevel.toString()));
-            attributeTags.add(ParserUtil.parseTag(updatedStatus.toString()));
-        } catch (IllegalValueException ive) {
-            throw new CommandException("Error: At least one of entered attributes Price, Subject, Level, Status "
-                    + "cannot be used as a tag.");
-        }
+        attributeTags.add(new Tag(updatedPrice.toString(), Tag.AllTagTypes.PRICE));
+        attributeTags.add(new Tag(updatedSubject.toString(), Tag.AllTagTypes.SUBJECT));
+        attributeTags.add(new Tag(updatedLevel.toString(), Tag.AllTagTypes.LEVEL));
+        attributeTags.add(new Tag(updatedStatus.toString(), Tag.AllTagTypes.STATUS));
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
                 updatedPrice, updatedSubject, updatedLevel, updatedStatus, attributeTags);
