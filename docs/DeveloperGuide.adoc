@@ -389,14 +389,16 @@ Certain properties of the application can be controlled (e.g App name, logging l
 
 ==== Creation of the `Tag`
 We have made it such that the attributes `Price`, `Subject`, `Level` and `Status` of a person each have a tag with the value added to the person.
-This is done when user performs an AddCommand or EditCommand. In the AddCommandParser, after successfully parsing the `Price`, `Subject`, `Level`, `Status` input, the code has been modified such that a new `Tag` containing the correct value and attribute is automatically created after.
-For the EditCommand, the `createEditedPerson` command has been changed to remove the previous attribute tags in the `Person` list of tags, then recreate the attribute tags.
+This is done when user performs `add` or `edit` command.
+
+In the AddCommandParser, after successfully parsing the `Price`, `Subject`, `Level`, `Status` input, the code has been modified such that a new `Tag` containing the correct value and attribute is automatically created after.
+For the EditCommand, the `createEditedPerson` command will remove the previous attribute tags in the `Person` list of tags, then recreate the attribute tags using the new `Person` class attribute values.
+
 The idea for this is implemented this way:
 [source,java]
 ----
 private static Person createEditedPerson(...) {
 	/* code to update the attributes here */
-	//create a new modifiable set of tags
     Set<Tag> attributeTags = new HashSet<>(updatedTags);
 	attributeTags.remove(new Tag(personToEdit.getPrice().toString()));
 	/* similar code to remove the other attribute tags... */
@@ -407,34 +409,39 @@ private static Person createEditedPerson(...) {
 ----
 [NOTE]
 Since the `Price`, `Subject`, `Level` and `Status` attributes have been parsed and checked to conform to expected values, there is no need to reparse the values when creating them as a `Tag`. +
-The acceptable inputs for a `Tag` must necessarily allow all the acceptable inputs for `Price`, `Subject`, `Level and `Status` to prevent errors.
+The acceptable inputs for a `Tag` must necessarily allow all the acceptable inputs for `Price`, `Subject`, `Level` and `Status` to prevent errors.
 
 ==== `Tag` class attributes
-The `Tag` class can support the ability to classify which attribute the tag was created from. This is done by adding an enum `allTagsType` to the `Tag` class.
+The `Tag` class can support the ability to classify which attribute the tag was created from. This is done by adding an enum `AllTagsType` to the `Tag` class.
+A tag can be created without being from an attribute, with just a tag name. In this case, creating a `Tag` with no provided `AllTagsType` will initialise the `tagType` to `DEFAULT`.
+
 This is the current `Tag` class in UML notation.
-image::TagClassDiagram.png[width="200"]
+
+image::TagClassDiagram.png[width="600"]
 
 This new attribute is used to implement the capability to standardize all tags created as a `Price` attribute to have the same color, all tags created as a `Subject` attribute to have the same color, and so on.
 This has been implemented as a new overloaded `getTagColorStyleFor` method, which takes in a Tag instead of a String.
+
 The method idea is implemented this way:
 [source,java]
 ----
 private String getTagColorStyleFor(Tag tag) {
         switch (tag.tagType) {
         case SUBJECT:
-			//return color
+		//return color
         case LEVEL:
-			//return color
+		//return color
         case STATUS:
-			//return color
+		//return color
         case PRICE:
-			//return color
+		//return color
         default:
-			//return color
+		//return color
         }
     }
 ----
-[NOTE] As shown from this code snippet, any tag that is not set to one of the 4 attributes will fall through to the default type, where they will have the same color. This is currently done as such to prevent accidental collisions of color with the 4 attribute tags.
+[NOTE]
+As shown from this code snippet, any tag that is not set to one of the 4 attributes will fall through to the default type, where they will have the same color. This is currently done as such to prevent accidental collisions of color with the 4 attribute tags.
 
 ==== Storage Implementation
 The method for storing tags has also been changed slightly. While previously just the `tagName` needed to be stored. Now both the `tagName` and `tagType` must be stored.
