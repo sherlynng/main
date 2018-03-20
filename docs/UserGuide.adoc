@@ -17,7 +17,7 @@ By: `Team W11-B1`      Since: `Jun 2016`      Licence: `MIT`
 
 == Introduction
 
-STUtor is for those who *prefer to use a desktop app for managing contacts*. More importantly, STUtor is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB4 can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <<Quick Start>> to get started. Enjoy!
+STUtor is for those who *prefer to use a desktop app for managing contacts*. More importantly, STUtor is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, STUtor can get your student and tutor management tasks done faster than traditional GUI apps. Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 
 == Quick Start
 
