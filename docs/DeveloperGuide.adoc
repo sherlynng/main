@@ -529,9 +529,8 @@ Below is the function that performs conversion in the Role class. Other classes 
  }
 ----
 
-==== Integration with case-insensitive input
+[NOTE]
 The user can input short-cut in case insensitive fashion.
-
 For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com a/NUS #04-02 $/50 sub/PHy lvl/uP stat/nM t/T`
 , the stored entry will be `John Doe Phone: 98765432 Email: johnd@example.com Address: NUS #04-02 Tags: [Tutor][Upper Pri][50][Physics][Not Matched]`
 
