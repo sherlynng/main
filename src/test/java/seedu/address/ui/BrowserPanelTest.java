@@ -16,14 +16,25 @@ import seedu.address.model.person.Person;
 public class BrowserPanelTest extends GuiUnitTest {
     private PersonPanelSelectionChangedEvent selectionChangedEventStubStudent;
     private PersonPanelSelectionChangedEvent selectionChangedEventStubTutor;
+    //private PersonPanelSelectionChangedEvent selectionChangedEventStubPersonOnlyNameSpecified;
 
     private BrowserPanel browserPanel;
     private BrowserPanelHandle browserPanelHandle;
 
+    //private Person personOnlyNameSpecified;
+
     @Before
     public void setUp() {
+        /*personOnlyNameSpecified  = new PersonBuilder().withName("Hilda Lim")
+                .withAddress(null).withEmail(null).withPhone(null)
+                .withPrice(null).withSubject(null).withStatus(null).withLevel(null)
+                .withTags(new String[0]).build();*/
+
         selectionChangedEventStubStudent = new PersonPanelSelectionChangedEvent(new PersonCard(ALICE, 0));
         selectionChangedEventStubTutor = new PersonPanelSelectionChangedEvent(new PersonCard(BENSON, 0));
+        //selectionChangedEventStubPersonOnlyNameSpecified =
+        //        new PersonPanelSelectionChangedEvent(new PersonCard(personOnlyNameSpecified, 0));
+
 
         guiRobot.interact(() -> browserPanel = new BrowserPanel());
         uiPartRule.setUiPart(browserPanel);
@@ -42,6 +53,10 @@ public class BrowserPanelTest extends GuiUnitTest {
         Person tutor = BENSON;
         postNow(selectionChangedEventStubTutor);
         assertBrowserDisplay(tutor);
+
+        // person with only name specified
+        //postNow(selectionChangedEventStubTutor);
+        //assertBrowserDisplay(personOnlyNameSpecified);
     }
 
     /**

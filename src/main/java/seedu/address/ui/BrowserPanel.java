@@ -62,7 +62,21 @@ public class BrowserPanel extends UiPart<Region> {
         grid.setVisible(true);
 
         name.setText(person.getName().fullName);
-        if (person.getPhone().value == null) {
+        phone.setText(person.getPhone().value);
+        address.setText(person.getAddress().value);
+        email.setText(person.getEmail().value);
+        status.setText(person.getStatus().value);
+        subject.setText(person.getSubject().value);
+        level.setText(person.getLevel().value);
+        price.setText("$" + person.getPrice().value + " / hr");
+        if (person.getTags().contains(new Tag("Student"))
+                || person.getTags().contains(new Tag("student"))) {
+            role.setText("Student");
+        } else if (person.getTags().contains(new Tag("Tutor"))
+                || person.getTags().contains(new Tag("tutor"))) {
+            role.setText("Tutor");
+        }
+        /*if (person.getPhone().value == null) {
             phone.setText(" - ");
         } else {
             phone.setText(person.getPhone().value);
@@ -105,7 +119,7 @@ public class BrowserPanel extends UiPart<Region> {
             role.setText("Tutor");
         } else {
             role.setText(" - ");
-        }
+        }*/
     }
 
     @Subscribe
