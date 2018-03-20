@@ -24,10 +24,7 @@ public class GuiTestAssert {
      */
     public static void assertCardEquals(PersonCardHandle expectedCard, PersonCardHandle actualCard) {
         assertEquals(expectedCard.getId(), actualCard.getId());
-        assertEquals(expectedCard.getAddress(), actualCard.getAddress());
-        assertEquals(expectedCard.getEmail(), actualCard.getEmail());
         assertEquals(expectedCard.getName(), actualCard.getName());
-        assertEquals(expectedCard.getPhone(), actualCard.getPhone());
         assertEquals(expectedCard.getTags(), actualCard.getTags());
 
         expectedCard.getTags().forEach(tag ->
@@ -39,9 +36,6 @@ public class GuiTestAssert {
      */
     public static void assertCardDisplaysPerson(Person expectedPerson, PersonCardHandle actualCard) {
         assertEquals(expectedPerson.getName().fullName, actualCard.getName());
-        assertEquals(expectedPerson.getPhone().value, actualCard.getPhone());
-        assertEquals(expectedPerson.getEmail().value, actualCard.getEmail());
-        assertEquals(expectedPerson.getAddress().value, actualCard.getAddress());
 
         assertTagsEqual(expectedPerson, actualCard);
     }
@@ -54,6 +48,10 @@ public class GuiTestAssert {
         assertEquals(expectedPerson.getPhone().value, actualBrowser.getPhone());
         assertEquals(expectedPerson.getEmail().value, actualBrowser.getEmail());
         assertEquals(expectedPerson.getAddress().value, actualBrowser.getAddress());
+        assertEquals(expectedPerson.getStatus().value, actualBrowser.getStatus());
+        assertEquals(expectedPerson.getSubject().value, actualBrowser.getSubject());
+        assertEquals(expectedPerson.getLevel().value, actualBrowser.getLevel());
+        assertEquals("$" + expectedPerson.getPrice().value + " / hr", actualBrowser.getPrice());
     }
 
     /**
