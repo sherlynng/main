@@ -27,7 +27,7 @@ AddressBook save file which contains the same Person values as in
 		<subject>english</subject>
 		<level>upperSec</level>
 		<status>notMatched</status>
-        <tagged>owesMoney,DEFAULT</tagged>
+        <tagged>owesMoney</tagged>
         <tagged>student,DEFAULT</tagged>
     </persons>
     <persons>
@@ -83,7 +83,8 @@ AddressBook save file which contains the same Person values as in
 		<subject>economics</subject>
 		<level>lowerSec</level>
 		<status>notMatched</status>
-        <tagged>student,DEFAULT</tagged>
+		<!-- create a tag with wrong tag type to ensure it will still load-->
+        <tagged>student,UNKNOWN</tagged>
     </persons>
     <tags>student,DEFAULT</tags>
     <tags>owesMoney,DEFAULT</tags>

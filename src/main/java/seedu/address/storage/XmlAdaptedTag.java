@@ -49,6 +49,11 @@ public class XmlAdaptedTag {
         if (!Tag.isValidTagName(checkTagNameType[0])) {
             throw new IllegalValueException(Tag.MESSAGE_TAG_CONSTRAINTS);
         }
+        //additional check if the comma exists
+        if (checkTagNameType.length == 1) {
+            logger.warning("Could not find tag type in file. Initialising it as DEFAULT type.");
+            return new Tag(checkTagNameType[0]);
+        }
         if (!Tag.isValidTagType(checkTagNameType[1])) {
             logger.warning("Tag Type in file is not recognised. Initialising it as DEFAULT type.");
             checkTagNameType[1] = Tag.AllTagTypes.DEFAULT.toString();
