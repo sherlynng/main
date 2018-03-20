@@ -467,13 +467,13 @@ We made input of fields case-insensitive to reduce hassles for the user.
 After parsing and validation, the field entered is converted to <<proper-case, proper case>> internally,
 so tags generated from the field information will be standardized and more readable for the user.
 
-The exceptions are `price` and `phone` as they consist only numbers and requires no conversion.
+The exceptions are `price` and `phone` as they consist only numbers and require no conversion.
 `email` is converted to all lower-case to follow the convention.
 
 ==== Model Implementation
 We utilise the `ProperCaseConverter` object to convert all parsed and valid input into proper case.
 See the example below for an actual implementation found in the `Role` class.
-All the fields utilise the `ProperCaseConverter` object in similar way.
+All the fields utilise the `ProperCaseConverter` object in a similar way.
 
 [source,java]
 ----
