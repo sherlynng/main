@@ -385,6 +385,44 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+// tag::uimodifications[ ]
+=== UI Modifications
+==== Browser Panel
+The browser panel is modified to show the selected person’s details instead of opening up a URL.
+This allows better visualization of a person’s details as each person now has up 9 attributes: `Name`, `Phone`,
+`Address`, `Email`, `Role`, `Status`, `Subject`, `Level`, `Price` to be displayed.
+The image below shows the modifications made:
+
+image::BrowserPanelModifications.png[width="800"]
+
+===== Current Implementation
+The UI is modified using SceneBuilder and the layout is specified in link:{repoURL}/main/blob/master/src/main/resources/view/BrowserPanel.fxml[`BrowserPanel.fxml`].
+link:{repoURL}/main/blob/master/src/main/java/seedu/address/ui/BrowserPanel.java[`BrowserPanel.java`] subscribes to `handlePersonPanelSelectionChangedEvent`, where this allows the browser panel to
+be updated whenever the user selects on a specific person.
+
+We choose to place the person's name at the top of the browser panel for easy identification of a person while
+other details are organized in a table format for easy reference. Rows of the table are also alternately colored
+to increase readability.
+
+==== Person Card
+Person card is improved to show the list of person’s details more concisely and clearly.
+The image below shows the improvements made:
+
+image::PersonCardModifications.png[width="800"]
+
+===== Aspect: Removal of Unncessary Information
+Besides `Name`, all other details are removed from the person card. We choose to remove it as these details can
+be easily viewed by selecting on the person card since the browser panel now shows the full details of a person.
+
+As such, we decided to only leave the neccessary details that the user will frequently refer
+to in the person card. This helps to reduce cluttering on the side panel and allows the user to be able to view a
+longer list of people at one time.
+
+===== Aspect: Coloring of Tags
+To allow easy identification of the category that a tag belongs to, different colors are used for different attributes
+of a person. A standardized color is used for each attribute and its color is stored in `Tag` such that the color
+will be retained when the user reopens the application.
+
 == Documentation
 
 We use asciidoc for writing documentation.
@@ -800,7 +838,7 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 Person card. This will enable the user to view people with tags he/she is interested in.|Create `viewStats` command.
 This allows the user to view information such as number of students/tutors/matched and more in the form of graph.
 |NG Xin Ler |Change browser panel to view Person's details and remove all attributes except name and tags in
-Person card. This helps to improve the readability of Person details and prevents cluttering on the side panel.|
+Person card. This helps to improve the readability of Person details and reduce cluttering on the side panel.|
 Create `unmatch` command. This allows the user to unmatch a pair of Tutor and Student in the event where the pair is
 wrongly matched or either the Tutor or Student wants to change a matching.
 |WANG Zi |Create shortcut for the user in filling subject, level, status and role. For instance, `sub/eng` and
