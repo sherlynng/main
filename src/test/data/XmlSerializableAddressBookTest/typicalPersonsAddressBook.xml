@@ -27,8 +27,7 @@ AddressBook save file which contains the same Person values as in
 		<subject>English</subject>
 		<level>Secondary 2</level>
 		<status>NotMatched</status>
-        <tagged>owesMoney</tagged>
-        <tagged>Student</tagged>
+        <tagged>Tutor</tagged>
     </persons>
     <persons>
         <name>Carl Kurz</name>
@@ -86,7 +85,7 @@ AddressBook save file which contains the same Person values as in
         <tagged>Student</tagged>
     </persons>
     <tags>Student</tags>
-    <tags>owesMoney</tags>
+    <tags>Tutor</tags>
 	<tags>320</tags>
 	<tags>99</tags>
 	<tags>210</tags>

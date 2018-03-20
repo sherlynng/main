@@ -12,7 +12,6 @@ import guitests.guihandles.BrowserPanelHandle;
 
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.Person;
-import seedu.address.testutil.PersonBuilder;
 
 public class BrowserPanelTest extends GuiUnitTest {
     private PersonPanelSelectionChangedEvent selectionChangedEventStubStudent;
@@ -35,15 +34,12 @@ public class BrowserPanelTest extends GuiUnitTest {
     @Test
     public void display() {
         // student
-        Person student = new PersonBuilder().build();
+        Person student = ALICE;
         postNow(selectionChangedEventStubStudent);
         assertBrowserDisplay(student);
 
         // tutor
-        Person tutor = new PersonBuilder().withName("Benson Meier")
-                .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
-                .withPrice("150").withSubject("English").withStatus("NotMatched").withLevel("Secondary 2")
-                .withTags("Tutor").build();
+        Person tutor = BENSON;
         postNow(selectionChangedEventStubTutor);
         assertBrowserDisplay(tutor);
     }
