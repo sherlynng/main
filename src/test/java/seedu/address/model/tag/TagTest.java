@@ -27,7 +27,7 @@ public class TagTest {
     }
 
     @Test
-    public void isValidTestType() {
+    public void isValidTagType() {
         //incorrect string
         assertFalse(Tag.isValidTagType("NOTATYPE"));
         //correct type
