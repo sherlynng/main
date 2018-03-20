@@ -28,21 +28,21 @@ public class LevelTest {
 
         // invalid levels
         assertFalse(Level.isValidLevel("JC")); // not accepted levels
-        assertFalse(Level.isValidLevel("middleSec"));
+        assertFalse(Level.isValidLevel("middle Sec"));
 
         // valid levels
-        assertTrue(Level.isValidLevel("upperSec"));
-        assertTrue(Level.isValidLevel("lowerPri"));
-        assertTrue(Level.isValidLevel("Upperpri")); //check case insensitive
-        assertTrue(Level.isValidLevel("Lowersec"));
+        assertTrue(Level.isValidLevel("upper Sec"));
+        assertTrue(Level.isValidLevel("lower Pri"));
+        assertTrue(Level.isValidLevel("Upper pri")); //check case insensitive
+        assertTrue(Level.isValidLevel("Lower sec"));
     }
 
     @Test
     public void checkLevelEquality() {
         //test level against non-level type
-        assertFalse(new Level("upperSec").equals(null));
-        assertFalse(new Level("upperSec").equals(new Tag("upperSec")));
+        assertFalse(new Level("upper Sec").equals(null));
+        assertFalse(new Level("upper Sec").equals(new Tag("upper Sec")));
         //test correctly returns equal if level string is the same
-        assertTrue(new Level("upperSec").equals(new Level("upperSec")));
+        assertTrue(new Level("upper Sec").equals(new Level("upper Sec")));
     }
 }

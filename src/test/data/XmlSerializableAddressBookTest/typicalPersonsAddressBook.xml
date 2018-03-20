@@ -13,10 +13,11 @@ AddressBook save file which contains the same Person values as in
         <email>alice@example.com</email>
         <address>123, Jurong West Ave 6, #08-111</address>
 		<price>50</price>
-		<subject>math</subject>
-		<level>lowerSec</level>
-		<status>notMatched</status>
-        <tagged>student</tagged>
+		<subject>Math</subject>
+		<level>Lower Sec</level>
+		<status>Not Matched</status>
+        <role>Student</role>
+        <tag>Friend</tag>
     </persons>
     <persons>
         <name>Benson Meier</name>
@@ -24,11 +25,10 @@ AddressBook save file which contains the same Person values as in
         <email>johnd@example.com</email>
         <address>311, Clementi Ave 2, #02-25</address>
 		<price>150</price>
-		<subject>english</subject>
-		<level>upperSec</level>
-		<status>notMatched</status>
-        <tagged>owesMoney</tagged>
-        <tagged>student</tagged>
+		<subject>English</subject>
+		<level>Upper Sec</level>
+		<status>Not Matched</status>
+        <role>Student</role>
     </persons>
     <persons>
         <name>Carl Kurz</name>
@@ -36,10 +36,11 @@ AddressBook save file which contains the same Person values as in
         <email>heinz@example.com</email>
         <address>wall street</address>
 		<price>20</price>
-		<subject>physics</subject>
-		<level>upperSec</level>
-		<status>notMatched</status>
-        <tagged>student</tagged>
+		<subject>Physics</subject>
+		<level>Upper Sec</level>
+		<status>Not Matched</status>
+        <role>Student</role>
+        <tag>Friend</tag>
     </persons>
     <persons>
         <name>Daniel Meier</name>
@@ -47,10 +48,10 @@ AddressBook save file which contains the same Person values as in
         <email>cornelia@example.com</email>
         <address>10th street</address>
 		<price>70</price>
-		<subject>chemistry</subject>
-		<level>upperSec</level>
-		<status>notMatched</status>
-        <tagged>student</tagged>
+		<subject>Chemistry</subject>
+		<level>Upper Sec</level>
+		<status>Not Matched</status>
+        <role>Tutor</role>
     </persons>
     <persons>
         <name>Elle Meyer</name>
@@ -58,10 +59,10 @@ AddressBook save file which contains the same Person values as in
         <email>werner@example.com</email>
         <address>michegan ave</address>
 		<price>210</price>
-		<subject>math</subject>
-		<level>upperSec</level>
-		<status>notMatched</status>
-        <tagged>student</tagged>
+		<subject>Math</subject>
+		<level>Upper Sec</level>
+		<status>Not Matched</status>
+        <role>Tutor</role>
     </persons>
     <persons>
         <name>Fiona Kunz</name>
@@ -69,10 +70,10 @@ AddressBook save file which contains the same Person values as in
         <email>lydia@example.com</email>
         <address>little tokyo</address>
 		<price>99</price>
-		<subject>english</subject>
-		<level>upperSec</level>
-		<status>notMatched</status>
-        <tagged>student</tagged>
+		<subject>English</subject>
+		<level>Upper Sec</level>
+		<status>Not Matched</status>
+        <role>Tutor</role>
     </persons>
     <persons>
         <name>George Best</name>
@@ -80,13 +81,12 @@ AddressBook save file which contains the same Person values as in
         <email>anna@example.com</email>
         <address>4th street</address>
 		<price>320</price>
-		<subject>economics</subject>
-		<level>lowerSec</level>
-		<status>notMatched</status>
-        <tagged>student</tagged>
+		<subject>Chinese</subject>
+		<level>Lower Sec</level>
+		<status>Not Matched</status>
+        <role>Tutor</role>
+
     </persons>
-    <tags>student</tags>
-    <tags>owesMoney</tags>
 	<tags>320</tags>
 	<tags>99</tags>
 	<tags>210</tags>
@@ -94,12 +94,16 @@ AddressBook save file which contains the same Person values as in
 	<tags>20</tags>
 	<tags>150</tags>
 	<tags>50</tags>
-	<tags>math</tags>
-	<tags>english</tags>
-	<tags>economics</tags>
-	<tags>chemistry</tags>
-	<tags>physics</tags>
-	<tags>lowerSec</tags>
-	<tags>upperSec</tags>
-	<tags>notMatched</tags>
+	<tags>Math</tags>
+	<tags>English</tags>
+	<tags>Chinese</tags>
+	<tags>Chemistry</tags>
+	<tags>Physics</tags>
+	<tags>Lower Sec</tags>
+	<tags>Upper Sec</tags>
+	<tags>Not Matched</tags>
+    <tags>Student</tags>
+    <tags>Tutor</tags>
+    <tags>Friend</tags>
+
 </addressbook>

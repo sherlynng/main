@@ -9,6 +9,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Subject;
@@ -26,9 +27,10 @@ public class StudentBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_PRICE = "100";
     public static final String DEFAULT_SUBJECT = "english";
-    public static final String DEFAULT_LEVEL = "lowerSec";
-    public static final String DEFAULT_STATUS = "notMatched";
-    public static final String DEFAULT_TAGS = "student";
+    public static final String DEFAULT_LEVEL = "lower Sec";
+    public static final String DEFAULT_STATUS = "not Matched";
+    public static final String DEFAULT_ROLE = "student";
+    public static final String DEFAULT_TAGS = "friend";
 
     private Name name;
     private Phone phone;
@@ -38,6 +40,7 @@ public class StudentBuilder {
     private Subject subject;
     private Level level;
     private Status status;
+    private Role role;
     private Set<Tag> tags;
 
     public StudentBuilder() {
@@ -49,6 +52,7 @@ public class StudentBuilder {
         subject = new Subject(DEFAULT_SUBJECT);
         level = new Level(DEFAULT_LEVEL);
         status = new Status(DEFAULT_STATUS);
+        role = new Role(DEFAULT_ROLE);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
     }
 
@@ -131,11 +135,20 @@ public class StudentBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Role} of the {@code Person} that we are building.
+     */
+    public StudentBuilder withRole(String role) {
+        this.role = new Role(role);
+        return this;
+    }
+
     public void setTags() {
         tags.add(new Tag(price.toString()));
         tags.add(new Tag(subject.toString()));
         tags.add(new Tag(level.toString()));
         tags.add(new Tag(status.toString()));
+        tags.add(new Tag(role.toString()));
     }
 
     /**

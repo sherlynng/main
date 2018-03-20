@@ -83,9 +83,6 @@ public class AddCommandTest {
     public void execute_duplicatePerson_throwsCommandException() throws Exception {
         ModelStub modelStub = new ModelStubThrowingDuplicatePersonException();
 
-
-
-
         Person validPerson = new PersonBuilder().build();
 
         thrown.expect(CommandException.class);
