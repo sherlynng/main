@@ -791,6 +791,27 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Value proposition*: efficient pairing of students and tutors based on criteria such as subject, budget, location, availability
 
+*Feature Contributions*:
+
+[width="59%",cols="<30%,<35%,<35%",options="header",]
+|=======================================================================
+|Name |Minor Enhancement |Major Enhancement
+|Danny NG Ming Xuan |Create new command to filter the person list with respect to the various tags in
+Person card. This will enable the user to view people with tags he/she is interested in.|Create `viewStats` command.
+This allows the user to view information such as number of students/tutors/matched and more in the form of graph.
+|NG Xin Ler |Change browser panel to view Person's details and remove all attributes except name and tags in
+Person card. This helps to improve the readability of Person details and prevents cluttering on the side panel.|
+Create `unmatch` command. This allows the user to unmatch a pair of Tutor and Student in the event where the pair is
+wrongly matched or either the Tutor or Student wants to change a matching.
+|WANG Zi |Create shortcut for the user in filling subject, level, status and role. For instance, `sub/eng` and
+`sub/english` both result in adding the subject English. After that, accommodate case-insensitive input, and
+standardize display to follow <<proper-case, proper case>>.
+|Create `match` command. This allows the user to match a pair of Tutor and Student from a list of potential matches.
+|YAN Hong Yao Alvin | Automatically generate tags for some attribute fields. This makes them easy to view by the user |
+Allow all non-name fields to be optional. This makes input easier for the user as the add command is extremely long otherwise.
+|=======================================================================
+
+
 [appendix]
 == User Stories
 
@@ -1010,6 +1031,10 @@ Windows, Linux, Unix, OS-X
 
 [[private-contact-detail]] Private contact detail::
 A contact detail that is not meant to be shared with others
+
+[[proper-case]] Proper case::
+Proper case is any text that is written with each of the first letters of every word being capitalized.
+For example, "This Is An Example Of Proper Case."
 
 [[criteria]] Criteria::
 Subject and grade level
