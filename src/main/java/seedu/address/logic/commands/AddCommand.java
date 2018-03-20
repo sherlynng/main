@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -33,7 +34,7 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_SUBJECT + "SUBJECT "
             + PREFIX_LEVEL + "LEVEL "
             + PREFIX_STATUS + "STATUS "
-            + PREFIX_TAG + "ROLE "
+            + PREFIX_ROLE + "ROLE"
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
@@ -41,10 +42,10 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_EMAIL + "johnd@example.com "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
             + PREFIX_PRICE + "50 "
-            + PREFIX_SUBJECT + "math "
-            + PREFIX_LEVEL + "lowerSec "
-            + PREFIX_STATUS + "notMatched "
-            + PREFIX_TAG + "student";
+            + PREFIX_SUBJECT + "Math "
+            + PREFIX_LEVEL + "Lower Sec "
+            + PREFIX_STATUS + "Not Matched "
+            + PREFIX_ROLE + "Student";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";

@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -25,6 +26,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
@@ -42,10 +44,10 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                        PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_STATUS, PREFIX_TAG);
+                        PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_STATUS, PREFIX_ROLE, PREFIX_TAG);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_STATUS)
+                PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_ROLE, PREFIX_STATUS)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
         }
@@ -59,19 +61,22 @@ public class AddCommandParser implements Parser<AddCommand> {
             Subject subject = ParserUtil.parseSubject(argMultimap.getValue(PREFIX_SUBJECT)).get();
             Level level = ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).get();
             Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).get();
+            Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-            if (!tagList.contains(new Tag("student")) && !tagList.contains(new Tag("tutor"))) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
-            }
+            //        if (!tagList.contains(new Tag("Student")) && !tagList.contains(new Tag("Tutor"))) {
+            //            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT
+            // + MESSAGE_USAGE, MESSAGE_USAGE));
+            // }
 
             //Add required attributes to the tag list as in documentation
             tagList.add(ParserUtil.parseTag(price.toString()));
             tagList.add(ParserUtil.parseTag(subject.toString()));
             tagList.add(ParserUtil.parseTag(level.toString()));
+            tagList.add(ParserUtil.parseTag(role.toString()));
             tagList.add(ParserUtil.parseTag(status.toString()));
 
-            Person person = new Person(name, phone, email, address, price, subject, level, status, tagList);
+            Person person = new Person(name, phone, email, address, price, subject, level, status, role, tagList);
 
             return new AddCommand(person);
         } catch (IllegalValueException ive) {

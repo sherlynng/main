@@ -14,6 +14,7 @@ public class CliSyntax {
     public static final Prefix PREFIX_SUBJECT = new Prefix("sub/");
     public static final Prefix PREFIX_LEVEL = new Prefix("lvl/");
     public static final Prefix PREFIX_STATUS = new Prefix("stat/");
+    public static final Prefix PREFIX_ROLE = new Prefix("r/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
 
 }
