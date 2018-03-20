@@ -385,10 +385,10 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
-=== Making input case-insensitive
+=== Case-insensitive input
 
 ==== Current Implementation
-We made input of all fields case insensitive to reduce hassles for the user.
+We made input of fields case insensitive to reduce hassles for the user. The exceptions are `address`, `price`,and `phone`.
 
 After parsing and validation, the field entered is converted to <<proper-case, proper case>> internally,
 so tags generated from the field information will be standardized and more readable for the user.
@@ -396,7 +396,8 @@ so tags generated from the field information will be standardized and more reada
 ==== Model Implementation
 We utilise the `ProperCaseConverter` object to convert all parsed and valid input into proper case.
 See the example below for an actual implementation found in the `Role` class.
-All the fields utilise the `ProperCaseConverter` object in similar way.
+All the fields utilise the `ProperCaseConverter` object in similar way, except `email`,
+which is converted to all lower-case to follow the convention.
 
 [source,java]
 ----
@@ -411,7 +412,7 @@ public class Role{
 }
 ----
 
-=== Create shortcuts for the user in filling fields
+=== Shortcuts for the user in filling fields
 
 ==== Current Implementation
 Due to the nature of the application, the user will input certain information repetitively.
