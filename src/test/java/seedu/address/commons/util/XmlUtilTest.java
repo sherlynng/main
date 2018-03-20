@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.model.AddressBook;
+import seedu.address.model.tag.Tag;
 import seedu.address.storage.XmlAdaptedPerson;
 import seedu.address.storage.XmlAdaptedTag;
 import seedu.address.storage.XmlSerializableAddressBook;
@@ -43,7 +44,8 @@ public class XmlUtilTest {
     private static final String VALID_LEVEL = "lowerSec";
     private static final String VALID_STATUS = "notMatched";
     private static final String VALID_PRICE = "77";
-    private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(new XmlAdaptedTag("friends"));
+    private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(
+            new XmlAdaptedTag("friends"));
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

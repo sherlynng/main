@@ -11,15 +11,19 @@ public class Tag {
 
     public static final String MESSAGE_TAG_CONSTRAINTS = "Tags names should contain only "
             + "alphanumeric characters and spaces";
+
     public static final String TAG_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
-    public enum allTagTypes {SUBJECT, STATUS, LEVEL, PRICE, DEFAULT}
+    /**
+     * This represents all the tag types.
+     */
+    public enum AllTagTypes { SUBJECT, STATUS, LEVEL, PRICE, DEFAULT }
 
     public final String tagName;
-    public final allTagTypes tagType;
+    public final AllTagTypes tagType;
 
     /**
      * Constructs a {@code Tag}.
-     * tagType will be initialised with the allTagTypes.DEFAULT value.
+     * tagType will be initialised with the AllTagTypes.DEFAULT value.
      *
      * @param tagName A valid tag name.
      */
@@ -27,7 +31,7 @@ public class Tag {
         requireNonNull(tagName);
         checkArgument(isValidTagName(tagName), MESSAGE_TAG_CONSTRAINTS);
         this.tagName = tagName;
-        this.tagType = allTagTypes.DEFAULT;
+        this.tagType = AllTagTypes.DEFAULT;
     }
 
     /**
@@ -36,7 +40,7 @@ public class Tag {
      * @param tagName A valid tag name.
      * @param tagType A valid tag type.
      */
-    public Tag(String tagName, allTagTypes tagType){
+    public Tag(String tagName, AllTagTypes tagType) {
         this.tagType = tagType;
         requireNonNull(tagName);
         checkArgument(isValidTagName(tagName), MESSAGE_TAG_CONSTRAINTS);
@@ -48,6 +52,19 @@ public class Tag {
      */
     public static boolean isValidTagName(String test) {
         return test.matches(TAG_VALIDATION_REGEX);
+    }
+
+    /**
+     * returns true if given string is a valid tag type.
+     * @param test A string to test.
+     */
+    public static boolean isValidTagType(String test) {
+        for (AllTagTypes tType : AllTagTypes.values()) {
+            if (tType.toString().equals(test)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

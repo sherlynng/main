@@ -255,12 +255,12 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String tag} and {@code Tag.allTagTypes tagType} into a {@code Tag}.
+     * Parses a {@code String tag} and {@code Tag.AllTagTypes tagType} into a {@code Tag}.
      * Leading and trailing whitespaces will be trimmed.
      *
      * @throws IllegalValueException if the given {@code tag} is invalid.
      */
-    public static Tag parseTagWithType(String tag, Tag.allTagTypes tagType) throws IllegalValueException {
+    public static Tag parseTagWithType(String tag, Tag.AllTagTypes tagType) throws IllegalValueException {
         requireNonNull(tag);
         String trimmedTag = tag.trim();
         if (!Tag.isValidTagName(trimmedTag)) {
