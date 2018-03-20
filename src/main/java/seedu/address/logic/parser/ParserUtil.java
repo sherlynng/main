@@ -16,6 +16,7 @@ import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
@@ -131,7 +132,7 @@ public class ParserUtil {
         if (!Email.isValidEmail(trimmedEmail)) {
             throw new IllegalValueException(Email.MESSAGE_EMAIL_CONSTRAINTS);
         }
-        return new Email(trimmedEmail);
+        return new Email(trimmedEmail.toLowerCase());
     }
 
     /**
@@ -237,6 +238,32 @@ public class ParserUtil {
     public static Optional<Status> parseStatus(Optional<String> status) throws IllegalValueException {
         requireNonNull(status);
         return status.isPresent() ? Optional.of(parseStatus(status.get())) : Optional.empty();
+    }
+
+
+
+    /**
+     * Parses a {@code String role} into a {@code Role}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws IllegalValueException if the given {@code role} is invalid.
+     */
+    public static Role parseRole(String role) throws IllegalValueException {
+        requireNonNull(role);
+        String trimmedRole = role.trim();
+        if (!Role.isValidRole(role)) {
+            throw new IllegalValueException(Role.MESSAGE_ROLE_CONSTRAINTS);
+        }
+        return new Role(trimmedRole);
+    }
+
+    /**
+     * Parses a {@code Optional<String> role} into an {@code Optional<Role>} if {@code role} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<Role> parseRole(Optional<String> role) throws IllegalValueException {
+        requireNonNull(role);
+        return role.isPresent() ? Optional.of(parseRole(role.get())) : Optional.empty();
     }
 
     /**

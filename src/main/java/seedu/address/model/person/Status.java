@@ -12,7 +12,7 @@ import java.util.HashSet;
  */
 public class Status {
 
-    public static final String[] STATUS_VALUES = new String[] { "matched", "notMatched"};
+    public static final String[] STATUS_VALUES = new String[] { "matched", "m", "not matched", "nm"};
     public static final HashSet<String> SET_ALL_STATUS = new HashSet<>(Arrays.asList(STATUS_VALUES));
 
     public static final String MESSAGE_STATUS_CONSTRAINTS = "Status should be one of: \n"
@@ -28,15 +28,34 @@ public class Status {
      */
     public Status(String status) {
         requireNonNull(status);
+        status.toLowerCase();
         checkArgument(isValidStatus(status), MESSAGE_STATUS_CONSTRAINTS);
-        this.value = status;
+        status = convertToFullStatus(status);
+        ProperCaseConverter pc = new ProperCaseConverter();
+        this.value = pc.convertToProperCase(status);
     }
+
+    /**
+     * Convert a shortcut to full status name
+     */
+    public String convertToFullStatus(String original) {
+        String cur = original.toLowerCase();
+        if (cur == null) {
+            return "";
+        } else if (cur.equals("nm")) {
+            cur = "not matched";
+        } else if (cur.equals("m")) {
+            cur = "matched";
+        }
+        return cur;
+    }
+
 
     /**
      * Returns if a given string is a valid status description.
      */
     public static boolean isValidStatus(String test) {
-
+        test = test.toLowerCase();
         return SET_ALL_STATUS.contains(test);
     }
 
@@ -56,4 +75,5 @@ public class Status {
     public int hashCode() {
         return value.hashCode();
     }
+
 }
