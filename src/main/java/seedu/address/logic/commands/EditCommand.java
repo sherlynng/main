@@ -136,7 +136,7 @@ public class EditCommand extends UndoableCommand {
         attributeTags.add(new Tag(updatedSubject.toString(), Tag.AllTagTypes.SUBJECT));
         attributeTags.add(new Tag(updatedLevel.toString(), Tag.AllTagTypes.LEVEL));
         attributeTags.add(new Tag(updatedStatus.toString(), Tag.AllTagTypes.STATUS));
-       attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
+        attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
 
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,

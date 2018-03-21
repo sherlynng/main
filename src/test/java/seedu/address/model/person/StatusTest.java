@@ -29,7 +29,7 @@ public class StatusTest {
         assertFalse(Status.isValidStatus("somewhatmatched"));
 
         // valid status
-        assertTrue(Status.isValidStatus("notMatched"));
+        assertTrue(Status.isValidStatus("not Matched"));
         assertTrue(Status.isValidStatus("matched"));
     }
 
@@ -44,7 +44,7 @@ public class StatusTest {
 
     @Test
     public void checkStatusHashCode() {
-        Status status = new Status("notMatched");
+        Status status = new Status("not Matched");
         assertTrue(status.hashCode() == status.value.hashCode());
         status = new Status("matched");
         assertTrue(status.hashCode() == status.value.hashCode());
