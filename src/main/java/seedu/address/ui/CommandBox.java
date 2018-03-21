@@ -23,6 +23,8 @@ import seedu.address.logic.ListElementPointer;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -37,6 +39,7 @@ public class CommandBox extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(CommandBox.class);
     private final Logic logic;
     private ListElementPointer historySnapshot;
+    private boolean canTab = false;
 
     @FXML
     private TextField commandTextField;
@@ -67,7 +70,7 @@ public class CommandBox extends UiPart<Region> {
             break;
         case TAB:
             keyEvent.consume();
-            checkCommand();
+            autofillCommand();
             break;
         case DELETE:
             keyEvent.consume();
@@ -82,23 +85,39 @@ public class CommandBox extends UiPart<Region> {
      * Sets {@code CommandBox}'s text field with input format and
      * if next field is present, it positions the caret to the next field.
      */
-    private void checkCommand() {
+    private void autofillCommand() {
         String input = commandTextField.getText();
+        int nextCaretPosition = -1;
+
         switch (input) {
         case AddCommand.COMMAND_WORD:
         case AddCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText("add " + PREFIX_NAME + " " + PREFIX_PHONE + " " + PREFIX_EMAIL + " "
                     + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " " + PREFIX_LEVEL + " "
                     + PREFIX_STATUS + " " + PREFIX_ROLE);
+            canTab = true;
+            break;
+        case SelectCommand.COMMAND_WORD:
+        case SelectCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(SelectCommand.COMMAND_WORD + " 1");
+            selectIndexToEdit();
+            canTab = false;
+            break;
+        case DeleteCommand.COMMAND_WORD:
+        case DeleteCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(DeleteCommand.COMMAND_WORD + " 1");
+            selectIndexToEdit();
+            canTab = false;
             break;
         default:
             // no autofill
         }
 
-        int nextCaretPosition = findNextField();
-
-        if (nextCaretPosition != -1) {
-            commandTextField.positionCaret(nextCaretPosition);
+        if (canTab) {
+            nextCaretPosition = findNextField();
+            if (nextCaretPosition != -1) {
+                commandTextField.positionCaret(nextCaretPosition);
+            }
         }
     }
 
@@ -127,6 +146,18 @@ public class CommandBox extends UiPart<Region> {
         int nextFieldPosition = text.indexOf("/", caretPosition);
 
         return nextFieldPosition + 1;
+    }
+
+    /**
+     * Positions the caret to index position
+     * and selects the index to be edited.
+     */
+    private void selectIndexToEdit() {
+        String text = commandTextField.getText();
+        int indexPosition = text.indexOf("1") + 1;
+
+        commandTextField.positionCaret(indexPosition);
+        commandTextField.selectBackward();
     }
 
     /**
