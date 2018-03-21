@@ -179,6 +179,19 @@ public class CommandBoxTest extends GuiUnitTest {
     }
 
     @Test
+    public void handleKeyPress_addCommandPressDelete_removePreviousPrefix() {
+        String expectedOutput = "add p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+
+        // checks for add command word
+        commandBoxHandle.setInput("add");
+        guiRobot.push(KeyCode.TAB);
+        guiRobot.push(KeyCode.DELETE);
+
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
     public void handleKeyPress_selectCommandPressTab_autofill() {
         String expectedOutput = "select 1";
 
