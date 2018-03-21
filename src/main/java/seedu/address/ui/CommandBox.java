@@ -69,6 +69,10 @@ public class CommandBox extends UiPart<Region> {
             keyEvent.consume();
             checkCommand();
             break;
+        case DELETE:
+            keyEvent.consume();
+            deletePreviousPrefix();
+            break;
         default:
             // let JavaFx handle the keypress
         }
@@ -76,19 +80,53 @@ public class CommandBox extends UiPart<Region> {
 
     /**
      * Sets {@code CommandBox}'s text field with input format and
-     * positions the caret to the end of the {@code text}.
+     * if next field is present, it positions the caret to the next field.
      */
     private void checkCommand() {
         String input = commandTextField.getText();
         switch (input) {
         case AddCommand.COMMAND_WORD:
         case AddCommand.COMMAND_WORD_ALIAS:
-            commandTextField.setText("add " + PREFIX_NAME + " " + PREFIX_PHONE + " " + PREFIX_EMAIL + " " +
-                    PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " " + PREFIX_LEVEL + " " +
-                    PREFIX_STATUS + " " + PREFIX_ROLE);
+            commandTextField.setText("add " + PREFIX_NAME + " " + PREFIX_PHONE + " " + PREFIX_EMAIL + " "
+                    + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " " + PREFIX_LEVEL + " "
+                    + PREFIX_STATUS + " " + PREFIX_ROLE);
+            break;
+        default:
+            // no autofill
         }
 
-        commandTextField.positionCaret(commandTextField.getText().length());
+        int nextCaretPosition = findNextField();
+
+        if (nextCaretPosition != -1) {
+            commandTextField.positionCaret(nextCaretPosition);
+        }
+    }
+
+    /**
+     * Deletes the previous prefix from current caret position and
+     * if next field is present, it positions the caret to the next field.
+     */
+    private void deletePreviousPrefix() {
+        String text = commandTextField.getText();
+        int caretPosition = commandTextField.getCaretPosition();
+        int deleteStart = text.lastIndexOf(" ", caretPosition - 1);
+
+        if (deleteStart != -1) {
+            commandTextField.deleteText(deleteStart, caretPosition);
+            commandTextField.positionCaret(findNextField());
+        }
+    }
+
+    /**
+     * Finds the next input field from current caret position and
+     * if next field is present, it positions the caret to the next field.
+     */
+    private int findNextField() {
+        String text = commandTextField.getText();
+        int caretPosition = commandTextField.getCaretPosition();
+        int nextFieldPosition = text.indexOf("/", caretPosition);
+
+        return nextFieldPosition + 1;
     }
 
     /**
