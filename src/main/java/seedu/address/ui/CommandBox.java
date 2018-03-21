@@ -1,5 +1,15 @@
 package seedu.address.ui;
 
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
+
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -11,6 +21,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.logic.ListElementPointer;
 import seedu.address.logic.Logic;
+import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -56,11 +67,28 @@ public class CommandBox extends UiPart<Region> {
             break;
         case TAB:
             keyEvent.consume();
-            navigateToNextInput();
+            checkCommand();
             break;
         default:
             // let JavaFx handle the keypress
         }
+    }
+
+    /**
+     * Sets {@code CommandBox}'s text field with input format and
+     * positions the caret to the end of the {@code text}.
+     */
+    private void checkCommand() {
+        String input = commandTextField.getText();
+        switch (input) {
+        case AddCommand.COMMAND_WORD:
+        case AddCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText("add " + PREFIX_NAME + " " + PREFIX_PHONE + " " + PREFIX_EMAIL + " " +
+                    PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " " + PREFIX_LEVEL + " " +
+                    PREFIX_STATUS + " " + PREFIX_ROLE);
+        }
+
+        commandTextField.positionCaret(commandTextField.getText().length());
     }
 
     /**
