@@ -13,11 +13,13 @@ AddressBook save file which contains the same Person values as in
         <email>alice@example.com</email>
         <address>123, Jurong West Ave 6, #08-111</address>
 		<price>50</price>
+
 		<subject>Math</subject>
 		<level>Lower Sec</level>
 		<status>Not Matched</status>
         <role>Student</role>
-        <tag>Friend</tag>
+        <tag>Friend,DEFAULT</tag>
+
     </persons>
     <persons>
         <name>Benson Meier</name>
@@ -28,7 +30,7 @@ AddressBook save file which contains the same Person values as in
 		<subject>English</subject>
 		<level>Upper Sec</level>
 		<status>Not Matched</status>
-        <role>Student</role>
+    <role>Student</role>
     </persons>
     <persons>
         <name>Carl Kurz</name>
@@ -59,6 +61,7 @@ AddressBook save file which contains the same Person values as in
         <email>werner@example.com</email>
         <address>michegan ave</address>
 		<price>210</price>
+
 		<subject>Math</subject>
 		<level>Upper Sec</level>
 		<status>Not Matched</status>
@@ -70,6 +73,7 @@ AddressBook save file which contains the same Person values as in
         <email>lydia@example.com</email>
         <address>little tokyo</address>
 		<price>99</price>
+
 		<subject>English</subject>
 		<level>Upper Sec</level>
 		<status>Not Matched</status>
@@ -85,25 +89,25 @@ AddressBook save file which contains the same Person values as in
 		<level>Lower Sec</level>
 		<status>Not Matched</status>
         <role>Tutor</role>
-
     </persons>
-	<tags>320</tags>
-	<tags>99</tags>
-	<tags>210</tags>
-	<tags>70</tags>
-	<tags>20</tags>
-	<tags>150</tags>
-	<tags>50</tags>
-	<tags>Math</tags>
-	<tags>English</tags>
-	<tags>Chinese</tags>
-	<tags>Chemistry</tags>
-	<tags>Physics</tags>
-	<tags>Lower Sec</tags>
-	<tags>Upper Sec</tags>
-	<tags>Not Matched</tags>
-    <tags>Student</tags>
-    <tags>Tutor</tags>
-    <tags>Friend</tags>
+  
+	<tags>320,PRICE</tags>
+	<tags>99,PRICE</tags>
+	<tags>210,PRICE</tags>
+	<tags>70,PRICE</tags>
+	<tags>20,PRICE</tags>
+	<tags>150,PRICE</tags>
+	<tags>50,PRICE</tags>
+	<tags>Math,SUBJECT</tags>
+	<tags>English,SUBJECT</tags>
+	<tags>Chinese,SUBJECT</tags>
+	<tags>Chemistry,SUBJECT</tags>
+	<tags>Physics,SUBJECT</tags>
+	<tags>Lower Sec,LEVEL</tags>
+	<tags>Upper Sec,LEVEL</tags>
+	<tags>Not Matched,STATUS</tags>
+    <tags>Student,ROLE</tags>
+    <tags>Tutor,ROLE</tags>
+    <tags>Friend,DEFAULT</tags>
 
 </addressbook>

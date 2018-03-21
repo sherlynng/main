@@ -40,6 +40,7 @@ public class TypicalPersons {
             .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
             .withPrice("150").withSubject("english").withStatus("not Matched").withLevel("upper Sec")
             .withRole("Student").build();
+
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withEmail("heinz@example.com").withAddress("wall street")
             .withPrice("20").withSubject("physics").withStatus("not Matched").withLevel("upper Sec")

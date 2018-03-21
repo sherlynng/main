@@ -156,11 +156,13 @@ public class PersonBuilder {
      * Sets the required attribute tags for the person
      */
     private void setTags() {
-        tags.add(new Tag(price.toString()));
-        tags.add(new Tag(subject.toString()));
-        tags.add(new Tag(level.toString()));
-        tags.add(new Tag(role.toString()));
-        tags.add(new Tag(status.toString()));
+
+        tags.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
+        tags.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
+        tags.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
+        tags.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
+        tags.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
+
     }
 
     /**

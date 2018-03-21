@@ -60,6 +60,7 @@ public class EditCommandParser implements Parser<EditCommand> {
             ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).ifPresent(editPersonDescriptor::setLevel);
             ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).ifPresent(editPersonDescriptor::setStatus);
             ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).ifPresent(editPersonDescriptor::setRole);
+
             parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);

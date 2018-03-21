@@ -385,6 +385,235 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+=== Automatic creation of tags from person attributes
+
+==== Creation of the `Tag`
+We have made it such that the attributes `Price`, `Subject`, `Level` and `Status` of a person each have a tag with the value added to the person.
+This is done when user performs `add` or `edit` command.
+
+In the AddCommandParser, after successfully parsing the `Price`, `Subject`, `Level`, `Status` input, the code has been modified such that a new `Tag` containing the correct value and attribute is automatically created after.
+For the EditCommand, the `createEditedPerson` command will remove the previous attribute tags in the `Person` list of tags, then recreate the attribute tags using the new `Person` class attribute values.
+
+The idea for this is implemented this way:
+[source,java]
+----
+private static Person createEditedPerson(...) {
+	/* code to update the attributes here */
+    Set<Tag> attributeTags = new HashSet<>(updatedTags);
+	attributeTags.remove(new Tag(personToEdit.getPrice().toString()));
+	/* similar code to remove the other attribute tags... */
+	attributeTags.add(new Tag(updatedPrice.toString(), Tag.AllTagTypes.PRICE));
+	/* similar code to add the new attribute tags... */
+	return new Person(...)
+}
+----
+[NOTE]
+Since the `Price`, `Subject`, `Level` and `Status` attributes have been parsed and checked to conform to expected values, there is no need to reparse the values when creating them as a `Tag`. +
+The acceptable inputs for a `Tag` must necessarily allow all the acceptable inputs for `Price`, `Subject`, `Level` and `Status` to prevent errors.
+
+==== `Tag` class attributes
+The `Tag` class can support the ability to classify which attribute the tag was created from. This is done by adding an enum `AllTagsType` to the `Tag` class.
+A tag can be created without being from an attribute, with just a tag name. In this case, creating a `Tag` with no provided `AllTagsType` will initialise the `tagType` to `DEFAULT`.
+
+This is the current `Tag` class in UML notation.
+
+image::TagClassDiagram.png[width="600"]
+
+This new attribute is used to implement the capability to standardize all tags created as a `Price` attribute to have the same color, all tags created as a `Subject` attribute to have the same color, and so on.
+This has been implemented as a new overloaded `getTagColorStyleFor` method, which takes in a Tag instead of a String.
+
+The method idea is implemented this way:
+[source,java]
+----
+private String getTagColorStyleFor(Tag tag) {
+        switch (tag.tagType) {
+        case SUBJECT:
+		//return color
+        case LEVEL:
+		//return color
+        case STATUS:
+		//return color
+        case PRICE:
+		//return color
+        default:
+		//return color
+        }
+    }
+----
+[NOTE]
+As shown from this code snippet, any tag that is not set to one of the 4 attributes will fall through to the default type, where they will have the same color. This is currently done as such to prevent accidental collisions of color with the 4 attribute tags.
+
+==== Storage Implementation
+The method for storing tags has also been changed slightly. While previously just the `tagName` needed to be stored. Now both the `tagName` and `tagType` must be stored.
+This has been accomplished by having XML store the single field in the form "TAGNAME,TAGTYPE".
+The respective tagName and tagType can be obtained by splitting the read string representing the tag data from the file around the "," separator. Since tags can only be alphanumeric, this provides a safe character to split around.
+
+==== Design Considerations
+
+===== Aspect: Method of saving tag information in the saved XML file
+
+* **Alternative 1 (current choice):** Keep the `XmlAdaptedTag` stored in a single XML field.
+** Pros: There is no need to change the format of the XML file.
+** Cons: Need to ensure that the `tagName` and `tagType` can be clearly split when saved to the XML file, and retrieved back.
+* **Alternative 2:** Change the format of `XmlAdaptedTag`
+** Pros: Easier for advanced users to edit without causing an error, easy to retrieve values from file.
+** Cons: Risks causing issues with how `Tag` is saved as part of `XmlAdaptedPerson` and by itself as `XmlAdaptedTag`
+
+=== Case-insensitive input
+
+==== Current Implementation
+We made input of fields case-insensitive to reduce hassles for the user.
+
+After parsing and validation, the field entered is converted to <<proper-case, proper case>> internally,
+so tags generated from the field information will be standardized and more readable for the user.
+
+The exceptions are `price` and `phone` as they consist only numbers and require no conversion.
+`email` is converted to all lower-case to follow the convention.
+
+==== Model Implementation
+We utilise the `ProperCaseConverter` object to convert all parsed and valid input into proper case.
+See the example below for an actual implementation found in the `Role` class.
+All the fields utilise the `ProperCaseConverter` object in a similar way.
+
+[source,java]
+----
+public class Role{
+ //...other implementations...
+ public Role(String role) {
+         //... Validating input...
+         ProperCaseConverter pc = new ProperCaseConverter();
+         this.value = pc.convertToProperCase(role);
+     }
+ //...other implementations...
+}
+----
+
+=== Shortcuts for the user in filling fields
+
+==== Current Implementation
+Due to the nature of the application, the user will input certain information repetitively.
+For example, `role` can only be one of `student` or `tutor`.
+
+Thus, we have created shortcuts to help improving efficiency in filling the fields.
+We currently support shortcuts for `subject`, `level`, `status`, and `role`.
+
+[width="59%",cols="<30%,<35%,<35%",options="header",]
+|=======================================================================
+|Applicable field |Shortcut |Equivalence in full
+|subject | `sub/chem`| `sub/chemistry`
+|subject | `sub/phy`| `/physics`
+|subject | `sub/chi`| `sub/chinese`
+|subject | `sub/eng`| `sub/english`
+|level | `lvl/us`| `lvl/upper sec`
+|level | `lvl/ls`| `lvl/lower sec`
+|level | `lvl/up`| `lvl/upper pri`
+|level | `lvl/lp`| `lvl/lower pri`
+|status | `stat/nm`| `stat/not matched`
+|status | `stat/m`| `stat/matched`
+|role | `r/t`| `r/tutor`
+|role | `r/s`| `r/student`
+|=======================================================================
+
+==== Model Implementation
+The shortcut is first validated, then the field information is converted to its full form.
+Below is the function that performs conversion in the Role class. Other classes follow similar implementation.
+[source,java]
+----
+ public String convertToFullRole(String original) {
+      String cur = original.toLowerCase();
+       if (cur == null) {
+           return "";
+        } else if (cur.equals("s")) {
+            cur = "student";
+        } else if (cur.equals("t")) {
+            cur = "tutor";
+        }
+       return cur;
+ }
+----
+[NOTE]
+The user can input shortcuts in case-insensitive fashion.
+For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com a/NUS #04-02 $/50 sub/PHy lvl/uP stat/nM t/T`
+, the stored entry will be `John Doe Phone: 98765432 Email: johnd@example.com Address: NUS #04-02 Tags: [Tutor][Upper Pri][50][Physics][Not Matched]`
+
+=== Filter feature
+
+==== Current Implementation
+We have added the `filter` command which inherit from `Command`. The user can `filter` according to the attributes `Subject`, `Level` and `Status` of a person.
+
+The following sequence diagram shows how the filter command works:
+
+image::FilterCommandSequenceDiagram.png[width="800"]
+
+[NOTE]
+The user must input arguments in case sensitive and full fashion.
+For instance, the entry `filter maTH` will not work.
+
+=== UI Modifications
+
+==== Browser Panel
+The browser panel is modified to show the selected person’s details instead of opening up a URL.
+This allows better visualization of a person’s details as each person now has up 9 attributes: `Name`, `Phone`,
+`Address`, `Email`, `Role`, `Status`, `Subject`, `Level`, `Price` to be displayed.
+Below shows the modifications made:
+
+**Before**
+
+image::OldBrowserPanel.png[width="500"]
+
+**After**
+
+image::NewBrowserPanel.png[width="500"]
+
+===== Current Implementation
+The UI is modified using SceneBuilder and the layout is specified in link:{repoURL}/blob/master/src/main/resources/view/BrowserPanel.fxml[`BrowserPanel.fxml`].
+link:{repoURL}/blob/master/src/main/java/seedu/address/ui/BrowserPanel.java[`BrowserPanel.java`] subscribes to `handlePersonPanelSelectionChangedEvent`, where this allows the browser panel to
+be updated whenever the user selects on a specific person.
+
+We choose to place the person's name at the top of the browser panel for easy identification of a person while
+other details are organized in a table format for easy reference. Rows of the table are also alternately colored
+to increase readability.
+
+[NOTE]
+In the case if the person attribute is null (except `Name` cannot be null), it will be displayed as " - "
+
+===== Design Considerations
+
+====== Aspect: Layout of Browser Panel
+
+* **Alternative 1 (current choice):** Use table to display person details with a column specifying the type of attribute
+and the other specifying the actual content.
+** Pros: Easy to read and refer to.
+** Cons: May not look visually appealing.
+* **Alternative 2:** Centralized display of person details without usage of tables and reference to the type of attribute.
+** Pros: Visually appealing.
+** Cons: Locating an attribute may not be easy due to lack of labelling.
+
+==== Person Card
+Person card is improved to show the list of person’s details more concisely and clearly.
+Below shows the improvements made:
+
+**Before**
+
+image::OldPersonCard.png[width="300"]
+
+**After**
+
+image::NewPersonCard.png[width="300"]
+
+===== Removal of Unncessary Information
+Besides `Name`, all other details are removed from the person card. We choose to remove it as these details can
+be easily viewed by selecting on the person card since the browser panel now shows the full details of a person.
+
+As such, we decided to only leave the neccessary details that the user will frequently refer
+to in the person card. This helps to reduce cluttering on the side panel and allows the user to be able to view a
+longer list of people at one time.
+
+===== Coloring of Tags
+To allow easy identification of the category that a tag belongs to, different colors are used for different attributes
+of a person. A standardized color is used for each attribute and its color is stored in `Tag` such that the color
+will be retained when the user reopens the application.
+
 == Documentation
 
 We use asciidoc for writing documentation.
@@ -793,20 +1022,21 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Feature Contributions*:
 
-[width="80%",cols="20%,<30%,<30%",options="header",]
-|=======================================================================s
+[width="59%",cols="<30%,<35%,<35%",options="header",]
+|=======================================================================
 |Name |Minor Enhancement |Major Enhancement
-|Danny [underline]#Ng# Ming Xuan |Create new command to filter the person list with respect to the various tags in
-Person card. This will enable the user to view people with tags he/she is interested in.|Create viewStats command.
+|Danny NG Ming Xuan |Create new command to filter the person list with respect to the various tags in
+Person card. This will enable the user to view people with tags he/she is interested in.|Create `viewStats` command.
 This allows the user to view information such as number of students/tutors/matched and more in the form of graph.
-|[underline]#Ng# Xin Ler |Change browser panel to view Person's details and remove all attributes except tags in
-Person card. This helps to improve the readability of Person details and prevents cluttering on the side panel.|
+|NG Xin Ler |Change browser panel to view Person's details and remove all attributes except name and tags in
+Person card. This helps to improve the readability of Person details and reduce cluttering on the side panel.|
 Create `unmatch` command. This allows the user to unmatch a pair of Tutor and Student in the event where the pair is
 wrongly matched or either the Tutor or Student wants to change a matching.
-|[underline]#Wang# Zi |Create shortcut for the user in filling subject,level,status, and role. For instance, `sub/eng` and `sub/english` both result in adding the subject English.
-After that, accommodate case-insensitive input, and standardize display to follow <<proper-case, proper case>>.
+|WANG Zi |Create shortcut for the user in filling subject, level, status and role. For instance, `sub/eng` and
+`sub/english` both result in adding the subject English. After that, accommodate case-insensitive input, and
+standardize display to follow <<proper-case, proper case>>.
 |Create `match` command. This allows the user to match a pair of Tutor and Student from a list of potential matches.
-|[underline]#Yan# Hong Yao Alvin | Automatically generate tags for some attribute fields. This makes them easy to view by the user |
+|YAN Hong Yao Alvin | Automatically generate tags for some attribute fields. This makes them easy to view by the user |
 Allow all non-name fields to be optional. This makes input easier for the user as the add command is extremely long otherwise.
 |=======================================================================
 

@@ -47,4 +47,14 @@ public class NameTest {
         //test correctly returns equal if name string is the same
         assertTrue(new Name("Stutor").equals(new Name("Stutor")));
     }
+
+    @Test
+    public void checkNameHashCode() {
+        Name name = new Name("peter jack");
+        assertTrue(name.hashCode() == name.fullName.hashCode());
+        name = new Name("12345");
+        assertTrue(name.hashCode() == name.fullName.hashCode());
+        name = new Name("Capital Tan");
+        assertTrue(name.hashCode() == name.fullName.hashCode());
+    }
 }

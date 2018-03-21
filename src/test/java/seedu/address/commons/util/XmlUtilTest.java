@@ -44,7 +44,8 @@ public class XmlUtilTest {
     private static final String VALID_STATUS = "not Matched";
     private static final String VALID_ROLE = "student";
     private static final String VALID_PRICE = "77";
-    private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(new XmlAdaptedTag("friends"));
+    private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(
+            new XmlAdaptedTag("friends"));
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
