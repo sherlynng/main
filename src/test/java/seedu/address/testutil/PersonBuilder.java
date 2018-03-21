@@ -10,6 +10,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
@@ -25,10 +26,11 @@ public class PersonBuilder {
     public static final String DEFAULT_EMAIL = "alice@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_PRICE = "100";
-    public static final String DEFAULT_SUBJECT = "english";
-    public static final String DEFAULT_LEVEL = "lowerSec";
-    public static final String DEFAULT_STATUS = "notMatched";
-    public static final String DEFAULT_TAGS = "student";
+    public static final String DEFAULT_SUBJECT = "English";
+    public static final String DEFAULT_LEVEL = "Lower Sec";
+    public static final String DEFAULT_STATUS = "Not Matched";
+    public static final String DEFAULT_ROLE = "Student";
+    public static final String DEFAULT_TAGS = "Friend";
 
     private Name name;
     private Phone phone;
@@ -38,6 +40,7 @@ public class PersonBuilder {
     private Subject subject;
     private Level level;
     private Status status;
+    private Role role;
     private Set<Tag> tags;
 
     public PersonBuilder() {
@@ -49,6 +52,7 @@ public class PersonBuilder {
         subject = new Subject(DEFAULT_SUBJECT);
         level = new Level(DEFAULT_LEVEL);
         status = new Status(DEFAULT_STATUS);
+        role = new Role(DEFAULT_ROLE);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
     }
 
@@ -64,6 +68,7 @@ public class PersonBuilder {
         subject = personToCopy.getSubject();
         level = personToCopy.getLevel();
         status = personToCopy.getStatus();
+        role = personToCopy.getRole();
         tags = new HashSet<>(personToCopy.getTags());
     }
 
@@ -140,13 +145,24 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code Role} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRole(String role) {
+        this.role = new Role(role);
+        return this;
+    }
+
+    /**
      * Sets the required attribute tags for the person
      */
     private void setTags() {
+
         tags.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
         tags.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
         tags.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
         tags.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
+        tags.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
+
     }
 
     /**
@@ -155,7 +171,7 @@ public class PersonBuilder {
      */
     public Person build() {
         setTags();
-        return new Person(name, phone, email, address, price, subject, level, status, tags);
+        return new Person(name, phone, email, address, price, subject, level, status, role, tags);
     }
 
 }

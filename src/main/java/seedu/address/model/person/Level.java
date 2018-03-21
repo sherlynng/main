@@ -13,7 +13,7 @@ import java.util.HashSet;
 public class Level {
 
     public static final String[] LEVEL_VALUES =
-            new String[] { "lowersec", "uppersec", "lowerpri", "upperpri" };
+            new String[] { "lower sec", "ls", "upper sec", "us", "lower pri", "lp", "upper pri", "up" };
     public static final HashSet<String> SET_ALL_LEVEL = new HashSet<>(Arrays.asList(LEVEL_VALUES));
 
     public static final String MESSAGE_LEVEL_CONSTRAINTS = "Person Level should be "
@@ -32,8 +32,30 @@ public class Level {
      */
     public Level(String level) {
         requireNonNull(level);
+        level.toLowerCase();
         checkArgument(isValidLevel(level), MESSAGE_LEVEL_CONSTRAINTS);
-        this.value = level;
+        level = convertToFullLevel(level);
+        ProperCaseConverter pc = new ProperCaseConverter();
+        this.value = pc.convertToProperCase(level);
+    }
+
+    /**
+     * Convert a shortcut to full level name
+     */
+    public String convertToFullLevel(String original) {
+        String cur = original.toLowerCase();
+        if (cur == null) {
+            return "";
+        } else if (cur.equals("ls")) {
+            cur = "lower sec";
+        } else if (cur.equals("us")) {
+            cur = "upper sec";
+        } else if (cur.equals("lp")) {
+            cur = "lower pri";
+        } else if (cur.equals("up")) {
+            cur = "upper pri";
+        }
+        return cur;
     }
 
     /**
@@ -60,4 +82,6 @@ public class Level {
     public int hashCode() {
         return value.hashCode();
     }
+
+
 }

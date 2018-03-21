@@ -7,8 +7,9 @@
         <address isPrivate="false">4th street</address>
 		<price isPrivate="false">201</price>
 		<subject isPrivate="false">english</subject>
-		<level isPrivate="false">lowerSec</level>
-		<status isPrivate="false">notMatched</status>
+		<level isPrivate="false">lower Sec</level>
+        <role isPrivate="false">student</role>
+		<status isPrivate="false">not matched</status>
     </persons>
     <persons>
         <name>Ruth Mueller</name>
@@ -16,9 +17,10 @@
         <email isPrivate="false">ruth@example.com</email>
         <address isPrivate="false">81th street</address>
 		<price isPrivate="false">202</price>
-		<subject isPrivate="false">economics</subject>
-		<level isPrivate="false">upperSec</level>
-		<status isPrivate="false">notMatched</status>
+		<subject isPrivate="false">chinese</subject>
+		<level isPrivate="false">upper Sec</level>
+        <role isPrivate="false">student</role>
+		<status isPrivate="false">not matched</status>
 	</persons>
     <persons>
         <name>Heinz Kurz</name>
@@ -27,8 +29,9 @@
         <address isPrivate="false">wall street</address>
 		<price isPrivate="false">203</price>
 		<subject isPrivate="false">math</subject>
-		<level isPrivate="false">upperSec</level>
-		<status isPrivate="false">notMatched</status>
+		<level isPrivate="false">upper Sec</level>
+        <role isPrivate="false">student</role>
+		<status isPrivate="false">not matched</status>
     </persons>
     <persons>
         <name>Cornelia Meier</name>
@@ -37,8 +40,9 @@
         <address isPrivate="false">10th street</address>
 		<price isPrivate="false">204</price>
 		<subject isPrivate="false">english</subject>
-		<level isPrivate="false">upperSec</level>
-		<status isPrivate="false">notMatched</status>
+		<level isPrivate="false">upper Sec</level>
+        <role isPrivate="false">student</role>
+		<status isPrivate="false">not matched</status>
     </persons>
     <persons>
         <name>Werner Meyer</name>
@@ -47,8 +51,9 @@
         <address isPrivate="false">michegan ave</address>
 		<price isPrivate="false">205</price>
 		<subject isPrivate="false">physics</subject>
-		<level isPrivate="false">upperSec</level>
-		<status isPrivate="false">notMatched</status>
+		<level isPrivate="false">upper Sec</level>
+        <role isPrivate="false">student</role>
+		<status isPrivate="false">not matched</status>
     </persons>
     <persons>
         <name>Lydia Kunz</name>
@@ -57,8 +62,9 @@
         <address isPrivate="false">little tokyo</address>
 		<price isPrivate="false">206</price>
 		<subject isPrivate="false">chemistry</subject>
-		<level isPrivate="false">upperSec</level>
-		<status isPrivate="false">notMatched</status>
+		<level isPrivate="false">upper Sec</level>
+        <role isPrivate="false">student</role>
+		<status isPrivate="false">not matched</status>
     </persons>
     <persons>
         <name>Anna Best</name>
@@ -67,8 +73,9 @@
         <address isPrivate="false">4th street</address>
 		<price isPrivate="false">207</price>
 		<subject isPrivate="false">english</subject>
-		<level isPrivate="false">lowerSec</level>
-		<status isPrivate="false">notMatched</status>
+		<level isPrivate="false">lower Sec</level>
+        <role isPrivate="false">student</role>
+		<status isPrivate="false">not matched</status>
     </persons>
     <persons>
         <name>Stefan Meier</name>
@@ -77,8 +84,9 @@
         <address isPrivate="false">little india</address>
 		<price isPrivate="false">208</price>
 		<subject isPrivate="false">math</subject>
-		<level isPrivate="false">lowerSec</level>
-		<status isPrivate="false">notMatched</status>
+		<level isPrivate="false">lower Sec</level>
+        <role isPrivate="false">student</role>
+		<status isPrivate="false">not matched</status>
     </persons>
     <persons>
         <name>Martin Mueller</name>
@@ -87,7 +95,8 @@
         <address isPrivate="false">chicago ave</address>
 		<price isPrivate="false">209</price>
 		<subject isPrivate="false">chemistry</subject>
-		<level isPrivate="false">upperSec</level>
-		<status isPrivate="false">notMatched</status>
+		<level isPrivate="false">upper Sec</level>
+        <role isPrivate="false">student</role>
+		<status isPrivate="false">not matched</status>
     </persons>
 </addressbook>

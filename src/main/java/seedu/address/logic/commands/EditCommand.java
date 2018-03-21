@@ -26,6 +26,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -117,24 +118,29 @@ public class EditCommand extends UndoableCommand {
         Subject updatedSubject = editPersonDescriptor.getSubject().orElse(personToEdit.getSubject());
         Level updatedLevel = editPersonDescriptor.getLevel().orElse(personToEdit.getLevel());
         Status updatedStatus = editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
+        Role updatedRole = editPersonDescriptor.getRole().orElse(personToEdit.getRole());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
+
 
         //clean out old person's attribute tags, then add the new ones
         attributeTags.remove(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
         attributeTags.remove(new Tag(personToEdit.getLevel().toString(), Tag.AllTagTypes.LEVEL));
         attributeTags.remove(new Tag(personToEdit.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
         attributeTags.remove(new Tag(personToEdit.getStatus().toString(), Tag.AllTagTypes.STATUS));
+        attributeTags.remove(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
 
         attributeTags.add(new Tag(updatedPrice.toString(), Tag.AllTagTypes.PRICE));
         attributeTags.add(new Tag(updatedSubject.toString(), Tag.AllTagTypes.SUBJECT));
         attributeTags.add(new Tag(updatedLevel.toString(), Tag.AllTagTypes.LEVEL));
         attributeTags.add(new Tag(updatedStatus.toString(), Tag.AllTagTypes.STATUS));
+       attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
+
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                updatedPrice, updatedSubject, updatedLevel, updatedStatus, attributeTags);
+                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole, attributeTags);
     }
 
     @Override
@@ -169,6 +175,7 @@ public class EditCommand extends UndoableCommand {
         private Subject subject;
         private Level level;
         private Status status;
+        private Role role;
         private Set<Tag> tags;
 
         public EditPersonDescriptor() {}
@@ -186,6 +193,7 @@ public class EditCommand extends UndoableCommand {
             setSubject(toCopy.subject);
             setLevel(toCopy.level);
             setStatus(toCopy.status);
+            setRole(toCopy.role);
             setTags(toCopy.tags);
         }
 
@@ -194,7 +202,7 @@ public class EditCommand extends UndoableCommand {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address,
-                    this.price, this.subject, this.level, this.status, this.tags);
+                    this.price, this.subject, this.level, this.status, this.role, this.tags);
         }
 
         public void setName(Name name) {
@@ -261,8 +269,16 @@ public class EditCommand extends UndoableCommand {
             return Optional.ofNullable(status);
         }
 
-        /**
-         * Sets {@code tags} to this object's {@code tags}.
+        public void setRole(Role role) {
+            this.role = role;
+        }
+
+        public Optional<Role> getRole() {
+            return Optional.ofNullable(role);
+        }
+
+        /*
+         *  Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
          */
         public void setTags(Set<Tag> tags) {
@@ -297,6 +313,10 @@ public class EditCommand extends UndoableCommand {
                     && getPhone().equals(e.getPhone())
                     && getEmail().equals(e.getEmail())
                     && getAddress().equals(e.getAddress())
+                    && getPrice().equals(e.getPrice())
+                    && getRole().equals(e.getRole())
+                    && getLevel().equals(e.getLevel())
+                    && getStatus().equals(e.getStatus())
                     && getTags().equals(e.getTags());
         }
     }

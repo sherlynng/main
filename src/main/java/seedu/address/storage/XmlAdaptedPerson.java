@@ -16,6 +16,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
@@ -43,6 +44,8 @@ public class XmlAdaptedPerson {
     private String level;
     @XmlElement(required = true)
     private String status;
+    @XmlElement(required = true)
+    private String role;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -57,7 +60,8 @@ public class XmlAdaptedPerson {
      * Constructs an {@code XmlAdaptedPerson} with the given person details.
      */
     public XmlAdaptedPerson(String name, String phone, String email, String address,
-                            String price, String subject, String level, String status, List<XmlAdaptedTag> tagged) {
+                            String price, String subject, String level, String status, String role,
+                            List<XmlAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -66,6 +70,7 @@ public class XmlAdaptedPerson {
         this.status = status;
         this.subject = subject;
         this.level = level;
+        this.role = role;
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
@@ -85,6 +90,7 @@ public class XmlAdaptedPerson {
         subject = source.getSubject().value;
         status = source.getStatus().value;
         price = source.getPrice().value;
+        role = source.getRole().value;
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
@@ -166,8 +172,16 @@ public class XmlAdaptedPerson {
         }
         final Status status = new Status(this.status);
 
+        if (this.role == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Role.class.getSimpleName()));
+        }
+        if (!Role.isValidRole(this.role)) {
+            throw new IllegalValueException(Role.MESSAGE_ROLE_CONSTRAINTS);
+        }
+        final Role role = new Role(this.role);
+
         final Set<Tag> tags = new HashSet<>(personTags);
-        return new Person(name, phone, email, address, price, subject, level, status, tags);
+        return new Person(name, phone, email, address, price, subject, level, status, role, tags);
     }
 
     @Override

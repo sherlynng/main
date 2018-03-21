@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -45,6 +46,7 @@ public class PersonUtil {
         sb.append(PREFIX_SUBJECT + person.getSubject().value + " ");
         sb.append(PREFIX_LEVEL + person.getLevel().value + " ");
         sb.append(PREFIX_STATUS + person.getStatus().value + " ");
+        sb.append(PREFIX_ROLE + person.getRole().value + " ");
 
         person.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")

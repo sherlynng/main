@@ -27,6 +27,6 @@ public class Student extends Person {
      */
     public Student(Name name, Phone phone, Email email, Address address,
                    Price price, Subject subject, Level level, Status status, Set<Tag> tags) {
-        super(name, phone, email, address, price, subject, level, status, tags);
+        super(name, phone, email, address, price, subject, level, status, new Role("student"), tags);
     }
 }

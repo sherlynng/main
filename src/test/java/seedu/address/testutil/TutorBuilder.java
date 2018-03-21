@@ -26,8 +26,8 @@ public class TutorBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_PRICE = "100";
     public static final String DEFAULT_SUBJECT = "english";
-    public static final String DEFAULT_LEVEL = "lowerSec";
-    public static final String DEFAULT_STATUS = "notMatched";
+    public static final String DEFAULT_LEVEL = "lower Sec";
+    public static final String DEFAULT_STATUS = "not Matched";
     public static final String DEFAULT_TAGS = "tutor";
 
     private Name name;

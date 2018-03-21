@@ -12,8 +12,8 @@ import java.util.HashSet;
  */
 public class Subject {
 
-    public static final String[] SUBJECT_VALUES = new String[] { "english", "math",
-        "physics", "chemistry", "economics" };
+    public static final String[] SUBJECT_VALUES =
+            new String[]{"english", "eng", "chinese", "chi", "math", "physics", "phy", "chemistry", "chem"};
     public static final HashSet<String> SET_ALL_SUBJECT = new HashSet<>(Arrays.asList(SUBJECT_VALUES));
 
     public static final String MESSAGE_SUBJECT_CONSTRAINTS = "Subject should be one of: \n"
@@ -29,9 +29,32 @@ public class Subject {
      */
     public Subject(String subject) {
         requireNonNull(subject);
+        subject.toLowerCase();
         checkArgument(isValidSubject(subject), MESSAGE_SUBJECT_CONSTRAINTS);
-        this.value = subject;
+        subject = convertToFullSubject(subject);
+        ProperCaseConverter pc = new ProperCaseConverter();
+        this.value = pc.convertToProperCase(subject);
     }
+
+    /**
+     * Convert a shortcut to full subject name
+     */
+    public String convertToFullSubject(String original) {
+        String cur = original.toLowerCase();
+        if (cur == null) {
+            return "";
+        } else if (cur.equals("eng")) {
+            cur = "english";
+        } else if (cur.equals("chi")) {
+            cur = "chinese";
+        } else if (cur.equals("phy")) {
+            cur = "physics";
+        } else if (cur.equals("chem")) {
+            cur = "chemistry";
+        }
+        return cur;
+    }
+
 
     /**
      * Returns if a given string is a valid subject description.
