@@ -48,11 +48,11 @@ public class LevelTest {
 
     @Test
     public void checkLevelHashCode() {
-        Level level = new Level("uppersec");
+        Level level = new Level("upper sec");
         assertTrue(level.hashCode() == level.value.hashCode());
-        level = new Level("lowersec");
+        level = new Level("lower sec");
         assertTrue(level.hashCode() == level.value.hashCode());
-        level = new Level("lowerpri");
+        level = new Level("lower pri");
         assertTrue(level.hashCode() == level.value.hashCode());
     }
 }
