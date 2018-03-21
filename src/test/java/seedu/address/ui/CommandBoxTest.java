@@ -163,14 +163,12 @@ public class CommandBoxTest extends GuiUnitTest {
         commandBoxHandle.setInput("add");
         guiRobot.push(KeyCode.TAB);
         String actualOutput = commandBoxHandle.getInput();
-
         assertEquals(expectedOutput, actualOutput);
 
         // checks for add command word alias
         commandBoxHandle.setInput("a");
         guiRobot.push(KeyCode.TAB);
         actualOutput = commandBoxHandle.getInput();
-        
         assertEquals(expectedOutput, actualOutput);
 
         // checks if tab works correctly
@@ -188,14 +186,12 @@ public class CommandBoxTest extends GuiUnitTest {
         commandBoxHandle.setInput("select");
         guiRobot.push(KeyCode.TAB);
         String actualOutput = commandBoxHandle.getInput();
-
         assertEquals(expectedOutput, actualOutput);
 
         // checks for select command word alias
         commandBoxHandle.setInput("s");
         guiRobot.push(KeyCode.TAB);
         actualOutput = commandBoxHandle.getInput();
-
         assertEquals(expectedOutput, actualOutput);
     }
 
@@ -207,14 +203,12 @@ public class CommandBoxTest extends GuiUnitTest {
         commandBoxHandle.setInput("delete");
         guiRobot.push(KeyCode.TAB);
         String actualOutput = commandBoxHandle.getInput();
-
         assertEquals(expectedOutput, actualOutput);
 
         // checks for delete command word alias
         commandBoxHandle.setInput("d");
         guiRobot.push(KeyCode.TAB);
         actualOutput = commandBoxHandle.getInput();
-
         assertEquals(expectedOutput, actualOutput);
     }
 
@@ -226,14 +220,12 @@ public class CommandBoxTest extends GuiUnitTest {
         commandBoxHandle.setInput("edit");
         guiRobot.push(KeyCode.TAB);
         String actualOutput = commandBoxHandle.getInput();
-
         assertEquals(expectedOutput, actualOutput);
 
         // checks for edit command word alias
         commandBoxHandle.setInput("e");
         guiRobot.push(KeyCode.TAB);
         actualOutput = commandBoxHandle.getInput();
-
         assertEquals(expectedOutput, actualOutput);
     }
 
