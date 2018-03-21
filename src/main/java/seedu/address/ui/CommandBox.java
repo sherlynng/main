@@ -24,6 +24,7 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -88,14 +89,25 @@ public class CommandBox extends UiPart<Region> {
     private void autofillCommand() {
         String input = commandTextField.getText();
         int nextCaretPosition = -1;
+        boolean isFirstTime = false; // set this to check for edit command
 
+        // first time tab is pressed
         switch (input) {
         case AddCommand.COMMAND_WORD:
         case AddCommand.COMMAND_WORD_ALIAS:
-            commandTextField.setText("add " + PREFIX_NAME + " " + PREFIX_PHONE + " " + PREFIX_EMAIL + " "
-                    + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " " + PREFIX_LEVEL + " "
-                    + PREFIX_STATUS + " " + PREFIX_ROLE);
+            commandTextField.setText(AddCommand.COMMAND_WORD + " " + PREFIX_NAME + " " + PREFIX_PHONE + " "
+                    + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
+                    + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
             canTab = true;
+            break;
+        case EditCommand.COMMAND_WORD:
+        case EditCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(EditCommand.COMMAND_WORD + " 1 " + PREFIX_NAME + " " + PREFIX_PHONE + " "
+                    + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
+                    + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
+            selectIndexToEdit();
+            canTab = false;
+            isFirstTime = true;
             break;
         case SelectCommand.COMMAND_WORD:
         case SelectCommand.COMMAND_WORD_ALIAS:
@@ -113,11 +125,15 @@ public class CommandBox extends UiPart<Region> {
             // no autofill
         }
 
+        // subsequent times tab is pressed
         if (canTab) {
             nextCaretPosition = findNextField();
             if (nextCaretPosition != -1) {
                 commandTextField.positionCaret(nextCaretPosition);
             }
+        }
+        if (isFirstTime) {
+            canTab = true;
         }
     }
 
