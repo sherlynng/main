@@ -13,13 +13,11 @@ AddressBook save file which contains the same Person values as in
         <email>alice@example.com</email>
         <address>123, Jurong West Ave 6, #08-111</address>
 		<price>50</price>
-
 		<subject>Math</subject>
 		<level>Lower Sec</level>
 		<status>Not Matched</status>
         <role>Student</role>
         <tag>Friend,DEFAULT</tag>
-
     </persons>
     <persons>
         <name>Benson Meier</name>
@@ -61,7 +59,6 @@ AddressBook save file which contains the same Person values as in
         <email>werner@example.com</email>
         <address>michegan ave</address>
 		<price>210</price>
-
 		<subject>Math</subject>
 		<level>Upper Sec</level>
 		<status>Not Matched</status>
@@ -73,7 +70,6 @@ AddressBook save file which contains the same Person values as in
         <email>lydia@example.com</email>
         <address>little tokyo</address>
 		<price>99</price>
-
 		<subject>English</subject>
 		<level>Upper Sec</level>
 		<status>Not Matched</status>
@@ -90,7 +86,6 @@ AddressBook save file which contains the same Person values as in
 		<status>Not Matched</status>
         <role>Tutor</role>
     </persons>
-  
 	<tags>320,PRICE</tags>
 	<tags>99,PRICE</tags>
 	<tags>210,PRICE</tags>
