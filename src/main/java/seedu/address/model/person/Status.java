@@ -27,13 +27,23 @@ public class Status {
      * @param status A valid statust description.
      */
     public Status(String status) {
+        status = validateStatus(status);
+        this.value = formatStatus(status);
+    }
+
+    private String formatStatus(String status) {
+        ProperCaseConverter pc = new ProperCaseConverter();
+        return pc.convertToProperCase(status);
+    }
+
+    private String validateStatus(String status) {
         requireNonNull(status);
         status.toLowerCase();
         checkArgument(isValidStatus(status), MESSAGE_STATUS_CONSTRAINTS);
         status = convertToFullStatus(status);
-        ProperCaseConverter pc = new ProperCaseConverter();
-        this.value = pc.convertToProperCase(status);
+        return status;
     }
+
 
     /**
      * Convert a shortcut to full status name

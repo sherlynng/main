@@ -28,12 +28,21 @@ public class Subject {
      * @param subject A valid subject description.
      */
     public Subject(String subject) {
+        subject = validateSubject(subject);
+        this.value = formatsubject(subject);
+    }
+
+    private String formatsubject(String subject) {
+        ProperCaseConverter pc = new ProperCaseConverter();
+        return pc.convertToProperCase(subject);
+    }
+
+    private String validateSubject(String subject) {
         requireNonNull(subject);
         subject.toLowerCase();
         checkArgument(isValidSubject(subject), MESSAGE_SUBJECT_CONSTRAINTS);
         subject = convertToFullSubject(subject);
-        ProperCaseConverter pc = new ProperCaseConverter();
-        this.value = pc.convertToProperCase(subject);
+        return subject;
     }
 
     /**

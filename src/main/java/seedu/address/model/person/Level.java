@@ -31,12 +31,21 @@ public class Level {
      * @param level A valid level description.
      */
     public Level(String level) {
+        level = validateLevel(level);
+        this.value = formatlevel(level);
+    }
+
+    private String formatlevel(String level) {
+        ProperCaseConverter pc = new ProperCaseConverter();
+        return pc.convertToProperCase(level);
+    }
+
+    private String validateLevel(String level) {
         requireNonNull(level);
         level.toLowerCase();
         checkArgument(isValidLevel(level), MESSAGE_LEVEL_CONSTRAINTS);
         level = convertToFullLevel(level);
-        ProperCaseConverter pc = new ProperCaseConverter();
-        this.value = pc.convertToProperCase(level);
+        return level;
     }
 
     /**
