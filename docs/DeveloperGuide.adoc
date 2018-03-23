@@ -491,7 +491,7 @@ We currently support shortcuts for `subject`, `level`, `status`, and `role`.
 |=======================================================================
 |Applicable field |Shortcut |Equivalence in full
 |subject | `sub/chem`| `sub/chemistry`
-|subject | `sub/phy`| `/physics`
+|subject | `sub/phy`| `sub/physics`
 |subject | `sub/chi`| `sub/chinese`
 |subject | `sub/eng`| `sub/english`
 |level | `lvl/us`| `lvl/upper sec`
