@@ -27,12 +27,26 @@ public class Role {
      * @param role A valid role description.
      */
     public Role(String role) {
+        role = validateRole(role);
+        this.value = formatRole(role);
+    }
+
+    private String formatRole(String role) {
+        ProperCaseConverter pc = new ProperCaseConverter();
+        return pc.convertToProperCase(role);
+    }
+
+    /**
+     * check validity of the status string supplied
+     * @param role
+     * @return string representing a valid role
+     */
+    private String validateRole(String role) {
         requireNonNull(role);
         role.toLowerCase();
         checkArgument(isValidRole(role), MESSAGE_ROLE_CONSTRAINTS);
         role = convertToFullRole(role);
-        ProperCaseConverter pc = new ProperCaseConverter();
-        this.value = pc.convertToProperCase(role);
+        return role;
     }
 
     /**
