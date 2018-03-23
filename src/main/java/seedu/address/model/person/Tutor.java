@@ -21,10 +21,11 @@ public class Tutor extends Person {
      * @param subject
      * @param level
      * @param status
+     * @param remark
      * @param tags
      */
     public Tutor(Name name, Phone phone, Email email, Address address, Price price,
-                 Subject subject, Level level, Status status, Set<Tag> tags) {
-        super(name, phone, email, address, price, subject, level, status, new Role("student"), tags);
+                 Subject subject, Level level, Status status, Set<Tag> tags, Remark remark) {
+        super(name, phone, email, address, price, subject, level, status, new Role("student"), tags, remark);
     }
 }

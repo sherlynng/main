@@ -23,10 +23,11 @@ public class Student extends Person {
      * @param subject
      * @param level
      * @param status
+     * @param remark
      * @param tags
      */
     public Student(Name name, Phone phone, Email email, Address address,
-                   Price price, Subject subject, Level level, Status status, Set<Tag> tags) {
-        super(name, phone, email, address, price, subject, level, status, new Role("student"), tags);
+                   Price price, Subject subject, Level level, Status status, Remark remark, Set<Tag> tags) {
+        super(name, phone, email, address, price, subject, level, status, new Role("student"), tags, remark);
     }
 }

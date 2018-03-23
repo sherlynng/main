@@ -24,6 +24,7 @@ public class Person {
     private final Level level;
     private final Role role;
     private Status status;
+    private final Remark remark;
 
     private final UniqueTagList tags;
 
@@ -31,7 +32,7 @@ public class Person {
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Price price, Subject subject,
-                  Level level, Status status, Role role, Set<Tag> tags) {
+                  Level level, Status status, Role role, Set<Tag> tags, Remark remark) {
         requireAllNonNull(name, phone, email, address, price, subject, level, status, tags);
         this.name = name;
         this.phone = phone;
@@ -42,6 +43,7 @@ public class Person {
         this.level = level;
         this.role = role;
         this.status = status;
+        this.remark = remark;
 
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
@@ -75,13 +77,16 @@ public class Person {
         return role;
     }
 
-
     public Status getStatus() {
         return status;
     }
 
     public Address getAddress() {
         return address;
+    }
+
+    public Remark getRemark() {
+        return remark;
     }
 
     /**
@@ -113,7 +118,7 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, price, subject, level, status, role, tags);
+        return Objects.hash(name, phone, email, address, price, subject, level, status, role, tags, remark);
     }
 
     @Override
