@@ -32,7 +32,7 @@ public class PersonBuilder {
     public static final String DEFAULT_STATUS = "Not Matched";
     public static final String DEFAULT_ROLE = "Student";
     public static final String DEFAULT_TAGS = "Friend";
-    public static final String DEFAULT_REMARK = "Hardworking but slow learner";
+    public static final String DEFAULT_REMARK = "Hardworking but slow learner.";
 
     private Name name;
     private Phone phone;

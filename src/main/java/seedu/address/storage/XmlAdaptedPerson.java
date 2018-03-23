@@ -64,7 +64,7 @@ public class XmlAdaptedPerson {
      */
     public XmlAdaptedPerson(String name, String phone, String email, String address,
                             String price, String subject, String level, String status, String role,
-                            String remark, List<XmlAdaptedTag> tagged) {
+                            List<XmlAdaptedTag> tagged, String remark) {
         this.name = name;
         this.phone = phone;
         this.email = email;

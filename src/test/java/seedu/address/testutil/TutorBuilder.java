@@ -9,6 +9,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
 import seedu.address.model.person.Tutor;
@@ -29,6 +30,7 @@ public class TutorBuilder {
     public static final String DEFAULT_LEVEL = "lower Sec";
     public static final String DEFAULT_STATUS = "not Matched";
     public static final String DEFAULT_TAGS = "tutor";
+    public static final String DEFAULT_REMARK = "Patient and approachable.";
 
     private Name name;
     private Phone phone;
@@ -39,6 +41,7 @@ public class TutorBuilder {
     private Level level;
     private Status status;
     private Set<Tag> tags;
+    private Remark remark;
 
     public TutorBuilder() {
         name = new Name(DEFAULT_NAME);
@@ -50,6 +53,7 @@ public class TutorBuilder {
         level = new Level(DEFAULT_LEVEL);
         status = new Status(DEFAULT_STATUS);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
+        remark = new Remark(DEFAULT_REMARK);
     }
 
     /**
@@ -100,7 +104,7 @@ public class TutorBuilder {
     }
 
     /**
-     * Sets the {@code Price} of the {@code Person} that we are building.
+     * Sets the {@code Level} of the {@code Person} that we are building.
      */
     public TutorBuilder withLevel(String level) {
         this.level = new Level(level);
@@ -108,7 +112,7 @@ public class TutorBuilder {
     }
 
     /**
-     * Sets the {@code Price} of the {@code Person} that we are building.
+     * Sets the {@code Subject} of the {@code Person} that we are building.
      */
     public TutorBuilder withSubject(String subject) {
         this.subject = new Subject(subject);
@@ -116,7 +120,7 @@ public class TutorBuilder {
     }
 
     /**
-     * Sets the {@code Price} of the {@code Person} that we are building.
+     * Sets the {@code Status} of the {@code Person} that we are building.
      */
     public TutorBuilder withStatus(String status) {
         this.status = new Status(status);
@@ -139,12 +143,20 @@ public class TutorBuilder {
     }
 
     /**
+     * Sets the {@code Remark} of the {@code Person} that we are building.
+     */
+    public TutorBuilder withRemark(String remark) {
+        this.remark = new Remark(remark);
+        return this;
+    }
+
+    /**
      * Builds a stutor based off the attributes in this class
      * @return Tutor with set attributes
      */
     public Tutor build() {
         setTags();
-        return new Tutor(name, phone, email, address, price, subject, level, status, tags);
+        return new Tutor(name, phone, email, address, price, subject, level, status, tags, remark);
     }
 
 }

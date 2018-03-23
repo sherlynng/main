@@ -27,7 +27,7 @@ public class Student extends Person {
      * @param tags
      */
     public Student(Name name, Phone phone, Email email, Address address,
-                   Price price, Subject subject, Level level, Status status, Remark remark, Set<Tag> tags) {
+                   Price price, Subject subject, Level level, Status status, Set<Tag> tags, Remark remark) {
         super(name, phone, email, address, price, subject, level, status, new Role("student"), tags, remark);
     }
 }
