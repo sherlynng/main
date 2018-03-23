@@ -36,6 +36,11 @@ public class Status {
         return pc.convertToProperCase(status);
     }
 
+    /**
+     * check validity of the status string supplied
+     * @param status
+     * @return string representing a valid status
+     */
     private String validateStatus(String status) {
         requireNonNull(status);
         status.toLowerCase();

@@ -32,14 +32,19 @@ public class Level {
      */
     public Level(String level) {
         level = validateLevel(level);
-        this.value = formatlevel(level);
+        this.value = formatLevel(level);
     }
 
-    private String formatlevel(String level) {
+    private String formatLevel(String level) {
         ProperCaseConverter pc = new ProperCaseConverter();
         return pc.convertToProperCase(level);
     }
 
+    /**
+     * check validity of the level string supplied
+     * @param level
+     * @return string representing a valid level
+     */
     private String validateLevel(String level) {
         requireNonNull(level);
         level.toLowerCase();

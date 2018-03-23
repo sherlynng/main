@@ -37,6 +37,11 @@ public class Subject {
         return pc.convertToProperCase(subject);
     }
 
+    /**
+     * check validity of the subject string supplied
+     * @param subject
+     * @return string representing a valid subject
+     */
     private String validateSubject(String subject) {
         requireNonNull(subject);
         subject.toLowerCase();

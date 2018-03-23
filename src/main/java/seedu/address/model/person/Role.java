@@ -36,6 +36,11 @@ public class Role {
         return pc.convertToProperCase(role);
     }
 
+    /**
+     * check validity of the status string supplied
+     * @param role
+     * @return string representing a valid role
+     */
     private String validateRole(String role) {
         requireNonNull(role);
         role.toLowerCase();
