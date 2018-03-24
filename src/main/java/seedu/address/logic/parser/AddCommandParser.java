@@ -71,7 +71,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             if (!subject.toString().equals("")) {
                 tagList.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
             }
-            if (!subject.toString().equals("")) {
+            if (!level.toString().equals("")) {
                 tagList.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
             }
             if (!status.toString().equals("")) {
