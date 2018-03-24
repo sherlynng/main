@@ -46,8 +46,7 @@ public class AddCommandParser implements Parser<AddCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
                         PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_STATUS, PREFIX_ROLE, PREFIX_TAG);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_ROLE, PREFIX_STATUS)
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
         }
@@ -63,11 +62,6 @@ public class AddCommandParser implements Parser<AddCommand> {
             Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).get();
             Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-
-            //        if (!tagList.contains(new Tag("Student")) && !tagList.contains(new Tag("Tutor"))) {
-            //            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT
-            // + MESSAGE_USAGE, MESSAGE_USAGE));
-            // }
 
             //Add required attributes to the tag list as in documentation
 
