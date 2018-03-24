@@ -465,21 +465,11 @@ The exceptions are `Price` and `Phone` as they consist only of numbers and requi
 
 ==== Model Implementation
 We utilise the `ProperCaseConverter` object to convert all parsed and valid input into proper case.
-See the example below for an actual implementation found in the `Role` class.
-All the fields utilise the `ProperCaseConverter` object in a similar way.
+The sequence diagram below shows how this is achieved in the constructor of `Role` class.
 
-[source,java]
-----
-public class Role{
- //...other implementations...
- public Role(String role) {
-         //... Validating input...
-         ProperCaseConverter pc = new ProperCaseConverter();
-         this.value = pc.convertToProperCase(role);
-     }
- //...other implementations...
-}
-----
+image::SDforCaseInsensitiveInput.png[width="800"]
+
+The other classes utilise the `ProperCaseConverter` object in a similar way.
 
 === Shortcuts for the user in filling fields
 
@@ -494,7 +484,7 @@ We currently support shortcuts for `Subject`, `Level`, `Status`, and `Role`.
 |=======================================================================
 |Applicable field |Shortcut |Equivalence in full
 |subject | `sub/chem`| `sub/chemistry`
-|subject | `sub/phy`| `/physics`
+|subject | `sub/phy`| `sub/physics`
 |subject | `sub/chi`| `sub/chinese`
 |subject | `sub/eng`| `sub/english`
 |level | `lvl/us`| `lvl/upper sec`
