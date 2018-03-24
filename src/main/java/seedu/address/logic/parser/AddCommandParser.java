@@ -64,17 +64,24 @@ public class AddCommandParser implements Parser<AddCommand> {
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
             //Add required attributes to the tag list as in documentation
-
-
-            tagList.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
-            tagList.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
-            tagList.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
-            tagList.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
-            tagList.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
-
+            //make tags only if the attribute has been entered by user
+            if (!price.toString().equals("")) {
+                tagList.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
+            }
+            if (!subject.toString().equals("")) {
+                tagList.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
+            }
+            if (!subject.toString().equals("")) {
+                tagList.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
+            }
+            if (!status.toString().equals("")) {
+                tagList.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
+            }
+            if (!role.toString().equals("")) {
+                tagList.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
+            }
 
             Person person = new Person(name, phone, email, address, price, subject, level, status, role, tagList);
-
             return new AddCommand(person);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
