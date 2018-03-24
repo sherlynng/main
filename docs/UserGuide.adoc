@@ -197,17 +197,17 @@ Examples:
 
 * `*delete* 1` +
 `*list*` +
-`*undo*` (reverses the `delete 1` command) +
+`*undo*` (reverses the `*delete* 1` command) +
 
 * `*select* 1` +
 `*list*` +
 `*undo*` +
-The `undo` command fails as there are no undoable commands executed previously.
+The `*undo*` command fails as there are no undoable commands executed previously.
 
 * `*delete* 1` +
 `*clear*` +
-`*undo*` (reverses the `clear` command) +
-`*undo*` (reverses the `delete 1` command) +
+`*undo*` (reverses the `*clear*` command) +
+`*undo*` (reverses the `*delete* 1` command) +
 
 === Redoing the previously undone command : `*redo*` or `*r*`
 
@@ -237,7 +237,7 @@ The `*redo*` command fails as there are no `*undo*` commands executed previously
 To clear all entries from your STUtor, use the `*clear*` command. +
 Format: `*clear*`
 
-=== Exiting the program : `exit`
+=== Exiting the program : `*exit*`
 
 Exits the program. +
 Format: `*exit*`
@@ -254,7 +254,7 @@ There is no need to save manually.
 *Q*: How do I transfer my data to another Computer? +
 *A*:
 First, install STUtor in the other computer.
-Then, naviagte to main/data, and overwrite the empty  `STUtor.xml` file it creates with your previous file.
+Then, navigate to main/data, and overwrite the empty  `STUtor.xml` file it creates with your previous file.
 You can can find the previous file under the same path on your original computer.
 
 == Command Summary
@@ -267,6 +267,7 @@ You can can find the previous file under the same path on your original computer
 |`edit`|`e`|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` |`edit 2 n/James Lee e/jameslee@example.com`
 |`find`|`f`|`find KEYWORD [MORE_KEYWORDS]`|`find James Jake`
 |`select`|`s`|`select INDEX`|`select 2`
+|`filter`| |`filter KEYWORD`|`filter Math`
 |`list`|`l`||
 |`clear`|`c`||
 |`history`|`h`||
