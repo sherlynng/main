@@ -10,6 +10,7 @@
 		<level isPrivate="false">lower Sec</level>
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
+        <remark isPrivate="false">not motivated.</remark>
     </persons>
     <persons>
         <name>Ruth Mueller</name>
@@ -21,6 +22,7 @@
 		<level isPrivate="false">upper Sec</level>
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
+        <remark isPrivate="false"> - </remark>
 	</persons>
     <persons>
         <name>Heinz Kurz</name>
@@ -32,6 +34,7 @@
 		<level isPrivate="false">upper Sec</level>
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
+        <remark isPrivate="false">quick-witted.</remark>
     </persons>
     <persons>
         <name>Cornelia Meier</name>
@@ -43,6 +46,7 @@
 		<level isPrivate="false">upper Sec</level>
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
+        <remark isPrivate="false">very active.</remark>
     </persons>
     <persons>
         <name>Werner Meyer</name>
@@ -54,6 +58,7 @@
 		<level isPrivate="false">upper Sec</level>
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
+        <remark isPrivate="false">not very attentive.</remark>
     </persons>
     <persons>
         <name>Lydia Kunz</name>
@@ -65,6 +70,7 @@
 		<level isPrivate="false">upper Sec</level>
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
+        <remark isPrivate="false">self-motivated.</remark>
     </persons>
     <persons>
         <name>Anna Best</name>
@@ -76,6 +82,7 @@
 		<level isPrivate="false">lower Sec</level>
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
+        <remark isPrivate="false">talks a lot in lessons.</remark>
     </persons>
     <persons>
         <name>Stefan Meier</name>
@@ -87,6 +94,7 @@
 		<level isPrivate="false">lower Sec</level>
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
+        <remark isPrivate="false">unclear with basic concepts.</remark>
     </persons>
     <persons>
         <name>Martin Mueller</name>
@@ -98,5 +106,6 @@
 		<level isPrivate="false">upper Sec</level>
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
+        <remark isPrivate="false">good at tackling difficult questions.</remark>
     </persons>
 </addressbook>
