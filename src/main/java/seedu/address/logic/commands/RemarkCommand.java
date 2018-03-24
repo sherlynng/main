@@ -83,8 +83,7 @@ public class RemarkCommand extends UndoableCommand {
     }
 
     /**
-     * Creates and returns a {@code Person} with the details of {@code personToEdit}
-     * edited with {@code editPersonDescriptor}.
+     * Creates and returns a {@code Person} with the details of {@code personToEdit}.
      */
     private static Person createPersonWithNewRemark(Person personToEdit, Remark newRemark) {
         assert personToEdit != null;
