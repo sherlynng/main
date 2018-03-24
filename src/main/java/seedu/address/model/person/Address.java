@@ -27,7 +27,9 @@ public class Address {
      */
     public Address(String address) {
         requireNonNull(address);
-        checkArgument(isValidAddress(address), MESSAGE_ADDRESS_CONSTRAINTS);
+        if (!address.equals("")) {
+            checkArgument(isValidAddress(address), MESSAGE_ADDRESS_CONSTRAINTS);
+        }
         ProperCaseConverter pc = new ProperCaseConverter();
         this.value = pc.convertToProperCase(address);
     }

@@ -27,7 +27,9 @@ public class Role {
      * @param role A valid role description.
      */
     public Role(String role) {
-        role = validateRole(role);
+        if (!role.equals("")) {
+            role = validateRole(role);
+        }
         this.value = formatRole(role);
     }
 

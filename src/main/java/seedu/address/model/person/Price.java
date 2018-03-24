@@ -13,10 +13,12 @@ public class Price {
     public final String value;
 
 
-    public Price(String value) {
-        requireNonNull(value);
-        checkArgument(isValidPrice(value), MESSAGE_PRICE_CONSTRAINTS);
-        this.value = value;
+    public Price(String price) {
+        requireNonNull(price);
+        if (!price.equals("")) {
+            checkArgument(isValidPrice(price), MESSAGE_PRICE_CONSTRAINTS);
+        }
+        this.value = price;
     }
 
     /**

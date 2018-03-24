@@ -31,7 +31,9 @@ public class Level {
      * @param level A valid level description.
      */
     public Level(String level) {
-        level = validateLevel(level);
+        if (!level.equals("")) {
+            level = validateLevel(level);
+        }
         this.value = formatLevel(level);
     }
 

@@ -28,7 +28,9 @@ public class Subject {
      * @param subject A valid subject description.
      */
     public Subject(String subject) {
-        subject = validateSubject(subject);
+        if (!subject.equals("")) {
+            subject = validateSubject(subject);
+        }
         this.value = formatsubject(subject);
     }
 

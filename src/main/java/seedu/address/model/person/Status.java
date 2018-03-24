@@ -27,7 +27,9 @@ public class Status {
      * @param status A valid statust description.
      */
     public Status(String status) {
-        status = validateStatus(status);
+        if (!status.equals("")) {
+            status = validateStatus(status);
+        }
         this.value = formatStatus(status);
     }
 
