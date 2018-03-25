@@ -97,10 +97,10 @@ Format: `*add* n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS $/PRICE sub/SUBJECT lvl/E
 Adds a new person to STUtor. +
 
 ****
-For PRICE, SUBJECT, EDUCATION_LEVEL, STATUS, ROLE:
+* For PRICE, SUBJECT, EDUCATION_LEVEL, STATUS, ROLE:
 
-* Alias can be used to reduce typing.
-* These information is displayed as tags for easy reference.
+** Alias can be used to reduce typing.
+** These information is displayed as tags for easy reference.
 ****
 
 Examples:
