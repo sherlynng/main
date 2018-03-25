@@ -12,7 +12,10 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2103JAN2018-W11-B1/main
 
-By: `Team W11-B1`      Since: `Jun 2016`      Licence: `MIT`
+By: `Team W11-B1`      Since: `Jun 2016`      Licence: `MIT`
+
+== Introduction
+STUtor is a desktop application made specifically for the purpose of tuition coordinating. This guide provides information that will help you get started out with contributing to the project, such as the architecture and implementation of the available features.
 
 == Setting up
 
@@ -61,7 +64,7 @@ This project follows https://github.com/oss-generic/process/blob/master/docs/Cod
 . Select `Editor` > `Code Style` > `Java`
 . Click on the `Imports` tab to set the order
 
-* For `Class count to use import with '\*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the import statements
+* For `Class count to use import with '\*'` and `Names count to use static import with '*'`: Set to *999* to prevent IntelliJ from contracting the import statements
 * For `Import Layout`: The order is `import static all other imports`, `import java.\*`, `import javax.*`, `import org.\*`, `import com.*`, `import all other imports`. Add a `<blank line>` between each `import`
 
 Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> document to configure Intellij to check style-compliance as you write code.
@@ -102,7 +105,7 @@ image::Architecture.png[width="600"]
 The *_Architecture Diagram_* given above explains the high-level design of the App. Given below is a quick overview of each component.
 
 [TIP]
-The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
+The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. If you want to update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
 
 `Main` has only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. It is responsible for,
 
@@ -116,7 +119,7 @@ The `.pptx` files used to create diagrams in this document can be found in the l
 
 The rest of the App consists of four components.
 
-* <<Design-Ui,*`UI`*>>: The UI of the App.
+* <<Design-Ui,*`UI`*>>: The User Interface (UI) of the App.
 * <<Design-Logic,*`Logic`*>>: The command executor.
 * <<Design-Model,*`Model`*>>: Holds the data of the App in-memory.
 * <<Design-Storage,*`Storage`*>>: Reads data from, and writes data to, the hard disk.
@@ -124,9 +127,9 @@ The rest of the App consists of four components.
 Each of the four components
 
 * Defines its _API_ in an `interface` with the same name as the Component.
-* Exposes its functionality using a `{Component Name}Manager` class.
+* Reveals its functionality using a `{Component Name}Manager` class.
 
-For example, the `Logic` component (see the class diagram given below) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
+For example, the `Logic` component (refer to figure 2 below) defines it's API in the `Logic.java` interface and reveals its functionality using the `LogicManager.java` class.
 
 .Class Diagram of the Logic Component
 image::LogicClassDiagram.png[width="800"]
@@ -134,7 +137,7 @@ image::LogicClassDiagram.png[width="800"]
 [discrete]
 ==== Events-Driven nature of the design
 
-The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below (figure 3) shows how the components interact for the scenario where the user issues the command `delete 1`.
 
 .Component interactions for `delete 1` command (part 1)
 image::SDforDeletePerson.png[width="800"]
@@ -142,7 +145,7 @@ image::SDforDeletePerson.png[width="800"]
 [NOTE]
 Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
 
-The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
+The diagram below (figure 4) shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
 .Component interactions for `delete 1` command (part 2)
 image::SDforDeletePersonEventHandling.png[width="800"]
@@ -188,7 +191,7 @@ link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 .  The command execution can affect the `Model` (e.g. adding a person) and/or raise events.
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+Given below is the _Sequence Diagram_ (figure 8)  for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
 .Interactions Inside the Logic Component for the `delete 1` Command
 image::DeletePersonSdForLogic.png[width="800"]
@@ -225,10 +228,14 @@ The `Storage` component,
 === Common classes
 
 Classes used by multiple components are in the `seedu.addressbook.commons` package.
+Such classes include the `LogsCenter` and `EventsCenter` that are used to implement the logging in the application and event-centered design respectively.
 
 == Implementation
 
 This section describes some noteworthy details on how certain features are implemented.
+
+[NOTE]
+You may want to find out about the approach for existing features described here before starting to code!
 
 // tag::undoredo[]
 === Undo/Redo feature
@@ -237,7 +244,7 @@ This section describes some noteworthy details on how certain features are imple
 The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports undoing and redoing of commands that modifies the state of the address book (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
 
 `UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead. The following diagram shows the inheritance diagram for commands:
-
+.Logic Command Class Diagram
 image::LogicCommandClassDiagram.png[width="800"]
 
 As you can see from the diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
@@ -277,10 +284,12 @@ Suppose that the user has just launched the application. The `UndoRedoStack` wil
 
 The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th person in the address book. The current state of the address book is saved before the `delete 5` command executes. The `delete 5` command will then be pushed onto the `undoStack` (the current state is saved together with the command).
 
+.Stack Diagram for Undo/Redo after `Delete`
 image::UndoRedoStartingStackDiagram.png[width="800"]
 
-As the user continues to use the program, more commands are added into the `undoStack`. For example, the user may execute `add n/David ...` to add a new person.
+As the user continues to use the program, more commands are added into the `undoStack`. For example, the user may execute `add n/David ...` to add a new person. 
 
+.Stack Diagram for Undo/Redo after `Add`
 image::UndoRedoNewCommand1StackDiagram.png[width="800"]
 
 [NOTE]
@@ -290,13 +299,15 @@ The user now decides that adding the person was a mistake, and decides to undo t
 
 We will pop the most recent command out of the `undoStack` and push it back to the `redoStack`. We will restore the address book to the state before the `add` command executed.
 
+.Stack Diagram for Undo/Redo after `Undo`
 image::UndoRedoExecuteUndoStackDiagram.png[width="800"]
 
 [NOTE]
 If the `undoStack` is empty, then there are no other commands left to be undone, and an `Exception` will be thrown when popping the `undoStack`.
 
-The following sequence diagram shows how the undo operation works:
+The following _sequence diagram_ (figure 15) shows how the undo operation works:
 
+.Sequence Diagram for `Undo`
 image::UndoRedoSequenceDiagram.png[width="800"]
 
 The redo does the exact opposite (pops from `redoStack`, push to `undoStack`, and restores the address book to the state after the command is executed).
@@ -304,16 +315,19 @@ The redo does the exact opposite (pops from `redoStack`, push to `undoStack`, an
 [NOTE]
 If the `redoStack` is empty, then there are no other commands left to be redone, and an `Exception` will be thrown when popping the `redoStack`.
 
-The user now decides to execute a new command, `clear`. As before, `clear` will be pushed into the `undoStack`. This time the `redoStack` is no longer empty. It will be purged as it no longer make sense to redo the `add n/David` command (this is the behavior that most modern desktop applications follow).
+The user now decides to execute a new command, `clear`. As before, `clear` will be pushed into the `undoStack`. In this scenario, the `redoStack` is no longer empty. When the new command is executed, the `redoStack` will be purged as it no longer make sense to redo the `add n/David` command (this is the behavior that most modern desktop applications follow).
 
+.Stack Diagram for Undo/Redo after a new command `Clear`
 image::UndoRedoNewCommand2StackDiagram.png[width="800"]
 
 Commands that are not undoable are not added into the `undoStack`. For example, `list`, which inherits from `Command` rather than `UndoableCommand`, will not be added after execution:
 
+.Stack Diagram for Undo/Redo after `List`
 image::UndoRedoNewCommand3StackDiagram.png[width="800"]
 
 The following activity diagram summarize what happens inside the `UndoRedoStack` when a user executes a new command:
 
+.Activity Diagram for Undo/Redo
 image::UndoRedoActivityDiagram.png[width="650"]
 
 ==== Design Considerations
@@ -322,7 +336,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 * **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()`
 ** Pros: We will not lose any undone/redone functionality as it is now part of the default behaviour. Classes that deal with `Command` do not have to know that `executeUndoableCommand()` exist.
-** Cons: Hard for new developers to understand the template pattern.
+** Cons: It may be difficult for new developers to understand the template pattern.
 * **Alternative 2:** Just override `execute()`
 ** Pros: Does not involve the template pattern, easier for new developers to understand.
 ** Cons: Classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to undo/redo.
@@ -358,13 +372,6 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-// tag::dataencryption[]
-=== [Proposed] Data Encryption
-
-_{Explain here how the data encryption feature will be implemented}_
-
-// end::dataencryption[]
-
 === Logging
 
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
@@ -388,25 +395,12 @@ Certain properties of the application can be controlled (e.g App name, logging l
 === Automatic creation of tags from person attributes
 
 ==== Creation of the `Tag`
-We have made it such that the attributes `Price`, `Subject`, `Level` and `Status` of a person each have a tag with the value added to the person.
+Each of the attributes `Price`, `Subject`, `Level` and `Status` of a person each have a tag with the value added to the person.
 This is done when user performs `add` or `edit` command.
 
 In the AddCommandParser, after successfully parsing the `Price`, `Subject`, `Level`, `Status` input, the code has been modified such that a new `Tag` containing the correct value and attribute is automatically created after.
 For the EditCommand, the `createEditedPerson` command will remove the previous attribute tags in the `Person` list of tags, then recreate the attribute tags using the new `Person` class attribute values.
 
-The idea for this is implemented this way:
-[source,java]
-----
-private static Person createEditedPerson(...) {
-	/* code to update the attributes here */
-    Set<Tag> attributeTags = new HashSet<>(updatedTags);
-	attributeTags.remove(new Tag(personToEdit.getPrice().toString()));
-	/* similar code to remove the other attribute tags... */
-	attributeTags.add(new Tag(updatedPrice.toString(), Tag.AllTagTypes.PRICE));
-	/* similar code to add the new attribute tags... */
-	return new Person(...)
-}
-----
 [NOTE]
 Since the `Price`, `Subject`, `Level` and `Status` attributes have been parsed and checked to conform to expected values, there is no need to reparse the values when creating them as a `Tag`. +
 The acceptable inputs for a `Tag` must necessarily allow all the acceptable inputs for `Price`, `Subject`, `Level` and `Status` to prevent errors.
@@ -415,12 +409,13 @@ The acceptable inputs for a `Tag` must necessarily allow all the acceptable inpu
 The `Tag` class can support the ability to classify which attribute the tag was created from. This is done by adding an enum `AllTagsType` to the `Tag` class.
 A tag can be created without being from an attribute, with just a tag name. In this case, creating a `Tag` with no provided `AllTagsType` will initialise the `tagType` to `DEFAULT`.
 
-This is the current `Tag` class in UML notation.
+This is the current `Tag` class in UML notation
 
+.Tag Class
 image::TagClassDiagram.png[width="600"]
 
 This new attribute is used to implement the capability to standardize all tags created as a `Price` attribute to have the same color, all tags created as a `Subject` attribute to have the same color, and so on.
-This has been implemented as a new overloaded `getTagColorStyleFor` method, which takes in a Tag instead of a String.
+This has been implemented as a new overloaded `getTagColorStyleFor` method, which takes in a `Tag` instead of a `String`.
 
 The method idea is implemented this way:
 [source,java]
@@ -441,10 +436,10 @@ private String getTagColorStyleFor(Tag tag) {
     }
 ----
 [NOTE]
-As shown from this code snippet, any tag that is not set to one of the 4 attributes will fall through to the default type, where they will have the same color. This is currently done as such to prevent accidental collisions of color with the 4 attribute tags.
+As shown from this code snippet, any tag that is not set to one of the 4 attributes will fall through to the default type, where they will have the same color. This is done to prevent accidental collisions of color with the 4 attribute tags.
 
 ==== Storage Implementation
-The method for storing tags has also been changed slightly. While previously just the `tagName` needed to be stored. Now both the `tagName` and `tagType` must be stored.
+The method for storing tags has also been changed slightly. Previously, just the `tagName` needed to be stored. Now both the `tagName` and `tagType` must be stored.
 This has been accomplished by having XML store the single field in the form "TAGNAME,TAGTYPE".
 The respective tagName and tagType can be obtained by splitting the read string representing the tag data from the file around the "," separator. Since tags can only be alphanumeric, this provides a safe character to split around.
 
@@ -462,13 +457,11 @@ The respective tagName and tagType can be obtained by splitting the read string 
 === Case-insensitive input
 
 ==== Current Implementation
-We made input of fields case-insensitive to reduce hassles for the user.
+We made input of fields case-insensitive to reduce user input error.
 
-After parsing and validation, the field entered is converted to <<proper-case, proper case>> internally,
-so tags generated from the field information will be standardized and more readable for the user.
+After parsing and validation, the field entered is converted to <<proper-case, proper case>> internally, so tags generated from the field information will be standardized and more readable for the user.
 
-The exceptions are `price` and `phone` as they consist only numbers and require no conversion.
-`email` is converted to all lower-case to follow the convention.
+The exceptions are `Price` and `Phone` as they consist only of numbers and require no conversion. `Email` is converted to all lower-case to follow the convention.
 
 ==== Model Implementation
 We utilise the `ProperCaseConverter` object to convert all parsed and valid input into proper case.
@@ -482,10 +475,10 @@ The other classes utilise the `ProperCaseConverter` object in a similar way.
 
 ==== Current Implementation
 Due to the nature of the application, the user will input certain information repetitively.
-For example, `role` can only be one of `student` or `tutor`.
+For example, `Role` can only be one of `student` or `tutor`.
 
-Thus, we have created shortcuts to help improving efficiency in filling the fields.
-We currently support shortcuts for `subject`, `level`, `status`, and `role`.
+Thus, we have created shortcuts to improve efficiency in filling the fields.
+We currently support shortcuts for `Subject`, `Level`, `Status`, and `Role`.
 
 [width="59%",cols="<30%,<35%,<35%",options="header",]
 |=======================================================================
@@ -503,6 +496,7 @@ We currently support shortcuts for `subject`, `level`, `status`, and `role`.
 |role | `r/t`| `r/tutor`
 |role | `r/s`| `r/student`
 |=======================================================================
+.Input shortcuts
 
 ==== Model Implementation
 The shortcut is first validated, then the field information is converted to its full form.
@@ -556,7 +550,7 @@ image::OldBrowserPanel.png[width="500"]
 image::NewBrowserPanel.png[width="500"]
 
 ===== Current Implementation
-The UI is modified using SceneBuilder and the layout is specified in link:{repoURL}/blob/master/src/main/resources/view/BrowserPanel.fxml[`BrowserPanel.fxml`].
+The UI is modified using `SceneBuilder` and the layout is specified in link:{repoURL}/blob/master/src/main/resources/view/BrowserPanel.fxml[`BrowserPanel.fxml`].
 link:{repoURL}/blob/master/src/main/java/seedu/address/ui/BrowserPanel.java[`BrowserPanel.java`] subscribes to `handlePersonPanelSelectionChangedEvent`, where this allows the browser panel to
 be updated whenever the user selects on a specific person.
 
@@ -591,11 +585,11 @@ image::OldPersonCard.png[width="300"]
 
 image::NewPersonCard.png[width="300"]
 
-===== Removal of Unncessary Information
+===== Removal of Unnecessary Information
 Besides `Name`, all other details are removed from the person card. We choose to remove it as these details can
 be easily viewed by selecting on the person card since the browser panel now shows the full details of a person.
 
-As such, we decided to only leave the neccessary details that the user will frequently refer
+As such, we decided to only leave the necessary details that the user will frequently refer
 to in the person card. This helps to reduce cluttering on the side panel and allows the user to be able to view a
 longer list of people at one time.
 
@@ -1002,21 +996,21 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 *Target user profile*:
 
 * Tutor coordinator
-* has a need to manage and schedule a significant number of tutors and students
-* prefer desktop applications over other types
-* can type fast
-* prefers typing over mouse input
-* is reasonably comfortable using CLI applications
+* Has to manage a significant number of tutors and students
+* Prefer desktop application over other types
+* Can type fast
+* Prefers typing over mouse input
+* Is reasonably comfortable using command line input (CLI) applications
 
-*Value proposition*: efficient pairing of students and tutors based on criteria such as subject, budget, location, availability
+*Value proposition*: efficient matching of students and tutors based on criteria such as subject, level, price, location
 
 *Feature Contributions*:
 
 [width="59%",cols="<30%,<35%,<35%",options="header",]
 |=======================================================================
 |Name |Minor Enhancement |Major Enhancement
-|Danny NG Ming Xuan |Create new command to filter the person list with respect to the various tags in
-Person card. This will enable the user to view people with tags he/she is interested in.|Create `viewStats` command.
+|Danny NG Ming Xuan |Create new command to filter the person list with respect to the various attributes in
+Person card. This will enable the user to view persons with attributes he/she is interested in.|Create `viewStats` command.
 This allows the user to view information such as number of students/tutors/matched and more in the form of graph.
 |NG Xin Ler |Change browser panel to view Person's details and remove all attributes except name and tags in
 Person card. This helps to improve the readability of Person details and reduce cluttering on the side panel.|
@@ -1061,7 +1055,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |tag a person with role, subject, level, and status |identify details of each tutor/student easily
 
-|`* *` |user |sort matching list by budget |find the best match at the lowest price
+|`* *` |user |sort matching list by price |find the best match at the lowest price
 
 |`* *` |user |rate a tutor according to student’s feedback |identify tutors’ capability for future references
 
@@ -1083,7 +1077,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |user |view the location markers of tutor/student on a map |see the geographical concentration of tutors/students
 
-|`*` |user |automatically send email to the matched pair of tutor and student |inform both parties efficiently
+|`*` |user |automatically send an email to the matched pair of tutor and student |inform both parties efficiently
 
 |`*` |user |select a particular criteria and get tutors/students fulfilling that criteria | easily find a suitable tutor/student if one criteria takes priority
 
@@ -1102,7 +1096,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `STUtor` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is `STUtor` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
 === Use case: Delete person
@@ -1335,3 +1329,5 @@ _{ more test cases ... }_
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
 
 _{ more test cases ... }_
+
+
