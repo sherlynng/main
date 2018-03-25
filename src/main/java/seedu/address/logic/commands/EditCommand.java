@@ -156,7 +156,7 @@ public class EditCommand extends UndoableCommand {
         }
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole, attributeTags);
+                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole, new HashSet<>(attributeTags));
     }
 
     @Override
