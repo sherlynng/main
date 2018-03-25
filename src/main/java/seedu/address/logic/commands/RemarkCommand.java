@@ -116,6 +116,7 @@ public class RemarkCommand extends UndoableCommand {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof RemarkCommand // instanceof handles nulls
-                && this.targetIndex.equals(((RemarkCommand) other).targetIndex));
+                && this.targetIndex.equals(((RemarkCommand) other).targetIndex)
+                && this.newRemark.equals(((RemarkCommand) other).newRemark));
     }
 }
