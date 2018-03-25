@@ -287,7 +287,7 @@ The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th person 
 .Stack Diagram for Undo/Redo after `Delete`
 image::UndoRedoStartingStackDiagram.png[width="800"]
 
-As the user continues to use the program, more commands are added into the `undoStack`. For example, the user may execute `add n/David ...` to add a new person. 
+As the user continues to use the program, more commands are added into the `undoStack`. For example, the user may execute `add n/David ...` to add a new person.
 
 .Stack Diagram for Undo/Redo after `Add`
 image::UndoRedoNewCommand1StackDiagram.png[width="800"]
