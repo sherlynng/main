@@ -2,6 +2,7 @@
 :toc:
 :toc-title:
 :toc-placement: preamble
+:toclevels: 4
 :sectnums:
 :imagesDir: images
 :stylesDir: stylesheets
@@ -17,73 +18,114 @@ By: `Team W11-B1`      Since: `Jun 2016`      Licence: `MIT`
 
 == Introduction
 
-STUtor is for those who *prefer to use a desktop app for managing contacts*. More importantly, STUtor is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, STUtor can get your student and tutor management tasks done faster than traditional GUI apps. Interested? Jump to the <<Quick Start>> to get started. Enjoy!
+* STUtor is for *tutor coordinators* who prefer to use a *desktop app* for _matching_ and _managing_ a large database of tutors and students.
+* This app is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI).
+* If you can type fast, STUtor can get your *tutor and student management tasks done faster* than traditional GUI apps.
 
-== Quick Start
+[%hardbreaks]
+[%hardbreaks]
+[%hardbreaks]
+[%hardbreaks]
 
-.  Ensure you have Java version `1.8.0_60` or later installed in your Computer.
+* This guide gives you an overview of the _basic_ and _advanced_ features of STUtor.
+* Interested? Jump to the <<Getting Started>> now! Enjoy!
+
+== Getting Started
+
+.  Ensure you have Java version __1.8.0_60__ or later installed in your Computer.
 +
 [NOTE]
 Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
-.  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for your Address Book.
+.  Download the latest _STUtor.jar_ link:{repoURL}/releases[here].
+.  Copy the file to the folder you want to use as the home folder for your STUtor.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
 image::Ui.png[width="790"]
 +
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
-e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
+e.g. typing `*help*` and pressing kbd:[Enter] will open the help window.
 .  Some example commands you can try:
 
-* *`list`* : lists all contacts
-* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` $/10 sub/Math lvl/Secondary 1 stat/NotMatched: adds a contact named `John Doe` to the Address Book.
-* **`delete`**`3` : deletes the 3rd contact shown in the current list
-* *`exit`* : exits the app
+* `*list*` : lists all contacts
+* `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student` : adds a contact named `John Doe` to STUtor.
+* `*delete* 3` : deletes the 3rd contact shown in the current list
+* `*exit*` : exits the app
 
 .  Refer to <<Features>> for details of each command.
 
 [[Features]]
 == Features
 
-====
-*Command Format*
+=== Command Format
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-* Items in square brackets are optional e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-* Items with `…`​ after them can be used multiple times including zero times e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-* Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
-* For advanced users, a shorter alias for most commands exist to reduce typing. These are provided in the information for each command.
-====
+****
+* Words in UPPER_CASE are the *parameters to be supplied* by you
 
-=== Viewing help : `help` or `h`
+[%hardbreak]
+{nbsp}{nbsp}{nbsp}{nbsp} e.g. For `*add* n/NAME`, NAME is a parameter which can be used as `*add* n/John Doe`.
 
-Format: `help`
+* Items in *square brackets* are *optional*
 
-=== Adding a person: `add` or `a`
+[%hardbreak]
+{nbsp}{nbsp}{nbsp}{nbsp} e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 
-Adds a person to the address book +
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS $/BUDGET sub/SUBJECT lvl/EDUCATION_LEVEL t/Student [t/TAG]...`
+* Items with `…`​ after them can be *used multiple times* including zero times
 
-[TIP]
-A person must have at least one tag (Tutor/Student)
-The budget, subject, education level and status of each person will be displayed as tags
+[%hardbreak]
+{nbsp}{nbsp}{nbsp}{nbsp} e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+
+* Parameters can be in *any order*
+
+[%hardbreak]
+{nbsp}{nbsp}{nbsp}{nbsp} e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+
+* For advanced users, a *shorter alias* for most commands exist to reduce typing. These are provided in the information for each command.
+****
+
+=== Basic Features
+
+==== Viewing help : `help` or `h`
+Format: `*help*`
+
+At any time if you are unsure of how to use STUtor, this command will bring you to the help page.
+
+==== Adding a person: `add` or `a`
+Format: `*add* n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS $/PRICE sub/SUBJECT lvl/EDUCATION_LEVEL stat/STATUS r/ROLE [t/TAG]...`
+
+Adds a new person to STUtor. +
+
+****
+For PRICE, SUBJECT, EDUCATION_LEVEL, STATUS, ROLE:
+
+* Alias can be used to reduce typing.
+* These information is displayed as tags for easy reference.
+****
 
 Examples:
 
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 $/150 sub/Math lvl/Secondary 1`t/Tutor
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 $/200 sub/Physics lvl/Secondary 4 t/Student`
+* `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
+* `*add* n/Betsy Crowe p/91562389 e/betsycrowe@example.com a/Pasir Ris Drive 10, #06-02 $/30 sub/Chinese lvl/Upper Pri stat/Not Matched r/Tutor`
 
-=== Listing all persons : `list` or `l`
 
-Shows a list of all persons in the address book. +
-Format: `list`
+[NOTE]
+====
+Press kbd:[Tab] key once after typing `*add*` or `*a*` will autofill the command.
+Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
+Press kbd:[Delete] key to delete a field (and its prefix).
+====
 
-=== Editing a person : `edit` or `e`
+==== Listing all persons : `list` or `l`
+Format: `*list*`
 
-Edits an existing person in the address book. +
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [$/BUDGET] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [t/TAG]...`
+Shows a list of all persons in STUtor. +
+
+
+==== Editing a person : `edit` or `e`
+Format: `*edit* INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
+
+Edits an existing person in STUtor. +
 
 ****
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
@@ -91,97 +133,127 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [$/BUDGET] [sub/SUB
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person's tags by typing `t/` without specifying any tags after it.
-* The attribute tags will still remain after any changes to the other tags.
-* The attribute tags will automatically update to reflect any changes to the actual attributes.
+* Attribute tags will still remain after any changes to the other tags.
+* Attribute tags will automatically update to reflect any changes to the actual attributes.
 ****
 
 Examples:
 
-* `edit 1 p/91234567 e/johndoe@example.com` +
+* `*edit* 1 p/91234567 e/johndoe@example.com` +
 Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-* `edit 2 n/Betsy Crower t/` +
+* `*edit* 2 n/Betsy Crower t/` +
 Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-=== Filtering persons list by subject, level, role or status: `filter`
+[NOTE]
+====
+Press kbd:[Tab] key once after typing `*edit*` or `*e*` will autofill the command.
+INDEX to be specified will be highlighted.
+Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
+Press kbd:[Delete] key to delete a field (and its prefix).
+====
 
-Filters persons list whose subject, level, role or status contain any of the given keywords. +
-Format: `filter KEYWORD [MORE_KEYWORDS]`
+==== Filtering all persons list by subject, level, role or status: `filter`
+Format: `*filter* KEYWORD [MORE_KEYWORDS]`
+
+Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain any of the given keywords. +
 
 ****
-* The filter is case sensitive. e.g `math` will not match `Math`
-* The subject, level, role and status of persons are searched.
+* The filter is case sensitive.
+
+[%hardbreak]
+{nbsp}{nbsp}{nbsp}{nbsp} e.g `math` will not match `Math`
+
 * Only full words will be matched e.g. `Eng` will not match `English`
 * Persons with matching keyword will be returned
 ****
 
 Examples:
 
-* `filter Math` +
+* `*filter* Math` +
 Returns persons with `Math` subject
-* `filter Student` +
+* `*filter* Student` +
 Returns persons with `Student` role
 
-=== Locating persons by name: `find` or `f`
+==== Locating persons by name: `find` or `f`
+Format: `*find* KEYWORD [MORE_KEYWORDS]`
 
-Finds persons whose names contain any of the given keywords. +
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Finds persons whose NAME contain any of the given keywords. +
 
 ****
-* The search is case insensitive. e.g `hans` will match `Hans`
+* The search is case insensitive.
+
+[%hardbreak]
+{nbsp}{nbsp}{nbsp}{nbsp} e.g `hans` will match `Hans`
+
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Persons matching at least one keyword will be returned (i.e. `OR` search).
+
+[%hardbreak]
+{nbsp}{nbsp}{nbsp}{nbsp} e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 ****
 
 Examples:
 
-* `find John` +
+* `*find* John` +
 Returns `john` and `John Doe`
-* `find Betsy Tim John` +
+* `*find* Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
-=== Deleting a person : `delete` or `d`
+==== Deleting a person : `delete` or `d`
+Format: `*delete* INDEX`
 
-Deletes the specified person from the address book. +
-Format: `delete INDEX`
+Deletes the specified person from STUtor. +
 
 ****
 * Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the most recent listing.
+* The index refers to the index number shown in the *most recent listing*.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
 
 Examples:
 
-* `list` +
-`delete 2` +
-Deletes the 2nd person in the address book.
-* `find Betsy` +
-`delete 1` +
-Deletes the 1st person in the results of the `find` command.
+* `*list*` +
+`*delete* 2` +
+Deletes the 2nd person in STUtor.
+* `*find* Betsy` +
+`*delete* 1` +
+Deletes the 1st person in the results of the `*find*` command.
 
-=== Selecting a person : `select` or `s`
+[NOTE]
+====
+Press kbd:[Tab] key once after typing `*delete*` or `*d*` will autofill the command.
+INDEX to be specified will be highlighted.
+====
 
-Selects the person identified by the index number used in the last person listing. +
-Format: `select INDEX`
+==== Selecting a person : `select` or `s`
+Format: `*select* INDEX`
+
+Selects the person identified by the index number used in the *last person listing*. +
 
 ****
-* Selects the person and loads the Google search page the person at the specified `INDEX`.
+* Selects the person and displays person details at the specified `INDEX`.
 * The index refers to the index number shown in the most recent listing.
 * The index *must be a positive integer* `1, 2, 3, ...`
 ****
 
 Examples:
 
-* `list` +
-`select 2` +
-Selects the 2nd person in the address book.
-* `find Betsy` +
-`select 1` +
-Selects the 1st person in the results of the `find` command.
+* `*list*` +
+`*select* 2` +
+Selects the 2nd person in STUtor.
+* `*find* Betsy` +
+`*select* 1` +
+Selects the 1st person in the results of the `*find*` command.
 
-=== Listing entered commands : `history` or `h`
+[NOTE]
+====
+Press kbd:[Tab] key once after typing `*select*` or `*s*` will autofill the command.
+INDEX to be specified will be highlighted.
+====
+
+==== Listing entered commands : `history` or `h`
 
 Lists all the commands that you have entered in reverse chronological order. +
 Format: `history`
@@ -192,7 +264,7 @@ Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and 
 ====
 
 // tag::undoredo[]
-=== Undoing previous command : `undo` or `u`
+==== Undoing previous command : `undo` or `u`
 
 Restores the address book to the state before the previous _undoable_ command was executed. +
 Format: `undo`
@@ -218,7 +290,7 @@ The `undo` command fails as there are no undoable commands executed previously.
 `undo` (reverses the `clear` command) +
 `undo` (reverses the `delete 1` command) +
 
-=== Redoing the previously undone command : `redo` or `r`
+==== Redoing the previously undone command : `redo` or `r`
 
 Reverses the most recent `undo` command. +
 Format: `redo`
@@ -241,23 +313,25 @@ The `redo` command fails as there are no `undo` commands executed previously.
 `redo` (reapplies the `clear` command) +
 // end::undoredo[]
 
-=== Clearing all entries : `clear` or `c`
+==== Clearing all entries : `clear` or `c`
 
 Clears all entries from the address book. +
 Format: `clear`
 
-=== Exiting the program : `exit`
+==== Exiting the program : `exit`
 
 Exits the program. +
 Format: `exit`
 
-=== Saving the data
+==== Saving the data
 
 Address book data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
+=== Advanced Features
+
 // tag::dataencryption[]
-=== Encrypting data files `[coming in v2.0]`
+==== Encrypting data files `[coming in v2.0]`
 
 _{explain how the user can enable/disable data encryption}_
 // end::dataencryption[]
