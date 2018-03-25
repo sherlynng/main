@@ -254,7 +254,7 @@ INDEX to be specified will be highlighted.
 ====
 
 
-=== Listing entered commands : `*history*` or `*h*`
+==== Listing entered commands : `*history*` or `*h*`
 Format: `*history*`
 
 You can list all the commands that you have entered in reverse chronological order. +
@@ -293,9 +293,6 @@ The `*undo*` command fails as there are no undoable commands executed previously
 ==== Redoing the previously undone command : `*redo*` or `*r*`
 Format: `*redo*`
 
-==== Redoing the previously undone command : `*redo*` or `*r*`
-Format: `*redo*`
-
 You can easily reverse the most recent `*undo*` command. +
 
 
@@ -328,7 +325,6 @@ Format: `*exit*`
 
 Exits the program. +
 
-Exits the program. +
 
 
 ==== Saving the data
