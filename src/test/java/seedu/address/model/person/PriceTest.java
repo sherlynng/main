@@ -16,12 +16,6 @@ public class PriceTest {
     }
 
     @Test
-    public void constructor_invalidPrice_throwsNumberFormatException() {
-        String invalidPrice = "";
-        Assert.assertThrows(NumberFormatException.class, () -> new Price(invalidPrice));
-    }
-
-    @Test
     public void isValidPrice() {
 
         // invalid prices

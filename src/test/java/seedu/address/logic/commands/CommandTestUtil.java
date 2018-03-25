@@ -78,7 +78,6 @@ public class CommandTestUtil {
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
-
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
@@ -105,7 +104,6 @@ public class CommandTestUtil {
     public static final String ROLE_DESC_STUDENT = " " + PREFIX_ROLE + "student";
     public static final String ROLE_DESC_TUTOR = " " + PREFIX_ROLE + "tutor";
     public static final String STATUS_DESC_UNMATCHED = " " + PREFIX_STATUS + "not matched";
-    public static final String STATUS_DESC_MATCHED = " " + PREFIX_STATUS + "matched";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
@@ -131,13 +129,10 @@ public class CommandTestUtil {
     public static final String ROLE_SHORTCUT_TUTOR = " " + PREFIX_ROLE + "t";
     public static final String ROLE_SHORTCUT_STUDENT = " " + PREFIX_ROLE + "s";
 
-
     public static final String CASE_INSENSITIVE_SUBJECT_SHORTCUT_ENGLISH = " " + PREFIX_SUBJECT + "eNg";
     public static final String CASE_INSENSITIVE_LEVEL_SHORTCUT_UPPER_SEC = " " + PREFIX_LEVEL + "Us";
     public static final String CASE_INSENSITIVE_STATUS_SHORTCUT_UNMATCHED = " " + PREFIX_STATUS + "nM";
-    public static final String   CASE_INSENSITIVE_ROLE_SHORTCUT_TUTOR = " " + PREFIX_ROLE + "T";
-
-
+    public static final String CASE_INSENSITIVE_ROLE_SHORTCUT_TUTOR = " " + PREFIX_ROLE + "T";
 
     public static final EditCommand.EditPersonDescriptor DESC_AMY;
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
