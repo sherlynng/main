@@ -86,12 +86,12 @@ e.g. typing `*help*` and pressing kbd:[Enter] will open the help window.
 
 === Basic Features
 
-==== Viewing help : `help` or `h`
+==== Viewing help : `*help*`
 Format: `*help*`
 
 At any time if you are unsure of how to use STUtor, this command will bring you to the help page.
 
-==== Adding a person: `add` or `a`
+==== Adding a person: `*add*` or `*a*`
 Format: `*add* n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS $/PRICE sub/SUBJECT lvl/EDUCATION_LEVEL stat/STATUS r/ROLE [t/TAG]...`
 
 Adds a new person to STUtor. +
@@ -116,13 +116,13 @@ Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
 Press kbd:[Delete] key to delete a field (and its prefix).
 ====
 
-==== Listing all persons : `list` or `l`
+==== Listing all persons : `*list*` or `*l*`
 Format: `*list*`
 
 Shows a list of all persons in STUtor. +
 
 
-==== Editing a person : `edit` or `e`
+==== Editing a person : `*edit*` or `*e*`
 Format: `*edit* INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
 
 Edits an existing person in STUtor. +
@@ -152,7 +152,7 @@ Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
 Press kbd:[Delete] key to delete a field (and its prefix).
 ====
 
-==== Filtering all persons list by subject, level, role or status: `filter`
+==== Filtering all persons list by subject, level, role or status: `*filter*`
 Format: `*filter* KEYWORD [MORE_KEYWORDS]`
 
 Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain any of the given keywords. +
@@ -174,7 +174,7 @@ Returns persons with `Math` subject
 * `*filter* Student` +
 Returns persons with `Student` role
 
-==== Locating persons by name: `find` or `f`
+==== Locating persons by name: `*find*` or `*f*`
 Format: `*find* KEYWORD [MORE_KEYWORDS]`
 
 Finds persons whose NAME contain any of the given keywords. +
@@ -201,7 +201,7 @@ Returns `john` and `John Doe`
 * `*find* Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
-==== Deleting a person : `delete` or `d`
+==== Deleting a person : `*delete*` or `*d*`
 Format: `*delete* INDEX`
 
 Deletes the specified person from STUtor. +
@@ -227,7 +227,7 @@ Press kbd:[Tab] key once after typing `*delete*` or `*d*` will autofill the comm
 INDEX to be specified will be highlighted.
 ====
 
-==== Selecting a person : `select` or `s`
+==== Selecting a person : `*select*` or `*s*`
 Format: `*select* INDEX`
 
 Selects the person identified by the index number used in the *last person listing*. +
@@ -265,7 +265,7 @@ Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and 
 ====
 
 // tag::undoredo[]
-==== Undoing previous command : `undo` or `u`
+==== Undoing previous command : `*undo*` or `*u*`
 Format: `*undo*`
 You can easily restore STUtor to the state before the previous _undoable_ command was executed. +
 
@@ -358,9 +358,9 @@ You can the file under the same path of *main/data*
 [width="80%",cols="<20%,<20%,<20%,<20%",options="header",]
 |=======================================================================
 |Command |Shortcut |Format |Example
-|`add`  | `a` |`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`|`add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+|`add`  | `a` |`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS $/PRICE sub/SUBJECT lvl/EDUCATION_LEVEL stat/STATUS r/ROLE [t/TAG]...`|`add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
 |`delete`|`d`|`delete INDEX`|`delete 3`
-|`edit`|`e`|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` |`edit 2 n/James Lee e/jameslee@example.com`
+|`edit`|`e`|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...` |`edit 2 n/James Lee e/jameslee@example.com`
 |`find`|`f`|`find KEYWORD [MORE_KEYWORDS]`|`find James Jake`
 |`select`|`s`|`select INDEX`|`select 2`
 |`filter`| |`filter KEYWORD`|`filter Math`
