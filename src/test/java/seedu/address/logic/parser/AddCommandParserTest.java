@@ -42,7 +42,6 @@ import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
-import static seedu.address.logic.commands.CommandTestUtil.PRICE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PRICE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_BOB;
@@ -70,14 +69,10 @@ import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_SHORTCUT_ENGL
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_SHORTCUT_PHYSICS;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_LEVEL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PRICE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_BOB;
@@ -174,7 +169,7 @@ public class AddCommandParserTest {
     }
 
     @Test
-    public void parse_optionalFieldMissing_Success() {
+    public void parse_optionalFieldMissing_success() {
         //All non-name fields are optional
         //phone
         Person expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone("")
@@ -222,7 +217,7 @@ public class AddCommandParserTest {
                 .withLevel(VALID_LEVEL_BOB).withStatus("").withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
         assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB+ SUBJECT_DESC_CHINESE + LEVEL_DESC_UPPER_SEC
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_CHINESE + LEVEL_DESC_UPPER_SEC
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //price
         expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
