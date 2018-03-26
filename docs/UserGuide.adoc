@@ -214,6 +214,21 @@ Format `*findmissing* [FIELD]...
 If no arguments for FIELD is entered, lists all people with at least one field with an empty value. +
 Otherwise, finds all people with an empty value in at least one entered FIELD.
 
+****
+* The field name is case insensitive
+
+Examples:
+
+* `*findmissing* role` +
+Returns any person who has no entered role.
+
+* `*findmissing* phone email` +
+Returns any person who has no entered phone or email.
+
+* `*findmissing*` +
+Returns any person who has no entered value for at least 1 field.
+
+
 ==== Deleting a person : `delete` or `d`
 Format: `*delete* INDEX`
 
