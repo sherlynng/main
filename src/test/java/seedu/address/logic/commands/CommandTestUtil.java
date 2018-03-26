@@ -81,7 +81,6 @@ public class CommandTestUtil {
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
-    public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_PRICE_DESC = " " + PREFIX_PRICE + "-1"; //negative number
     public static final String INVALID_SUBJECT_DESC = " " + PREFIX_SUBJECT + "fake news"; //not a listed subject
     public static final String INVALID_LEVEL_DESC = " " + PREFIX_LEVEL + "kindergarden"; //not a listed level
