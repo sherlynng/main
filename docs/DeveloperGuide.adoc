@@ -1012,10 +1012,10 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 |Danny NG Ming Xuan |Create new command to filter the person list with respect to the various attributes in
 Person card. This will enable the user to view persons with attributes he/she is interested in.|Create `viewStats` command.
 This allows the user to view information such as number of students/tutors/matched and more in the form of graph.
-|NG Xin Ler |Change browser panel to view Person's details and remove all attributes except name and tags in
-Person card. This helps to improve the readability of Person details and reduce cluttering on the side panel.|
-Create `unmatch` command. This allows the user to unmatch a pair of Tutor and Student in the event where the pair is
-wrongly matched or either the Tutor or Student wants to change a matching.
+|NG Xin Ler |Create autofill for commands that are longer or have fixed input. This helps to reduce the amount of time
+the user has to type in a command.|
+Allow writing of reviews (including `remark` and `rating` for a person. This allows the user to take note who are
+performing better or blacklisted, so that the user can refer to them for future matchings.
 |WANG Zi |Create shortcut for the user in filling subject, level, status and role. For instance, `sub/eng` and
 `sub/english` both result in adding the subject English. After that, accommodate case-insensitive input, and
 standardize display to follow <<proper-case, proper case>>.
