@@ -26,8 +26,6 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.commands.ListStudentCommand;
-import seedu.address.logic.commands.ListTutorCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RemoveTagCommand;
 import seedu.address.logic.commands.SelectCommand;
@@ -214,31 +212,6 @@ public class AddressBookParserTest {
         RemoveTagCommand command = (RemoveTagCommand) parser.parseCommand(
                 RemoveTagCommand.COMMAND_WORD_ALIAS + " " + VALID_TAG_FRIEND);
         assertEquals(new RemoveTagCommand(new Tag(VALID_TAG_FRIEND)), command);
-    }
-
-    @Test
-    public void parseCommand_listStudent() throws Exception {
-        assertTrue(parser.parseCommand(ListStudentCommand.COMMAND_WORD) instanceof ListStudentCommand);
-        assertTrue(parser.parseCommand(ListStudentCommand.COMMAND_WORD + " 3") instanceof ListStudentCommand);
-    }
-
-    @Test
-    public void parseCommand_listStudentAliased() throws Exception {
-        assertTrue(parser.parseCommand(ListStudentCommand.COMMAND_WORD_ALIAS) instanceof ListStudentCommand);
-        assertTrue(parser.parseCommand(
-                ListStudentCommand.COMMAND_WORD_ALIAS + " 3") instanceof ListStudentCommand);
-    }
-
-    @Test
-    public void parseCommand_listTutor() throws Exception {
-        assertTrue(parser.parseCommand(ListTutorCommand.COMMAND_WORD) instanceof ListTutorCommand);
-        assertTrue(parser.parseCommand(ListTutorCommand.COMMAND_WORD + " 3") instanceof ListTutorCommand);
-    }
-
-    @Test
-    public void parseCommand_listTutorAliased() throws Exception {
-        assertTrue(parser.parseCommand(ListTutorCommand.COMMAND_WORD_ALIAS) instanceof ListTutorCommand);
-        assertTrue(parser.parseCommand(ListTutorCommand.COMMAND_WORD_ALIAS + " 3") instanceof ListTutorCommand);
     }
 
     @Test
