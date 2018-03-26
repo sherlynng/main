@@ -54,9 +54,7 @@ public class Role {
      */
     public String convertToFullRole(String original) {
         String cur = original.toLowerCase();
-        if (cur == null) {
-            return "";
-        } else if (cur.equals("s")) {
+        if (cur.equals("s")) {
             cur = "student";
         } else if (cur.equals("t")) {
             cur = "tutor";

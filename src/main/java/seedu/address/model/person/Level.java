@@ -58,9 +58,7 @@ public class Level {
      */
     public String convertToFullLevel(String original) {
         String cur = original.toLowerCase();
-        if (cur == null) {
-            return "";
-        } else if (cur.equals("ls")) {
+        if (cur.equals("ls")) {
             cur = "lower sec";
         } else if (cur.equals("us")) {
             cur = "upper sec";

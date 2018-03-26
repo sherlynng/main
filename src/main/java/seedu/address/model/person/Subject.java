@@ -56,9 +56,7 @@ public class Subject {
      */
     public String convertToFullSubject(String original) {
         String cur = original.toLowerCase();
-        if (cur == null) {
-            return "";
-        } else if (cur.equals("eng")) {
+        if (cur.equals("eng")) {
             cur = "english";
         } else if (cur.equals("chi")) {
             cur = "chinese";

@@ -55,9 +55,7 @@ public class Status {
      */
     public String convertToFullStatus(String original) {
         String cur = original.toLowerCase();
-        if (cur == null) {
-            return "";
-        } else if (cur.equals("nm")) {
+        if (cur.equals("nm")) {
             cur = "not matched";
         } else if (cur.equals("m")) {
             cur = "matched";
