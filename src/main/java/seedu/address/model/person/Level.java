@@ -13,7 +13,7 @@ import java.util.HashSet;
 public class Level {
 
     public static final String[] LEVEL_VALUES =
-            new String[] { "lower sec", "ls", "upper sec", "us", "lower pri", "lp", "upper pri", "up" };
+            new String[] { "lower sec", "ls", "upper sec", "us", "lower pri", "lp", "upper pri", "up", ""};
     public static final HashSet<String> SET_ALL_LEVEL = new HashSet<>(Arrays.asList(LEVEL_VALUES));
 
     public static final String MESSAGE_LEVEL_CONSTRAINTS = "Person Level should be "
@@ -31,9 +31,8 @@ public class Level {
      * @param level A valid level description.
      */
     public Level(String level) {
-        if (!level.equals("")) {
-            level = validateLevel(level);
-        }
+        requireNonNull(level);
+        level = validateLevel(level);
         this.value = formatLevel(level);
     }
 
@@ -48,7 +47,6 @@ public class Level {
      * @return string representing a valid level
      */
     private String validateLevel(String level) {
-        requireNonNull(level);
         level.toLowerCase();
         checkArgument(isValidLevel(level), MESSAGE_LEVEL_CONSTRAINTS);
         level = convertToFullLevel(level);

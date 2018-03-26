@@ -25,7 +25,7 @@ public class Price {
      * Returns if a given string is a valid status description.
      */
     public static boolean isValidPrice(String test) {
-        return (Integer.parseInt(test) > 0);
+        return test.equals("") || (Integer.parseInt(test) > 0);
     }
 
     @Override

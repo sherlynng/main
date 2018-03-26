@@ -12,7 +12,7 @@ import java.util.HashSet;
  */
 public class Role {
 
-    public static final String[] ROLES_VALUES = new String[] { "student", "s", "tutor", "t"};
+    public static final String[] ROLES_VALUES = new String[] { "student", "s", "tutor", "t", ""};
     public static final HashSet<String> SET_ALL_ROLES = new HashSet<>(Arrays.asList(ROLES_VALUES));
 
     public static final String MESSAGE_ROLE_CONSTRAINTS = "Role should be one of: \n"
@@ -27,9 +27,8 @@ public class Role {
      * @param role A valid role description.
      */
     public Role(String role) {
-        if (!role.equals("")) {
-            role = validateRole(role);
-        }
+        requireNonNull(role);
+        role = validateRole(role);
         this.value = formatRole(role);
     }
 
@@ -44,7 +43,6 @@ public class Role {
      * @return string representing a valid role
      */
     private String validateRole(String role) {
-        requireNonNull(role);
         role.toLowerCase();
         checkArgument(isValidRole(role), MESSAGE_ROLE_CONSTRAINTS);
         role = convertToFullRole(role);

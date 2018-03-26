@@ -27,9 +27,7 @@ public class Address {
      */
     public Address(String address) {
         requireNonNull(address);
-        if (!address.equals("")) {
-            checkArgument(isValidAddress(address), MESSAGE_ADDRESS_CONSTRAINTS);
-        }
+        checkArgument(isValidAddress(address), MESSAGE_ADDRESS_CONSTRAINTS);
         ProperCaseConverter pc = new ProperCaseConverter();
         this.value = pc.convertToProperCase(address);
     }
@@ -38,7 +36,7 @@ public class Address {
      * Returns true if a given string is a valid person email.
      */
     public static boolean isValidAddress(String test) {
-        return test.matches(ADDRESS_VALIDATION_REGEX);
+        return test.equals("") || test.matches(ADDRESS_VALIDATION_REGEX);
     }
 
     @Override

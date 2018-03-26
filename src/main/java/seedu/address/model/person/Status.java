@@ -12,7 +12,7 @@ import java.util.HashSet;
  */
 public class Status {
 
-    public static final String[] STATUS_VALUES = new String[] { "matched", "m", "not matched", "nm"};
+    public static final String[] STATUS_VALUES = new String[] { "matched", "m", "not matched", "nm", ""};
     public static final HashSet<String> SET_ALL_STATUS = new HashSet<>(Arrays.asList(STATUS_VALUES));
 
     public static final String MESSAGE_STATUS_CONSTRAINTS = "Status should be one of: \n"
@@ -27,9 +27,8 @@ public class Status {
      * @param status A valid statust description.
      */
     public Status(String status) {
-        if (!status.equals("")) {
-            status = validateStatus(status);
-        }
+        requireNonNull(status);
+        status = validateStatus(status);
         this.value = formatStatus(status);
     }
 
@@ -44,7 +43,6 @@ public class Status {
      * @return string representing a valid status
      */
     private String validateStatus(String status) {
-        requireNonNull(status);
         status.toLowerCase();
         checkArgument(isValidStatus(status), MESSAGE_STATUS_CONSTRAINTS);
         status = convertToFullStatus(status);
