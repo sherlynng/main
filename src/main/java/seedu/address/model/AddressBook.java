@@ -161,6 +161,29 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     *  Updates the master tag list to include tags in {@code pair} that are not in the list.
+     *  @return a copy of this {@code pair} such that every tag in this pair points to a Tag object in the master
+     *  list.
+     */
+    private Pair syncWithMasterTagList(Pair pair) {
+        final UniqueTagList pairTags = new UniqueTagList(pair.getTags());
+        tags.mergeFrom(pairTags);
+
+        // Create map with values = tag object references in the master list
+        // used for checking pair tag references
+        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
+        tags.forEach(tag -> masterTagObjects.put(tag, tag));
+
+        // Rebuild the list of pair tags to point to the relevant tags in the master tag list.
+        final Set<Tag> correctTagReferences = new HashSet<>();
+        pairTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
+        return new Pair(
+                pair.getStudentName(), pair.getTutorName(), pair.getSubject(), pair.getLevel(),
+                pair.getPrice(), correctTagReferences);
+    }
+
+
+    /**
      * Removes {@code key} from this {@code AddressBook}.
      * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
      */
@@ -184,7 +207,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
 
     public void addPair(Pair p) throws DuplicatePairException {
-      //  Pair pair = syncWithMasterTagList(p);
+        //  Pair pair = syncWithMasterTagList(p);
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any pair
         // in the pair list.
@@ -195,9 +218,10 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Replaces the given pair {@code target} in the list with {@code editedPair}.
      * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPair}.
      *
-     * @throws seedu.address.model.pair.exceptions.DuplicatePairException if updating the pair's details causes the pair to be equivalent to
-     *      another existing pair in the list.
-     * @throws seedu.address.model.pair.exceptions.PairNotFoundException if {@code target} could not be found in the list.
+     * @throws seedu.address.model.pair.exceptions.DuplicatePairException if updating the pair's details
+     * causes the pair to be equivalent to another existing pair in the list.
+     * @throws seedu.address.model.pair.exceptions.PairNotFoundException if {@code target} could not be found
+     * in the list.
      *
      * @see #syncWithMasterTagList(Pair)
      */
@@ -213,32 +237,12 @@ public class AddressBook implements ReadOnlyAddressBook {
         removeUnusedTags();
     }
 
-    /**
-     *  Updates the master tag list to include tags in {@code pair} that are not in the list.
-     *  @return a copy of this {@code pair} such that every tag in this pair points to a Tag object in the master
-     *  list.
-     */
-     private Pair syncWithMasterTagList(Pair pair) {
-        final UniqueTagList pairTags = new UniqueTagList(pair.getTags());
-        tags.mergeFrom(pairTags);
-
-// Create map with values = tag object references in the master list
-// used for checking pair tag references
-        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
-        tags.forEach(tag -> masterTagObjects.put(tag, tag));
-
-// Rebuild the list of pair tags to point to the relevant tags in the master tag list.
-        final Set<Tag> correctTagReferences = new HashSet<>();
-        pairTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
-        return new Pair(
-                pair.getStudentName(), pair.getTutorName(), pair.getSubject(), pair.getLevel(),
-                pair.getPrice(), correctTagReferences);
-    }
 
 
     /**
      * Removes {@code key} from this {@code AddressBook}.
-     * @throws seedu.address.model.pair.exceptions.PairNotFoundException if the {@code key} is not in this {@code AddressBook}.
+     * @throws seedu.address.model.pair.exceptions.PairNotFoundException if the {@code key} is not in this
+     * {@code AddressBook}.
      */
     public boolean removePair(Pair key) throws PairNotFoundException {
         if (pairs.remove(key)) {
@@ -247,11 +251,6 @@ public class AddressBook implements ReadOnlyAddressBook {
             throw new PairNotFoundException();
         }
     }
-
-
-
-
-
 
     //// tag-level operations
 

@@ -5,7 +5,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Collections;
 import java.util.Set;
 
-
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -24,7 +23,7 @@ public class Pair  {
 
 
     public Pair(String studentName, String tutorName, String subject, String level, String price, Set<Tag> tags) {
-        requireAllNonNull(studentName,tutorName, subject, level, price, tags);
+        requireAllNonNull(studentName, tutorName, subject, level, price, tags);
         this.studentName = studentName;
         this.tutorName = tutorName;
         this.subject = subject;
@@ -57,7 +56,7 @@ public class Pair  {
     }
 
     public String getName() {
-        return studentName +" /w "+tutorName;
+        return studentName + " /w " + tutorName;
     }
 
     /**

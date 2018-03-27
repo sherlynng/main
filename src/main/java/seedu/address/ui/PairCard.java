@@ -14,7 +14,7 @@ import seedu.address.model.tag.Tag;
 public class PairCard extends UiPart<Region> {
 
     public static final String[] TAG_COLOR_STYLES =
-            {"teal", "red", "yellow", "blue", "orange", "brown", "green", "pink", "black", "grey"};
+        {"teal", "red", "yellow", "blue", "orange", "brown", "green", "pink", "black", "grey"};
 
     private static final String FXML = "PairListCard.fxml";
 
@@ -60,17 +60,17 @@ public class PairCard extends UiPart<Region> {
      */
     private String getTagColorStyleFor(Tag tag) {
         switch (tag.tagType) {
-            case SUBJECT:
-                return TAG_COLOR_STYLES[0]; //subject is teal
-            case LEVEL:
-                return TAG_COLOR_STYLES[1]; //level is red
-            case STATUS:
-                return TAG_COLOR_STYLES[2]; //status is yellow
-            case PRICE:
-                return TAG_COLOR_STYLES[3]; //price is blue
+        case SUBJECT:
+            return TAG_COLOR_STYLES[0]; //subject is teal
+        case LEVEL:
+            return TAG_COLOR_STYLES[1]; //level is red
+        case STATUS:
+            return TAG_COLOR_STYLES[2]; //status is yellow
+        case PRICE:
+            return TAG_COLOR_STYLES[3]; //price is blue
             //fall through to default
-            default:
-                return TAG_COLOR_STYLES[8]; //all non-attribute are black
+        default:
+            return TAG_COLOR_STYLES[8]; //all non-attribute are black
         }
     }
 

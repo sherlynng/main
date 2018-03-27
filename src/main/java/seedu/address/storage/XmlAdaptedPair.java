@@ -14,7 +14,6 @@ import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Price;
 import seedu.address.model.person.Subject;
-import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -37,7 +36,6 @@ public class XmlAdaptedPair {
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
-   
 
     /**
      * Constructs an XmlAdaptedPair.
@@ -48,7 +46,7 @@ public class XmlAdaptedPair {
     /**
      * Constructs an {@code XmlAdaptedPair} with the given pair details.
      */
-    public XmlAdaptedPair(String StudentName, String tutorName, String subject, String level,
+    public XmlAdaptedPair(String studentName, String tutorName, String subject, String level,
                             String price) {
         this.studentName = studentName;
         this.tutorName = tutorName;
@@ -67,7 +65,6 @@ public class XmlAdaptedPair {
      * @param source future changes to this will not affect the created XmlAdaptedPair
      */
     public XmlAdaptedPair(Pair source) {
-        
         studentName = source.getStudentName();
         tutorName = source.getTutorName();
         subject = source.getSubject();

@@ -17,7 +17,7 @@ public interface Model {
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
     /** {@code Predicate} that always evaluate to true */
-    Predicate<Pair> PREDICATE_SHOW_ALL_PAIRS= unused -> true;
+    Predicate<Pair> PREDICATE_SHOW_ALL_PAIRS = unused -> true;
 
     /** {@code Predicate} that filter all person with student tag */
     Predicate<Person> PREDICATE_SHOW_ALL_STUDENTS = person -> person.getTags().contains(new Tag("student"));
