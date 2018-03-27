@@ -394,7 +394,7 @@ Certain properties of the application can be controlled (e.g App name, logging l
 
 === Automatic creation of tags from person attributes
 
-==== Creation of the `Tag`
+==== Current implementation
 Each of the attributes `Price`, `Subject`, `Level` and `Status` of a person each have a tag with the value added to the person.
 This is done when user performs `add` or `edit` command.
 
@@ -405,13 +405,13 @@ For the EditCommand, the `createEditedPerson` command will remove the previous a
 Since the `Price`, `Subject`, `Level` and `Status` attributes have been parsed and checked to conform to expected values, there is no need to reparse the values when creating them as a `Tag`. +
 The acceptable inputs for a `Tag` must necessarily allow all the acceptable inputs for `Price`, `Subject`, `Level` and `Status` to prevent errors.
 
-==== `Tag` class attributes
+==== Model Implementation
 The `Tag` class can support the ability to classify which attribute the tag was created from. This is done by adding an enum `AllTagsType` to the `Tag` class.
 A tag can be created without being from an attribute, with just a tag name. In this case, creating a `Tag` with no provided `AllTagsType` will initialise the `tagType` to `DEFAULT`.
 
 This is the current `Tag` class in UML notation
 
-.Tag Class
+.`Tag` Class
 image::TagClassDiagram.png[width="600"]
 
 This new attribute is used to implement the capability to standardize all tags created as a `Price` attribute to have the same color, all tags created as a `Subject` attribute to have the same color, and so on.
@@ -421,11 +421,23 @@ This has been implemented as a new overloaded `getTagColorStyleFor` method, whic
 Any tag that is not set to one of the 4 attributes will fall through to the default type, where they will have the same color. This is currently done as such to prevent accidental collisions of color with the 4 attribute tags.
 
 ==== Storage Implementation
-The method for storing tags has also been changed slightly. Previously, just the `tagName` needed to be stored. Now both the `tagName` and `tagType` must be stored.
-This has been accomplished by having XML store the single field in the form "TAGNAME,TAGTYPE".
+The method for storing tags has also been changed slightly. Previously, just the `tagName` needed to be stored. Now both the `tagName` and `tagType` must be stored. +
+This has been accomplished by having XML store the single field in the form "TAGNAME,TAGTYPE" (see figure 19). +
 The respective tagName and tagType can be obtained by splitting the read string representing the tag data from the file around the "," separator. Since tags can only be alphanumeric, this provides a safe character to split around.
 
+.Storage of `Tag`
+image::tagStorage.png[width="400"]
+
 ==== Design Considerations
+
+===== Aspect: Making use of tags to display the information
+* **Alternative 1 (current choice):** Create a `Tag` for each attribute we want to display
+** Pros: Reuses the code used to display tags, so that there is no need to manually code each attribute to appear similar to a tag.
+** Cons: Increased risk of violating Single Responsibility Principle if the `Tag` needs to change if attributes in `Person` change.
+
+* **Alternative 2:** Update the UI to allow the information to be displayed as needed.
+** Pros: Makes the logic section more intuitive as the user enters data and that data is stored a single attribute.
+** Cons: Increases repetition in the UI by having a design for each attribute, increases amount of work if the UI display is changed in the future.
 
 ===== Aspect: Method of saving tag information in the saved XML file
 
@@ -435,6 +447,16 @@ The respective tagName and tagType can be obtained by splitting the read string 
 * **Alternative 2:** Change the format of `XmlAdaptedTag`
 ** Pros: Easier for advanced users to edit without causing an error, easy to retrieve values from file.
 ** Cons: Risks causing issues with how `Tag` is saved as part of `XmlAdaptedPerson` and by itself as `XmlAdaptedTag`
+
+===== Aspect: Method to represent the attribute the tag was created from
+
+* **Alternative 1 (current choice):** Create a new attribute in `Tag` to represent its type.
+** Pros: Since the type belongs to and describes a `Tag`, this improves the cohesion of `Tag` and is intuitive.
+** Cons: Need to make sure there is a way to represent user input tags and it is handled properly each time tag type is used.
+
+* **Alternative 2:** Check the value in the tag against a known set of values to determine its type.
+** Pros: Keeps the `Tag` class a simple as possible.
+** Cons: Difficult to maintain, must ensure that there are no values that can possibly be in more than 1 person attribute.
 
 === Case-insensitive input
 
@@ -582,6 +604,28 @@ longer list of people at one time.
 To allow easy identification of the category that a tag belongs to, different colors are used for different attributes
 of a person. A standardized color is used for each attribute and its color is stored in `Tag` such that the color
 will be retained when the user reopens the application.
+
+=== Optional Fields for Add Command
+==== Current Implementation
+
+The `Add` command is extremely long and unwieldly if the user has to type all the information in at once. +
+To make it easier for the user to enter new people or a person they lack all the data to enter at once, the `Add` command allows the user to specify only the name command and leave out all other fields as optional.
+The `AddCommandParser` now will only check that the `Name` field has been submitted by the user before proceeding to add the new entry into STUtor.
+For all fields that the user did not enter a value for, an empty string `""` will be assigned to that field.
+
+==== Design Considerations
+
+===== Aspect: Method to store unentered fields
+
+* **Alternative 1 (current choice):** Store it as an empty string `""`
+** Pros: Does not affect most of the other functionality as they will still successfully read an empty string and ignore it.
+** Cons: Need to ensure that empty string is an accepted input when making a new attribute class. +
+User can enter prefix with only spaces as a valid input, which will be in as an unentered field, which may be unintuitive.
+
+* **Alternative 2:** Store it as a `null` value
+** Pros: More intuitive to store a missing value as `null`.
+** Cons: When an attribute value needs to be obtained or used, must check for `null` value and handle accordingly. +
+Must create a special constructor for the attribute class to accept a `null` for its internal `String` value.
 
 == Documentation
 
