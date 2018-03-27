@@ -11,6 +11,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.pair.Pair;
+import seedu.address.model.pair.UniquePairList;
+import seedu.address.model.pair.exceptions.DuplicatePairException;
+import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -25,7 +29,9 @@ import seedu.address.model.tag.UniqueTagList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
+    private final UniquePairList pairs;
     private final UniqueTagList tags;
+
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -36,6 +42,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         persons = new UniquePersonList();
+        pairs = new UniquePairList();
         tags = new UniqueTagList();
     }
 
@@ -56,6 +63,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.persons.setPersons(persons);
     }
 
+    public void setPairs(List<Pair> pairs) throws DuplicatePairException {
+        this.pairs.setPairs(pairs);
+    }
+
     public void setTags(Set<Tag> tags) {
         this.tags.setTags(tags);
     }
@@ -74,6 +85,16 @@ public class AddressBook implements ReadOnlyAddressBook {
             setPersons(syncedPersonList);
         } catch (DuplicatePersonException e) {
             throw new AssertionError("AddressBooks should not have duplicate persons");
+        }
+
+        List<Pair> syncedPairList = newData.getPairList().stream()
+                .map(this::syncWithMasterTagList)
+                .collect(Collectors.toList());
+
+        try {
+            setPairs(syncedPairList);
+        } catch (DuplicatePairException e) {
+            throw new AssertionError("AddressBooks should not have duplicate pairs");
         }
     }
 
@@ -151,6 +172,87 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+
+    //// pair-level operations
+
+    /**
+     * Adds a pair to the address book.
+     * Also checks the new pair's tags and updates {@link #tags} with any new tags found,
+     * and updates the Tag objects in the pair to point to those in {@link #tags}.
+     *
+     * @throws seedu.address.model.pair.exceptions.DuplicatePairException if an equivalent pair already exists.
+     */
+
+    public void addPair(Pair p) throws DuplicatePairException {
+      //  Pair pair = syncWithMasterTagList(p);
+        // TODO: the tags master list will be updated even though the below line fails.
+        // This can cause the tags master list to have additional tags that are not tagged to any pair
+        // in the pair list.
+        pairs.add(p);
+    }
+
+    /**
+     * Replaces the given pair {@code target} in the list with {@code editedPair}.
+     * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPair}.
+     *
+     * @throws seedu.address.model.pair.exceptions.DuplicatePairException if updating the pair's details causes the pair to be equivalent to
+     *      another existing pair in the list.
+     * @throws seedu.address.model.pair.exceptions.PairNotFoundException if {@code target} could not be found in the list.
+     *
+     * @see #syncWithMasterTagList(Pair)
+     */
+    public void updatePair(Pair target, Pair editedPair)
+            throws DuplicatePairException, PairNotFoundException {
+        requireNonNull(editedPair);
+
+        Pair syncedEditedPair = syncWithMasterTagList(editedPair);
+        // TODO: the tags master list will be updated even though the below line fails.
+        // This can cause the tags master list to have additional tags that are not tagged to any pair
+        // in the pair list.
+        pairs.setPair(target, syncedEditedPair);
+        removeUnusedTags();
+    }
+
+    /**
+     *  Updates the master tag list to include tags in {@code pair} that are not in the list.
+     *  @return a copy of this {@code pair} such that every tag in this pair points to a Tag object in the master
+     *  list.
+     */
+     private Pair syncWithMasterTagList(Pair pair) {
+        final UniqueTagList pairTags = new UniqueTagList(pair.getTags());
+        tags.mergeFrom(pairTags);
+
+// Create map with values = tag object references in the master list
+// used for checking pair tag references
+        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
+        tags.forEach(tag -> masterTagObjects.put(tag, tag));
+
+// Rebuild the list of pair tags to point to the relevant tags in the master tag list.
+        final Set<Tag> correctTagReferences = new HashSet<>();
+        pairTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
+        return new Pair(
+                pair.getStudentName(), pair.getTutorName(), pair.getSubject(), pair.getLevel(),
+                pair.getPrice(), correctTagReferences);
+    }
+
+
+    /**
+     * Removes {@code key} from this {@code AddressBook}.
+     * @throws seedu.address.model.pair.exceptions.PairNotFoundException if the {@code key} is not in this {@code AddressBook}.
+     */
+    public boolean removePair(Pair key) throws PairNotFoundException {
+        if (pairs.remove(key)) {
+            return true;
+        } else {
+            throw new PairNotFoundException();
+        }
+    }
+
+
+
+
+
+
     //// tag-level operations
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
@@ -168,6 +270,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<Person> getPersonList() {
         return persons.asObservableList();
+    }
+
+    @Override
+    public ObservableList<seedu.address.model.pair.Pair> getPairList() {
+        return pairs.asObservableList();
     }
 
     @Override

@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.model.pair.Pair;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -26,6 +27,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Pair> filteredPairs;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -38,6 +40,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredPairs = new FilteredList<>(this.addressBook.getPairList());
     }
 
     public ModelManager() {
@@ -73,6 +76,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+
     @Override
     public void updatePerson(Person target, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException {
@@ -98,6 +102,28 @@ public class ModelManager extends ComponentManager implements Model {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
     }
+
+    //=========== Filtered Pair List Accessors =============================================================
+
+    /**
+     * Returns an unmodifiable view of the list of {@code Pair} backed by the internal list of
+     * {@code addressBook}
+     */
+
+    @Override
+    public ObservableList<Pair> getFilteredPairList() {
+        return FXCollections.unmodifiableObservableList(filteredPairs);
+    }
+
+    @Override
+    public void updateFilteredPairList(Predicate<Pair> predicate) {
+        requireNonNull(predicate);
+        filteredPairs.setPredicate(predicate);
+    }
+
+
+
+
 
     @Override
     public boolean equals(Object obj) {
