@@ -154,7 +154,7 @@ public class EditCommand extends UndoableCommand {
         if (!updatedRole.toString().equals("")) {
             attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
         }
-        
+
         Remark remark = personToEdit.getRemark();
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
