@@ -91,7 +91,7 @@ Format: `*help*`
 
 At any time if you are unsure of how to use STUtor, this command will bring you to the help page.
 
-==== Adding a person: `add` or `a`
+==== Adding a person: `*add*` or `*a*`
 Format: `*add* n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
 
 Adds a new person to STUtor. +
@@ -122,6 +122,9 @@ Press kbd:[Tab] key once after typing `*add*` or `*a*` will autofill the command
 Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
 Press kbd:[Delete] key to delete a field (and its prefix).
 ====
+
+image::AutofillAdd_Tab.png[width="700"]
+image::AutofillAdd_Delete.png[width="700"]
 
 ==== Listing all persons : `*list*` or `*l*`
 Format: `*list*`
@@ -158,6 +161,8 @@ INDEX to be specified will be highlighted.
 Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
 Press kbd:[Delete] key to delete a field (and its prefix).
 ====
+
+image::AutofillEdit.png[width="800"]
 
 ==== Filtering all persons list by subject, level, role or status: `*filter*`
 Format: `*filter* KEYWORD [MORE_KEYWORDS]`
@@ -208,7 +213,7 @@ Returns `john` and `John Doe`
 * `*find* Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
-==== Finding people with missing fields: `findmissing` or `fm` (Coming in V1.4)
+==== Finding people with missing fields: `*findmissing*` or `*fm*` (Coming in V1.4)
 Format `*findmissing* [FIELD]...`
 
 If no arguments for FIELD is entered, lists all people with at least one field with an empty value. +
@@ -255,6 +260,8 @@ Press kbd:[Tab] key once after typing `*delete*` or `*d*` will autofill the comm
 INDEX to be specified will be highlighted.
 ====
 
+image::AutofillDelete.png[width="500"]
+
 ==== Selecting a person : `*select*` or `*s*`
 Format: `*select* INDEX`
 
@@ -281,6 +288,7 @@ Press kbd:[Tab] key once after typing `*select*` or `*s*` will autofill the comm
 INDEX to be specified will be highlighted.
 ====
 
+image::AutofillSelect.png[width="500"]
 
 ==== Listing entered commands : `*history*` or `*h*`
 Format: `*history*`
@@ -347,6 +355,26 @@ Format: `*clear*`
 
 To clear all entries from your STUtor, use the `*clear*` command. +
 
+==== Creating a remark for a person : `*remark*` or `*rm*`
+Format: `*remark* INDEX r/`
+
+Creates a remark for the person identified by the index number used in the *last person listing*. +
+
+****
+* The index refers to the index number shown in the most recent listing.
+* The index *must be a positive integer* `1, 2, 3, ...`
+* You can remove a remark by typing `r/` without specifying any remark after it.
+****
+
+Examples:
+
+* `*list*` +
+`*remark* 2 r/Fast learner.` +
+Creates a remark 'Fast learner.' for the 2nd person in STUtor.
+* `*find* Betsy` +
+`*remark* 1 r/` +
+Removes the remark for the 1st person in the results of the `*find*` command.
+
 
 ==== Exiting the program : `*exit*`
 Format: `*exit*`
@@ -392,6 +420,7 @@ You can the file under the same path of *main/data*
 |`find`|`f`|`find KEYWORD [MORE_KEYWORDS]`|`find James Jake`
 |`select`|`s`|`select INDEX`|`select 2`
 |`filter`| |`filter KEYWORD`|`filter Math`
+|`remark`|`rm`|`remark INDEX r/`|`remark 2 r/Fast learner.`
 |`list`|`l`||
 |`clear`|`c`||
 |`history`|`h`||
