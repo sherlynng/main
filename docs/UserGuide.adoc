@@ -99,7 +99,7 @@ Adds a new person to STUtor. +
 ****
 * For PRICE, SUBJECT, EDUCATION_LEVEL, STATUS, ROLE:
 
-** Alias can be used to reduce typing.
+** Alias can be used to reduce typing. Refer to <<Prefix Shortcut Summary >> for more details.
 ** These information is displayed as tags for easy reference.
 ****
 
@@ -227,7 +227,7 @@ Returns any person who has no entered phone or email.
 
 * `*findmissing*` +
 Returns any person who has no entered value for at least 1 field.
-
+****
 
 ==== Deleting a person : `*delete*` or `*d*`
 Format: `*delete* INDEX`
@@ -375,9 +375,9 @@ _{explain how the user can enable/disable data encryption}_
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
-*A*:
-First, install STUtor in the other computer.
-Then, navigate to *main/data*, and overwrite the empty  `STUtor.xml` file
+*A*: +
+1) Please install STUtor in the other computer. +
+2) Navigate to *main/data*, and overwrite the empty `STUtor.xml` file
 with the file of the same name found on your previous computer.
 You can the file under the same path of *main/data*
 
