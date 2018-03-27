@@ -9,6 +9,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Student;
@@ -31,6 +32,7 @@ public class StudentBuilder {
     public static final String DEFAULT_STATUS = "not Matched";
     public static final String DEFAULT_ROLE = "student";
     public static final String DEFAULT_TAGS = "friend";
+    public static final String DEFAULT_REMARK = "Hardworking but slow learner.";
 
     private Name name;
     private Phone phone;
@@ -42,6 +44,7 @@ public class StudentBuilder {
     private Status status;
     private Role role;
     private Set<Tag> tags;
+    private Remark remark;
 
     public StudentBuilder() {
         name = new Name(DEFAULT_NAME);
@@ -54,6 +57,7 @@ public class StudentBuilder {
         status = new Status(DEFAULT_STATUS);
         role = new Role(DEFAULT_ROLE);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
+        remark = new Remark(DEFAULT_REMARK);
     }
 
     /**
@@ -104,7 +108,7 @@ public class StudentBuilder {
     }
 
     /**
-     * Sets the {@code Price} of the {@code Person} that we are building.
+     * Sets the {@code Level} of the {@code Person} that we are building.
      */
     public StudentBuilder withLevel(String level) {
         this.level = new Level(level);
@@ -112,7 +116,7 @@ public class StudentBuilder {
     }
 
     /**
-     * Sets the {@code Price} of the {@code Person} that we are building.
+     * Sets the {@code Subject} of the {@code Person} that we are building.
      */
     public StudentBuilder withSubject(String subject) {
         this.subject = new Subject(subject);
@@ -120,7 +124,7 @@ public class StudentBuilder {
     }
 
     /**
-     * Sets the {@code Price} of the {@code Person} that we are building.
+     * Sets the {@code Status} of the {@code Person} that we are building.
      */
     public StudentBuilder withStatus(String status) {
         this.status = new Status(status);
@@ -152,12 +156,20 @@ public class StudentBuilder {
     }
 
     /**
+     * Sets the {@code Remark} of the {@code Person} that we are building.
+     */
+    public StudentBuilder withRemark(String remark) {
+        this.remark = new Remark(remark);
+        return this;
+    }
+
+    /**
      * Builds a student based off the attributes in this class
      * @return Student with set attributes
      */
     public Student build() {
         setTags();
-        return new Student(name, phone, email, address, price, subject, level, status, tags);
+        return new Student(name, phone, email, address, price, subject, level, status, tags, remark);
     }
 
 }

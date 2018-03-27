@@ -17,6 +17,7 @@ AddressBook save file which contains the same Person values as in
 		<level>Lower Sec</level>
 		<status>Not Matched</status>
         <role>Student</role>
+        <remark> - </remark>
         <tag>Friend,DEFAULT</tag>
     </persons>
     <persons>
@@ -28,7 +29,8 @@ AddressBook save file which contains the same Person values as in
 		<subject>English</subject>
 		<level>Upper Sec</level>
 		<status>Not Matched</status>
-    <role>Student</role>
+        <role>Student</role>
+        <remark>Not self motivated.</remark>
     </persons>
     <persons>
         <name>Carl Kurz</name>
@@ -40,6 +42,7 @@ AddressBook save file which contains the same Person values as in
 		<level>Upper Sec</level>
 		<status>Not Matched</status>
         <role>Student</role>
+        <remark>Fast learner.</remark>
         <tag>Friend</tag>
     </persons>
     <persons>
@@ -52,6 +55,7 @@ AddressBook save file which contains the same Person values as in
 		<level>Upper Sec</level>
 		<status>Not Matched</status>
         <role>Tutor</role>
+        <remark>Patient and clear in explanation.</remark>
     </persons>
     <persons>
         <name>Elle Meyer</name>
@@ -63,6 +67,7 @@ AddressBook save file which contains the same Person values as in
 		<level>Upper Sec</level>
 		<status>Not Matched</status>
         <role>Tutor</role>
+        <remark>Inspirational tutor.</remark>
     </persons>
     <persons>
         <name>Fiona Kunz</name>
@@ -74,6 +79,7 @@ AddressBook save file which contains the same Person values as in
 		<level>Upper Sec</level>
 		<status>Not Matched</status>
         <role>Tutor</role>
+        <remark>Impatient and poor in explanation.</remark>
     </persons>
     <persons>
         <name>George Best</name>
@@ -85,6 +91,7 @@ AddressBook save file which contains the same Person values as in
 		<level>Lower Sec</level>
 		<status>Not Matched</status>
         <role>Tutor</role>
+        <remark>Friendly and approachable.</remark>
     </persons>
 	<tags>320,PRICE</tags>
 	<tags>99,PRICE</tags>

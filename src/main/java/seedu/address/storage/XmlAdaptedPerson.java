@@ -16,6 +16,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
@@ -46,6 +47,8 @@ public class XmlAdaptedPerson {
     private String status;
     @XmlElement(required = true)
     private String role;
+    @XmlElement(required = true)
+    private String remark;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -61,7 +64,7 @@ public class XmlAdaptedPerson {
      */
     public XmlAdaptedPerson(String name, String phone, String email, String address,
                             String price, String subject, String level, String status, String role,
-                            List<XmlAdaptedTag> tagged) {
+                            List<XmlAdaptedTag> tagged, String remark) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -71,6 +74,7 @@ public class XmlAdaptedPerson {
         this.subject = subject;
         this.level = level;
         this.role = role;
+        this.remark = remark;
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
@@ -91,6 +95,7 @@ public class XmlAdaptedPerson {
         status = source.getStatus().value;
         price = source.getPrice().value;
         role = source.getRole().value;
+        remark = source.getRemark().value;
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
@@ -181,7 +186,13 @@ public class XmlAdaptedPerson {
         final Role role = new Role(this.role);
 
         final Set<Tag> tags = new HashSet<>(personTags);
-        return new Person(name, phone, email, address, price, subject, level, status, role, tags);
+
+        if (this.remark == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName()));
+        }
+        final Remark remark = new Remark(this.remark);
+
+        return new Person(name, phone, email, address, price, subject, level, status, role, tags, remark);
     }
 
     @Override

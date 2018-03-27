@@ -45,6 +45,8 @@ public class BrowserPanel extends UiPart<Region> {
     private Label level;
     @FXML
     private Label price;
+    @FXML
+    private Label remark;
 
     public BrowserPanel() {
         super(FXML);
@@ -76,6 +78,7 @@ public class BrowserPanel extends UiPart<Region> {
                 || person.getTags().contains(new Tag("tutor"))) {
             role.setText("Tutor");
         }
+        remark.setText(person.getRemark().value);
         /*if (person.getPhone().value == null) {
             phone.setText(" - ");
         } else {

@@ -66,6 +66,8 @@ public class CommandTestUtil {
     public static final String PRICE_BOB = "113";
     public static final String STATUS_UNMATCHED = "not Matched";
     public static final String STATUS_MATCHED = "matched";
+    public static final String REMARK_AMY = "Hardworking student.";
+    public static final String REMARK_BOB = "Patient tutor.";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;

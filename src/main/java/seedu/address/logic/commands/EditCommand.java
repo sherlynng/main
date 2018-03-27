@@ -26,6 +26,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
@@ -92,11 +93,9 @@ public class EditCommand extends UndoableCommand {
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Person> lastShownList = model.getFilteredPersonList();
-
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
-
         personToEdit = lastShownList.get(index.getZeroBased());
         editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
     }
@@ -123,6 +122,7 @@ public class EditCommand extends UndoableCommand {
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
         //clean out old person's attribute tags, then add the new ones
+
         //ignore if attribute is empty (not entered yet by user)
         if (!personToEdit.getPrice().toString().equals("")) {
             attributeTags.remove(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
@@ -155,8 +155,10 @@ public class EditCommand extends UndoableCommand {
             attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
         }
 
+        Remark remark = personToEdit.getRemark();
+
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole, new HashSet<>(attributeTags));
+                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole, attributeTags, remark);
     }
 
     @Override
