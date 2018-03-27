@@ -420,6 +420,7 @@ You can the file under the same path of *main/data*
 |`find`|`f`|`find KEYWORD [MORE_KEYWORDS]`|`find James Jake`
 |`select`|`s`|`select INDEX`|`select 2`
 |`filter`| |`filter KEYWORD`|`filter Math`
+|`remark`|`rm`|`remark INDEX r/`|`remark 2 r/Fast learner.`
 |`list`|`l`||
 |`clear`|`c`||
 |`history`|`h`||
