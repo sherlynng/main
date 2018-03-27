@@ -91,8 +91,8 @@ Format: `*help*`
 
 At any time if you are unsure of how to use STUtor, this command will bring you to the help page.
 
-==== Adding a person: `*add*` or `*a*`
-Format: `*add* n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS $/PRICE sub/SUBJECT lvl/EDUCATION_LEVEL stat/STATUS r/ROLE [t/TAG]...`
+==== Adding a person: `add` or `a`
+Format: `*add* n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
 
 Adds a new person to STUtor. +
 
@@ -103,10 +103,17 @@ Adds a new person to STUtor. +
 ** These information is displayed as tags for easy reference.
 ****
 
+[NOTE]
+====
+Only the NAME field is required for the command to be accepted, all other fields are optional. +
+To fill in the other fields later, you can use the edit command to edit the person with the new information.
+====
+
 Examples:
 
 * `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
 * `*add* n/Betsy Crowe p/91562389 e/betsycrowe@example.com a/Pasir Ris Drive 10, #06-02 $/30 sub/Chinese lvl/Upper Pri stat/Not Matched r/Tutor`
+* `*add* n/Carl Kurz
 
 
 [NOTE]
@@ -200,6 +207,27 @@ Examples:
 Returns `john` and `John Doe`
 * `*find* Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
+
+==== Finding people with missing fields: `findmissing` or `fm` (Coming in V1.4)
+Format `*findmissing* [FIELD]...
+
+If no arguments for FIELD is entered, lists all people with at least one field with an empty value. +
+Otherwise, finds all people with an empty value in at least one entered FIELD.
+
+****
+* The field name is case insensitive
+
+Examples:
+
+* `*findmissing* role` +
+Returns any person who has no entered role.
+
+* `*findmissing* phone email` +
+Returns any person who has no entered phone or email.
+
+* `*findmissing*` +
+Returns any person who has no entered value for at least 1 field.
+
 
 ==== Deleting a person : `*delete*` or `*d*`
 Format: `*delete* INDEX`
