@@ -91,7 +91,7 @@ Format: `*help*`
 
 At any time if you are unsure of how to use STUtor, this command will bring you to the help page.
 
-==== Adding a person: `add` or `a`
+==== Adding a person: `*add*` or `*a*`
 Format: `*add* n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
 
 Adds a new person to STUtor. +
@@ -213,7 +213,7 @@ Returns `john` and `John Doe`
 * `*find* Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
-==== Finding people with missing fields: `findmissing` or `fm` (Coming in V1.4)
+==== Finding people with missing fields: `*findmissing*` or `*fm*` (Coming in V1.4)
 Format `*findmissing* [FIELD]...`
 
 If no arguments for FIELD is entered, lists all people with at least one field with an empty value. +
