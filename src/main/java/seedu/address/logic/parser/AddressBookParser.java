@@ -22,6 +22,7 @@ import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.RemoveTagCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.commands.ViewStatsCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -91,6 +92,9 @@ public class AddressBookParser {
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
+
+        case ViewStatsCommand.COMMAND_WORD:
+            return new ViewStatsCommand();
 
         case UndoCommand.COMMAND_WORD:
         case UndoCommand.COMMAND_WORD_ALIAS:
