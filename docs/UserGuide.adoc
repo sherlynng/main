@@ -123,6 +123,9 @@ Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
 Press kbd:[Delete] key to delete a field (and its prefix).
 ====
 
+image::AutofillAdd_Tab.png[width="700"]
+image::AutofillAdd_Delete.png[width="700"]
+
 ==== Listing all persons : `*list*` or `*l*`
 Format: `*list*`
 
@@ -158,6 +161,8 @@ INDEX to be specified will be highlighted.
 Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
 Press kbd:[Delete] key to delete a field (and its prefix).
 ====
+
+image::AutofillEdit.png[width="800"]
 
 ==== Filtering all persons list by subject, level, role or status: `*filter*`
 Format: `*filter* KEYWORD [MORE_KEYWORDS]`
@@ -255,6 +260,8 @@ Press kbd:[Tab] key once after typing `*delete*` or `*d*` will autofill the comm
 INDEX to be specified will be highlighted.
 ====
 
+image::AutofillDelete.png[width="500"]
+
 ==== Selecting a person : `*select*` or `*s*`
 Format: `*select* INDEX`
 
@@ -281,6 +288,7 @@ Press kbd:[Tab] key once after typing `*select*` or `*s*` will autofill the comm
 INDEX to be specified will be highlighted.
 ====
 
+image::AutofillSelect.png[width="500"]
 
 ==== Listing entered commands : `*history*` or `*h*`
 Format: `*history*`
@@ -346,6 +354,26 @@ The `*redo*` command fails as there are no `*undo*` commands executed previously
 Format: `*clear*`
 
 To clear all entries from your STUtor, use the `*clear*` command. +
+
+==== Creating a remark for a person : `*remark*` or `*rm*`
+Format: `*remark* INDEX r/`
+
+Creates a remark for the person identified by the index number used in the *last person listing*. +
+
+****
+* The index refers to the index number shown in the most recent listing.
+* The index *must be a positive integer* `1, 2, 3, ...`
+* You can remove a remark by typing `r/` without specifying any remark after it.
+****
+
+Examples:
+
+* `*list*` +
+`*remark* 2 r/Fast learner.` +
+Creates a remark 'Fast learner.' for the 2nd person in STUtor.
+* `*find* Betsy` +
+`*remark* 1 r/` +
+Removes the remark for the 1st person in the results of the `*find*` command.
 
 
 ==== Exiting the program : `*exit*`
