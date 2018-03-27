@@ -14,8 +14,10 @@ public class KeywordPredicate implements Predicate<Person> {
 
     @Override
     public boolean test(Person person) {
-        return (person.getSubject().toString().equals(keyword) || person.getLevel().toString().equals(keyword)
-                || person.getStatus().toString().equals(keyword));
+        return (person.getSubject().toString().equalsIgnoreCase(keyword)
+                || person.getLevel().toString().equalsIgnoreCase(keyword)
+                || person.getStatus().toString().equalsIgnoreCase(keyword)
+                || person.getRole().toString().equalsIgnoreCase(keyword));
     }
 
     @Override

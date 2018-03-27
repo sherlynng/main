@@ -533,8 +533,7 @@ We have added the `filter` command which inherit from `Command`. The user can `f
 
 The following sequence diagram shows how the filter command works:
 
-.Sequence Diagram for `filter`
-image::FilterCommandSequenceDiagram.png[width="800"]
+image::FilterCommandSequenceDiagramV2.png[width="800"]
 
 [NOTE]
 The user must input arguments in case sensitive and full fashion.
