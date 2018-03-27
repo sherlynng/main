@@ -449,6 +449,8 @@ The exceptions are `Price` and `Phone` as they consist only of numbers and requi
 We utilise the `ProperCaseConverter` object to convert all parsed and valid input into proper case.
 The sequence diagram below shows how this is achieved in the constructor of `Role` class.
 
+
+.Sequence Diagram for achieveing case insensitive input
 image::SDforCaseInsensitiveInput.png[width="800"]
 
 The other classes utilise the `ProperCaseConverter` object in a similar way.
@@ -509,6 +511,7 @@ We have added the `filter` command which inherit from `Command`. The user can `f
 
 The following sequence diagram shows how the filter command works:
 
+.Sequence Diagram for `filter`
 image::FilterCommandSequenceDiagram.png[width="800"]
 
 [NOTE]
