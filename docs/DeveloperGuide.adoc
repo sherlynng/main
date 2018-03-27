@@ -623,7 +623,7 @@ For all fields that the user did not enter a value for, an empty string `""` wil
 User can enter prefix with only spaces as a valid input, which will be in as an unentered field, which may be unintuitive.
 
 * **Alternative 2:** Store it as a `null` value
-** Pros: More intuitive to store a missing value as `null`. 
+** Pros: More intuitive to store a missing value as `null`.
 ** Cons: When an attribute value needs to be obtained or used, must check for `null` value and handle accordingly. +
 Must create a special constructor for the attribute class to accept a `null` for its internal `String` value.
 
