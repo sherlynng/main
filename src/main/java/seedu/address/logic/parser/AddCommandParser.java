@@ -79,7 +79,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             tagList.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
             tagList.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
 
-            Remark remark = new Remark(" - ");  // default remark is " - " for newly added Person
+            Remark remark = new Remark("");  // default remark is empty string for newly added Person
 
             Person person = new Person(name, phone, email, address, price, subject, level,
                     status, role, tagList, remark);

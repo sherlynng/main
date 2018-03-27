@@ -298,10 +298,8 @@ public class ParserUtil {
     /**
      * Parses a {@code String remark} into a {@code Remark}.
      * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws IllegalValueException if the given {@code remark} is invalid.
      */
-    public static Remark parseRemark(String remark) throws IllegalValueException {
+    public static Remark parseRemark(String remark) {
         if (remark == null) {
             remark = ""; // set it as empty string if there is no user input
         }
