@@ -2,8 +2,6 @@ package seedu.address.model.person;
 
 import java.util.function.Predicate;
 
-import seedu.address.commons.util.StringUtil;
-
 /**
  * Tests that a {@code Person}'s {@code Attribute} matches any of the keywords given.
  */
@@ -16,10 +14,10 @@ public class KeywordPredicate implements Predicate<Person> {
 
     @Override
     public boolean test(Person person) {
-        return (StringUtil.containsWordIgnoreCase(person.getSubject().toString(), keyword)
-                || StringUtil.containsWordIgnoreCase(person.getLevel().toString(), keyword)
-                || StringUtil.containsWordIgnoreCase(person.getStatus().toString(), keyword)
-                || StringUtil.containsWordIgnoreCase(person.getRole().toString(), keyword));
+        return (person.getSubject().toString().equalsIgnoreCase(keyword)
+                || person.getLevel().toString().equalsIgnoreCase(keyword)
+                || person.getStatus().toString().equalsIgnoreCase(keyword)
+                || person.getRole().toString().equalsIgnoreCase(keyword));
     }
 
     @Override
