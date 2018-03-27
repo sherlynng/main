@@ -14,14 +14,17 @@ import seedu.address.model.pair.exceptions.DuplicatePairException;
 public class TypicalPairs {
 
     public static final Pair ALICE_AND_BENSON = new PairBuilder().withStudentName("Alice Pauline")
-            .withTutorName("Benson Meier").withPrice("50").withSubject("Math").withLevel("Lower Sec")
+            .withTutorName("Benson Meier").withSubject("Math").withLevel("Lower Sec").withPrice("50")
+            .withTags("Math", "Lower Sec", "50")
             .build();
     public static final Pair CARL_AND_DANIEL = new PairBuilder().withStudentName("Carl Kurz")
             .withTutorName("Daniel Meier").withPrice("80").withSubject("Physics").withLevel("Upper Sec")
+            .withTags("Physics", "Upper Sec", "80")
             .build();
 
     public static final Pair ELLE_AND_FIONA = new PairBuilder().withStudentName("Elle Meyer")
             .withTutorName("Fiona Kunz").withPrice("100").withSubject("English").withLevel("Upper Pri")
+            .withTags("English", "Upper Pri", "100")
             .build();
 
 

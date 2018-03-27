@@ -105,9 +105,9 @@ public class PairBuilder {
      */
     private void setTags() {
 
-        tags.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
         tags.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
         tags.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
+        tags.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
     }
 
     /**

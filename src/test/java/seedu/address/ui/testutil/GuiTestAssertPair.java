@@ -34,7 +34,7 @@ public class GuiTestAssertPair {
      * Asserts that {@code actualCard} displays the details of {@code expectedPair}.
      */
     public static void assertCardDisplaysPair(Pair expectedPair, PairCardHandle actualCard) {
-        assertEquals(expectedPair.getName(), actualCard.getName());
+        assertEquals(expectedPair.getPairName(), actualCard.getName());
 
         assertTagsEqual(expectedPair, actualCard);
     }
