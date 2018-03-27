@@ -47,7 +47,7 @@ public class XmlAdaptedPair {
      * Constructs an {@code XmlAdaptedPair} with the given pair details.
      */
     public XmlAdaptedPair(String studentName, String tutorName, String subject, String level,
-                            String price) {
+                            String price,  List<XmlAdaptedTag> tagged) {
         this.studentName = studentName;
         this.tutorName = tutorName;
         this.subject = subject;

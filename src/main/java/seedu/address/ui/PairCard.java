@@ -42,7 +42,7 @@ public class PairCard extends UiPart<Region> {
         super(FXML);
         this.pair = pair;
         id.setText(displayedIndex + ". ");
-        name.setText(pair.getName());
+        name.setText(pair.getPairName());
         initTags(pair);
     }
 

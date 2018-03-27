@@ -3,6 +3,7 @@ package seedu.address.model.pair;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.tag.Tag;
@@ -55,7 +56,7 @@ public class Pair  {
         return price;
     }
 
-    public String getName() {
+    public String getPairName() {
         return studentName + " /w " + tutorName;
     }
 
@@ -65,6 +66,38 @@ public class Pair  {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags.toSet());
+    }
+
+    /**
+     * return a hashcode of the Pair object
+     * @return
+     */
+    public int hashCode() {
+        // use this method for custom fields hashing instead of implementing your own
+        return Objects.hash(studentName, tutorName, subject, level, price, tags);
+    }
+
+    /**
+     * check if another object is equal to this pair
+     * @param other
+     * @return
+     */
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Pair)) {
+            return false;
+        }
+
+
+        Pair otherPair = (Pair) other;
+        return otherPair.getStudentName().equals(this.getStudentName())
+                && otherPair.getTutorName().equals(this.getTutorName())
+                && otherPair.getSubject().equals(this.getSubject())
+                & otherPair.getLevel().equals(this.getLevel())
+                && otherPair.getPrice().equals(this.getPrice());
     }
 
 
