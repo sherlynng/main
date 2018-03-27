@@ -36,7 +36,7 @@ public class Address {
      * Returns true if a given string is a valid person email.
      */
     public static boolean isValidAddress(String test) {
-        return test.matches(ADDRESS_VALIDATION_REGEX);
+        return test.equals("") || test.matches(ADDRESS_VALIDATION_REGEX);
     }
 
     @Override

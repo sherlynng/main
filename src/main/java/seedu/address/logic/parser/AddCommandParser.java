@@ -47,43 +47,45 @@ public class AddCommandParser implements Parser<AddCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
                         PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_STATUS, PREFIX_ROLE, PREFIX_TAG);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_ROLE, PREFIX_STATUS)
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
         }
 
         try {
             Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
-            Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).get();
-            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).get();
-            Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).get();
-            Price price = ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE)).get();
-            Subject subject = ParserUtil.parseSubject(argMultimap.getValue(PREFIX_SUBJECT)).get();
-            Level level = ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).get();
-            Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).get();
-            Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).get();
+            Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).orElse(new Phone(""));
+            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).orElse(new Email(""));
+            Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).orElse(new Address(""));
+            Price price = ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE)).orElse(new Price(""));
+            Subject subject = ParserUtil.parseSubject(argMultimap.getValue(PREFIX_SUBJECT)).orElse(new Subject(""));
+            Level level = ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).orElse(new Level(""));
+            Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).orElse(new Status(""));
+            Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).orElse(new Role(""));
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-            //        if (!tagList.contains(new Tag("Student")) && !tagList.contains(new Tag("Tutor"))) {
-            //            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT
-            // + MESSAGE_USAGE, MESSAGE_USAGE));
-            // }
-
             //Add required attributes to the tag list as in documentation
-
-
-            tagList.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
-            tagList.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
-            tagList.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
-            tagList.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
-            tagList.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
+            //make tags only if the attribute has been entered by user
+            if (!price.toString().equals("")) {
+                tagList.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
+            }
+            if (!subject.toString().equals("")) {
+                tagList.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
+            }
+            if (!level.toString().equals("")) {
+                tagList.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
+            }
+            if (!status.toString().equals("")) {
+                tagList.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
+            }
+            if (!role.toString().equals("")) {
+                tagList.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
+            }
 
             Remark remark = new Remark("");  // default remark is empty string for newly added Person
 
             Person person = new Person(name, phone, email, address, price, subject, level,
                     status, role, tagList, remark);
-
             return new AddCommand(person);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);

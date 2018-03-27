@@ -16,12 +16,6 @@ public class StatusTest {
     }
 
     @Test
-    public void constructor_invalidStatus_throwsNumberFormatException() {
-        String invalidStatus = "";
-        Assert.assertThrows(NumberFormatException.class, () -> new Status(invalidStatus));
-    }
-
-    @Test
     public void isValidStatus() {
 
         // invalid statuses

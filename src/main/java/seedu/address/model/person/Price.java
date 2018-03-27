@@ -13,17 +13,19 @@ public class Price {
     public final String value;
 
 
-    public Price(String value) {
-        requireNonNull(value);
-        checkArgument(isValidPrice(value), MESSAGE_PRICE_CONSTRAINTS);
-        this.value = value;
+    public Price(String price) {
+        requireNonNull(price);
+        if (!price.equals("")) {
+            checkArgument(isValidPrice(price), MESSAGE_PRICE_CONSTRAINTS);
+        }
+        this.value = price;
     }
 
     /**
      * Returns if a given string is a valid status description.
      */
     public static boolean isValidPrice(String test) {
-        return (Integer.parseInt(test) > 0);
+        return test.equals("") || (Integer.parseInt(test) > 0);
     }
 
     @Override

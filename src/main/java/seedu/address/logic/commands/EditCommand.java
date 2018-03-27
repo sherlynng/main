@@ -112,7 +112,6 @@ public class EditCommand extends UndoableCommand {
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-
         Price updatedPrice = editPersonDescriptor.getPrice().orElse(personToEdit.getPrice());
         Subject updatedSubject = editPersonDescriptor.getSubject().orElse(personToEdit.getSubject());
         Level updatedLevel = editPersonDescriptor.getLevel().orElse(personToEdit.getLevel());
@@ -122,21 +121,40 @@ public class EditCommand extends UndoableCommand {
 
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
-
-
         //clean out old person's attribute tags, then add the new ones
-        attributeTags.remove(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
-        attributeTags.remove(new Tag(personToEdit.getLevel().toString(), Tag.AllTagTypes.LEVEL));
-        attributeTags.remove(new Tag(personToEdit.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
-        attributeTags.remove(new Tag(personToEdit.getStatus().toString(), Tag.AllTagTypes.STATUS));
-        attributeTags.remove(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
 
-        attributeTags.add(new Tag(updatedPrice.toString(), Tag.AllTagTypes.PRICE));
-        attributeTags.add(new Tag(updatedSubject.toString(), Tag.AllTagTypes.SUBJECT));
-        attributeTags.add(new Tag(updatedLevel.toString(), Tag.AllTagTypes.LEVEL));
-        attributeTags.add(new Tag(updatedStatus.toString(), Tag.AllTagTypes.STATUS));
-        attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
-
+        //ignore if attribute is empty (not entered yet by user)
+        if (!personToEdit.getPrice().toString().equals("")) {
+            attributeTags.remove(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
+        }
+        if (!personToEdit.getLevel().toString().equals("")) {
+            attributeTags.remove(new Tag(personToEdit.getLevel().toString(), Tag.AllTagTypes.LEVEL));
+        }
+        if (!personToEdit.getSubject().toString().equals("")) {
+            attributeTags.remove(new Tag(personToEdit.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
+        }
+        if (!personToEdit.getStatus().toString().equals("")) {
+            attributeTags.remove(new Tag(personToEdit.getStatus().toString(), Tag.AllTagTypes.STATUS));
+        }
+        if (!personToEdit.getRole().toString().equals("")) {
+            attributeTags.remove(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
+        }
+        if (!updatedPrice.toString().equals("")) {
+            attributeTags.add(new Tag(updatedPrice.toString(), Tag.AllTagTypes.PRICE));
+        }
+        if (!updatedSubject.toString().equals("")) {
+            attributeTags.add(new Tag(updatedSubject.toString(), Tag.AllTagTypes.SUBJECT));
+        }
+        if (!updatedLevel.toString().equals("")) {
+            attributeTags.add(new Tag(updatedLevel.toString(), Tag.AllTagTypes.LEVEL));
+        }
+        if (!updatedStatus.toString().equals("")) {
+            attributeTags.add(new Tag(updatedStatus.toString(), Tag.AllTagTypes.STATUS));
+        }
+        if (!updatedRole.toString().equals("")) {
+            attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
+        }
+        
         Remark remark = personToEdit.getRemark();
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,

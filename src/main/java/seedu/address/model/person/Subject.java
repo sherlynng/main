@@ -13,7 +13,7 @@ import java.util.HashSet;
 public class Subject {
 
     public static final String[] SUBJECT_VALUES =
-            new String[]{"english", "eng", "chinese", "chi", "math", "physics", "phy", "chemistry", "chem"};
+            new String[]{"english", "eng", "chinese", "chi", "math", "physics", "phy", "chemistry", "chem", ""};
     public static final HashSet<String> SET_ALL_SUBJECT = new HashSet<>(Arrays.asList(SUBJECT_VALUES));
 
     public static final String MESSAGE_SUBJECT_CONSTRAINTS = "Subject should be one of: \n"
@@ -28,6 +28,7 @@ public class Subject {
      * @param subject A valid subject description.
      */
     public Subject(String subject) {
+        requireNonNull(subject);
         subject = validateSubject(subject);
         this.value = formatsubject(subject);
     }
@@ -43,7 +44,7 @@ public class Subject {
      * @return string representing a valid subject
      */
     private String validateSubject(String subject) {
-        requireNonNull(subject);
+
         subject.toLowerCase();
         checkArgument(isValidSubject(subject), MESSAGE_SUBJECT_CONSTRAINTS);
         subject = convertToFullSubject(subject);
@@ -55,9 +56,7 @@ public class Subject {
      */
     public String convertToFullSubject(String original) {
         String cur = original.toLowerCase();
-        if (cur == null) {
-            return "";
-        } else if (cur.equals("eng")) {
+        if (cur.equals("eng")) {
             cur = "english";
         } else if (cur.equals("chi")) {
             cur = "chinese";

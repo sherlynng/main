@@ -15,12 +15,6 @@ public class SubjectTest {
     }
 
     @Test
-    public void constructor_invalidSubject_throwsIllegalArgumentException() {
-        String invalidSubject = "";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Subject(invalidSubject));
-    }
-
-    @Test
     public void isValidPrice() {
         // null subject
         Assert.assertThrows(NullPointerException.class, () -> Subject.isValidSubject(null));

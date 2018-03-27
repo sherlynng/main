@@ -16,12 +16,6 @@ public class LevelTest {
     }
 
     @Test
-    public void constructor_invalidLevel_throwsIllegalArgumentException() {
-        String invalidLevel = "";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Level(invalidLevel));
-    }
-
-    @Test
     public void isValidLevel() {
         // null level
         Assert.assertThrows(NullPointerException.class, () -> Level.isValidLevel(null));
