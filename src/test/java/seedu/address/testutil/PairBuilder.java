@@ -21,11 +21,11 @@ public class PairBuilder {
     public static final String DEFAULT_TAG_LEVEL = "Lower Sec";
     public static final String DEFAULT_TAG_PRICE = "100";
 
-    public String studentName;
-    public String tutorName;
-    public String subject;
-    public String level;
-    public String price;
+    private String studentName;
+    private String tutorName;
+    private String subject;
+    private String level;
+    private String price;
     private Set<Tag> tags;
 
     public PairBuilder() {

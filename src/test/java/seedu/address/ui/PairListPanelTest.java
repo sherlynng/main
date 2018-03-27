@@ -1,11 +1,9 @@
 package seedu.address.ui;
 
 import static org.junit.Assert.assertEquals;
-import static seedu.address.testutil.EventsUtil.postNow;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPairs.getTypicalPairs;
 import static seedu.address.ui.testutil.GuiTestAssertPair.assertCardDisplaysPair;
-import static seedu.address.ui.testutil.GuiTestAssertPair.assertCardEquals;
 
 import org.junit.Before;
 import org.junit.Test;

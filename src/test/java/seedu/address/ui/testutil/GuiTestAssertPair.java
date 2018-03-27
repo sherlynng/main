@@ -6,7 +6,6 @@ import static seedu.address.ui.PairCard.TAG_COLOR_STYLES;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import guitests.guihandles.BrowserPanelHandle;
 import guitests.guihandles.PairCardHandle;
 import guitests.guihandles.PairListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;

@@ -1,24 +1,5 @@
 package seedu.address.testutil;
 
-import static seedu.address.logic.commands.CommandTestUtil.PRICE_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.PRICE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.ROLE_STUDENT;
-import static seedu.address.logic.commands.CommandTestUtil.ROLE_TUTOR;
-import static seedu.address.logic.commands.CommandTestUtil.STATUS_UNMATCHED;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_LEVEL_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_LEVEL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

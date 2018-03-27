@@ -21,6 +21,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.pair.Pair;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Tutor;
@@ -164,6 +165,18 @@ public class AddCommandTest {
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
             fail("This method should not be called.");
+        }
+
+        //dummy method
+        @Override
+        public ObservableList<Pair> getFilteredPairList() {
+            return null;
+        }
+
+        //dummy method
+        @Override
+        public void updateFilteredPairList(Predicate<Pair> predicate) {
+
         }
 
         @Override
