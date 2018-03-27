@@ -75,7 +75,6 @@ public class Person {
         return role;
     }
 
-    
     public Status getStatus() {
         return status;
     }
