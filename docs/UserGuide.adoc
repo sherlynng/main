@@ -160,15 +160,15 @@ Press kbd:[Delete] key to delete a field (and its prefix).
 ====
 
 ==== Filtering all persons list by subject, level, role or status: `*filter*`
-Format: `*filter* KEYWORD [MORE_KEYWORDS]`
+Format: `*filter* KEYWORD`
 
 Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain any of the given keywords. +
 
 ****
-* The filter is case sensitive.
+* The filter is case insensitive.
 
 [%hardbreak]
-{nbsp}{nbsp}{nbsp}{nbsp} e.g `math` will not match `Math`
+{nbsp}{nbsp}{nbsp}{nbsp} e.g `maTH` will match `Math`
 
 * Only full words will be matched e.g. `Eng` will not match `English`
 * Persons with matching keyword will be returned
