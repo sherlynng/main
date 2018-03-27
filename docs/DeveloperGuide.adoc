@@ -636,8 +636,8 @@ definite format (i.e. `delete` and `select`) have this feature implemented as we
 ==== Current Implementation
 
 Autofill feature is implemented in link:{repoURL}/blob/master/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox.java`].
-When keyboard kbd:[Delete] or kbd:[Tab] is pressed, depending on the user input in the command box, the caret position
-will be shifted accordingly. Below shows the workflow when kbd:[Delete] or kbd:[Tab] is pressed.
+When keyboard `Delete` or `Tab` is pressed, depending on the user input in the command box, the caret position
+will be shifted accordingly. Below shows the workflow when `Delete` or `Tab` is pressed.
 
 .Activity Diagram for Autofill
 image::AutofillActivityDiagram.png[width="700"]
@@ -652,19 +652,19 @@ image::AutofillAdd_Tab2.png[width="700"]
 ===== Delete Previous Prefix
 To delete the previous prefix, the last instance of `{nbsp}{nbsp}` from the current caret position is located. Any text
 between this position and the caret position is deleted to remove the desired prefix and user input (if any). The caret
-then procedes to find next field to be shifted to. Below shows what happens when kbd:[Delete] is pressed when caret position is at `n/`.
+then procedes to find next field to be shifted to. Below shows what happens when `Delete` is pressed when caret position is at `n/`.
 
 .Visualization for delete previous prefix
 image::AutofillAdd_Delete.png[width="700"]
 
 ==== Design Considerations
 
-===== Aspect: Keyboard key for kbd:[Delete]
+===== Aspect: Keyboard key for `Delete`
 
-* **Alternative 1 (current choice):** Use kbd:[Delete] button.
+* **Alternative 1 (current choice):** Use `Delete` button.
 ** Pros: Intuitive to user.
 ** Cons: May lead to confusion since the orignal functionality of the `DELETE` button does not work now.
-* **Alternative 2:** Use other keyboard keys that users typically do not use, for example kbd:[F2].
+* **Alternative 2:** Use other keyboard keys that users typically do not use, for example `F2`.
 ** Pros: Will not lead to confusion of expected keyboard functionalities.
 ** Cons: Not intuitive for users to use as they would not expect it to be a key for delete function.
 
