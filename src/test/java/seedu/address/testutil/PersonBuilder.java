@@ -156,13 +156,21 @@ public class PersonBuilder {
      * Sets the required attribute tags for the person
      */
     private void setTags() {
-
-        tags.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
-        tags.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
-        tags.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
-        tags.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
-        tags.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
-
+        if (!price.toString().equals("")) {
+            tags.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
+        }
+        if (!subject.toString().equals("")) {
+            tags.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
+        }
+        if (!level.toString().equals("")) {
+            tags.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
+        }
+        if (!status.toString().equals("")) {
+            tags.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
+        }
+        if (!role.toString().equals("")) {
+            tags.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
+        }
     }
 
     /**
