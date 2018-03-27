@@ -209,13 +209,14 @@ Returns `john` and `John Doe`
 Returns any person having names `Betsy`, `Tim`, or `John`
 
 ==== Finding people with missing fields: `findmissing` or `fm` (Coming in V1.4)
-Format `*findmissing* [FIELD]...
+Format `*findmissing* [FIELD]...`
 
 If no arguments for FIELD is entered, lists all people with at least one field with an empty value. +
 Otherwise, finds all people with an empty value in at least one entered FIELD.
 
 ****
 * The field name is case insensitive
+****
 
 Examples:
 
@@ -227,7 +228,6 @@ Returns any person who has no entered phone or email.
 
 * `*findmissing*` +
 Returns any person who has no entered value for at least 1 field.
-****
 
 ==== Deleting a person : `*delete*` or `*d*`
 Format: `*delete* INDEX`
