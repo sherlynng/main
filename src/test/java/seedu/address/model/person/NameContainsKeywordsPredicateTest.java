@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import seedu.address.model.pair.NameContainsKeywordsPredicatePair;
+import seedu.address.testutil.PairBuilder;
 import seedu.address.testutil.PersonBuilder;
 
 public class NameContainsKeywordsPredicateTest {
@@ -40,6 +42,7 @@ public class NameContainsKeywordsPredicateTest {
 
     @Test
     public void test_nameContainsKeywords_returnsTrue() {
+        // person operation
         // One keyword
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList("Alice"));
         assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
@@ -55,7 +58,26 @@ public class NameContainsKeywordsPredicateTest {
         // Mixed-case keywords
         predicate = new NameContainsKeywordsPredicate(Arrays.asList("aLIce", "bOB"));
         assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+
+        //pair operation
+        // One keyword
+        NameContainsKeywordsPredicatePair predicatePair =
+                new NameContainsKeywordsPredicatePair(Collections.singletonList("Harry"));
+        assertTrue(predicatePair.test(new PairBuilder().build()));
+
+        // Multiple keywords
+        predicatePair = new NameContainsKeywordsPredicatePair(Arrays.asList("Harry", "Severus"));
+        assertTrue(predicatePair.test(new PairBuilder().build()));
+
+        // Only one matching keyword
+        predicatePair = new NameContainsKeywordsPredicatePair(Arrays.asList("Bob", "Harry"));
+        assertTrue(predicatePair.test(new PairBuilder().build()));
+
+        // Mixed-case keywords
+        predicatePair = new NameContainsKeywordsPredicatePair(Arrays.asList("hArry", "SeveRUS"));
+        assertTrue(predicatePair.test(new PairBuilder().build()));
     }
+
 
     @Test
     public void test_nameDoesNotContainKeywords_returnsFalse() {
