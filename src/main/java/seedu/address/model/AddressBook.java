@@ -244,6 +244,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @throws seedu.address.model.pair.exceptions.PairNotFoundException if the {@code key} is not in this
      * {@code AddressBook}.gr
      */
+    /*
     public boolean removePair(Pair key) throws PairNotFoundException {
         if (pairs.remove(key)) {
             return true;
@@ -251,6 +252,7 @@ public class AddressBook implements ReadOnlyAddressBook {
             throw new PairNotFoundException();
         }
     }
+    */
 
     //// tag-level operations
 
