@@ -16,6 +16,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
@@ -49,6 +50,8 @@ public class XmlAdaptedPerson {
     private String role;
     @XmlElement(required = true)
     private String remark;
+    @XmlElement(required = true)
+    private String rate;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -64,7 +67,7 @@ public class XmlAdaptedPerson {
      */
     public XmlAdaptedPerson(String name, String phone, String email, String address,
                             String price, String subject, String level, String status, String role,
-                            List<XmlAdaptedTag> tagged, String remark) {
+                            List<XmlAdaptedTag> tagged, String remark, String rate) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -75,6 +78,7 @@ public class XmlAdaptedPerson {
         this.level = level;
         this.role = role;
         this.remark = remark;
+        this.rate = rate;
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
@@ -96,6 +100,7 @@ public class XmlAdaptedPerson {
         price = source.getPrice().value;
         role = source.getRole().value;
         remark = source.getRemark().value;
+        rate = Double.toString(source.getRate().value);
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
@@ -191,8 +196,15 @@ public class XmlAdaptedPerson {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName()));
         }
         final Remark remark = new Remark(this.remark);
+        if (this.rate == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Rate.class.getSimpleName()));
+        }
+        if (!Rate.isValidRate(this.rate)) {
+            throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
+        }
+        final Rate rate = new Rate(Double.parseDouble(this.rate), true);
 
-        return new Person(name, phone, email, address, price, subject, level, status, role, tags, remark);
+        return new Person(name, phone, email, address, price, subject, level, status, role, tags, remark, rate);
     }
 
     @Override

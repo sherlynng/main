@@ -18,6 +18,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
@@ -97,6 +98,7 @@ public class RemarkCommand extends UndoableCommand {
         Level level = personToEdit.getLevel();
         Status status = personToEdit.getStatus();
         Role role = personToEdit.getRole();
+        Rate rate = personToEdit.getRate();
 
         Set<Tag> updatedTags = personToEdit.getTags();
 
@@ -121,7 +123,8 @@ public class RemarkCommand extends UndoableCommand {
             attributeTags.add(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
         }
 
-        return new Person(name, phone, email, address, price, subject, level, status, role, attributeTags, newRemark);
+        return new Person(name, phone, email, address, price, subject, level, status, role,
+                          attributeTags, newRemark, rate);
     }
 
     @Override

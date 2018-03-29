@@ -329,7 +329,7 @@ public class ParserUtil {
         boolean isAbsolute = false;
 
         // user wants absolute rate value
-        if (lastChar.equals("-")) {
+        if (lastChar.equals('-')) {
             rate = rate.substring(0, rate.length() - 1);
             isAbsolute = true;
         }
@@ -338,7 +338,7 @@ public class ParserUtil {
             throw new IllegalValueException(Role.MESSAGE_ROLE_CONSTRAINTS);
         }
 
-        return new Rate(Integer.parseInt(trimmedRate), isAbsolute);
+        return new Rate(Double.parseDouble(trimmedRate), isAbsolute);
     }
 
     /**

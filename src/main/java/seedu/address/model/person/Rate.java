@@ -14,24 +14,36 @@ public class Rate {
     public double value = 3;
     private int count = 0;
 
-    public static final String RATE_VALIDATION_REGEX = "[0-5]";
-    public static final String RATE_VALIDATION_REGEX_ABSOLUTE = "[0-5]" + "-";
+    /* Regex notation
+    ^                   # Start of string
+    (?:                 # Either match...
+    5(?:\.0)?           # 5.0 (or 5)
+    |                   # or
+    [0-4](?:\.[0-9])?   # 0.0-4.9 (or 1-4)
+    |                   # or
+    0?\.[1-9]           # 0.1-0.9 (or .1-.9)
+    )                   # End of alternation
+    $                   # End of string
+     */
+    public static final String RATE_VALIDATION_REGEX = "^(?:5(?:\\.0)?|[0-4](?:\\.[0-9])?|0?\\.[0-9])$";
+    public static final String RATE_VALIDATION_REGEX_ABSOLUTE = "^(?:5(?:\\.0)?|[0-4](?:\\.[0-9])?|0?\\.[0-9])" + "-";
     public static final String MESSAGE_RATE_CONSTRAINTS =
-            "Rate must be an integer between 0 and 5 (inclusive)";
+            "Rate must be a number between 0 and 5 (inclusive) with at most 1 decimal place";
 
     /**
      * Constructs an {@code Rating}.
      *
      * @param rating A valid rating.
      */
-    public Rate(int rating, boolean isAbsolute) {
+    public Rate(double rating, boolean isAbsolute) {
         requireNonNull(rating);
-        checkArgument(isValidRate(Integer.toString(rating)), MESSAGE_RATE_CONSTRAINTS);
+        checkArgument(isValidRate(Double.toString(rating)), MESSAGE_RATE_CONSTRAINTS);
 
         if (isAbsolute) {
-            this.value = rating;
+            this.value = Math.floor(rating * 10) / 10;
         }
         else {
+            this.value = Math.floor(value * 10) / 10;
             double accumulatedValue = value * count;
             this.value = (accumulatedValue + rating) / (count + 1);
         }
@@ -47,7 +59,7 @@ public class Rate {
 
     @Override
     public String toString() {
-        DecimalFormat df = new DecimalFormat("0.00");
+        DecimalFormat df = new DecimalFormat("0.0");
         return df.format(value);
     }
 
