@@ -32,7 +32,7 @@ import seedu.address.model.tag.Tag;
 public class RemarkCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "remark";
-    public static final String COMMAND_WORD_ALIAS = "rm";
+    public static final String COMMAND_WORD_ALIAS = "rk";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Adds a remark to person identified by the index number used in the last person listing. "
@@ -102,12 +102,24 @@ public class RemarkCommand extends UndoableCommand {
 
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
+        //clean out old person's attribute tags, then add the new ones
 
-        attributeTags.add(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
-        attributeTags.add(new Tag(personToEdit.getLevel().toString(), Tag.AllTagTypes.LEVEL));
-        attributeTags.add(new Tag(personToEdit.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
-        attributeTags.add(new Tag(personToEdit.getStatus().toString(), Tag.AllTagTypes.STATUS));
-        attributeTags.add(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
+        //ignore if attribute is empty (not entered yet by user)
+        if (!personToEdit.getPrice().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
+        }
+        if (!personToEdit.getLevel().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getLevel().toString(), Tag.AllTagTypes.LEVEL));
+        }
+        if (!personToEdit.getSubject().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
+        }
+        if (!personToEdit.getStatus().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getStatus().toString(), Tag.AllTagTypes.STATUS));
+        }
+        if (!personToEdit.getRole().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
+        }
 
         return new Person(name, phone, email, address, price, subject, level, status, role, attributeTags, newRemark);
     }
