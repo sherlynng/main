@@ -18,7 +18,7 @@ import seedu.address.model.tag.Tag;
 public class RemoveTagCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "removeTag";
-    public static final String COMMAND_WORD_ALIAS = "rt";
+    public static final String COMMAND_WORD_ALIAS = "rmt";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Removes a tag from the addressbook.\n"

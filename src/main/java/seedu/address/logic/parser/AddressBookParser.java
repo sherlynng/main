@@ -17,6 +17,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.RatingCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.RemoveTagCommand;
@@ -110,6 +111,10 @@ public class AddressBookParser {
 
         case RemarkCommand.COMMAND_WORD:
         case RemarkCommand.COMMAND_WORD_ALIAS:
+            return new RemarkCommandParser().parse(arguments);
+
+        case RatingCommand.COMMAND_WORD:
+        case RatingCommand.COMMAND_WORD_ALIAS:
             return new RemarkCommandParser().parse(arguments);
 
         default:
