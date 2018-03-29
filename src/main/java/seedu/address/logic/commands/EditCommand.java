@@ -26,6 +26,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
@@ -156,9 +157,10 @@ public class EditCommand extends UndoableCommand {
         }
 
         Remark remark = personToEdit.getRemark();
+        Rate rate = personToEdit.getRate();
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole, attributeTags, remark);
+                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole, attributeTags, remark, rate);
     }
 
     @Override

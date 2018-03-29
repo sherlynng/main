@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.HashSet;
@@ -18,6 +18,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
@@ -35,25 +36,25 @@ public class RateCommand extends UndoableCommand {
     public static final String COMMAND_WORD_ALIAS = "rt";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Adds a remark to person identified by the index number used in the last person listing. "
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_REMARK;
+            + ": Adds rating to person identified by the index number used in the last person listing. "
+            + "Parameters: INDEX (must be a positive integer), RATE (must be an integer between 0 and 5 (inclusive)\n"
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_RATE;
 
-    public static final String MESSAGE_REMARK_PERSON_SUCCESS = "Added Remark to %1$s: " + "%2$s";
+    public static final String MESSAGE_REMARK_PERSON_SUCCESS = "Added Rating to %1$s: " + "%2$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
     private final Index targetIndex;
-    private Remark newRemark;
+    private Rate newRate;
 
     private Person personToEdit;
     private Person editedPerson;
 
-    public RateCommand(Index targetIndex, Remark newRemark) {
+    public RateCommand(Index targetIndex, Rate newRate) {
         requireNonNull(targetIndex);
-        requireNonNull(newRemark);
+        requireNonNull(newRate);
 
         this.targetIndex = targetIndex;
-        this.newRemark = newRemark;
+        this.newRate = newRate;
     }
 
     @Override
@@ -67,7 +68,7 @@ public class RateCommand extends UndoableCommand {
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,
-                                editedPerson.getName(), editedPerson.getRemark()));
+                                editedPerson.getName(), editedPerson.getRate()));
     }
 
     @Override
@@ -79,13 +80,13 @@ public class RateCommand extends UndoableCommand {
         }
 
         personToEdit = lastShownList.get(targetIndex.getZeroBased());
-        editedPerson = createPersonWithNewRemark(personToEdit, newRemark);
+        editedPerson = createPersonWithNewRate(personToEdit, newRate);
     }
 
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}.
      */
-    private static Person createPersonWithNewRemark(Person personToEdit, Remark newRemark) {
+    private static Person createPersonWithNewRate(Person personToEdit, Rate newRate) {
         assert personToEdit != null;
 
         Name name = personToEdit.getName();
@@ -97,6 +98,7 @@ public class RateCommand extends UndoableCommand {
         Level level = personToEdit.getLevel();
         Status status = personToEdit.getStatus();
         Role role = personToEdit.getRole();
+        Remark remark = personToEdit.getRemark();
 
         Set<Tag> updatedTags = personToEdit.getTags();
 
@@ -121,7 +123,8 @@ public class RateCommand extends UndoableCommand {
             attributeTags.add(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
         }
 
-        return new Person(name, phone, email, address, price, subject, level, status, role, attributeTags, newRemark);
+        return new Person(name, phone, email, address, price, subject, level, status, role,
+                          attributeTags, remark, newRate);
     }
 
     @Override
@@ -129,6 +132,6 @@ public class RateCommand extends UndoableCommand {
         return other == this // short circuit if same object
                 || (other instanceof RateCommand // instanceof handles nulls
                 && this.targetIndex.equals(((RateCommand) other).targetIndex)
-                && this.newRemark.equals(((RateCommand) other).newRemark));
+                && this.newRate.equals(((RateCommand) other).newRate));
     }
 }

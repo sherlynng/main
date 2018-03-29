@@ -157,7 +157,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return new Person(
                 person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                 person.getPrice(), person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                correctTagReferences, person.getRemark());
+                correctTagReferences, person.getRemark(), person.getRate());
     }
 
     /**
@@ -324,7 +324,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person updatedPerson = new Person (person.getName(), person.getPhone(),
                 person.getEmail(), person.getAddress(), person.getPrice(),
                person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                updatedTags, person.getRemark());
+                updatedTags, person.getRemark(), person.getRate());
         try {
             updatePerson(person, updatedPerson);
         } catch (DuplicatePersonException dupe) {
