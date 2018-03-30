@@ -75,7 +75,6 @@ public class Rate {
         return this.value;
     }
 
-
     public int getCount() {
         return count;
     }
@@ -100,7 +99,8 @@ public class Rate {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Rate // instanceof handles nulls
-                && this.value == ((Rate) other).value); // state check
+                && this.value == ((Rate) other).value
+                && this.count == ((Rate) other).count); // state check
     }
 
     @Override
