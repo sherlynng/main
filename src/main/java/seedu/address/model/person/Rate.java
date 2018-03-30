@@ -11,9 +11,6 @@ import java.text.DecimalFormat;
  */
 public class Rate {
 
-    public double value = 3;
-    private int count = 0;
-
     /* Regex notation
     ^                   # Start of string
     (?:                 # Either match...
@@ -30,24 +27,41 @@ public class Rate {
     public static final String MESSAGE_RATE_CONSTRAINTS =
             "Rate must be a number between 0 and 5 (inclusive) with at most 1 decimal place";
 
+    private double value;
+    private int count;
+    private boolean isAbosulte;
+
     /**
      * Constructs an {@code Rating}.
      *
      * @param rating A valid rating.
      */
-    public Rate(double rating, boolean isAbsolute) {
+    public Rate (double rating, boolean isAbsolute) {
         requireNonNull(rating);
         checkArgument(isValidRate(Double.toString(rating)), MESSAGE_RATE_CONSTRAINTS);
 
-        if (isAbsolute) {
-            this.value = Math.floor(rating * 10) / 10;
-        }
-        else {
-            this.value = Math.floor(value * 10) / 10;
-            double accumulatedValue = value * count;
-            this.value = (accumulatedValue + rating) / (count + 1);
-        }
-        count++;
+        this.value = rating;
+        this.isAbosulte = isAbsolute;
+    }
+
+    /**
+     * Calculates the accumulated value of a person's rating
+     * @param oldRate
+     * @param newRate
+     * @return {@code Rate} that contains updated value and count
+     */
+    public static Rate acummulatedValue (Rate oldRate, Rate newRate) {
+        double value;
+        double newValue;
+
+        value = oldRate.getValue() * oldRate.getCount();
+        newValue = (value + newRate.getValue()) / (oldRate.getCount() + 1);
+        newValue = Math.floor(newValue * 10) / 10;
+
+        newRate = new Rate(newValue, true);
+        newRate.setCount(oldRate.getCount() + 1);
+
+        return newRate;
     }
 
     /**
@@ -55,6 +69,25 @@ public class Rate {
      */
     public static boolean isValidRate(String test) {
         return test.equals("") || test.matches(RATE_VALIDATION_REGEX) || test.matches(RATE_VALIDATION_REGEX_ABSOLUTE);
+    }
+
+    public double getValue() {
+        return this.value;
+    }
+
+
+    public int getCount() {
+        return count;
+    }
+
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+
+    public boolean getIsAbosulte() {
+        return isAbosulte;
     }
 
     @Override

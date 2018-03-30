@@ -124,7 +124,8 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, price, subject, level, status, role, tags, remark, rate);
+        return Objects.hash(name, phone, email, address, price, subject, level, status, role, tags,
+                            remark, rate);
     }
 
     @Override

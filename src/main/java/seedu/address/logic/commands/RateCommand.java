@@ -68,7 +68,7 @@ public class RateCommand extends UndoableCommand {
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,
-                                editedPerson.getName(), editedPerson.getRate()));
+                                editedPerson.getName(), newRate));
     }
 
     @Override
@@ -99,6 +99,14 @@ public class RateCommand extends UndoableCommand {
         Status status = personToEdit.getStatus();
         Role role = personToEdit.getRole();
         Remark remark = personToEdit.getRemark();
+
+        Rate oldRate = personToEdit.getRate();
+
+        if (newRate.getIsAbosulte()) {
+            newRate.setCount(1); // reset count when set absolute
+        } else {
+            newRate = Rate.acummulatedValue(oldRate, newRate);
+        }
 
         Set<Tag> updatedTags = personToEdit.getTags();
 

@@ -325,6 +325,10 @@ public class ParserUtil {
     public static Rate parseRate(String rate) throws IllegalValueException {
         requireNonNull(rate);
 
+        if (rate.equals("")) {
+            throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
+        }
+
         Character lastChar = rate.charAt(rate.length() - 1);
         boolean isAbsolute = false;
 
@@ -335,7 +339,7 @@ public class ParserUtil {
         }
         String trimmedRate = rate.trim();
         if (!Rate.isValidRate(rate)) {
-            throw new IllegalValueException(Role.MESSAGE_ROLE_CONSTRAINTS);
+            throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
         }
 
         return new Rate(Double.parseDouble(trimmedRate), isAbsolute);
