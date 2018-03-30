@@ -2,9 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
@@ -131,5 +134,46 @@
             <Insets bottom="5.0" top="5.0" />
          </padding>
       </GridPane>
+      <HBox fx:id="ratingBox" layoutX="297.0" layoutY="95.0" prefHeight="25.0" prefWidth="193.0">
+         <children>
+            <Label styleClass="browser_label" text="Rating:">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="rating" styleClass="browser_label_details" text="3.9">
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets top="1.0" />
+               </HBox.margin>
+            </Label>
+            <Label styleClass="browser_label_details" text="/ 5.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets top="1.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <Label fx:id="rateCount" styleClass="browser_label_details" text="3">
+               <HBox.margin>
+                  <Insets left="30.0" top="8.0" />
+               </HBox.margin>
+            </Label>
+            <ImageView fitHeight="26.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../docs/images/rateCount.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </ImageView>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
