@@ -23,6 +23,7 @@ public class FindMissingCommandParser implements Parser<FindMissingCommand> {
     public FindMissingCommand parse(String args) {
         String trimmedArgs = args.trim();
         String[] fieldKeywords = trimmedArgs.split("\\s+");
+        //If user enters no parameters, the command is equivalent to entering ALL parameters.
         if (fieldKeywords.length == 0) {
             fieldKeywords = Arrays.copyOf(FindMissingCommand.ATTRIBUTE_VALUES,
                     FindMissingCommand.ATTRIBUTE_VALUES.length);
