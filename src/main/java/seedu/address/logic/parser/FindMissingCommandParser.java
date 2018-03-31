@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import seedu.address.logic.commands.FindMissingCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -40,7 +39,7 @@ public class FindMissingCommandParser implements Parser<FindMissingCommand> {
     /**
      * Combines all the predicates in the predicateList into a single Predicate, using logical OR
      * @param predicateList a list of non-empty predicates
-     * @return a single Predicate combining all the predicates in the predicateList
+     * @return a single Predicate logically equivalent to logical OR of all predicates in the predicateList
      */
     private Predicate<Person> combineAllPredicates(List<Predicate<Person>> predicateList) {
         assert(predicateList.size() >= 1);
