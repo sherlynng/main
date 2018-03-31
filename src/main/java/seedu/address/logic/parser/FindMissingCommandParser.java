@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -7,6 +8,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.FindMissingCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.predicates.FindMissingPredicate;
 import seedu.address.model.person.Person;
 
 /**
@@ -26,7 +28,13 @@ public class FindMissingCommandParser implements Parser<FindMissingCommand> {
             fieldKeywords = Arrays.copyOf(FindMissingCommand.ATTRIBUTE_VALUES,
                     FindMissingCommand.ATTRIBUTE_VALUES.length);
         }
-        return new FindMissingCommand(null);
+        ArrayList<Predicate<Person>> predicateList = new ArrayList<>();
+        for (int i = 0; i < fieldKeywords.length; i++) {
+            //ensure case insensitive
+            predicateList.add(new FindMissingPredicate(fieldKeywords[i].toLowerCase()));
+        }
+        Predicate<Person> finalPredicate = combineAllPredicates(predicateList);
+        return new FindMissingCommand(finalPredicate);
     }
 
     /**
