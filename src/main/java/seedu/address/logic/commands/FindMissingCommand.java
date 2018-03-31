@@ -13,7 +13,7 @@ public class FindMissingCommand extends Command {
     public static final String COMMAND_WORD = "findmissing";
     public static final String COMMAND_WORD_ALIAS = "fm";
     public static final String[] ATTRIBUTE_VALUES =
-            new String[] {"", "phone", "email", "address", "price", "level", "role", "status", "subject"};
+            new String[] {"phone", "email", "address", "price", "level", "role", "status", "subject"};
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Filter all persons whose fields have unentered values.\n"

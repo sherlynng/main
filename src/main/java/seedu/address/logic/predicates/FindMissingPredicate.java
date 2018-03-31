@@ -5,43 +5,47 @@ import java.util.function.Predicate;
 import seedu.address.model.person.Person;
 
 /**
- * Tests that a {@code Person}'s specified {@code Attribute} as in given value attribute is an empty string.
+ * Tests that a {@code Person}'s specified {@code Attribute} as given in {@code keyword} is an empty string.
  */
 public class FindMissingPredicate implements Predicate<Person> {
-    private final String attribute;
+    private final String keyword;
 
-    public FindMissingPredicate(String attribute) {
-        this.attribute = attribute;
+    public FindMissingPredicate(String keyword) {
+        this.keyword = keyword;
     }
 
     @Override
     public boolean test(Person person) {
-        switch (attribute) {
+        switch (keyword) {
         case "email":
-            return person.getEmail().equals("");
+            return person.getEmail().value.equals("");
         case "phone":
-            return person.getPhone().equals("");
+            return person.getPhone().value.equals("");
         case "address":
-            return person.getAddress().equals("");
+            return person.getAddress().value.equals("");
         case "price":
-            return person.getPrice().equals("");
+            return person.getPrice().value.equals("");
         case "level":
-            return person.getLevel().equals("");
+            return person.getLevel().value.equals("");
         case "subject":
-            return person.getSubject().equals("");
+            return person.getSubject().value.equals("");
         case "role":
-            return person.getRole().equals("");
+            return person.getRole().value.equals("");
         case "status":
-            return person.getStatus().equals("");
+            return person.getStatus().value.equals("");
         default: //fallthrough
             return false;
         }
+    }
+
+    public String toString() {
+        return this.keyword;
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof FindMissingPredicate // instanceof handles nulls
-                && this.attribute.equals(((FindMissingPredicate) other).attribute)); // state check
+                && this.keyword.equals(((FindMissingPredicate) other).keyword)); // state check
     }
 }

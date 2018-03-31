@@ -24,7 +24,7 @@ public class FindMissingCommandParser implements Parser<FindMissingCommand> {
         String trimmedArgs = args.trim();
         String[] fieldKeywords = trimmedArgs.split("\\s+");
         //If user enters no parameters, the command is equivalent to entering ALL parameters.
-        if (fieldKeywords.length == 0) {
+        if (fieldKeywords[0].equals("")) {
             fieldKeywords = Arrays.copyOf(FindMissingCommand.ATTRIBUTE_VALUES,
                     FindMissingCommand.ATTRIBUTE_VALUES.length);
         }
@@ -33,7 +33,10 @@ public class FindMissingCommandParser implements Parser<FindMissingCommand> {
             //ensure case insensitive
             predicateList.add(new FindMissingPredicate(fieldKeywords[i].toLowerCase()));
         }
+        for (Predicate<Person> pp : predicateList)
+            System.out.println(pp);
         Predicate<Person> finalPredicate = combineAllPredicates(predicateList);
+        System.out.println("gg " + finalPredicate);
         return new FindMissingCommand(finalPredicate);
     }
 
@@ -46,7 +49,7 @@ public class FindMissingCommandParser implements Parser<FindMissingCommand> {
         assert(predicateList.size() >= 1);
         Predicate<Person> allPredicates = predicateList.get(0);
         for (int i = 1; i < predicateList.size(); i++) {
-            allPredicates.or(predicateList.get(i));
+            allPredicates = allPredicates.or(predicateList.get(i));
         }
         return allPredicates;
     }
