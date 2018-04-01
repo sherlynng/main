@@ -137,7 +137,7 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_findMissing() throws Exception {
         List<String> keywords = Arrays.asList("address");
-        FindMissingPredicate targetP = new FindMissingPredicate("address");
+        FindMissingPredicate targetP = new FindMissingPredicate(keywords);
         FindMissingCommand command = (FindMissingCommand) parser.parseCommand(
                 FindMissingCommand.COMMAND_WORD + " "
                         + keywords.stream().collect(Collectors.joining(" ")));
@@ -147,7 +147,7 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_findMissingAliased() throws Exception {
         List<String> keywords = Arrays.asList("address");
-        Predicate<Person> targetP = new FindMissingPredicate("address");
+        Predicate<Person> targetP = new FindMissingPredicate(keywords);
         FindMissingCommand command = (FindMissingCommand) parser.parseCommand(
                 FindMissingCommand.COMMAND_WORD_ALIAS + " "
                         + keywords.stream().collect(Collectors.joining(" ")));
