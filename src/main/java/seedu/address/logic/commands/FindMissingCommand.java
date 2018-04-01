@@ -35,11 +35,6 @@ public class FindMissingCommand extends Command {
     }
 
     @Override
-    public String toString() {
-        return this.predicate.toString();
-    }
-
-    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof FindMissingCommand // instanceof handles nulls
