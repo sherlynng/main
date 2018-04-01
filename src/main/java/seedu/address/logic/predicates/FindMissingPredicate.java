@@ -28,26 +28,19 @@ public class FindMissingPredicate implements Predicate<Person> {
         for (String keyword : keywords) {
             if (keyword.equals("email") && person.getEmail().value.equals("")) {
                 return true;
-            }
-            else if (keyword.equals("phone") && person.getPhone().value.equals("")) {
+            } else if (keyword.equals("phone") && person.getPhone().value.equals("")) {
                 return true;
-            }
-            else if (keyword.equals("address") && person.getAddress().value.equals("")) {
+            } else if (keyword.equals("address") && person.getAddress().value.equals("")) {
                 return true;
-            }
-            else if (keyword.equals("price") && person.getPrice().value.equals("")) {
+            } else if (keyword.equals("price") && person.getPrice().value.equals("")) {
                 return true;
-            }
-            else if (keyword.equals("level") && person.getLevel().value.equals("")) {
+            } else if (keyword.equals("level") && person.getLevel().value.equals("")) {
                 return true;
-            }
-            else if (keyword.equals("subject") && person.getSubject().value.equals("")) {
+            } else if (keyword.equals("subject") && person.getSubject().value.equals("")) {
                 return true;
-            }
-            else if (keyword.equals("role") && person.getRole().value.equals("")) {
+            } else if (keyword.equals("role") && person.getRole().value.equals("")) {
                 return true;
-            }
-            else if (keyword.equals("status") && person.getStatus().value.equals("")) {
+            } else if (keyword.equals("status") && person.getStatus().value.equals("")) {
                 return true;
             }
         }
