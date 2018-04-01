@@ -7,6 +7,11 @@ import static seedu.address.commons.core.Messages.MESSAGE_PERSONS_LISTED_OVERVIE
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.ELLE;
 import static seedu.address.testutil.TypicalPersons.FIONA;
+import static seedu.address.testutil.TypicalPersons.JAMES;
+import static seedu.address.testutil.TypicalPersons.KEN;
+import static seedu.address.testutil.TypicalPersons.LENNY;
+import static seedu.address.testutil.TypicalPersons.MISTER;
+import static seedu.address.testutil.TypicalPersons.getMissingAttributesAddressBook;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -29,7 +34,7 @@ import seedu.address.model.person.Person;
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class FindMissingCommandTest {
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model missingAttributesModel = new ModelManager(getMissingAttributesAddressBook(), new UserPrefs());
 
     @Test
     public void equalsTest() {
@@ -57,17 +62,36 @@ public class FindMissingCommandTest {
     @Test
     public void execute_noMissingFields_noPersonFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
-        FindMissingCommand command = prepareCommand("address email phone");
+        FindMissingCommand command = prepareCommand("phone");
         assertCommandSuccess(command, expectedMessage, Collections.emptyList());
     }
 
+    @Test
+    public void execute_oneField_onePersonFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
+        FindMissingCommand command = prepareCommand("email");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(JAMES));
+        command = prepareCommand("address");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(KEN));
+        command = prepareCommand("subject");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(KEN));
+        command = prepareCommand("level");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(LENNY));
+        command = prepareCommand("price");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(LENNY));
+        command = prepareCommand("status");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(MISTER));
+        command = prepareCommand("role");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(MISTER));
+    }
+
     /**
-     * Parses {@code userInput} into a {@code FindCommand}.
+     * Parses {@code userInput} into a {@code FindMissingCommand}.
      */
     private FindMissingCommand prepareCommand(String userInput) {
         FindMissingCommand command = new FindMissingCommand(
                 new FindMissingPredicate(Arrays.asList(userInput.split("\\s+"))));
-        command.setData(model, new CommandHistory(), new UndoRedoStack());
+        command.setData(missingAttributesModel, new CommandHistory(), new UndoRedoStack());
         return command;
     }
 
@@ -78,11 +102,11 @@ public class FindMissingCommandTest {
      *     - the {@code AddressBook} in model remains the same after executing the {@code command}
      */
     private void assertCommandSuccess(FindMissingCommand command, String expectedMessage, List<Person> expectedList) {
-        AddressBook expectedAddressBook = new AddressBook(model.getAddressBook());
+        AddressBook expectedAddressBook = new AddressBook(missingAttributesModel.getAddressBook());
         CommandResult result = command.execute();
 
         assertEquals(expectedMessage, result.feedbackToUser);
-        assertEquals(expectedList, model.getFilteredPersonList());
-        assertEquals(expectedAddressBook, model.getAddressBook());
+        assertEquals(expectedList, missingAttributesModel.getFilteredPersonList());
+        assertEquals(expectedAddressBook, missingAttributesModel.getAddressBook());
     }
 }

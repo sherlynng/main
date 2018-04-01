@@ -26,33 +26,32 @@ public class FindMissingPredicate implements Predicate<Person> {
     @Override
     public boolean test(Person person) {
         for (String keyword : keywords) {
-            switch (keyword) {
-                case "email":
-                    return person.getEmail().value.equals("");
-                case "phone":
-                    return person.getPhone().value.equals("");
-                case "address":
-                    return person.getAddress().value.equals("");
-                case "price":
-                    return person.getPrice().value.equals("");
-                case "level":
-                    return person.getLevel().value.equals("");
-                case "subject":
-                    return person.getSubject().value.equals("");
-                case "role":
-                    return person.getRole().value.equals("");
-                case "status":
-                    return person.getStatus().value.equals("");
-                default: //fallthrough
-                    return false;
+            if (keyword.equals("email") && person.getEmail().value.equals("")) {
+                return true;
+            }
+            else if (keyword.equals("phone") && person.getPhone().value.equals("")) {
+                return true;
+            }
+            else if (keyword.equals("address") && person.getAddress().value.equals("")) {
+                return true;
+            }
+            else if (keyword.equals("price") && person.getPrice().value.equals("")) {
+                return true;
+            }
+            else if (keyword.equals("level") && person.getLevel().value.equals("")) {
+                return true;
+            }
+            else if (keyword.equals("subject") && person.getSubject().value.equals("")) {
+                return true;
+            }
+            else if (keyword.equals("role") && person.getRole().value.equals("")) {
+                return true;
+            }
+            else if (keyword.equals("status") && person.getStatus().value.equals("")) {
+                return true;
             }
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return this.keywords.toString();
     }
 
     @Override
