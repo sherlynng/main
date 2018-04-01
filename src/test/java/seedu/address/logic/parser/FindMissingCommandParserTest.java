@@ -2,10 +2,11 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.function.Predicate;
+
+import org.junit.Test;
+
 import seedu.address.logic.commands.FindMissingCommand;
 import seedu.address.logic.predicates.FindMissingPredicate;
 import seedu.address.model.person.Person;
