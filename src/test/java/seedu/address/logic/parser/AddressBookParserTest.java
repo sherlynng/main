@@ -12,6 +12,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.junit.Rule;
@@ -136,21 +137,21 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_findMissing() throws Exception {
         List<String> keywords = Arrays.asList("address");
+        FindMissingPredicate targetP = new FindMissingPredicate("address");
         FindMissingCommand command = (FindMissingCommand) parser.parseCommand(
                 FindMissingCommand.COMMAND_WORD + " "
                         + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindMissingCommand(
-                new FindMissingPredicate("address")), command);
+        assertEquals(new FindMissingCommand(targetP), command);
     }
 
     @Test
     public void parseCommand_findMissingAliased() throws Exception {
         List<String> keywords = Arrays.asList("address");
+        Predicate<Person> targetP = new FindMissingPredicate("address");
         FindMissingCommand command = (FindMissingCommand) parser.parseCommand(
-                FindMissingCommand.COMMAND_WORD + " "
+                FindMissingCommand.COMMAND_WORD_ALIAS + " "
                         + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindMissingCommand(
-                        new FindMissingPredicate("address")), command);
+        assertEquals(new FindMissingCommand(targetP), command);
     }
 
     @Test

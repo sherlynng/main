@@ -33,10 +33,7 @@ public class FindMissingCommandParser implements Parser<FindMissingCommand> {
             //ensure case insensitive
             predicateList.add(new FindMissingPredicate(fieldKeywords[i].toLowerCase()));
         }
-        for (Predicate<Person> pp : predicateList)
-            System.out.println(pp);
         Predicate<Person> finalPredicate = combineAllPredicates(predicateList);
-        System.out.println("gg " + finalPredicate);
         return new FindMissingCommand(finalPredicate);
     }
 
