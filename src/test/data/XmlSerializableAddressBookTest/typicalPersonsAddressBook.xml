@@ -18,7 +18,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Not Matched</status>
         <role>Student</role>
         <remark> - </remark>
-        <tag>Friend,DEFAULT</tag>
+        <rate>3.0</rate>
+        <count>1</count>
     </persons>
     <persons>
         <name>Benson Meier</name>
@@ -31,6 +32,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Not Matched</status>
         <role>Student</role>
         <remark>Not self motivated.</remark>
+        <rate>1.0</rate>
+        <count>3</count>
     </persons>
     <persons>
         <name>Carl Kurz</name>
@@ -43,7 +46,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Not Matched</status>
         <role>Student</role>
         <remark>Fast learner.</remark>
-        <tag>Friend</tag>
+        <rate>4.0</rate>
+        <count>7</count>
     </persons>
     <persons>
         <name>Daniel Meier</name>
@@ -56,6 +60,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Not Matched</status>
         <role>Tutor</role>
         <remark>Patient and clear in explanation.</remark>
+        <rate>4.5</rate>
+        <count>3</count>
     </persons>
     <persons>
         <name>Elle Meyer</name>
@@ -68,6 +74,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Not Matched</status>
         <role>Tutor</role>
         <remark>Inspirational tutor.</remark>
+        <rate>4.7</rate>
+        <count>2</count>
     </persons>
     <persons>
         <name>Fiona Kunz</name>
@@ -80,6 +88,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Not Matched</status>
         <role>Tutor</role>
         <remark>Impatient and poor in explanation.</remark>
+        <rate>1.0</rate>
+        <count>5</count>
     </persons>
     <persons>
         <name>George Best</name>
@@ -92,6 +102,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Not Matched</status>
         <role>Tutor</role>
         <remark>Friendly and approachable.</remark>
+        <rate>4.0</rate>
+        <count>3</count>
     </persons>
 	<tags>320,PRICE</tags>
 	<tags>99,PRICE</tags>

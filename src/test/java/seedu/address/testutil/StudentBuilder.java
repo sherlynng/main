@@ -9,6 +9,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
@@ -33,6 +34,8 @@ public class StudentBuilder {
     public static final String DEFAULT_ROLE = "student";
     public static final String DEFAULT_TAGS = "friend";
     public static final String DEFAULT_REMARK = "Hardworking but slow learner.";
+    public static final String DEFAULT_RATE = "3.0";
+    public static final int DEFAULT_RATECOUNT = 1;
 
     private Name name;
     private Phone phone;
@@ -45,6 +48,7 @@ public class StudentBuilder {
     private Role role;
     private Set<Tag> tags;
     private Remark remark;
+    private Rate rate;
 
     public StudentBuilder() {
         name = new Name(DEFAULT_NAME);
@@ -58,6 +62,8 @@ public class StudentBuilder {
         role = new Role(DEFAULT_ROLE);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
         remark = new Remark(DEFAULT_REMARK);
+        rate = new Rate(Double.parseDouble(DEFAULT_RATE), true);
+        rate.setCount(DEFAULT_RATECOUNT);
     }
 
     /**
@@ -164,12 +170,21 @@ public class StudentBuilder {
     }
 
     /**
+     * Sets the {@code Rate} of the {@code Person} that we are building.
+     */
+    public StudentBuilder withRate(String rate, String rateCount) {
+        this.rate = new Rate(Double.parseDouble(rate), true);
+        this.rate.setCount(Integer.parseInt(rateCount));
+        return this;
+    }
+
+    /**
      * Builds a student based off the attributes in this class
      * @return Student with set attributes
      */
     public Student build() {
         setTags();
-        return new Student(name, phone, email, address, price, subject, level, status, tags, remark);
+        return new Student(name, phone, email, address, price, subject, level, status, tags, remark, rate);
     }
 
 }

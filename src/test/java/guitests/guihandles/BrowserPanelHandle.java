@@ -18,6 +18,8 @@ public class BrowserPanelHandle extends NodeHandle<Node> {
     private static final String LEVEL_FIELD_ID = "#level";
     private static final String PRICE_FIELD_ID = "#price";
     private static final String REMARK_FIELD_ID = "#remark";
+    private static final String RATE_FIELD_ID = "#rating";
+    private static final String RATECOUNT_FIELD_ID = "#rateCount";
 
     private final Label nameLabel;
     private final Label addressLabel;
@@ -29,6 +31,8 @@ public class BrowserPanelHandle extends NodeHandle<Node> {
     private final Label levelLabel;
     private final Label priceLabel;
     private final Label remarkLabel;
+    private final Label rateLabel;
+    private final Label rateCountLabel;
 
     public BrowserPanelHandle(Node browserPanelNode) {
         super(browserPanelNode);
@@ -43,6 +47,8 @@ public class BrowserPanelHandle extends NodeHandle<Node> {
         this.levelLabel = getChildNode(LEVEL_FIELD_ID);
         this.priceLabel = getChildNode(PRICE_FIELD_ID);
         this.remarkLabel = getChildNode(REMARK_FIELD_ID);
+        this.rateLabel = getChildNode(RATE_FIELD_ID);
+        this.rateCountLabel = getChildNode(RATECOUNT_FIELD_ID);
     }
 
     public String getName() {
@@ -83,5 +89,13 @@ public class BrowserPanelHandle extends NodeHandle<Node> {
 
     public String getRemark() {
         return remarkLabel.getText();
+    }
+
+    public String getRate() {
+        return rateLabel.getText();
+    }
+
+    public String getRateCount() {
+        return rateCountLabel.getText();
     }
 }

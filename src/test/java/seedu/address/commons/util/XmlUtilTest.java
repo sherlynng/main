@@ -45,6 +45,8 @@ public class XmlUtilTest {
     private static final String VALID_ROLE = "student";
     private static final String VALID_PRICE = "77";
     private static final String VALID_REMARK = "Fast learner";
+    private static final String VALID_RATE = "4.0";
+    private static final String VALID_RATECOUNT = "3";
     private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(
             new XmlAdaptedTag("friends"));
 
@@ -88,7 +90,7 @@ public class XmlUtilTest {
                 MISSING_PERSON_FIELD_FILE, XmlAdaptedPersonWithRootElement.class);
         XmlAdaptedPerson expectedPerson = new XmlAdaptedPerson(
                 null, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_SUBJECT,
-                VALID_LEVEL, VALID_STATUS, VALID_ROLE, VALID_TAGS, VALID_REMARK);
+                VALID_LEVEL, VALID_STATUS, VALID_ROLE, VALID_TAGS, VALID_REMARK, VALID_RATE, VALID_RATECOUNT);
         assertEquals(expectedPerson, actualPerson);
     }
 
@@ -98,7 +100,7 @@ public class XmlUtilTest {
                 INVALID_PERSON_FIELD_FILE, XmlAdaptedPersonWithRootElement.class);
         XmlAdaptedPerson expectedPerson = new XmlAdaptedPerson(
                 VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_SUBJECT,
-                VALID_LEVEL, VALID_STATUS, VALID_ROLE, VALID_TAGS, VALID_REMARK);
+                VALID_LEVEL, VALID_STATUS, VALID_ROLE, VALID_TAGS, VALID_REMARK, VALID_RATE, VALID_RATECOUNT);
         assertEquals(expectedPerson, actualPerson);
     }
 
@@ -108,7 +110,7 @@ public class XmlUtilTest {
                 VALID_PERSON_FILE, XmlAdaptedPersonWithRootElement.class);
         XmlAdaptedPerson expectedPerson = new XmlAdaptedPerson(
                 VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_SUBJECT,
-                VALID_LEVEL, VALID_STATUS,  VALID_ROLE, VALID_TAGS, VALID_REMARK);
+                VALID_LEVEL, VALID_STATUS,  VALID_ROLE, VALID_TAGS, VALID_REMARK, VALID_RATE, VALID_RATECOUNT);
         assertEquals(expectedPerson, actualPerson);
     }
 

@@ -6,7 +6,9 @@ import static org.junit.Assert.fail;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.REMARK_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_RATE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
@@ -29,6 +31,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.RateCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.RemoveTagCommand;
@@ -38,6 +41,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.KeywordPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
@@ -242,6 +246,22 @@ public class AddressBookParserTest {
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + REMARK_AMY);
         Remark remark = new Remark(REMARK_AMY);
         assertEquals(new RemarkCommand(INDEX_FIRST_PERSON, remark), command);
+    }
+
+    @Test
+    public void parseCommand_rate() throws Exception {
+        RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD + " "
+                + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY);
+        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
+        assertEquals(new RateCommand(INDEX_FIRST_PERSON, rate), command);
+    }
+
+    @Test
+    public void parseCommand_rateAliased() throws Exception {
+        RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD_ALIAS + " "
+                + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY);
+        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
+        assertEquals(new RateCommand(INDEX_FIRST_PERSON, rate), command);
     }
 
     @Test

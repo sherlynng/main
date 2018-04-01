@@ -9,6 +9,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
@@ -31,6 +32,8 @@ public class TutorBuilder {
     public static final String DEFAULT_STATUS = "not Matched";
     public static final String DEFAULT_TAGS = "tutor";
     public static final String DEFAULT_REMARK = "Patient and approachable.";
+    public static final String DEFAULT_RATE = "3.0";
+    public static final int DEFAULT_RATECOUNT = 1;
 
     private Name name;
     private Phone phone;
@@ -42,6 +45,7 @@ public class TutorBuilder {
     private Status status;
     private Set<Tag> tags;
     private Remark remark;
+    private Rate rate;
 
     public TutorBuilder() {
         name = new Name(DEFAULT_NAME);
@@ -54,6 +58,8 @@ public class TutorBuilder {
         status = new Status(DEFAULT_STATUS);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
         remark = new Remark(DEFAULT_REMARK);
+        rate = new Rate(Double.parseDouble(DEFAULT_RATE), true);
+        rate.setCount(DEFAULT_RATECOUNT);
     }
 
     /**
@@ -151,12 +157,21 @@ public class TutorBuilder {
     }
 
     /**
+     * Sets the {@code Rate} of the {@code Person} that we are building.
+     */
+    public TutorBuilder withRate(String rate, String rateCount) {
+        this.rate = new Rate(Double.parseDouble(rate), true);
+        this.rate.setCount(Integer.parseInt(rateCount));
+        return this;
+    }
+
+    /**
      * Builds a stutor based off the attributes in this class
      * @return Tutor with set attributes
      */
     public Tutor build() {
         setTags();
-        return new Tutor(name, phone, email, address, price, subject, level, status, tags, remark);
+        return new Tutor(name, phone, email, address, price, subject, level, status, tags, remark, rate);
     }
 
 }
