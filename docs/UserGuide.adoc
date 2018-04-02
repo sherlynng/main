@@ -290,6 +290,41 @@ INDEX to be specified will be highlighted.
 
 image::AutofillSelect.png[width="500"]
 
+==== Match a student and a tutor : `*match*` or `*m*`
+Format: `*match* INDEX_A INDEX_B`
+
+Selects the persons identified by the index numbers used in the *last person listing*. +
+
+****
+* The indices supplied must correspond to one *student* and one *tutor*.
+They *must not be currently matched* to anyone else, and they
+must have *the same subject, level and price*.
+* The index refers to the index number shown in the most recent listing,
+and *must be a positive integer* `1, 2, 3, ...`
+* If the match is valid (The two persons are compatible),
+you will see a message like this:
+`Created new match <student name> and <tutor name>.` +
+* If the match is not valid, you will see a error message saying
+`Matching failed.`
+You will also see detailed information on what went wrong.
+For example: +
+** `Please provide indices of one student and one tutor.`
+** `Not the same subject.`
+** `Please provide indices of unmatched student and unmatched tutor`
+****
+
+Examples:
+
+* `*match* 1 2` +
+Match the person at index 1 to the person at index 2. +
+
+[NOTE]
+====
+The order of entering indices does not matter.
+That is, you can enter the student's index first followed by the tutor's index,
+or the other way round.
+====
+
 ==== Listing entered commands : `*history*` or `*h*`
 Format: `*history*`
 
