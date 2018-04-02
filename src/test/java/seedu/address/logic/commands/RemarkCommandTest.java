@@ -158,7 +158,7 @@ public class RemarkCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().withName("Benson Meier")
                 .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
-                .withPrice("150").withSubject("english").withStatus("not Matched").withLevel("upper Sec")
+                .withPrice("50").withSubject("Math").withStatus("Matched").withLevel("Lower Sec")
                 .withRole("Student").withRemark(REMARK_BOB).build();
         Remark remark = new Remark(REMARK_BOB);
         RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, remark);

@@ -43,4 +43,5 @@ public class StatusTest {
         status = new Status("matched");
         assertTrue(status.hashCode() == status.value.hashCode());
     }
+
 }

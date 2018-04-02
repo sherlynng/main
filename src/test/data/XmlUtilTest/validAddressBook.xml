@@ -11,6 +11,7 @@
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
         <remark isPrivate="false">not motivated.</remark>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Ruth Mueller</name>
@@ -23,6 +24,7 @@
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
         <remark isPrivate="false"> - </remark>
+        <pairHash isPrivate="false">0</pairHash>
 	</persons>
     <persons>
         <name>Heinz Kurz</name>
@@ -35,6 +37,7 @@
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
         <remark isPrivate="false">quick-witted.</remark>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Cornelia Meier</name>
@@ -47,6 +50,7 @@
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
         <remark isPrivate="false">very active.</remark>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Werner Meyer</name>
@@ -59,6 +63,7 @@
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
         <remark isPrivate="false">not very attentive.</remark>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Lydia Kunz</name>
@@ -71,6 +76,7 @@
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
         <remark isPrivate="false">self-motivated.</remark>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Anna Best</name>
@@ -83,6 +89,7 @@
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
         <remark isPrivate="false">talks a lot in lessons.</remark>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Stefan Meier</name>
@@ -95,6 +102,7 @@
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
         <remark isPrivate="false">unclear with basic concepts.</remark>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Martin Mueller</name>
@@ -107,5 +115,6 @@
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
         <remark isPrivate="false">good at tackling difficult questions.</remark>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
 </addressbook>

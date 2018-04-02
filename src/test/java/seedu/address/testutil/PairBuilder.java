@@ -1,9 +1,12 @@
 package seedu.address.testutil;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.pair.Pair;
+import seedu.address.model.person.Level;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.Price;
+import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -12,56 +15,51 @@ import seedu.address.model.util.SampleDataUtil;
  */
 public class PairBuilder {
 
-    public static final String DEFAULT_STUDENT_NAME = "Harry Potter";
-    public static final String DEFAULT_TUTOR_NAME = "Severus Snape";
-    public static final String DEFAULT_SUBJECT = "English";
-    public static final String DEFAULT_LEVEL = "Lower Sec";
-    public static final String DEFAULT_PRICE = "100";
-    public static final String DEFAULT_TAG_SUBJECT = "English";
-    public static final String DEFAULT_TAG_LEVEL = "Lower Sec";
-    public static final String DEFAULT_TAG_PRICE = "100";
+    public static final Person DEFAULT_STUDENT = new PersonBuilder().withName("Elle Meyer").withPhone("9482224")
+            .withEmail("werner@example.com").withAddress("michegan ave")
+            .withPrice("50").withSubject("math").withStatus("not Matched").withLevel("upper Sec")
+            .withRole("Student").build();
+    public static final Person DEFAULT_TUTOR = new PersonBuilder().withName("Fiona Kunz").withPhone("9482427")
+            .withEmail("lydia@example.com").withAddress("little tokyo")
+            .withPrice("50").withSubject("math").withStatus("not Matched").withLevel("upper Sec")
+            .withRole("Tutor").withRemark("Impatient and poor in explanation.").build();
+    public static final Subject DEFAULT_SUBJECT = new Subject("Math");
+    public static final Level DEFAULT_LEVEL = new Level("Upper Sec");
+    public static final Price DEFAULT_PRICE = new Price("50");
+    public static final String DEFAULT_TAG_SUBJECT = "Math";
+    public static final String DEFAULT_TAG_LEVEL = "Upper Sec";
+    public static final String DEFAULT_TAG_PRICE = "50";
 
-    private String studentName;
-    private String tutorName;
+    private Person student;
+    private Person tutor;
     private String subject;
     private String level;
     private String price;
     private Set<Tag> tags;
 
     public PairBuilder() {
-        studentName = DEFAULT_STUDENT_NAME;
-        tutorName =  DEFAULT_TUTOR_NAME;
-        subject = DEFAULT_SUBJECT;
-        level = DEFAULT_LEVEL;
-        price = DEFAULT_PRICE;
+        student = DEFAULT_STUDENT;
+        tutor =  DEFAULT_TUTOR;
+        subject = DEFAULT_SUBJECT.toString();
+        level = DEFAULT_LEVEL.toString();
+        price = DEFAULT_PRICE.toString();
         tags = SampleDataUtil.getTagSet(DEFAULT_TAG_SUBJECT, DEFAULT_TAG_LEVEL, DEFAULT_TAG_PRICE);
     }
 
-    /**
-     * Initializes the PairBuilder with the data of {@code pairToCopy}.
-     */
-    public PairBuilder(Pair pairToCopy) {
-        studentName = pairToCopy.getStudentName();
-        tutorName = pairToCopy.getTutorName();
-        price = pairToCopy.getPrice();
-        subject = pairToCopy.getSubject();
-        level = pairToCopy.getLevel();
-        tags = new HashSet<>(pairToCopy.getTags());
-    }
 
     /**
      * Sets the {@code studentName} of the {@code Pair} that we are building.
      */
-    public PairBuilder withStudentName(String name) {
-        this.studentName = name;
+    public PairBuilder withStudent(Person student) {
+        this.student = student;
         return this;
     }
 
     /**
      * Sets the {@code Name} of the {@code Pair} that we are building.
      */
-    public PairBuilder withTutorName(String name) {
-        this.tutorName = name;
+    public PairBuilder withTutor(Person tutor) {
+        this.tutor = tutor;
         return this;
     }
 
@@ -116,7 +114,7 @@ public class PairBuilder {
      */
     public Pair build() {
         setTags();
-        return new Pair(studentName, tutorName, subject, level, price, tags);
+        return new Pair(student, tutor, student.getSubject(), student.getLevel(), student.getPrice());
     }
 
 }

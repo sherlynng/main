@@ -2,6 +2,7 @@ package seedu.address.testutil;
 
 import java.util.Set;
 
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -156,7 +157,8 @@ public class TutorBuilder {
      */
     public Tutor build() {
         setTags();
-        return new Tutor(name, phone, email, address, price, subject, level, status, tags, remark);
+        return new Tutor(name, phone, email, address, price, subject, level, status, tags,
+                remark, PairHash.DEFAULT_PAIR_HASH);
     }
 
 }

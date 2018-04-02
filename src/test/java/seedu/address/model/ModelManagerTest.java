@@ -4,7 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PAIRS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
-import static seedu.address.testutil.TypicalPairs.ALICE_AND_BENSON;
+import static seedu.address.testutil.TypicalPairs.RANDOM_PAIR_A;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 
@@ -64,7 +64,7 @@ public class ModelManagerTest {
         modelManager.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs)));
 
-        keywords = ALICE_AND_BENSON.getPairName().split("\\s+");
+        keywords = RANDOM_PAIR_A.getPairName().split("\\s+");
         modelManager.updateFilteredPairList(new NameContainsKeywordsPredicatePair(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs)));
 
