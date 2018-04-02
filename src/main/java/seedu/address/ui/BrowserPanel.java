@@ -60,7 +60,7 @@ public class BrowserPanel extends UiPart<Region> {
     /**
      * Loads a {@code person}'s details into the browser panel.
      */
-    private void loadPersonDetails(Person person) {
+    public void loadPersonDetails(Person person) {
         grid.setVisible(true);
 
         name.setText(person.getName().fullName);
