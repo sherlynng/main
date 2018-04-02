@@ -42,7 +42,6 @@ public class TypicalPersons {
             .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
             .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
             .withRole("Student").withRemark("Not self motivated.").build();
-
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withEmail("heinz@example.com").withAddress("wall street")
             .withPrice("20").withSubject("chemistry").withStatus("Matched").withLevel("upper Sec")
@@ -51,7 +50,6 @@ public class TypicalPersons {
             .withEmail("cornelia@example.com").withAddress("10th street")
             .withPrice("20").withSubject("chemistry").withStatus("Matched").withLevel("upper Sec")
             .withRole("Student").withRemark("Fast learner.").build();
-
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("9482224")
             .withEmail("werner@example.com").withAddress("michegan ave")
             .withPrice("99").withSubject("english").withStatus("Matched").withLevel("upper Sec")
@@ -77,6 +75,10 @@ public class TypicalPersons {
             .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
             .withLevel("lower Sec").withPrice("4321").withStatus("not Matched")
             .withRole("Tutor").withRemark("Constantly postponing lessons.").build();
+    public static final Person KEN = new PersonBuilder().withName("Ken Chang").withPhone("8482131")
+            .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
+            .withLevel("lower Sec").withPrice("120").withStatus("not Matched")
+            .withRole("Student").withRemark("Constantly postponing lessons.").build();
 
 
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("8482424")
@@ -129,6 +131,6 @@ public class TypicalPersons {
 
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE,
-                HENRY, IRENE, JENNY));
+                HENRY, IRENE, JENNY, KEN));
     }
 }

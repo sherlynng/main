@@ -26,10 +26,9 @@ public class MatchCommand extends UndoableCommand {
     public static final String MESSAGE_MATCH_SUCCESS = "Created new match %1$s\n";
     public static final String MESSAGE_MATCH_FAILED = "Matching failed.\n %1$s";
     public static final String MESSAGE_MISMATCH_WRONG_ROLE = "Please provide indices of one student and one tutor.";
-    public static final String MESSAGE_MISMATCH_WRONG_SUBJECT = "Please provide indices of student and tutor with the "
-            + "same subject.";
-    public static final String MESSAGE_MISMATCH_WRONG_LEVEL = "Please provide indices of student and tutor with the "
-            + "same level.";
+    public static final String MESSAGE_MISMATCH_WRONG_SUBJECT = "Not the same subject. ";
+    public static final String MESSAGE_MISMATCH_WRONG_LEVEL = "Not the same level. ";
+    public static final String MESSAGE_MISMATCH_WRONG_PRICE = "Not the same price. ";
     public static final String MESSAGE_MISMATCH_WRONG_STATUS = "Please provide indices of unmatched student and "
             + "unmatched tutor.";
 
@@ -81,6 +80,10 @@ public class MatchCommand extends UndoableCommand {
         }
         if (!student.getLevel().equals(tutor.getLevel())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_LEVEL));
+        }
+
+        if (!student.getPrice().equals(tutor.getPrice())) {
+            throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_PRICE));
         }
         //standardize input order : person A is student, person B is tutor
         if (!student.getRole().value.equals("Student")) {
