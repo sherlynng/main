@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import guitests.guihandles.BrowserPanelHandle;
+import guitests.guihandles.PairCardHandle;
 import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
+import seedu.address.model.pair.Pair;
 import seedu.address.model.person.Person;
 import seedu.address.ui.PersonCard;
 
@@ -38,6 +40,15 @@ public class GuiTestAssert {
         assertEquals(expectedPerson.getName().fullName, actualCard.getName());
 
         assertTagsEqual(expectedPerson, actualCard);
+    }
+
+    /**
+     * Asserts that {@code actualCard} displays the details of {@code expectedPair}.
+     */
+    public static void assertCardDisplaysPair(Pair expectedPair, PairCardHandle actualCard) {
+        assertEquals(expectedPair.getPairName(), actualCard.getName());
+
+        assertTagsEqual(expectedPair, actualCard);
     }
 
     /**
@@ -70,6 +81,19 @@ public class GuiTestAssert {
      */
     private static void assertTagsEqual(Person expectedPerson, PersonCardHandle actualCard) {
         List<String> expectedTags = expectedPerson.getTags().stream()
+                .map(tag -> tag.tagName).collect(Collectors.toList());
+        assertEquals(expectedTags, actualCard.getTags());
+        /*expectedTags.forEach(tag ->
+            assertEquals(Arrays.asList(LABEL_DEFAULT_STYLE, getTagColorStyleFor(tag)),
+                    actualCard.getTagStyleClasses(tag)));*/
+    }
+
+    /**
+     * Asserts that the tags in {@code actualCard} matches all the tags in {@code expectedPair} with the correct
+     * color.
+     */
+    private static void assertTagsEqual(Pair expectedPair, PairCardHandle actualCard) {
+        List<String> expectedTags = expectedPair.getTags().stream()
                 .map(tag -> tag.tagName).collect(Collectors.toList());
         assertEquals(expectedTags, actualCard.getTags());
         /*expectedTags.forEach(tag ->

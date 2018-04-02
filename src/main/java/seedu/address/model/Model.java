@@ -3,6 +3,7 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.pair.Pair;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -14,6 +15,9 @@ import seedu.address.model.tag.Tag;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+
+    /** {@code Predicate} that always evaluate to true */
+    Predicate<Pair> PREDICATE_SHOW_ALL_PAIRS = unused -> true;
 
     /** {@code Predicate} that filter all person with student tag */
     Predicate<Person> PREDICATE_SHOW_ALL_STUDENTS = person -> person.getTags().contains(new Tag("student"));
@@ -51,6 +55,16 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+
+    /** Returns an unmodifiable view of the filtered pair list */
+    ObservableList<Pair> getFilteredPairList();
+
+    /**
+     * Updates the filter of the filtered pair list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredPairList(Predicate<seedu.address.model.pair.Pair> predicate);
 
     /**
      * Delete a tag from the addressbook
