@@ -19,7 +19,6 @@ import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.PRICE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.ROLE_DESC_AMY;
@@ -39,6 +38,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PRICE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -102,7 +102,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: add a person with all fields same as another person in the address book except name -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
-                .withAddress(VALID_ADDRESS_AMY).withPrice(PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
+                .withAddress(VALID_ADDRESS_AMY).withPrice(VALID_PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
                 .withLevel(VALID_LEVEL_AMY).withRole(ROLE_STUDENT).withStatus(STATUS_UNMATCHED)
                 .withTags(VALID_TAG_FRIEND).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
@@ -112,7 +112,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: add a person with all fields same as another person in the address book except phone -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY)
-                .withAddress(VALID_ADDRESS_AMY).withPrice(PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
+                .withAddress(VALID_ADDRESS_AMY).withPrice(VALID_PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
                 .withLevel(VALID_LEVEL_AMY).withTags(VALID_TAG_FRIEND).withStatus(STATUS_UNMATCHED)
                 .withRole(ROLE_STUDENT).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
@@ -122,7 +122,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: add a person with all fields same as another person in the address book except email -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_BOB)
-                .withAddress(VALID_ADDRESS_AMY).withPrice(PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
+                .withAddress(VALID_ADDRESS_AMY).withPrice(VALID_PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
                 .withLevel(VALID_LEVEL_AMY).withTags(VALID_TAG_FRIEND).withStatus(STATUS_UNMATCHED)
                 .withRole(ROLE_STUDENT).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_BOB + ADDRESS_DESC_AMY
@@ -132,7 +132,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: add a person with all fields same as another person in the address book except address -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
-                .withAddress(VALID_ADDRESS_BOB).withPrice(PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
+                .withAddress(VALID_ADDRESS_BOB).withPrice(VALID_PRICE_AMY).withSubject(VALID_SUBJECT_AMY)
                 .withLevel(VALID_LEVEL_AMY).withTags(VALID_TAG_FRIEND).withStatus(STATUS_UNMATCHED)
                 .withRole(ROLE_STUDENT).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_BOB
