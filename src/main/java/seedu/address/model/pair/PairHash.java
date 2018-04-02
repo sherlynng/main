@@ -10,7 +10,8 @@ import seedu.address.model.person.Price;
 import seedu.address.model.person.Subject;
 
 /**
- * Represents a Person's price in the address book.
+ * Represents a pairHash in the address book.
+ * The pariHash is attached to a pair, its student and its tutor to facilitate match/unmatch operations.
  * Guarantees: immutable;
  */
 public class PairHash {

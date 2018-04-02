@@ -69,6 +69,7 @@ public class MatchCommand extends UndoableCommand {
         student = lastShownList.get(indexA.getZeroBased());
         tutor = lastShownList.get(indexB.getZeroBased());
 
+        //filter invalid matchings
         if (student.getRole().equals(tutor.getRole())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_ROLE));
         }
