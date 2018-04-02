@@ -65,7 +65,7 @@ public interface Model {
     /** Adds the given pair */
     void addPair(Person student, Person tutor) throws DuplicatePersonException;
 
-    /** Deletes the given person. */
+    /** Deletes the given pair. */
     void deletePair(Pair target) throws PairNotFoundException;
 
 
