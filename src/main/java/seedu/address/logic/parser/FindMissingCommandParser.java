@@ -18,9 +18,16 @@ public class FindMissingCommandParser implements Parser<FindMissingCommand> {
      * and returns an FindMissingCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public FindMissingCommand parse(String args) {
+    public FindMissingCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
         String[] fieldKeywords = trimmedArgs.split("\\s+");
+        //validate user input, and set all input to lowercase.
+        for (int i = 0; i < fieldKeywords.length; i++) {
+            fieldKeywords[i] = fieldKeywords[i].toLowerCase();
+            if (!(fieldKeywords[i].equals("") || FindMissingCommand.SET_ATTRIBUTE_VALUES.contains(fieldKeywords[i]))) {
+                throw new ParseException(String.format(FindMissingCommand.MESSAGE_INVALID_ATTRIBUTE, fieldKeywords[i]));
+            }
+        }
         //If user enters no parameters, the command is equivalent to entering ALL parameters.
         if (fieldKeywords[0].equals("")) {
             fieldKeywords = Arrays.copyOf(FindMissingCommand.ATTRIBUTE_VALUES,

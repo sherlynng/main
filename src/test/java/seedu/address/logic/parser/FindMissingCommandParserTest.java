@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import java.util.Arrays;
@@ -26,11 +27,20 @@ public class FindMissingCommandParserTest {
         assertParseSuccess(parser, "email address", expectedFindMissingCommand);
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "email \t  address \t", expectedFindMissingCommand);
+        //check case insensitive
+        assertParseSuccess(parser, "eMAIl aDdReSS", expectedFindMissingCommand);
 
         //check parse if empty user input
         keywords = Arrays.copyOf(FindMissingCommand.ATTRIBUTE_VALUES, FindMissingCommand.ATTRIBUTE_VALUES.length);
         finalPredicate = new FindMissingPredicate(Arrays.asList(keywords));
         expectedFindMissingCommand = new FindMissingCommand(finalPredicate);
         assertParseSuccess(parser, "", expectedFindMissingCommand);
+    }
+
+    @Test
+    public void parse_invalidArgs_throwsParseException() {
+        String expectedParseFailureMessage = FindMissingCommand.MESSAGE_INVALID_ATTRIBUTE;
+        assertParseFailure(parser, "abcdefg", String.format(expectedParseFailureMessage, "abcdefg"));
+        assertParseFailure(parser, "addres phon", String.format(expectedParseFailureMessage, "addres"));
     }
 }

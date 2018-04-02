@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.function.Predicate;
 
 import seedu.address.model.person.Person;
@@ -14,6 +16,7 @@ public class FindMissingCommand extends Command {
     public static final String COMMAND_WORD_ALIAS = "fm";
     public static final String[] ATTRIBUTE_VALUES =
             new String[] {"phone", "email", "address", "price", "level", "role", "status", "subject"};
+    public static final HashSet<String> SET_ATTRIBUTE_VALUES = new HashSet<>(Arrays.asList(ATTRIBUTE_VALUES));
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Filter all persons whose fields have unentered values.\n"
@@ -21,6 +24,9 @@ public class FindMissingCommand extends Command {
             + "With no parameters, all persons with at least one field with unentered values will be shown"
             + "Parameters: [ATTRIBUTE_NAME]\n"
             + "Example: " + COMMAND_WORD + " email phone";
+
+    public static final String MESSAGE_INVALID_ATTRIBUTE = "The attribute %s is invalid.\n"
+            + "The valid attributes are: phone, email, address, price, level, role, status, subject.";
 
     private final Predicate<Person> predicate;
 
