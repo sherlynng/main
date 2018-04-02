@@ -12,10 +12,12 @@ import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.pair.Pair;
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.pair.UniquePairList;
 import seedu.address.model.pair.exceptions.DuplicatePairException;
 import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Status;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -88,7 +90,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         List<Pair> syncedPairList = newData.getPairList().stream()
-                .map(this::syncWithMasterTagList)
+                // .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
 
         try {
@@ -157,30 +159,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         return new Person(
                 person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                 person.getPrice(), person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                correctTagReferences, person.getRemark());
+                correctTagReferences, person.getRemark(), person.getPairHash());
     }
 
-    /**
-     *  Updates the master tag list to include tags in {@code pair} that are not in the list.
-     *  @return a copy of this {@code pair} such that every tag in this pair points to a Tag object in the master
-     *  list.
-     */
-    private Pair syncWithMasterTagList(Pair pair) {
-        final UniqueTagList pairTags = new UniqueTagList(pair.getTags());
-        tags.mergeFrom(pairTags);
-
-        // Create map with values = tag object references in the master list
-        // used for checking pair tag references
-        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
-        tags.forEach(tag -> masterTagObjects.put(tag, tag));
-
-        // Rebuild the list of pair tags to point to the relevant tags in the master tag list.
-        final Set<Tag> correctTagReferences = new HashSet<>();
-        pairTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
-        return new Pair(
-                pair.getStudentName(), pair.getTutorName(), pair.getSubject(), pair.getLevel(),
-                pair.getPrice(), correctTagReferences);
-    }
 
 
     /**
@@ -200,43 +181,30 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Adds a pair to the address book.
-     * Also checks the new pair's tags and updates {@link #tags} with any new tags found,
-     * and updates the Tag objects in the pair to point to those in {@link #tags}.
-     *
+     * @param key
      * @throws seedu.address.model.pair.exceptions.DuplicatePairException if an equivalent pair already exists.
      */
+    public void addPair(Pair key) throws DuplicatePairException {
+        pairs.add(key);
+    }
 
-    public void addPair(Pair p) throws DuplicatePairException {
+    /**
+     * Adds a pair to the address book
+     * @param student
+     * @param tutor
+     * @throws seedu.address.model.pair.exceptions.DuplicatePairException if an equivalent pair already exists.
+     */
+    public void addPair(Person student, Person tutor) throws DuplicatePairException {
         //  Pair pair = syncWithMasterTagList(p);
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any pair
         // in the pair list.
-        pairs.add(p);
+        Pair key = new Pair(student, tutor, student.getSubject(), student.getLevel(), student.getPrice());
+        pairs.add(key);
+        PairHash pairHash = key.getPairHash();
+        flipStatus(student, pairHash);
+        flipStatus(tutor, pairHash);
     }
-
-    /**
-     * Replaces the given pair {@code target} in the list with {@code editedPair}.
-     * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPair}.
-     *
-     * @throws seedu.address.model.pair.exceptions.DuplicatePairException if updating the pair's details
-     * causes the pair to be equivalent to another existing pair in the list.
-     * @throws seedu.address.model.pair.exceptions.PairNotFoundException if {@code target} could not be found
-     * in the list.
-     *
-     * @see #syncWithMasterTagList(Pair)
-     */
-    public void updatePair(Pair target, Pair editedPair)
-            throws DuplicatePairException, PairNotFoundException {
-        requireNonNull(editedPair);
-
-        Pair syncedEditedPair = syncWithMasterTagList(editedPair);
-        // TODO: the tags master list will be updated even though the below line fails.
-        // This can cause the tags master list to have additional tags that are not tagged to any pair
-        // in the pair list.
-        pairs.setPair(target, syncedEditedPair);
-        removeUnusedTags();
-    }
-
 
 
     /**
@@ -244,15 +212,64 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @throws seedu.address.model.pair.exceptions.PairNotFoundException if the {@code key} is not in this
      * {@code AddressBook}.gr
      */
-    /*
+
     public boolean removePair(Pair key) throws PairNotFoundException {
         if (pairs.remove(key)) {
+            PairHash pairHash = key.getPairHash();
+            for (Person person : persons) {
+                if (person.getPairHash().equals(pairHash)) {
+                    flipStatus(person, PairHash.DEFAULT_PAIR_HASH);
+                }
+            }
             return true;
         } else {
             throw new PairNotFoundException();
         }
     }
-    */
+
+
+    /**
+     * flip the status of a person, update pairhash and tags accordingly
+     * if the person is currently matched, update status to be "Not Matched" and pairhash to be 0,
+     * otherwise update status to be "Matched" and parihash to be the new pairhash
+     * @param person
+     * @param pairhash
+     */
+    private void flipStatus(Person person, PairHash pairhash) {
+        Person editedPerson;
+
+        Set<Tag> attributeTags = new HashSet<Tag>();
+
+        attributeTags.add(new Tag(person.getRole().value, Tag.AllTagTypes.ROLE));
+        attributeTags.add(new Tag(person.getPrice().value, Tag.AllTagTypes.PRICE));
+        attributeTags.add(new Tag(person.getSubject().value, Tag.AllTagTypes.SUBJECT));
+        attributeTags.add(new Tag(person.getLevel().value, Tag.AllTagTypes.LEVEL));
+        if (person.isMatched()) {
+            attributeTags.add(new Tag("Not Matched", Tag.AllTagTypes.STATUS));
+        } else {
+            attributeTags.add(new Tag("Matched", Tag.AllTagTypes.STATUS));
+        }
+        if (person.isMatched()) {
+            editedPerson = new Person(person.getName(), person.getPhone(),
+                    person.getEmail(), person.getAddress(), person.getPrice(),
+                    person.getSubject(), person.getLevel(), new Status("Not Matched"),
+                    person.getRole(), attributeTags, person.getRemark(), PairHash.getDefaultPairHash());
+        } else {
+            editedPerson = new Person(person.getName(), person.getPhone(),
+                    person.getEmail(), person.getAddress(), person.getPrice(),
+                    person.getSubject(), person.getLevel(), new Status("Matched"),
+                    person.getRole(), attributeTags, person.getRemark(), pairhash);
+
+        }
+        try {
+            updatePerson(person, editedPerson);
+        } catch (DuplicatePersonException e) {
+            throw new AssertionError("Should not have duplicates");
+        } catch (PersonNotFoundException e) {
+            throw new AssertionError("Match exits means person must be in database.");
+        }
+    }
+
 
     //// tag-level operations
 
@@ -324,7 +341,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person updatedPerson = new Person (person.getName(), person.getPhone(),
                 person.getEmail(), person.getAddress(), person.getPrice(),
                person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                updatedTags, person.getRemark());
+                updatedTags, person.getRemark(), person.getPairHash());
         try {
             updatePerson(person, updatedPerson);
         } catch (DuplicatePersonException dupe) {

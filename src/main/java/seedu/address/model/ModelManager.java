@@ -13,6 +13,8 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.model.pair.Pair;
+import seedu.address.model.pair.exceptions.DuplicatePairException;
+import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -22,6 +24,7 @@ import seedu.address.model.tag.Tag;
  * Represents the in-memory model of the address book data.
  * All changes to any model should be synchronized.
  */
+
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
@@ -63,6 +66,7 @@ public class ModelManager extends ComponentManager implements Model {
         raise(new AddressBookChangedEvent(addressBook));
     }
 
+    //===================================Person operation ===================
     @Override
     public synchronized void deletePerson(Person target) throws PersonNotFoundException {
         addressBook.removePerson(target);
@@ -85,6 +89,30 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //============Pair operation=============================================================================
+
+    @Override
+    public void deletePair(Pair target) throws PairNotFoundException {
+        addressBook.removePair(target);
+        indicateAddressBookChanged();
+    }
+
+    /**
+     * Add a pair to STUtor
+     * @param student
+     * @param tutor
+     * @throws DuplicatePersonException
+     */
+    public synchronized void addPair(Person student, Person tutor) throws DuplicatePersonException {
+        try {
+            addressBook.addPair(student, tutor);
+        } catch (DuplicatePairException e) {
+            e.printStackTrace();
+        }
+        updateFilteredPairList(PREDICATE_SHOW_ALL_PAIRS);
+        indicateAddressBookChanged();
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**
@@ -101,6 +129,7 @@ public class ModelManager extends ComponentManager implements Model {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
     }
+
 
     //=========== Filtered Pair List Accessors =============================================================
 

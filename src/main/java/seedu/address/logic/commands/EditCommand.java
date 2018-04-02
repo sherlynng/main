@@ -19,6 +19,7 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -156,9 +157,11 @@ public class EditCommand extends UndoableCommand {
         }
 
         Remark remark = personToEdit.getRemark();
+        PairHash pairHash = personToEdit.getPairHash();
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole, attributeTags, remark);
+                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole,
+                attributeTags, remark, pairHash);
     }
 
     @Override
