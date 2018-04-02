@@ -118,14 +118,14 @@ public class Person {
         return otherPerson.getName().equals(this.getName())
                 && otherPerson.getPhone().equals(this.getPhone())
                 && otherPerson.getEmail().equals(this.getEmail())
-                && otherPerson.getAddress().equals(this.getAddress());
-        /*        && otherPerson.getPrice().equals(this.getPrice())
-                && otherPerson.getSubject().equals(this.getSubject())
+                && otherPerson.getAddress().equals(this.getAddress())
                 && otherPerson.getLevel().equals(this.getLevel())
-                && otherPerson.getRole().equals(this.getRole())
-                && otherPerson.getStatus().equals(this.getStatus());
-                && otherPerson.getRemark().equals(this.getRemark())
-                && otherPerson.getRate().equals(this.getRate());*/
+                && otherPerson.getSubject().equals(this.getSubject())
+                && otherPerson.getStatus().equals(this.getStatus())
+                && otherPerson.getPrice().equals(this.getPrice())
+                && otherPerson.getRole().equals(this.getRole());
+                //&& otherPerson.getRemark().equals(this.getRemark())
+                //&& otherPerson.getRate().equals(this.getRate());
     }
 
     @Override
