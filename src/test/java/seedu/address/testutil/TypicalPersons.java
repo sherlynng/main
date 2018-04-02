@@ -85,7 +85,7 @@ public class TypicalPersons {
             .build();
 
     //Persons with some missing fields
-    public static final Person JAMES = new PersonBuilder().withName("James Bond").withPhone("789789")
+    public static final Person JAMES = new PersonBuilder().withName("James Bond").withPhone("")
             .withEmail("").withAddress("jurong west").withSubject("math")
             .withLevel("upper Sec").withPrice("2234").withStatus("not Matched")
             .withRole("Tutor").withTags("Friend").withRemark("").build();
