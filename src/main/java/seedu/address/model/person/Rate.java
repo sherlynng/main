@@ -79,11 +79,9 @@ public class Rate {
         return count;
     }
 
-
     public void setCount(int count) {
         this.count = count;
     }
-
 
     public boolean getIsAbosulte() {
         return isAbosulte;
