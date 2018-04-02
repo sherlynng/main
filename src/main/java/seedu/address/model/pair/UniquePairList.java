@@ -72,7 +72,7 @@ public class UniquePairList implements Iterable<Pair> {
      *
      * @throws PairNotFoundException if no such pair could be found in the list.
      */
-    /*
+
     public boolean remove(Pair toRemove) throws PairNotFoundException {
         requireNonNull(toRemove);
         final boolean pairFoundAndDeleted = internalList.remove(toRemove);
@@ -81,7 +81,7 @@ public class UniquePairList implements Iterable<Pair> {
         }
         return pairFoundAndDeleted;
     }
-    */
+
 
     public void setPairs(UniquePairList replacement) {
         this.internalList.setAll(replacement.internalList);

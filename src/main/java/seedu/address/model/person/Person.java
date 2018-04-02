@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -26,13 +27,15 @@ public class Person {
     private Status status;
     private final Remark remark;
 
+    private PairHash pairHash;
+
     private final UniqueTagList tags;
 
     /**
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Price price, Subject subject,
-                  Level level, Status status, Role role, Set<Tag> tags, Remark remark) {
+                  Level level, Status status, Role role, Set<Tag> tags, Remark remark, PairHash pairHash) {
         requireAllNonNull(name, phone, email, address, price, subject, level, status, tags);
         this.name = name;
         this.phone = phone;
@@ -47,6 +50,8 @@ public class Person {
 
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
+
+        this.pairHash = pairHash;
     }
 
     public Name getName() {
@@ -97,6 +102,11 @@ public class Person {
         return Collections.unmodifiableSet(tags.toSet());
     }
 
+    public PairHash getPairHash() {
+        return pairHash;
+    }
+
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -139,6 +149,10 @@ public class Person {
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();
+    }
+
+    public boolean isMatched() {
+        return (getStatus().value.equals("Matched"));
     }
 
 }

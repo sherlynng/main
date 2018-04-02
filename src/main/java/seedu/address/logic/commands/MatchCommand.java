@@ -82,7 +82,7 @@ public class MatchCommand extends UndoableCommand {
         if (!student.getLevel().equals(tutor.getLevel())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_LEVEL));
         }
-
+        //standardize input order : person A is student, person B is tutor
         if (!student.getRole().value.equals("Student")) {
             Person temp = student;
             student = tutor;

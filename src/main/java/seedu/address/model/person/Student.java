@@ -2,6 +2,7 @@ package seedu.address.model.person;
 
 import java.util.Set;
 
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -10,7 +11,6 @@ import seedu.address.model.tag.Tag;
  */
 
 public class Student extends Person {
-
 
     /**
      * Every field must be present and not null.
@@ -25,9 +25,11 @@ public class Student extends Person {
      * @param status
      * @param remark
      * @param tags
+     * @param pairhash
      */
     public Student(Name name, Phone phone, Email email, Address address,
-                   Price price, Subject subject, Level level, Status status, Set<Tag> tags, Remark remark) {
-        super(name, phone, email, address, price, subject, level, status, new Role("student"), tags, remark);
+                   Price price, Subject subject, Level level, Status status,
+                   Set<Tag> tags, Remark remark, PairHash pairhash) {
+        super(name, phone, email, address, price, subject, level, status, new Role("student"), tags, remark, pairhash);
     }
 }
