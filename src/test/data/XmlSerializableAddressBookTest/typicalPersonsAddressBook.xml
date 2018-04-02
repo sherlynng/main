@@ -152,7 +152,7 @@ AddressBook save file which contains the same Person values as in
         <tagged>Chinese,SUBJECT</tagged>
     </persons>
     <persons>
-        <name>Irene Meier</name>
+        <name>Irene Mueller</name>
         <phone>8482131</phone>
         <email>hans@example.com</email>
         <address>chicago ave</address>
@@ -170,7 +170,7 @@ AddressBook save file which contains the same Person values as in
         <tagged>Student,ROLE</tagged>
     </persons>
     <persons>
-        <name>Jenny Meier</name>
+        <name>Jenny Yim</name>
         <phone>8482131</phone>
         <email>hans@example.com</email>
         <address>chicago ave</address>
@@ -233,7 +233,7 @@ AddressBook save file which contains the same Person values as in
         <subject>English</subject>
         <level>Upper Sec</level>
         <price>99</price>
-        <pairHash>1157146515</pairHash>
+        <pairHash>580977797</pairHash>
         <tagged>Upper Sec,LEVEL</tagged>
         <tagged>99,PRICE</tagged>
         <tagged>English,SUBJECT</tagged>

@@ -25,7 +25,7 @@ public class TypicalPairs {
     public static final Pair RANDOM_PAIR_B = new PairBuilder().withStudent(DANIEL).withTutor(CARL)
             .build();
 
-    public static final Pair RANDOM_PAIR_C = new PairBuilder().withStudent(ELLE).withTutor(FIONA)
+    public static final Pair RANDOM_PAIR_C = new PairBuilder().withStudent(FIONA).withTutor(ELLE)
             .build();
 
 
