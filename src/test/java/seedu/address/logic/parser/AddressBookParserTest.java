@@ -12,6 +12,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.junit.Rule;
@@ -26,6 +27,7 @@ import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FilterCommand;
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.FindMissingCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
@@ -35,6 +37,7 @@ import seedu.address.logic.commands.RemoveTagCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.predicates.FindMissingPredicate;
 import seedu.address.model.person.KeywordPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
@@ -129,6 +132,26 @@ public class AddressBookParserTest {
         FindCommand command = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
         assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords)), command);
+    }
+
+    @Test
+    public void parseCommand_findMissing() throws Exception {
+        List<String> keywords = Arrays.asList("address");
+        FindMissingPredicate targetP = new FindMissingPredicate(keywords);
+        FindMissingCommand command = (FindMissingCommand) parser.parseCommand(
+                FindMissingCommand.COMMAND_WORD + " "
+                        + keywords.stream().collect(Collectors.joining(" ")));
+        assertEquals(new FindMissingCommand(targetP), command);
+    }
+
+    @Test
+    public void parseCommand_findMissingAliased() throws Exception {
+        List<String> keywords = Arrays.asList("address");
+        Predicate<Person> targetP = new FindMissingPredicate(keywords);
+        FindMissingCommand command = (FindMissingCommand) parser.parseCommand(
+                FindMissingCommand.COMMAND_WORD_ALIAS + " "
+                        + keywords.stream().collect(Collectors.joining(" ")));
+        assertEquals(new FindMissingCommand(targetP), command);
     }
 
     @Test

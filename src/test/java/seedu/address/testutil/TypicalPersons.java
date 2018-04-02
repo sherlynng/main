@@ -84,6 +84,24 @@ public class TypicalPersons {
             .withStatus(STATUS_UNMATCHED).withRole(VALID_ROLE_BOB)
             .build();
 
+    //Persons with some missing fields
+    public static final Person JAMES = new PersonBuilder().withName("James Bond").withPhone("")
+            .withEmail("").withAddress("jurong west").withSubject("math")
+            .withLevel("upper Sec").withPrice("2234").withStatus("not Matched")
+            .withRole("Tutor").withTags("Friend").withRemark("").build();
+    public static final Person KEN = new PersonBuilder().withName("Ken Wong").withPhone("12344321")
+            .withEmail("ken@example.com").withAddress("").withSubject("")
+            .withLevel("upper sec").withPrice("2234").withStatus("not Matched")
+            .withRole("Tutor").withTags("Friend").withRemark("").build();
+    public static final Person LENNY = new PersonBuilder().withName("Lenny Face").withPhone("43211234")
+            .withEmail("lennyfaces@example.com").withAddress("lim chu kang").withSubject("english")
+            .withLevel("").withPrice("").withStatus("not Matched")
+            .withRole("Tutor").withTags("Friend").withRemark("").build();
+    public static final Person MISTER = new PersonBuilder().withName("Mister Rogers").withPhone("44122331")
+            .withEmail("mrogers@example.com").withAddress("Mountbatten").withSubject("english")
+            .withLevel("lower sec").withPrice("2123").withStatus("")
+            .withRole("").withTags("Friend").withRemark("").build();
+
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 
     private TypicalPersons() {} // prevents instantiation
@@ -103,7 +121,28 @@ public class TypicalPersons {
         return ab;
     }
 
+    /**
+     * Returns an {@code AddressBook} with all the persons with unentered attributes.
+     */
+    public static AddressBook getMissingAttributesAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (Person person : getMissingAttributesPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                throw new AssertionError("not possible");
+            }
+        }
+        return ab;
+    }
+
+    public static List<Person> getMissingAttributesPersons() {
+        return new ArrayList<>(Arrays.asList(JAMES, KEN, LENNY, MISTER));
+    }
+
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
     }
+
+
 }
