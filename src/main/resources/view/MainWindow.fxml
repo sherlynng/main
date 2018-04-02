@@ -55,7 +55,7 @@
           </VBox>
 
           <VBox fx:id="browserPanel" minWidth="540" prefWidth="540" SplitPane.resizableWithParent="true">
-            <StackPane fx:id="browserPlaceholder" prefWidth="540" >
+            <StackPane fx:id="infoPlaceholder" prefWidth="540" >
               <padding>
                 <Insets top="10" right="10" bottom="10" left="0" />
               </padding>
