@@ -4,7 +4,6 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.MatchCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -22,12 +21,16 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         String trimmedArgs = args.trim();
         if (trimmedArgs.isEmpty()) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MatchCommand.MESSAGE_USAGE));
         }
 
         String[] indices = trimmedArgs.split("\\s+");
-        Index indexA = null;
-        Index indexB = null;
+        if (indices.length != 2) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MatchCommand.MESSAGE_USAGE));
+        }
+        Index indexA = null; // index of the first person
+        Index indexB = null; // index of the second person
         try {
             indexA = ParserUtil.parseIndex(indices[0]);
         } catch (IllegalValueException e) {
