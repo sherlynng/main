@@ -164,7 +164,7 @@ Press kbd:[Delete] key to delete a field (and its prefix).
 
 image::AutofillEdit.png[width="800"]
 
-==== Filtering all persons list by subject, level, role or status: `*filter*`
+==== Filtering all persons list by subject, level, role or status: `*filter*` (In V1.3)
 Format: `*filter* KEYWORD`
 
 Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain any of the given keywords. +
@@ -399,7 +399,7 @@ Format: `*clear*`
 
 To clear all entries from your STUtor, use the `*clear*` command. +
 
-==== Creating a remark for a person : `*remark*` or `*rm*`
+==== Creating a remark for a person : `*remark*` or `*rm*` (In V1.3)
 Format: `*remark* INDEX r/`
 
 Creates a remark for the person identified by the index number used in the *last person listing*. +
@@ -419,6 +419,16 @@ Creates a remark 'Fast learner.' for the 2nd person in STUtor.
 `*remark* 1 r/` +
 Removes the remark for the 1st person in the results of the `*find*` command.
 
+==== Viewing the statistic : `*viewStats*` (In V1.4)
+Format: `*viewStats*`
+
+Shows statistical information such as role distribution(Student/Tutor ratio) in the form of a pie chart. +
+
+****
+* The statistic will not update in real time.
+* To get an update, call for `*viewStats*` command once more.
+* To exit from `*viewStats*`, you can simply click on person in the person list.
+****
 
 ==== Exiting the program : `*exit*`
 Format: `*exit*`
@@ -438,7 +448,7 @@ There is no need to save manually.
 
 // tag::dataencryption[]
 
-==== Encrypting data files `[coming in v2.0]`
+==== Encrypting data files `[Coming in V2.0]`
 
 _{explain how the user can enable/disable data encryption}_
 // end::dataencryption[]
