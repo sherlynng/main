@@ -4,15 +4,18 @@ import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.ShowChartsEvent;
+import seedu.address.model.person.Person;
 
+//@@author dannyngmx94
 /**
- * Container for both browser panel and person information panel
+ * Container for both browser panel and charts panel
  */
 public class InfoPanel extends UiPart<Region> {
 
@@ -30,10 +33,10 @@ public class InfoPanel extends UiPart<Region> {
     @FXML
     private StackPane chartPlaceholder;
 
-    public InfoPanel() {
+    public InfoPanel(ObservableList<Person> personList) {
         super(FXML);
 
-        fillInnerParts();
+        fillInnerParts(personList);
 
         browserPlaceholder.toFront();
         registerAsAnEventHandler(this);
@@ -42,11 +45,11 @@ public class InfoPanel extends UiPart<Region> {
     /**
      * Helper method to fill UI placeholders
      */
-    public void fillInnerParts() {
+    public void fillInnerParts(ObservableList<Person> personList) {
         browserPanel = new BrowserPanel();
         browserPlaceholder.getChildren().add(browserPanel.getRoot());
 
-        pieChart = new ChartsPanel();
+        pieChart = new ChartsPanel(personList);
         chartPlaceholder.getChildren().add(pieChart.getRoot());
     }
 
@@ -61,7 +64,6 @@ public class InfoPanel extends UiPart<Region> {
     @Subscribe
     private void handleShowChartsEvent(ShowChartsEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        pieChart.loadChartsDetails();
 
         chartPlaceholder.toFront();
     }
