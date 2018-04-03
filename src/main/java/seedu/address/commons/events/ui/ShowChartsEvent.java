@@ -1,6 +1,8 @@
 package seedu.address.commons.events.ui;
 
+//import javafx.collections.ObservableList;
 import seedu.address.commons.events.BaseEvent;
+//import seedu.address.model.person.Person;
 
 //@@author dannyngmx94
 /**
