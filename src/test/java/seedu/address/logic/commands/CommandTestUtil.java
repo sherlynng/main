@@ -92,7 +92,8 @@ public class CommandTestUtil {
     public static final String INVALID_ROLE_DESC = " " + PREFIX_ROLE + "teacher"; // 'teacher' not allowed in tags
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
     public static final String INVALID_STATUS_DESC = " " + PREFIX_STATUS + "veryverymatched"; //not a listed status
-    public static final String INVALID_RATE = "6.0";
+    public static final String INVALID_RATE_EXCEEDRANGE = "6.0";
+    public static final String INVALID_RATE_NEGATIVE = "-0.1";
 
     public static final String SUBJECT_DESC_ENGLISH = " " + PREFIX_SUBJECT + "english";
     public static final String SUBJECT_DESC_CHINESE = " " + PREFIX_SUBJECT + "chinese";
