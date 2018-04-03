@@ -254,12 +254,13 @@ public class MatchCommandParser implements Parser<MatchCommand> {
             editedPerson = new Person(person.getName(), person.getPhone(),
                     person.getEmail(), person.getAddress(), person.getPrice(),
                     person.getSubject(), person.getLevel(), new Status("Not Matched"),
-                    person.getRole(), attributeTags, person.getRemark(), PairHash.getDefaultPairHash());
+                    person.getRole(), attributeTags, person.getRemark(), person.getRate(),
+                    PairHash.getDefaultPairHash());
         } else {
             editedPerson = new Person(person.getName(), person.getPhone(),
                     person.getEmail(), person.getAddress(), person.getPrice(),
                     person.getSubject(), person.getLevel(), new Status("Matched"),
-                    person.getRole(), attributeTags, person.getRemark(), pairhash);
+                    person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairhash);
 
         }
         try {
@@ -341,7 +342,7 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         Person updatedPerson = new Person (person.getName(), person.getPhone(),
                 person.getEmail(), person.getAddress(), person.getPrice(),
                person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                updatedTags, person.getRemark(), person.getPairHash());
+                updatedTags, person.getRemark(), person.getRate(), person.getPairHash());
         try {
             updatePerson(person, updatedPerson);
         } catch (DuplicatePersonException dupe) {
@@ -746,13 +747,15 @@ public class Student extends Person {
      * @param level
      * @param status
      * @param remark
+     * @param rate
      * @param tags
      * @param pairhash
      */
     public Student(Name name, Phone phone, Email email, Address address,
                    Price price, Subject subject, Level level, Status status,
-                   Set<Tag> tags, Remark remark, PairHash pairhash) {
-        super(name, phone, email, address, price, subject, level, status, new Role("student"), tags, remark, pairhash);
+                   Set<Tag> tags, Remark remark, Rate rate, PairHash pairhash) {
+        super(name, phone, email, address, price, subject, level, status, new Role("student"),
+              tags, remark, rate, pairhash);
     }
 }
 ```
@@ -776,12 +779,15 @@ public class Tutor extends Person {
      * @param level
      * @param status
      * @param remark
+     * @param rate
      * @param tags
      * @param pairhash
      */
     public Tutor(Name name, Phone phone, Email email, Address address, Price price,
-                 Subject subject, Level level, Status status, Set<Tag> tags, Remark remark, PairHash pairhash) {
-        super(name, phone, email, address, price, subject, level, status, new Role("student"), tags, remark, pairhash);
+                 Subject subject, Level level, Status status, Set<Tag> tags, Remark remark,
+                 Rate rate, PairHash pairhash) {
+        super(name, phone, email, address, price, subject, level, status, new Role("student"),
+              tags, remark, rate, pairhash);
     }
 }
 ```
