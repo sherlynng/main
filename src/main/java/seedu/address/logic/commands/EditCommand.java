@@ -27,6 +27,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
@@ -119,14 +120,15 @@ public class EditCommand extends UndoableCommand {
         Status updatedStatus = getUpdatedStatus(personToEdit, editPersonDescriptor);
         Role updatedRole = getUpdatedRole(personToEdit, editPersonDescriptor);
         Remark remark = getRemark(personToEdit);
+        Rate rate = getRate(personToEdit);
         PairHash pairHash = getPairHash(personToEdit);
         Set<Tag> updatedTags = getUpdatedTags(personToEdit, editPersonDescriptor);
         Set<Tag> attributeTags = getAttributeTags(personToEdit, updatedPrice, updatedSubject, updatedLevel,
                 updatedStatus, updatedRole, updatedTags);
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole,
-                attributeTags, remark, pairHash);
+                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole, attributeTags,
+                remark, rate, pairHash);
     }
 
     private static PairHash getPairHash(Person personToEdit) {
@@ -135,6 +137,10 @@ public class EditCommand extends UndoableCommand {
 
     private static Remark getRemark(Person personToEdit) {
         return personToEdit.getRemark();
+    }
+
+    private static Rate getRate(Person personToEdit) {
+        return personToEdit.getRate();
     }
 
     private static Set<Tag> getUpdatedTags(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
@@ -215,6 +221,7 @@ public class EditCommand extends UndoableCommand {
         if (!updatedRole.toString().equals("")) {
             attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
         }
+
         return attributeTags;
     }
 

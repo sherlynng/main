@@ -17,6 +17,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
@@ -51,6 +52,10 @@ public class XmlAdaptedPerson {
     @XmlElement(required = true)
     private String remark;
     @XmlElement(required = true)
+    private String rate;
+    @XmlElement(required = true)
+    private String count;
+    @XmlElement(required = true)
     private String pairHash;
 
     @XmlElement
@@ -67,7 +72,8 @@ public class XmlAdaptedPerson {
      */
     public XmlAdaptedPerson(String name, String phone, String email, String address,
                             String price, String subject, String level, String status, String role,
-                            List<XmlAdaptedTag> tagged, String remark, String pairHash) {
+                            List<XmlAdaptedTag> tagged, String remark, String rate, String count, String pairHash) {
+
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -78,6 +84,8 @@ public class XmlAdaptedPerson {
         this.level = level;
         this.role = role;
         this.remark = remark;
+        this.rate = rate;
+        this.count = count;
         this.pairHash = pairHash;
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
@@ -100,6 +108,8 @@ public class XmlAdaptedPerson {
         price = source.getPrice().value;
         role = source.getRole().value;
         remark = source.getRemark().value;
+        rate = Double.toString(source.getRate().getValue());
+        count = Integer.toString(source.getRate().getCount());
         pairHash = String.valueOf(source.getPairHash());
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
@@ -198,6 +208,14 @@ public class XmlAdaptedPerson {
         }
         final Remark remark = new Remark(this.remark);
 
+        if (this.rate == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Rate.class.getSimpleName()));
+        }
+        if (!Rate.isValidRate(this.rate)) {
+            throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
+        }
+        final Rate rate = new Rate(Double.parseDouble(this.rate), true);
+        rate.setCount(Integer.parseInt(count));
 
         if (this.pairHash == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -205,7 +223,8 @@ public class XmlAdaptedPerson {
         }
         final PairHash pairHash =  new PairHash(Integer.parseInt(this.pairHash));
 
-        return new Person(name, phone, email, address, price, subject, level, status, role, tags, remark, pairHash);
+        return new Person(name, phone, email, address, price, subject, level, status, role,
+                          tags, remark, rate, pairHash);
     }
 
     @Override

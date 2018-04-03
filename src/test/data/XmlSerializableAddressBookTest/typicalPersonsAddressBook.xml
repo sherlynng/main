@@ -18,6 +18,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Matched</status>
         <role>Tutor</role>
         <remark>Hardworking but slow learner.</remark>
+        <rate>3.0</rate>
+        <count>1</count>
         <pairHash>0</pairHash>
         <tagged>Tutor,ROLE</tagged>\
         <tagged>Matched,STATUS</tagged>
@@ -36,6 +38,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Matched</status>
         <role>Student</role>
         <remark>Not self motivated.</remark>
+        <rate>1.0</rate>
+        <count>3</count>
         <pairHash>0</pairHash>
         <tagged>Matched,STATUS</tagged>
         <tagged>Lower Sec,LEVEL</tagged>
@@ -54,6 +58,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Matched</status>
         <role>Tutor</role>
         <remark>Patient and clear in explanation.</remark>
+        <rate>4.0</rate>
+        <count>7</count>
         <pairHash>0</pairHash>
         <tagged>Tutor,ROLE</tagged>
         <tagged>Chemistry,SUBJECT</tagged>
@@ -72,6 +78,8 @@ AddressBook save file which contains the same Person values as in
         <status>Matched</status>
         <role>Student</role>
         <remark>Fast learner.</remark>
+        <rate>4.5</rate>
+        <count>3</count>
         <pairHash>0</pairHash>
         <tagged>Chemistry,SUBJECT</tagged>
         <tagged>Matched,STATUS</tagged>
@@ -90,6 +98,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Matched</status>
         <role>Tutor</role>
         <remark>Inspirational tutor.</remark>
+        <rate>4.7</rate>
+        <count>2</count>
         <pairHash>0</pairHash>
         <tagged>99,PRICE</tagged>
         <tagged>Tutor,ROLE</tagged>
@@ -108,6 +118,8 @@ AddressBook save file which contains the same Person values as in
         <status>Matched</status>
         <role>Student</role>
         <remark>Impatient and poor in explanation.</remark>
+        <rate>1.0</rate>
+        <count>5</count>
         <pairHash>0</pairHash>
         <tagged>99,PRICE</tagged>
         <tagged>English,SUBJECT</tagged>
@@ -126,6 +138,8 @@ AddressBook save file which contains the same Person values as in
 		<status>Not Matched</status>
         <role>Tutor</role>
         <remark>Friendly and approachable.</remark>
+        <rate>4.0</rate>
+        <count>3</count>
         <pairHash>0</pairHash>
         <tagged>Tutor,ROLE</tagged>
         <tagged>320,PRICE</tagged>
@@ -144,6 +158,8 @@ AddressBook save file which contains the same Person values as in
         <status>Not Matched</status>
         <role>Tutor</role>
         <remark>Very passionate tutor.</remark>
+        <rate>4.0</rate>
+        <count>2</count>
         <pairHash>0</pairHash>
         <tagged>Tutor,ROLE</tagged>
         <tagged>Not Matched,STATUS</tagged>
@@ -162,6 +178,8 @@ AddressBook save file which contains the same Person values as in
         <status>Not Matched</status>
         <role>Student</role>
         <remark>Constantly postponing lessons.</remark>
+        <rate>2.2</rate>
+        <count>3</count>
         <pairHash>0</pairHash>
         <tagged>English,SUBJECT</tagged>
         <tagged>Not Matched,STATUS</tagged>
@@ -180,6 +198,8 @@ AddressBook save file which contains the same Person values as in
         <status>Not Matched</status>
         <role>Tutor</role>
         <remark>Constantly postponing lessons.</remark>
+        <rate>2.0</rate>
+        <count>1</count>
         <pairHash>0</pairHash>
         <tagged>Tutor,ROLE</tagged>
         <tagged>English,SUBJECT</tagged>
@@ -198,6 +218,8 @@ AddressBook save file which contains the same Person values as in
         <status>Not Matched</status>
         <role>Student</role>
         <remark>Constantly postponing lessons.</remark>
+        <rate>2.0</rate>
+        <count>1</count>
         <pairHash>0</pairHash>
         <tagged>Student,ROLE</tagged>
         <tagged>English,SUBJECT</tagged>
@@ -216,6 +238,8 @@ AddressBook save file which contains the same Person values as in
         <status>Not Matched</status>
         <role>Student</role>
         <remark>Hardworking.</remark>
+        <rate>2.0</rate>
+        <count>1</count>
         <pairHash>0</pairHash>
         <tagged>Student,ROLE</tagged>
         <tagged>English,SUBJECT</tagged>
@@ -234,6 +258,8 @@ AddressBook save file which contains the same Person values as in
         <status>Not Matched</status>
         <role>Tutor</role>
         <remark>Hardworking.</remark>
+        <rate>2.0</rate>
+        <count>1</count>
         <pairHash>0</pairHash>
         <tagged>Student,ROLE</tagged>
         <tagged>English,SUBJECT</tagged>
@@ -290,12 +316,5 @@ AddressBook save file which contains the same Person values as in
     <tags>Chinese,SUBJECT</tags>
     <tags>1234,PRICE</tags>
     <tags>4321,PRICE</tags>
-
-
-
-
-
-
-
 
 </addressbook>

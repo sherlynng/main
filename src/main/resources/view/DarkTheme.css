@@ -132,6 +132,7 @@
     -fx-text-fill: #010504;
 }
 
+/* @@author sherlynng */
 .browser_big_label {
      -fx-font-family: "Segoe UI";
      -fx-font-size: 40px;
@@ -159,6 +160,7 @@
 .browser_stackPane_even {
     -fx-background-color: #4C4C4C
 }
+/* @@author sherlynng */
 
 .anchor-pane {
      -fx-background-color: derive(#1d1d1d, 20%);

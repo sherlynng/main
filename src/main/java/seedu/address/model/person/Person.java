@@ -26,6 +26,7 @@ public class Person {
     private final Role role;
     private Status status;
     private final Remark remark;
+    private final Rate rate;
 
     private PairHash pairHash;
 
@@ -35,7 +36,8 @@ public class Person {
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Price price, Subject subject,
-                  Level level, Status status, Role role, Set<Tag> tags, Remark remark, PairHash pairHash) {
+                  Level level, Status status, Role role, Set<Tag> tags, Remark remark, Rate rate, PairHash pairHash) {
+
         requireAllNonNull(name, phone, email, address, price, subject, level, status, tags);
         this.name = name;
         this.phone = phone;
@@ -47,6 +49,7 @@ public class Person {
         this.role = role;
         this.status = status;
         this.remark = remark;
+        this.rate = rate;
 
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
@@ -94,6 +97,10 @@ public class Person {
         return remark;
     }
 
+    public Rate getRate() {
+        return rate;
+    }
+
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
@@ -128,12 +135,15 @@ public class Person {
                 && otherPerson.getStatus().equals(this.getStatus())
                 && otherPerson.getPrice().equals(this.getPrice())
                 && otherPerson.getRole().equals(this.getRole());
+                //&& otherPerson.getRemark().equals(this.getRemark())
+                //&& otherPerson.getRate().equals(this.getRate());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, price, subject, level, status, role, tags, remark);
+        return Objects.hash(name, phone, email, address, price, subject, level, status, role, tags,
+                            remark, rate);
     }
 
     @Override

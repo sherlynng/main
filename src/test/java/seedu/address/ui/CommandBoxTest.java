@@ -155,6 +155,7 @@ public class CommandBoxTest extends GuiUnitTest {
         assertEquals(expectedCommand, commandBoxHandle.getInput());
     }
 
+    //@@author sherlynng
     @Test
     public void handleKeyPress_addCommandPressTab_autofill() {
         String expectedOutput = "add n/ p/ e/ a/ $/ sub/ lvl/ stat/ r/";

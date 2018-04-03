@@ -159,7 +159,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return new Person(
                 person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                 person.getPrice(), person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                correctTagReferences, person.getRemark(), person.getPairHash());
+                correctTagReferences, person.getRemark(), person.getRate(), person.getPairHash());
     }
 
 
@@ -254,12 +254,13 @@ public class AddressBook implements ReadOnlyAddressBook {
             editedPerson = new Person(person.getName(), person.getPhone(),
                     person.getEmail(), person.getAddress(), person.getPrice(),
                     person.getSubject(), person.getLevel(), new Status("Not Matched"),
-                    person.getRole(), attributeTags, person.getRemark(), PairHash.getDefaultPairHash());
+                    person.getRole(), attributeTags, person.getRemark(), person.getRate(),
+                    PairHash.getDefaultPairHash());
         } else {
             editedPerson = new Person(person.getName(), person.getPhone(),
                     person.getEmail(), person.getAddress(), person.getPrice(),
                     person.getSubject(), person.getLevel(), new Status("Matched"),
-                    person.getRole(), attributeTags, person.getRemark(), pairhash);
+                    person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairhash);
 
         }
         try {
@@ -341,7 +342,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person updatedPerson = new Person (person.getName(), person.getPhone(),
                 person.getEmail(), person.getAddress(), person.getPrice(),
                person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                updatedTags, person.getRemark(), person.getPairHash());
+                updatedTags, person.getRemark(), person.getRate(), person.getPairHash());
         try {
             updatePerson(person, updatedPerson);
         } catch (DuplicatePersonException dupe) {

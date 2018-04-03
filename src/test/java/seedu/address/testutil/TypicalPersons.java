@@ -37,68 +37,66 @@ public class TypicalPersons {
     public static final Person ALICE = new PersonBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
             .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
-            .withRole("Tutor").withRemark("Hardworking but slow learner.").build();
+            .withRole("Tutor").withRemark("Hardworking but slow learner.").withRate("3.0", "1").build();
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
             .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
-            .withRole("Student").withRemark("Not self motivated.").build();
+            .withRole("Student").withRemark("Not self motivated.").withRate("2.1", "2").build();
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withEmail("heinz@example.com").withAddress("wall street")
             .withPrice("20").withSubject("chemistry").withStatus("Matched").withLevel("upper Sec")
-            .withRole("Tutor").withRemark("Patient and clear in explanation.").build();
+            .withRole("Tutor").withRemark("Patient and clear in explanation.").withRate("4.2", "3").build();
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
             .withEmail("cornelia@example.com").withAddress("10th street")
             .withPrice("20").withSubject("chemistry").withStatus("Matched").withLevel("upper Sec")
-            .withRole("Student").withRemark("Fast learner.").build();
+            .withRole("Student").withRemark("Fast learner.").withRate("4.0", "2").build();
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("9482224")
             .withEmail("werner@example.com").withAddress("michegan ave")
             .withPrice("99").withSubject("english").withStatus("Matched").withLevel("upper Sec")
-            .withRole("Tutor").withRemark("Inspirational tutor.").build();
+            .withRole("Tutor").withRemark("Inspirational tutor.").withRate("4.5", "4").build();
     public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("9482427")
             .withEmail("lydia@example.com").withAddress("little tokyo")
             .withPrice("99").withSubject("english").withStatus("Matched").withLevel("upper Sec")
-            .withRole("Student").withRemark("Impatient and poor in explanation.").build();
-
+            .withRole("Student").withRemark("Impatient and poor in explanation.")
+            .withRate("1.1", "1").build();
     public static final Person GEORGE = new PersonBuilder().withName("George Best").withPhone("9482442")
             .withEmail("anna@example.com").withAddress("4th street")
             .withPrice("320").withSubject("chinese").withStatus("not Matched").withLevel("lower Sec")
-            .withRole("Tutor").withRemark("Friendly and approachable.").build();
+            .withRole("Tutor").withRemark("Friendly and approachable.").withRate("4.3", "1").build();
     public static final Person HENRY = new PersonBuilder().withName("Henry Meier").withPhone("8482424")
             .withEmail("stefan@example.com").withAddress("little india").withSubject("chinese")
             .withLevel("upper Sec").withPrice("1234").withStatus("not Matched")
-            .withRole("Tutor").withRemark("Very passionate tutor.").build();
+            .withRole("Tutor").withRemark("Very passionate tutor.").withRate("4.3", "1").build();
     public static final Person IRENE = new PersonBuilder().withName("Irene Mueller").withPhone("8482131")
             .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
             .withLevel("upper Sec").withPrice("4321").withStatus("not Matched")
-            .withRole("Student").withRemark("Constantly postponing lessons.").build();
+            .withRole("Student").withRemark("Constantly postponing lessons.").withRate("2.1", "3").build();
     public static final Person JENNY = new PersonBuilder().withName("Jenny Yim").withPhone("8482131")
             .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
             .withLevel("lower Sec").withPrice("4321").withStatus("not Matched")
-            .withRole("Tutor").withRemark("Constantly postponing lessons.").build();
+            .withRole("Tutor").withRemark("Constantly postponing lessons.").withRate("2.0", "1").build();
     public static final Person KEITH = new PersonBuilder().withName("Keith Chang").withPhone("8482131")
             .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
             .withLevel("lower Sec").withPrice("120").withStatus("not Matched")
-            .withRole("Student").withRemark("Constantly postponing lessons.").build();
+            .withRole("Student").withRemark("Constantly postponing lessons.").withRate("2.4", "1").build();
     public static final Person LISA = new PersonBuilder().withName("Lisa Ong").withPhone("8482131")
             .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
             .withLevel("lower Sec").withPrice("120").withStatus("not Matched")
-            .withRole("Student").withRemark("Hardworking.").build();
+            .withRole("Student").withRemark("Hardworking.").withRate("4.3", "1").build();
     public static final Person MARY = new PersonBuilder().withName("Mary Lou").withPhone("8482131")
             .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
             .withLevel("lower Sec").withPrice("120").withStatus("not Matched")
-            .withRole("Tutor").withRemark("Hardworking.").build();
-
-
-
+            .withRole("Tutor").withRemark("Hardworking.").withRate("4.3", "1").build();
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("8482424")
             .withEmail("stefan@example.com").withAddress("little india").withSubject("chinese")
             .withLevel("upper Sec").withPrice("1234").withStatus("not Matched")
-            .withRole("Tutor").withRemark("Very passionate tutor.").build();
+            .withRole("Tutor").withTags("Friend").withRemark("Very passionate tutor.")
+            .withRate("4.3", "1").build();
     public static final Person IDA = new PersonBuilder().withName("Ida Mueller").withPhone("8482131")
             .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
             .withLevel("upper Sec").withPrice("4321").withStatus("not Matched")
-            .withRole("Student").withRemark("Constantly postponing lessons.").build();
-
+            .withRole("Tutor").withTags("Friend").withRemark("Constantly postponing lessons.")
+            .withRate("2.0", "2").build();
 
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final Person AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)

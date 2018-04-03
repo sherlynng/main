@@ -69,6 +69,10 @@ public class CommandTestUtil {
     public static final String STATUS_MATCHED = "matched";
     public static final String REMARK_AMY = "Hardworking student.";
     public static final String REMARK_BOB = "Patient tutor.";
+    public static final String VALID_RATE_AMY = "4.0";
+    public static final String VALID_RATE_BOB = "4.2";
+    public static final String RATECOUNT_AMY = "4";
+    public static final String RATECOUNT_BOB = "1";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -90,6 +94,8 @@ public class CommandTestUtil {
     public static final String INVALID_ROLE_DESC = " " + PREFIX_ROLE + "teacher"; // 'teacher' not allowed in tags
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
     public static final String INVALID_STATUS_DESC = " " + PREFIX_STATUS + "veryverymatched"; //not a listed status
+    public static final String INVALID_RATE_EXCEEDRANGE = "6.0";
+    public static final String INVALID_RATE_NEGATIVE = "-0.1";
 
     public static final String SUBJECT_DESC_ENGLISH = " " + PREFIX_SUBJECT + "english";
     public static final String SUBJECT_DESC_CHINESE = " " + PREFIX_SUBJECT + "chinese";
