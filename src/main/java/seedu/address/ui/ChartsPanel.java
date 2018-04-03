@@ -16,7 +16,7 @@ import seedu.address.model.person.Role;
 
 //@@author dannyngmx94
 /**
- * The Browser Panel of the App.
+ * The Chart Panel of the App.
  */
 public class ChartsPanel extends UiPart<Region> {
 
@@ -38,7 +38,7 @@ public class ChartsPanel extends UiPart<Region> {
     }
 
     /**
-     * Loads a {@code person}'s details into the browser panel.
+     * Loads chart details into the chart panel.
      */
     public void loadChartsDetails() {
         ObservableList<Person> tutorList = personList.filtered(person -> person.getRole().equals(new Role("Tutor")));
