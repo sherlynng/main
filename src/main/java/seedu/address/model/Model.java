@@ -63,7 +63,7 @@ public interface Model {
     //=================Pair operations===========================
 
     /** Adds the given pair */
-    void addPair(Person student, Person tutor) throws DuplicatePersonException;
+    void addPair(Person student, Person tutor);
 
     /** Deletes the given pair. */
     void deletePair(Pair target) throws PairNotFoundException;

@@ -9,6 +9,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Price;
 import seedu.address.model.person.Subject;
 
+//@@author alexawangzi
 /**
  * Represents a pairHash in the address book.
  * The pariHash is attached to a pair, its student and its tutor to facilitate match/unmatch operations.

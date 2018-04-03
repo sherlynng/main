@@ -81,11 +81,6 @@ public class AddressBookTest {
     }
 
     @Test
-    /**
-     * @@author yamgent
-     * Reused from https://github.com/se-edu/
-     * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
-     */
     public void removeTag_nonExistingTag_addressBookUnchanged() throws PersonNotFoundException {
         addressBookWithAmyandBob.removeTag(new Tag(VALID_TAG_UNUSED));
         AddressBook expectedAddressBook = new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
@@ -93,12 +88,6 @@ public class AddressBookTest {
     }
 
     @Test
-    /**
-     * @@author yamgent
-     * Reused from https://github.com/se-edu/
-     * addressbook-level4/pull/790/
-     * commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
-     */
     public void removeTag_tagUsedByMultiplePersons_tagRemoved() throws PersonNotFoundException {
         addressBookWithAmyandBob.removeTag(new Tag(VALID_TAG_FRIEND));
         Person amyWithoutFriendTag = new PersonBuilder(AMY).withTags().build();

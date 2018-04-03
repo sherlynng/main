@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+//@@author alexawangzi
 /**
  * Helper class to change a string to proper class
  */

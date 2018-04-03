@@ -25,6 +25,7 @@ public class UniquePairListTest {
         uniquePairList.asObservableList().remove(0);
     }
 
+    //@@author alexawangzi
     @Test
     public void checkContainPair() throws DuplicatePairException {
         UniquePairList uniquePairList = new UniquePairList();
@@ -33,6 +34,7 @@ public class UniquePairListTest {
         assertFalse(uniquePairList.contains(RANDOM_PAIR_B));
     }
 
+    //@@author alexawangzi
     @Test
     public void addPair() throws DuplicatePairException {
         UniquePairList uniquePairList = new UniquePairList();
@@ -40,6 +42,7 @@ public class UniquePairListTest {
         assertTrue(uniquePairList.contains(RANDOM_PAIR_A));
     }
 
+    //@@author alexawangzi
     @Test
     public void setPair() throws DuplicatePairException, PairNotFoundException {
         UniquePairList listA = new UniquePairList();
@@ -51,6 +54,7 @@ public class UniquePairListTest {
 
     }
 
+    //@@author alexawangzi
     @Test
     public void setPairs() throws DuplicatePairException, PairNotFoundException {
         UniquePairList listA = new UniquePairList();
@@ -61,7 +65,7 @@ public class UniquePairListTest {
         assertEquals(listA, listB);
     }
 
-
+    //@@author alexawangzi
     @Test
     public void removePair() throws DuplicatePairException, PairNotFoundException {
         UniquePairList listA = new UniquePairList();

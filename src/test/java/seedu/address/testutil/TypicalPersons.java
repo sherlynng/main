@@ -79,6 +79,15 @@ public class TypicalPersons {
             .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
             .withLevel("lower Sec").withPrice("120").withStatus("not Matched")
             .withRole("Student").withRemark("Constantly postponing lessons.").build();
+    public static final Person LISA = new PersonBuilder().withName("Lisa Ong").withPhone("8482131")
+            .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
+            .withLevel("lower Sec").withPrice("120").withStatus("not Matched")
+            .withRole("Student").withRemark("Hardworking.").build();
+    public static final Person MARY = new PersonBuilder().withName("Mary Lou").withPhone("8482131")
+            .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
+            .withLevel("lower Sec").withPrice("120").withStatus("not Matched")
+            .withRole("Tutor").withRemark("Hardworking.").build();
+
 
 
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("8482424")
@@ -168,7 +177,7 @@ public class TypicalPersons {
 
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE,
-                HENRY, IRENE, JENNY, KEITH));
+                HENRY, IRENE, JENNY, KEITH, LISA, MARY));
     }
 
 

@@ -179,6 +179,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     //// pair-level operations
 
+    //@@author alexawangzi
     /**
      * Adds a pair to the address book.
      * @param key
@@ -188,6 +189,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         pairs.add(key);
     }
 
+    //@@author alexawangzi
     /**
      * Adds a pair to the address book
      * @param student
@@ -206,13 +208,12 @@ public class AddressBook implements ReadOnlyAddressBook {
         flipStatus(tutor, pairHash);
     }
 
-
+    //@@author alexawangzi
     /**
      * Removes {@code key} from this {@code AddressBook}.
      * @throws seedu.address.model.pair.exceptions.PairNotFoundException if the {@code key} is not in this
      * {@code AddressBook}.gr
      */
-
     public boolean removePair(Pair key) throws PairNotFoundException {
         if (pairs.remove(key)) {
             PairHash pairHash = key.getPairHash();
@@ -227,7 +228,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
-
+    //@@author alexawangzi
     /**
      * flip the status of a person, update pairhash and tags accordingly
      * if the person is currently matched, update status to be "Not Matched" and pairhash to be 0,
@@ -329,7 +330,6 @@ public class AddressBook implements ReadOnlyAddressBook {
      *
      * Removes {@code tag} from {@code person} in this {@code AddressBook}.
      * @throws PersonNotFoundException if the {@code person} is not in this {@code AddressBook}.
-     * @@author yamgent
      * Reused from https://github.com/se-edu/
      * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
      */
@@ -353,7 +353,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      *
      * Removes unsed {@code tag} from this {@code AddressBook}.
-     * @@author yamgent
      * Reused from https://github.com/se-edu/
      * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
      */

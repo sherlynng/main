@@ -11,7 +11,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.pair.Pair;
 import seedu.address.model.pair.exceptions.PairNotFoundException;
 
-
+//@@author alexawangzi
 /**
  * Unmatch a pair listed in STUtor
  */
@@ -38,6 +38,7 @@ public class UnmatchCommand extends UndoableCommand {
         this.targetIndex = targetIndex;
     }
 
+    //@@author alexawangzi
     @Override
     public CommandResult executeUndoableCommand() {
         requireNonNull(pairToUnmatch);
@@ -49,7 +50,7 @@ public class UnmatchCommand extends UndoableCommand {
         return new CommandResult(String.format(MESSAGE_UNMATCH_PAIR_SUCCESS, pairToUnmatch));
     }
 
-
+    //@@author alexawangzi
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Pair> lastShownList = model.getFilteredPairList();
