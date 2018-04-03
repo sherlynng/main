@@ -164,7 +164,7 @@ Press kbd:[Delete] key to delete a field (and its prefix).
 
 image::AutofillEdit.png[width="800"]
 
-==== Filtering all persons list by subject, level, role or status: `*filter*` (In V1.3)
+==== Filtering all persons list by subject, level, role or status: `*filter*` `[In V1.3]`
 Format: `*filter* KEYWORD`
 
 Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain any of the given keywords. +
@@ -213,7 +213,7 @@ Returns `john` and `John Doe`
 * `*find* Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
-==== Finding people with missing fields: `*findmissing*` or `*fm*` (In V1.4)
+==== Finding people with missing fields: `*findmissing*` or `*fm*` `[In V1.4]`
 Format: `*findmissing* [FIELD]...`
 
 If no arguments for FIELD is entered, lists all people with at least one field with an empty value. +
@@ -299,7 +299,7 @@ INDEX to be specified will be highlighted.
 
 image::AutofillSelect.png[width="500"]
 
-==== Match a student and a tutor : `*match*` or `*m*`
+==== Match a student and a tutor : `*match*` or `*m*` `[In V1.4]`
 Format: `*match* INDEX_A INDEX_B`
 
 Selects the persons identified by the index numbers used in the *last person listing*. +
@@ -399,7 +399,7 @@ Format: `*clear*`
 
 To clear all entries from your STUtor, use the `*clear*` command. +
 
-==== Creating a remark for a person : `*remark*` or `*rm*` (In V1.3)
+==== Creating a remark for a person : `*remark*` or `*rm*` `[In V1.3]`
 Format: `*remark* INDEX r/`
 
 Creates a remark for the person identified by the index number used in the *last person listing*. +
@@ -419,7 +419,7 @@ Creates a remark 'Fast learner.' for the 2nd person in STUtor.
 `*remark* 1 r/` +
 Removes the remark for the 1st person in the results of the `*find*` command.
 
-==== Viewing the statistic : `*viewStats*` (In V1.4)
+==== Viewing the statistic : `*viewStats*` `[In V1.4]`
 Format: `*viewStats*`
 
 Shows statistical information such as role distribution(Student/Tutor ratio) in the form of a pie chart. +
