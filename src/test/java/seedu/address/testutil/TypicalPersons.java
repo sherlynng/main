@@ -75,7 +75,7 @@ public class TypicalPersons {
             .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
             .withLevel("lower Sec").withPrice("4321").withStatus("not Matched")
             .withRole("Tutor").withRemark("Constantly postponing lessons.").build();
-    public static final Person KEN = new PersonBuilder().withName("Ken Chang").withPhone("8482131")
+    public static final Person KEITH = new PersonBuilder().withName("Keith Chang").withPhone("8482131")
             .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
             .withLevel("lower Sec").withPrice("120").withStatus("not Matched")
             .withRole("Student").withRemark("Constantly postponing lessons.").build();
@@ -168,7 +168,7 @@ public class TypicalPersons {
 
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE,
-                HENRY, IRENE, JENNY, KEN));
+                HENRY, IRENE, JENNY, KEITH));
     }
 
 
