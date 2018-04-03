@@ -208,7 +208,7 @@ public class PersonBuilder {
         return this;
     }
 
-     /**
+    /**
      * Sets the {@code pairhash} of the {@code Person} that we are building.
      */
     public PersonBuilder withPairhash(PairHash pairhash) {

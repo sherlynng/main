@@ -26,7 +26,7 @@
         <role isPrivate="false">student</role>
 		<status isPrivate="false">not matched</status>
         <remark isPrivate="false"> - </remark>
-        <rate isPrivate="false">3</rate>
+        <rate isPrivate="false">3.0</rate>
         <count isPrivate="false">1</count>
         <pairHash isPrivate="false">0</pairHash>
 	</persons>
