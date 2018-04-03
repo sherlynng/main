@@ -272,99 +272,6 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         }
     }
 
-
-    //// tag-level operations
-
-    public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
-        tags.add(t);
-    }
-
-    //// util methods
-
-    @Override
-    public String toString() {
-        return persons.asObservableList().size() + " persons, " + tags.asObservableList().size() +  " tags";
-        // TODO: refine later
-    }
-
-    @Override
-    public ObservableList<Person> getPersonList() {
-        return persons.asObservableList();
-    }
-
-    @Override
-    public ObservableList<seedu.address.model.pair.Pair> getPairList() {
-        return pairs.asObservableList();
-    }
-
-    @Override
-    public ObservableList<Tag> getTagList() {
-        return tags.asObservableList();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof AddressBook // instanceof handles nulls
-                && this.persons.equals(((AddressBook) other).persons)
-                && this.tags.equalsOrderInsensitive(((AddressBook) other).tags));
-    }
-
-    @Override
-    public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(persons, tags);
-    }
-
-    /**
-     * Removes {@code tag} from this {@code AddressBook}.
-     * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
-     */
-
-    public void removeTag(Tag tag) throws PersonNotFoundException {
-        for (Person person : persons) {
-            removeTagFromPerson(tag, person);
-        }
-    }
-
-    /**
-     *
-     * Removes {@code tag} from {@code person} in this {@code AddressBook}.
-     * @throws PersonNotFoundException if the {@code person} is not in this {@code AddressBook}.
-     * Reused from https://github.com/se-edu/
-     * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
-     */
-    private void removeTagFromPerson(Tag tag, Person person) throws PersonNotFoundException {
-        Set<Tag> updatedTags = new HashSet<>(person.getTags());
-        if (!updatedTags.remove(tag)) {
-            return;
-        }
-        Person updatedPerson = new Person (person.getName(), person.getPhone(),
-                person.getEmail(), person.getAddress(), person.getPrice(),
-               person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                updatedTags, person.getRemark(), person.getRate(), person.getPairHash());
-        try {
-            updatePerson(person, updatedPerson);
-        } catch (DuplicatePersonException dupe) {
-            throw new AssertionError("Modifying a person's tags only should not result in a duplicate. "
-                     + "See Person#equals(Object).");
-        }
-    }
-
-    /**
-     *
-     * Removes unsed {@code tag} from this {@code AddressBook}.
-     * Reused from https://github.com/se-edu/
-     * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
-     */
-    private void removeUnusedTags() {
-        Set<Tag> tagsInPersons = persons.asObservableList().stream()
-                           .map(Person::getTags)
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
-        tags.setTags(tagsInPersons);
-    }
-}
 ```
 ###### \java\seedu\address\model\ModelManager.java
 ``` java
@@ -395,70 +302,6 @@ public class MatchCommandParser implements Parser<MatchCommand> {
 
     //=========== Filtered Person List Accessors =============================================================
 
-    /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code addressBook}
-     */
-    @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        return FXCollections.unmodifiableObservableList(filteredPersons);
-    }
-
-    @Override
-    public void updateFilteredPersonList(Predicate<Person> predicate) {
-        requireNonNull(predicate);
-        filteredPersons.setPredicate(predicate);
-    }
-
-
-    //=========== Filtered Pair List Accessors =============================================================
-
-    /**
-     * Returns an unmodifiable view of the list of {@code Pair} backed by the internal list of
-     * {@code addressBook}
-     */
-
-    @Override
-    public ObservableList<Pair> getFilteredPairList() {
-        return FXCollections.unmodifiableObservableList(filteredPairs);
-    }
-
-    @Override
-    public void updateFilteredPairList(Predicate<Pair> predicate) {
-        requireNonNull(predicate);
-        filteredPairs.setPredicate(predicate);
-    }
-
-
-
-
-
-    @Override
-    public boolean equals(Object obj) {
-        // short circuit if same object
-        if (obj == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(obj instanceof ModelManager)) {
-            return false;
-        }
-
-        // state check
-        ModelManager other = (ModelManager) obj;
-        return addressBook.equals(other.addressBook)
-                && filteredPersons.equals(other.filteredPersons);
-    }
-
-    @Override
-    public void deleteTag (Tag tag)throws PersonNotFoundException {
-        addressBook.removeTag(tag);
-        indicateAddressBookChanged();
-    }
-
-
-}
 ```
 ###### \java\seedu\address\model\pair\Pair.java
 ``` java
@@ -668,34 +511,6 @@ public class PairHash {
         }
         return cur;
     }
-
-    /**
-     * Returns if a given string is a valid level description.
-     */
-    public static boolean isValidLevel(String test) {
-        test = test.toLowerCase();
-        return SET_ALL_LEVEL.contains(test);
-    }
-
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof Level // instanceof handles nulls
-                && this.value.equals(((Level) other).value)); // state check
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-
-}
 ```
 ###### \java\seedu\address\model\person\ProperCaseConverter.java
 ``` java
