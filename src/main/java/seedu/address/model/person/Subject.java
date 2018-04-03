@@ -38,6 +38,7 @@ public class Subject {
         return pc.convertToProperCase(subject);
     }
 
+
     /**
      * check validity of the subject string supplied
      * @param subject

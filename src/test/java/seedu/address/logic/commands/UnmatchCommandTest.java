@@ -112,38 +112,6 @@ public class UnmatchCommandTest {
         assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
     }
 
-    /**
-     * 1. Deletes a {@code Pair} from a filtered list.
-     * 2. Undo the deletion.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously deleted pair in the
-     * unfiltered list is different from the index at the filtered list.
-     * 4. Redo the deletion. This ensures {@code RedoCommand} deletes the pair object regardless of indexing.
-     */
-
-    /*
-    @Test
-    public void executeUndoRedo_validIndexFilteredList_samePairDeleted() throws Exception {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        UnmatchCommand unmatchCommand = prepareCommand(INDEX_FIRST_PAIR);
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-
-        showPairAtIndex(model, INDEX_SECOND_PAIR);
-        Pair pairToDelete = model.getFilteredPairList().get(INDEX_FIRST_PAIR.getZeroBased());
-        // delete -> deletes second pair in unfiltered pair list / first pair in filtered pair list
-        unmatchCommand.execute();
-        undoRedoStack.push(unmatchCommand);
-
-        // undo -> reverts addressbook back to previous state and filtered pair list to show all pairs
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-        expectedModel.deletePair(pairToDelete);
-        assertNotEquals(pairToDelete, model.getFilteredPairList().get(INDEX_FIRST_PAIR.getZeroBased()));
-        // redo -> deletes same second pair in unfiltered pair list
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-    */
 
     @Test
     public void equals() throws Exception {

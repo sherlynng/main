@@ -27,7 +27,6 @@ public class Level {
 
     /**
      * Constructs an {@code Level}.
-     *
      * @param level A valid level description.
      */
     public Level(String level) {
@@ -36,11 +35,18 @@ public class Level {
         this.value = formatLevel(level);
     }
 
+    //@@author alexawangzi
+    /**
+     * format the input into proper case
+     * @param level
+     * @return
+     */
     private String formatLevel(String level) {
         ProperCaseConverter pc = new ProperCaseConverter();
         return pc.convertToProperCase(level);
     }
 
+    //@@author alexawangzi
     /**
      * check validity of the level string supplied
      * @param level
@@ -53,6 +59,7 @@ public class Level {
         return level;
     }
 
+    //@@author alexawangzi
     /**
      * Convert a shortcut to full level name
      */

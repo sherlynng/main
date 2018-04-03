@@ -36,6 +36,7 @@ public class MatchCommand extends UndoableCommand {
     private Person tutor;
 
 
+    //@@author alexawangzi
     /**
      * @param indexA,of the person in the filtered person list to match
      */
@@ -46,6 +47,7 @@ public class MatchCommand extends UndoableCommand {
     }
 
 
+    //@@author alexawangzi
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
 
@@ -54,6 +56,7 @@ public class MatchCommand extends UndoableCommand {
                 + " and " + tutor.getName().fullName));
     }
 
+    //@@author alexawangzi
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Person> lastShownList = model.getFilteredPersonList();

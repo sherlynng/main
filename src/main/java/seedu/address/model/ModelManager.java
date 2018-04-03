@@ -90,13 +90,14 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     //============Pair operation=============================================================================
-
+    //@@author alexawangzi
     @Override
     public void deletePair(Pair target) throws PairNotFoundException {
         addressBook.removePair(target);
         indicateAddressBookChanged();
     }
 
+    //@@author alexawangzi
     /**
      * Add a pair to STUtor
      * @param student
