@@ -76,7 +76,7 @@ public class Level {
         }
         return cur;
     }
-
+    //@@author
     /**
      * Returns if a given string is a valid level description.
      */

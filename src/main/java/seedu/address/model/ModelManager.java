@@ -116,6 +116,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     //=========== Filtered Person List Accessors =============================================================
 
+    //@@author
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
      * {@code addressBook}
