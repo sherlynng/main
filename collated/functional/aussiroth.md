@@ -1,7 +1,28 @@
 # aussiroth
 ###### \java\seedu\address\logic\commands\EditCommand.java
 ``` java
-    private static Set<Tag> getAttributeTags(Person personToEdit, Price updatedPrice, Subject updatedSubject, Level updatedLevel, Status updatedStatus, Role updatedRole, Set<Tag> updatedTags) {
+    private static Role getUpdatedRole(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getRole().orElse(personToEdit.getRole());
+    }
+
+    private static Status getUpdatedStatus(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
+    }
+
+    private static Level getUpdatedLevel(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getLevel().orElse(personToEdit.getLevel());
+    }
+
+    private static Subject getUpdatedSubject(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getSubject().orElse(personToEdit.getSubject());
+    }
+
+    private static Price getUpdatedPrice(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getPrice().orElse(personToEdit.getPrice());
+    }
+
+    private static Set<Tag> getAttributeTags(Person personToEdit, Price updatedPrice,
+        Subject updatedSubject, Level updatedLevel, Status updatedStatus, Role updatedRole, Set<Tag> updatedTags) {
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
         //clean out old person's attribute tags, then add the new ones

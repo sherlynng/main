@@ -141,6 +141,23 @@ public class EditCommand extends UndoableCommand {
         return editPersonDescriptor.getTags().orElse(personToEdit.getTags());
     }
 
+    private static Address getUpdatedAddress(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
+    }
+
+    private static Email getUpdatedEmail(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
+    }
+
+    private static Phone getUpdatedPhone(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
+    }
+
+    private static Name getUpdatedName(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getName().orElse(personToEdit.getName());
+    }
+
+    //@@author aussiroth
     private static Role getUpdatedRole(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
         return editPersonDescriptor.getRole().orElse(personToEdit.getRole());
     }
@@ -161,24 +178,8 @@ public class EditCommand extends UndoableCommand {
         return editPersonDescriptor.getPrice().orElse(personToEdit.getPrice());
     }
 
-    private static Address getUpdatedAddress(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
-        return editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-    }
-
-    private static Email getUpdatedEmail(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
-        return editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
-    }
-
-    private static Phone getUpdatedPhone(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
-        return editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-    }
-
-    private static Name getUpdatedName(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
-        return editPersonDescriptor.getName().orElse(personToEdit.getName());
-    }
-
-    //@@author aussiroth
-    private static Set<Tag> getAttributeTags(Person personToEdit, Price updatedPrice, Subject updatedSubject, Level updatedLevel, Status updatedStatus, Role updatedRole, Set<Tag> updatedTags) {
+    private static Set<Tag> getAttributeTags(Person personToEdit, Price updatedPrice,
+        Subject updatedSubject, Level updatedLevel, Status updatedStatus, Role updatedRole, Set<Tag> updatedTags) {
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
         //clean out old person's attribute tags, then add the new ones
