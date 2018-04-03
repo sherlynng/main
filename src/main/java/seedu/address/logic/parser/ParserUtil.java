@@ -295,6 +295,7 @@ public class ParserUtil {
         return tagSet;
     }
 
+    //@@author sherlynng
     /**
      * Parses a {@code String remark} into a {@code Remark}.
      * Leading and trailing whitespaces will be trimmed.

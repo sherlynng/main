@@ -8,6 +8,7 @@ import org.junit.Test;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.Assert;
 
+//@@author sherlynng
 public class RateTest {
 
     @Test

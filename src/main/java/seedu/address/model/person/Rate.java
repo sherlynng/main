@@ -5,6 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.text.DecimalFormat;
 
+//@@author sherlynng
 /**
  * Represents a Person's rating in the address book.
  * Guarantees: immutable;

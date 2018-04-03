@@ -14,6 +14,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.model.person.Remark;
 
+//@@author sherlynng
 public class RemarkCommandParserTest {
 
     private static final String TAG_EMPTY = " " + PREFIX_TAG;

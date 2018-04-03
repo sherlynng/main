@@ -69,6 +69,7 @@ public class CommandBox extends UiPart<Region> {
             keyEvent.consume();
             navigateToNextInput();
             break;
+        //@@author sherlynng
         case TAB:
             keyEvent.consume();
             autofillCommand();
@@ -175,6 +176,7 @@ public class CommandBox extends UiPart<Region> {
         commandTextField.positionCaret(indexPosition);
         commandTextField.selectBackward();
     }
+    //@@author
 
     /**
      * Updates the text field with the previous input in {@code historySnapshot},

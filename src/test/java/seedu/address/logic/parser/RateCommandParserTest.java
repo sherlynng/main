@@ -18,6 +18,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.RateCommand;
 import seedu.address.model.person.Rate;
 
+//@@author sherlynng
 public class RateCommandParserTest {
 
     private static final String MESSAGE_INVALID_FORMAT =

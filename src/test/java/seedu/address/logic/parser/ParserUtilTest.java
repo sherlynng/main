@@ -239,6 +239,7 @@ public class ParserUtilTest {
         assertEquals(expectedTagSet, actualTagSet);
     }
 
+    //@@author sherlynng
     @Test
     public void parseRemark_null_returnsEmptyStringRemark() {
         Remark expectedRemark = new Remark("");

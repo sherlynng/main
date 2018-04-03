@@ -258,6 +258,7 @@ public class AddressBookParserTest {
         assertEquals(new RemoveTagCommand(new Tag(VALID_TAG_FRIEND)), command);
     }
 
+    //@@author sherlynng
     @Test
     public void parseCommand_remark() throws Exception {
         RemarkCommand command = (RemarkCommand) parser.parseCommand(RemarkCommand.COMMAND_WORD + " "
@@ -289,6 +290,7 @@ public class AddressBookParserTest {
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
         assertEquals(new RateCommand(INDEX_FIRST_PERSON, rate), command);
     }
+    //@@author
 
     @Test
     public void parseCommand_unrecognisedInput_throwsParseException() throws Exception {
