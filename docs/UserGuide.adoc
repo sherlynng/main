@@ -300,7 +300,7 @@ INDEX to be specified will be highlighted.
 image::AutofillSelect.png[width="500"]
 
 ==== Match a student and a tutor : `*match*` or `*m*` `[In V1.4]`
-Format: `*match* INDEX_A INDEX_B`
+Format: `*match* INDEX_A INDEX_B` or `*m* INDEX_A INDEX_B`
 
 Selects the persons identified by the index numbers used in the *last person listing*. +
 
@@ -333,6 +333,21 @@ The order of entering indices does not matter.
 That is, you can enter the student's index first followed by the tutor's index,
 or the other way round.
 ====
+
+==== Unmatch a student and a tutor : `*ummatch*` or `*um*` `[In V1.4]`
+Format: `*unmatch* INDEX_A INDEX_B` or `*um* INDEX_A INDEX_B`
+
+Selects the pair identified by the index numbers used in the pair listing. +
+
+****
+* The index refers to the index number shown in the most recent listing,
+and *must be a positive integer* `1, 2, 3, ...`
+****
+
+Examples:
+
+* `*unmatch* 1` +
+Match the pair at index 1. +
 
 ==== Listing entered commands : `*history*` or `*h*`
 Format: `*history*`
