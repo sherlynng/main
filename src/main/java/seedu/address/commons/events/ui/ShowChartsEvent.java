@@ -2,6 +2,7 @@ package seedu.address.commons.events.ui;
 
 import seedu.address.commons.events.BaseEvent;
 
+//@@author dannyngmx94
 /**
  * An event requesting to view charts in person panel.
  */
