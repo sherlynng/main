@@ -27,6 +27,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
@@ -85,9 +86,11 @@ public class AddCommandParser implements Parser<AddCommand> {
             }
 
             Remark remark = new Remark("");  // default remark is empty string for newly added Person
+            Rate rate = new Rate(3, true); // default rating is 3
+            rate.setCount(1); // default rate count is 1
 
             Person person = new Person(name, phone, email, address, price, subject, level,
-                    status, role, tagList, remark, PairHash.getDefaultPairHash());
+                                       status, role, tagList, remark, rate, PairHash.getDefaultPairHash());
             return new AddCommand(person);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);

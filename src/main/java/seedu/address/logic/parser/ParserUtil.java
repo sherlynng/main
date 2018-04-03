@@ -16,6 +16,7 @@ import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
@@ -294,6 +295,7 @@ public class ParserUtil {
         return tagSet;
     }
 
+    //@@author sherlynng
     /**
      * Parses a {@code String remark} into a {@code Remark}.
      * Leading and trailing whitespaces will be trimmed.
@@ -314,5 +316,42 @@ public class ParserUtil {
     public static Optional<Remark> parseRemark(Optional<String> remark) throws IllegalValueException {
         requireNonNull(remark);
         return remark.isPresent() ? Optional.of(parseRemark(remark.get())) : Optional.empty();
+    }
+
+    /**
+     * Parses a {@code String rate} into a {@code Rate}.
+     * Leading and trailing whitespaces will be trimmed.
+     * Checks if user wants absolute or cummulative rating.
+     */
+    public static Rate parseRate(String rate) throws IllegalValueException {
+        requireNonNull(rate);
+
+        if (rate.equals("")) {
+            throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
+        }
+
+        Character lastChar = rate.charAt(rate.length() - 1);
+        boolean isAbsolute = false;
+
+        // user wants absolute rate value
+        if (lastChar.equals('-')) {
+            rate = rate.substring(0, rate.length() - 1);
+            isAbsolute = true;
+        }
+        String trimmedRate = rate.trim();
+        if (!Rate.isValidRate(rate)) {
+            throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
+        }
+
+        return new Rate(Double.parseDouble(trimmedRate), isAbsolute);
+    }
+
+    /**
+     * Parses a {@code Optional<String> rate} into an {@code Optional<Rate>} if {@code rate} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<Rate> parseRate(Optional<String> rate) throws IllegalValueException {
+        requireNonNull(rate);
+        return rate.isPresent() ? Optional.of(parseRate(rate.get())) : Optional.empty();
     }
 }

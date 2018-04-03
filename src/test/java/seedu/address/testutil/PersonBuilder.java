@@ -11,6 +11,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
@@ -34,6 +35,8 @@ public class PersonBuilder {
     public static final String DEFAULT_ROLE = "Student";
     public static final String DEFAULT_TAGS = "Friend";
     public static final String DEFAULT_REMARK = "Hardworking but slow learner.";
+    public static final String DEFAULT_RATE = "3.0";
+    public static final int DEFAULT_RATECOUNT = 1;
     public static final PairHash DEFAULT_PAIRHASH = PairHash.getDefaultPairHash();
 
     private Name name;
@@ -47,6 +50,7 @@ public class PersonBuilder {
     private Role role;
     private Set<Tag> tags;
     private Remark remark;
+    private Rate rate;
     private PairHash pairhash;
 
     public PersonBuilder() {
@@ -61,6 +65,8 @@ public class PersonBuilder {
         role = new Role(DEFAULT_ROLE);
         tags = SampleDataUtil.getTagSet();
         remark = new Remark(DEFAULT_REMARK);
+        rate = new Rate(Double.parseDouble(DEFAULT_RATE), true);
+        rate.setCount(DEFAULT_RATECOUNT);
         pairhash = DEFAULT_PAIRHASH;
     }
 
@@ -79,6 +85,7 @@ public class PersonBuilder {
         role = personToCopy.getRole();
         tags = new HashSet<>(personToCopy.getTags());
         remark = personToCopy.getRemark();
+        rate = personToCopy.getRate();
         pairhash = personToCopy.getPairHash();
     }
 
@@ -192,10 +199,21 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code Rate} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRate(String rate, String rateCount) {
+        this.rate = new Rate(Double.parseDouble(rate), true);
+        this.rate.setCount(Integer.parseInt(rateCount));
+
+        return this;
+    }
+
+    /**
      * Sets the {@code pairhash} of the {@code Person} that we are building.
      */
     public PersonBuilder withPairhash(PairHash pairhash) {
         this.pairhash = pairhash;
+
         return this;
     }
 
@@ -205,7 +223,8 @@ public class PersonBuilder {
      */
     public Person build() {
         setTags();
-        return new Person(name, phone, email, address, price, subject, level, status, role, tags, remark, pairhash);
+        return new Person(name, phone, email, address, price, subject, level, status, role, tags,
+                          remark, rate, pairhash);
     }
 
 }

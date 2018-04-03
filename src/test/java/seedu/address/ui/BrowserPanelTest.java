@@ -13,6 +13,7 @@ import guitests.guihandles.BrowserPanelHandle;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.Person;
 
+//@@author sherlynng
 public class BrowserPanelTest extends GuiUnitTest {
     private PersonPanelSelectionChangedEvent selectionChangedEventStubStudent;
     private PersonPanelSelectionChangedEvent selectionChangedEventStubTutor;
