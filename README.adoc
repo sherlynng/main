@@ -13,12 +13,6 @@ ifdef::env-github[]
 image::docs/images/Ui.png[width="600"]
 endif::[]
 
-* Match Student and Tutor Mock Up
-
-ifdef::env-github[]
-image::docs/images/UiMatch.png[width="600"]
-endif::[]
-
 * This is a desktop Address Book application, specialised for people who need to coordinate tutors with students.
 * Whether working for a tuition company, or as a freelance, this will help you keep track of everything going on with your students and tutors.
 
