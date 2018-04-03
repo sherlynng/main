@@ -55,6 +55,7 @@ public class XmlAdaptedPerson {
     private String rate;
     @XmlElement(required = true)
     private String count;
+    @XmlElement(required = true)
     private String pairHash;
 
     @XmlElement
