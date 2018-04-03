@@ -26,6 +26,7 @@ public class TagTest {
         Assert.assertThrows(NullPointerException.class, () -> Tag.isValidTagName(null));
     }
 
+    //@@author aussiroth
     @Test
     public void isValidTagType() {
         //incorrect string

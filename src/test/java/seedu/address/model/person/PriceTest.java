@@ -29,6 +29,7 @@ public class PriceTest {
         assertTrue(Price.isValidPrice("123456")); // large number
     }
 
+    //@@author aussiroth
     @Test
     public void checkPriceEquality() {
         //test price against non-price type

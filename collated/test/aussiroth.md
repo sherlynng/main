@@ -1,4 +1,104 @@
 # aussiroth
+###### \java\seedu\address\logic\commands\FindMissingCommandTest.java
+``` java
+/**
+ * Contains integration tests (interaction with the Model) for {@code FindMissingCommand}.
+ */
+public class FindMissingCommandTest {
+    private Model missingAttributesModel = new ModelManager(getMissingAttributesAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+    @Test
+    public void equalsTest() {
+        FindMissingPredicate firstPredicate =
+                new FindMissingPredicate(Collections.singletonList("first"));
+        FindMissingPredicate secondPredicate =
+                new FindMissingPredicate(Collections.singletonList("second"));
+
+        FindMissingCommand firstCommand = new FindMissingCommand(firstPredicate);
+        FindMissingCommand secondCommand = new FindMissingCommand(secondPredicate);
+
+        // same object -> returns true
+        assertTrue(firstCommand.equals(firstCommand));
+        // same values -> returns true
+        FindMissingCommand firstCommandCopy = new FindMissingCommand(firstPredicate);
+        assertTrue(firstCommand.equals(firstCommandCopy));
+        // different types -> returns false
+        assertFalse(firstCommand.equals("A String"));
+        // null -> returns false
+        assertFalse(firstCommand.equals(null));
+        // different input list -> returns false
+        assertFalse(firstCommand.equals(secondCommand));
+    }
+
+    @Test
+    public void execute_noMissingFields_noPersonFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
+        //special prepare command/assert command success using the typical persons model
+        FindMissingCommand command = new FindMissingCommand(
+                new FindMissingPredicate(Arrays.asList("phone")));
+        command.setData(model, new CommandHistory(), new UndoRedoStack());
+        AddressBook expectedAddressBook = new AddressBook(model.getAddressBook());
+        CommandResult result = command.execute();
+        assertEquals(expectedMessage, result.feedbackToUser);
+        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
+        assertEquals(expectedAddressBook, model.getAddressBook());
+    }
+
+    @Test
+    public void execute_oneField_onePersonFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
+        FindMissingCommand command = prepareCommand("phone");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(JAMES));
+        command = prepareCommand("email");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(JAMES));
+        command = prepareCommand("address");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(KEN));
+        command = prepareCommand("subject");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(KEN));
+        command = prepareCommand("level");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(LENNY));
+        command = prepareCommand("price");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(LENNY));
+        command = prepareCommand("status");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(MISTER));
+        command = prepareCommand("role");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(MISTER));
+    }
+
+    @Test
+    public void execute_multipleField_multiplePersonFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 2);
+        FindMissingCommand command = prepareCommand("email address");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(JAMES, KEN));
+    }
+
+    /**
+     * Parses {@code userInput} into a {@code FindMissingCommand}.
+     */
+    private FindMissingCommand prepareCommand(String userInput) {
+        FindMissingCommand command = new FindMissingCommand(
+                new FindMissingPredicate(Arrays.asList(userInput.split("\\s+"))));
+        command.setData(missingAttributesModel, new CommandHistory(), new UndoRedoStack());
+        return command;
+    }
+
+    /**
+     * Asserts that {@code command} is successfully executed, and<br>
+     *     - the command feedback is equal to {@code expectedMessage}<br>
+     *     - the {@code FilteredList<Person>} is equal to {@code expectedList}<br>
+     *     - the {@code AddressBook} in model remains the same after executing the {@code command}
+     */
+    private void assertCommandSuccess(FindMissingCommand command, String expectedMessage, List<Person> expectedList) {
+        AddressBook expectedAddressBook = new AddressBook(missingAttributesModel.getAddressBook());
+        CommandResult result = command.execute();
+
+        assertEquals(expectedMessage, result.feedbackToUser);
+        assertEquals(expectedList, missingAttributesModel.getFilteredPersonList());
+        assertEquals(expectedAddressBook, missingAttributesModel.getAddressBook());
+    }
+}
+```
 ###### \java\seedu\address\logic\parser\AddCommandParserTest.java
 ``` java
     @Test
@@ -271,6 +371,28 @@ public class FindMissingCommandParserTest {
     }
 }
 ```
+###### \java\seedu\address\model\person\EmailTest.java
+``` java
+    @Test
+    public void checkEmailEquality() {
+        //test email against non-email type
+        assertFalse(new Email("test@abc.com").equals(null));
+        assertFalse(new Email("test@abc.com").equals(new Address("test@abc.com")));
+        //test correctly returns equal if email string is the same
+        assertTrue(new Email("test@abc.com").equals(new Email("test@abc.com")));
+    }
+
+    @Test
+    public void checkEmailHashCode() {
+        Email email = new Email("PeterJack_1190@example.com");
+        assertTrue(email.hashCode() == email.value.hashCode());
+        email = new Email("test@localhost");
+        assertTrue(email.hashCode() == email.value.hashCode());
+        email = new Email("peter_jack@very-very-very-long-example.com");
+        assertTrue(email.hashCode() == email.value.hashCode());
+    }
+}
+```
 ###### \java\seedu\address\model\person\LevelTest.java
 ``` java
 public class LevelTest {
@@ -316,50 +438,25 @@ public class LevelTest {
     }
 }
 ```
-###### \java\seedu\address\model\person\PhoneTest.java
+###### \java\seedu\address\model\person\NameTest.java
 ``` java
-public class PhoneTest {
-
     @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new Phone(null));
+    public void checkNameEquality() {
+        //test name against non-name type
+        assertFalse(new Name("Stutor").equals(null));
+        assertFalse(new Name("Stutor").equals(new Address("Stutor")));
+        //test correctly returns equal if name string is the same
+        assertTrue(new Name("Stutor").equals(new Name("Stutor")));
     }
 
     @Test
-    public void isValidPhone() {
-        // null phone number
-        Assert.assertThrows(NullPointerException.class, () -> Phone.isValidPhone(null));
-
-        // invalid phone numbers
-        assertFalse(Phone.isValidPhone(" ")); // spaces only
-        assertFalse(Phone.isValidPhone("91")); // less than 3 numbers
-        assertFalse(Phone.isValidPhone("phone")); // non-numeric
-        assertFalse(Phone.isValidPhone("9011p041")); // alphabets within digits
-        assertFalse(Phone.isValidPhone("9312 1534")); // spaces within digits
-
-        // valid phone numbers
-        assertTrue(Phone.isValidPhone("911")); // exactly 3 numbers
-        assertTrue(Phone.isValidPhone("93121534"));
-        assertTrue(Phone.isValidPhone("124293842033123")); // long phone numbers
-    }
-
-    @Test
-    public void checkPhoneEquality() {
-        //test phone against non-phone type
-        assertFalse(new Phone("91009222").equals(null));
-        assertFalse(new Phone("91009222").equals(new Address("91009222")));
-        //test correctly returns equal if phone string is the same
-        assertTrue(new Phone("91009222").equals(new Phone("91009222")));
-    }
-
-    @Test
-    public void checkPhoneHashCode() {
-        Phone phone = new Phone("911");
-        assertTrue(phone.hashCode() == phone.value.hashCode());
-        phone = new Phone("93121534");
-        assertTrue(phone.hashCode() == phone.value.hashCode());
-        phone = new Phone("124293842033123");
-        assertTrue(phone.hashCode() == phone.value.hashCode());
+    public void checkNameHashCode() {
+        Name name = new Name("peter jack");
+        assertTrue(name.hashCode() == name.fullName.hashCode());
+        name = new Name("12345");
+        assertTrue(name.hashCode() == name.fullName.hashCode());
+        name = new Name("Capital Tan");
+        assertTrue(name.hashCode() == name.fullName.hashCode());
     }
 }
 ```
@@ -385,6 +482,9 @@ public class PriceTest {
         assertTrue(Price.isValidPrice("123456")); // large number
     }
 
+```
+###### \java\seedu\address\model\person\PriceTest.java
+``` java
     @Test
     public void checkPriceEquality() {
         //test price against non-price type
@@ -487,5 +587,18 @@ public class SubjectTest {
         subject = new Subject("chemistry");
         assertTrue(subject.hashCode() == subject.value.hashCode());
     }
+}
+```
+###### \java\seedu\address\model\tag\TagTest.java
+``` java
+    @Test
+    public void isValidTagType() {
+        //incorrect string
+        assertFalse(Tag.isValidTagType("NOTATYPE"));
+        //correct type
+        assertTrue(Tag.isValidTagType("SUBJECT"));
+        assertTrue(Tag.isValidTagType("STATUS"));
+    }
+
 }
 ```

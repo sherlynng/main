@@ -26,8 +26,9 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 
+//@@author aussiroth
 /**
- * Contains integration tests (interaction with the Model) for {@code FindCommand}.
+ * Contains integration tests (interaction with the Model) for {@code FindMissingCommand}.
  */
 public class FindMissingCommandTest {
     private Model missingAttributesModel = new ModelManager(getMissingAttributesAddressBook(), new UserPrefs());
