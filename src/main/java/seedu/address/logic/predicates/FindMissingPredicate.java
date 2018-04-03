@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 import seedu.address.model.person.Person;
 
+//**@@author aussiroth
 /**
  * Tests that a {@code Person}'s specified {@code Attribute} as given in {@code keyword} is an empty string.
  */

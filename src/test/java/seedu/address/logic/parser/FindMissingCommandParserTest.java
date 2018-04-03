@@ -12,6 +12,7 @@ import seedu.address.logic.commands.FindMissingCommand;
 import seedu.address.logic.predicates.FindMissingPredicate;
 import seedu.address.model.person.Person;
 
+//@@author aussiroth
 public class FindMissingCommandParserTest {
 
     private FindMissingCommandParser parser = new FindMissingCommandParser();

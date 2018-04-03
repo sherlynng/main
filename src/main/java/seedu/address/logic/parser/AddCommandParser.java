@@ -65,6 +65,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).orElse(new Role(""));
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
+            //@@author aussiroth
             //Add required attributes to the tag list as in documentation
             //make tags only if the attribute has been entered by user
             if (!price.toString().equals("")) {

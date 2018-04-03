@@ -330,6 +330,40 @@ public class MatchCommandParser implements Parser<MatchCommand> {
      *
      * Removes {@code tag} from {@code person} in this {@code AddressBook}.
      * @throws PersonNotFoundException if the {@code person} is not in this {@code AddressBook}.
+     * Reused from https://github.com/se-edu/
+     * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
+     */
+    private void removeTagFromPerson(Tag tag, Person person) throws PersonNotFoundException {
+        Set<Tag> updatedTags = new HashSet<>(person.getTags());
+        if (!updatedTags.remove(tag)) {
+            return;
+        }
+        Person updatedPerson = new Person (person.getName(), person.getPhone(),
+                person.getEmail(), person.getAddress(), person.getPrice(),
+               person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
+                updatedTags, person.getRemark(), person.getPairHash());
+        try {
+            updatePerson(person, updatedPerson);
+        } catch (DuplicatePersonException dupe) {
+            throw new AssertionError("Modifying a person's tags only should not result in a duplicate. "
+                     + "See Person#equals(Object).");
+        }
+    }
+
+    /**
+     *
+     * Removes unsed {@code tag} from this {@code AddressBook}.
+     * Reused from https://github.com/se-edu/
+     * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
+     */
+    private void removeUnusedTags() {
+        Set<Tag> tagsInPersons = persons.asObservableList().stream()
+                           .map(Person::getTags)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+        tags.setTags(tagsInPersons);
+    }
+}
 ```
 ###### \java\seedu\address\model\ModelManager.java
 ``` java
