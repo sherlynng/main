@@ -130,8 +130,9 @@ public class RateCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().withName("Alice Pauline")
                 .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
-                .withPrice("50").withSubject("math").withStatus("not Matched").withLevel("lower Sec")
-                .withRole("Student").withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
+                .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
+                .withRole("Tutor").withRemark("Hardworking but slow learner.")
+                .withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
         rate.setCount(Integer.parseInt(RATECOUNT_BOB));
@@ -182,8 +183,8 @@ public class RateCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().withName("Benson Meier")
                 .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
-                .withPrice("150").withSubject("english").withStatus("not Matched").withLevel("upper Sec")
-                .withRole("Student").withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
+                .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
+                .withRole("Student").withRemark("Not self motivated.").withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
         rate.setCount(Integer.parseInt(RATECOUNT_BOB));
         RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);
