@@ -8,6 +8,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.predicates.FindMissingPredicate;
 import seedu.address.model.person.Person;
 
+//**@@author aussiroth
 /**
  * Parses input arguments and creates a new FilterCommand object
  */
@@ -16,7 +17,7 @@ public class FindMissingCommandParser implements Parser<FindMissingCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the FindMissingCommand
      * and returns an FindMissingCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input contains non-attribute values
      */
     public FindMissingCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();

@@ -156,6 +156,7 @@ public class AddCommandParserTest {
                 MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
     }
 
+    //@@author aussiroth
     @Test
     public void parse_compulsoryFieldMissing_failure() {
         //Only name is compulsory now
@@ -297,7 +298,7 @@ public class AddCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
     }
 
-
+    //@@author
     @Test
     public void parse_fieldsCaseInsensitive_success() {
         Person expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
