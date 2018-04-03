@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.pair.Pair;
+import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -31,6 +32,8 @@ public interface Model {
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 
+    //=================Person operations===========================
+
     /** Deletes the given person. */
     void deletePerson(Person target) throws PersonNotFoundException;
 
@@ -57,6 +60,15 @@ public interface Model {
     void updateFilteredPersonList(Predicate<Person> predicate);
 
 
+    //=================Pair operations===========================
+
+    /** Adds the given pair */
+    void addPair(Person student, Person tutor) throws DuplicatePersonException;
+
+    /** Deletes the given pair. */
+    void deletePair(Pair target) throws PairNotFoundException;
+
+
     /** Returns an unmodifiable view of the filtered pair list */
     ObservableList<Pair> getFilteredPairList();
 
@@ -72,4 +84,7 @@ public interface Model {
      * @throws PersonNotFoundException
      */
     void deleteTag (Tag tag)throws PersonNotFoundException;
+
+
+
 }

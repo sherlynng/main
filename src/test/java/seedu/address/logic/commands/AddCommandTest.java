@@ -22,6 +22,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.pair.Pair;
+import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Tutor;
@@ -164,6 +165,16 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void addPair(Person student, Person tutor) throws DuplicatePersonException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void deletePair(Pair target) throws PairNotFoundException {
             fail("This method should not be called.");
         }
 
