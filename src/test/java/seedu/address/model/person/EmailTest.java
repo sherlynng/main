@@ -53,6 +53,7 @@ public class EmailTest {
         assertTrue(Email.isValidEmail("if.you.dream.it_you.can.do.it@example.com"));    // long local part
     }
 
+    //@@author aussiroth
     @Test
     public void checkEmailEquality() {
         //test email against non-email type

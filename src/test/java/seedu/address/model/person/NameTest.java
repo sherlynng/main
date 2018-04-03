@@ -39,6 +39,7 @@ public class NameTest {
         assertTrue(Name.isValidName("David Roger Jackson Ray Jr 2nd")); // long names
     }
 
+    //@@author aussiroth
     @Test
     public void checkNameEquality() {
         //test name against non-name type

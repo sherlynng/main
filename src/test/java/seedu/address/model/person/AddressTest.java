@@ -19,8 +19,7 @@ public class AddressTest {
         // null address
         Assert.assertThrows(NullPointerException.class, () -> Address.isValidAddress(null));
 
-        // invalid addresses
-        assertFalse(Address.isValidAddress(" ")); // spaces only
+        assertFalse(Address.isValidAddress(" ")); //empty space is now valid address
 
         // valid addresses
         assertTrue(Address.isValidAddress("Blk 456, Den Road, #01-355"));
@@ -28,6 +27,7 @@ public class AddressTest {
         assertTrue(Address.isValidAddress("Leng Inc; 1234 Market St; San Francisco CA 2349879; USA")); // long address
     }
 
+    //@@aussiroth
     @Test
     public void checkAddressEquality() {
         //test address against non-address type

@@ -20,3 +20,5 @@ src/main/resources/docs/
 out/
 junit-4.1.jar
 Collate-TUI.jar
+Collate-GUI.jar
+perform_collate.bat

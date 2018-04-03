@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import seedu.address.testutil.Assert;
 
-//@@author aussiroth
 public class PhoneTest {
 
     @Test
