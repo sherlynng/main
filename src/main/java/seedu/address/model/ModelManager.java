@@ -103,7 +103,7 @@ public class ModelManager extends ComponentManager implements Model {
      * @param tutor
      * @throws DuplicatePersonException
      */
-    public synchronized void addPair(Person student, Person tutor) throws DuplicatePersonException {
+    public synchronized void addPair(Person student, Person tutor)  {
         try {
             addressBook.addPair(student, tutor);
         } catch (DuplicatePairException e) {

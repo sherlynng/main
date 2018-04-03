@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static org.junit.Assert.assertEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.MatchCommand.MESSAGE_MATCH_FAILED;
 import static seedu.address.logic.commands.MatchCommand.MESSAGE_MISMATCH_WRONG_LEVEL;
@@ -7,6 +8,8 @@ import static seedu.address.logic.commands.MatchCommand.MESSAGE_MISMATCH_WRONG_P
 import static seedu.address.logic.commands.MatchCommand.MESSAGE_MISMATCH_WRONG_ROLE;
 import static seedu.address.logic.commands.MatchCommand.MESSAGE_MISMATCH_WRONG_STATUS;
 import static seedu.address.logic.commands.MatchCommand.MESSAGE_MISMATCH_WRONG_SUBJECT;
+import static seedu.address.testutil.TypicalPersons.LISA;
+import static seedu.address.testutil.TypicalPersons.MARY;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Before;
@@ -20,7 +23,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
-
 public class MatchCommandTest {
 
     private Model model;
@@ -32,7 +34,7 @@ public class MatchCommandTest {
 
 
     @Test
-    public void execute_invalidIndexForPersonAUnfilteredList_throwsCommandException() throws Exception {
+    public void execute_invalidIndexForPairAUnfilteredList_throwsCommandException() throws Exception {
         Index indexA = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         Index indexB = Index.fromOneBased(model.getFilteredPersonList().size());
         MatchCommand matchCommand = prepareCommand(indexA, indexB);
@@ -40,7 +42,7 @@ public class MatchCommandTest {
     }
 
     @Test
-    public void execute_invalidIndexforPersonBUnfilteredList_throwsCommandException() {
+    public void execute_invalidIndexforPairBUnfilteredList_throwsCommandException() {
         Index indexA = Index.fromOneBased(model.getFilteredPersonList().size());
         Index indexB = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         MatchCommand matchCommand = prepareCommand(indexA, indexB);
@@ -87,6 +89,18 @@ public class MatchCommandTest {
         assertCommandFailure(matchCommand, model, String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_PRICE));
     }
 
+    @Test
+    public void execute_pairAcceptedByModel_matchSuccessful() throws Exception {
+        Index indexA = Index.fromOneBased(12);
+        Index indexB = Index.fromOneBased(13);
+
+        CommandResult commandResult = getMatchCommand(indexA, indexB, model).execute();
+
+        assertEquals(String.format(MatchCommand.MESSAGE_MATCH_SUCCESS,
+                LISA.getName().fullName + " and " + MARY.getName().fullName),
+                commandResult.feedbackToUser);
+    }
+
     /**
     * Returns a {@code MatchCommand} with the parameter {@code indexA}, {@code indexB}.
     */
@@ -95,4 +109,16 @@ public class MatchCommandTest {
         matchCommand.setData(model, new CommandHistory(), new UndoRedoStack());
         return matchCommand;
     }
+
+    /**
+     * Generates a new AddCommand with the details of the given person.
+     */
+    private MatchCommand getMatchCommand(Index indexA, Index indexB, Model model) {
+        MatchCommand command = new MatchCommand(indexA, indexB);
+        command.setData(model, new CommandHistory(), new UndoRedoStack());
+        return command;
+    }
+
+
+
 }

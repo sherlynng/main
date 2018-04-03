@@ -8,8 +8,6 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-
 
 /**
  * Edits the details of an existing person in the address book.
@@ -51,11 +49,7 @@ public class MatchCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
 
-        try {
-            model.addPair(student, tutor);
-        } catch (DuplicatePersonException e) {
-            e.printStackTrace();
-        }
+        model.addPair(student, tutor);
         return new CommandResult(String.format(MESSAGE_MATCH_SUCCESS, student.getName().fullName
                 + " and " + tutor.getName().fullName));
     }

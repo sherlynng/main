@@ -169,7 +169,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addPair(Person student, Person tutor) throws DuplicatePersonException {
+        public void addPair(Person student, Person tutor) {
             fail("This method should not be called.");
         }
 
