@@ -11,7 +11,10 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.ShowChartsEvent;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.Role;
 
+//@@author dannyngmx94
 /**
  * The Browser Panel of the App.
  */
@@ -21,13 +24,16 @@ public class ChartsPanel extends UiPart<Region> {
 
     private final Logger logger = LogsCenter.getLogger(this.getClass());
 
+    private ObservableList<Person> personList;
+
     @FXML
     private PieChart RoleDistribution;
 
 
-    public ChartsPanel() {
+    public ChartsPanel(ObservableList<Person> personList) {
         super(FXML);
-
+        this.personList = personList;
+        loadChartsDetails();
         registerAsAnEventHandler(this);
     }
 
@@ -35,15 +41,22 @@ public class ChartsPanel extends UiPart<Region> {
      * Loads a {@code person}'s details into the browser panel.
      */
     public void loadChartsDetails() {
+        ObservableList<Person> tutorList = personList.filtered(person -> person.getRole().equals(new Role("Tutor")));
+        ObservableList<Person> studentList =
+                personList.filtered(person -> person.getRole().equals(new Role("Student")));
+        int numTutor = tutorList.size();
+        int numStudent = studentList.size();
+
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                new PieChart.Data("Tutor", 10),
-                new PieChart.Data("student", 15));
+                new PieChart.Data("Tutor", numTutor),
+                new PieChart.Data("student", numStudent));
         RoleDistribution.setData(pieChartData);
     }
 
     @Subscribe
     private void handleShowChartsEvent(ShowChartsEvent event) {
+        System.out.println(this);
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         loadChartsDetails();
     }
