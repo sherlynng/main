@@ -32,10 +32,17 @@ public class Role {
         this.value = formatRole(role);
     }
 
+
+    /**
+     * Format the input into proper case
+     * @param role
+     * @return
+     */
     private String formatRole(String role) {
         ProperCaseConverter pc = new ProperCaseConverter();
         return pc.convertToProperCase(role);
     }
+
 
     /**
      * check validity of the status string supplied

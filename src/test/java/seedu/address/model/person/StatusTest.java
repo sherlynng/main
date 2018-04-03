@@ -8,6 +8,7 @@ import org.junit.Test;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.Assert;
 
+//@@author aussiroth
 public class StatusTest {
 
     @Test
@@ -43,4 +44,5 @@ public class StatusTest {
         status = new Status("matched");
         assertTrue(status.hashCode() == status.value.hashCode());
     }
+
 }

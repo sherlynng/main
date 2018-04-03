@@ -32,10 +32,17 @@ public class Status {
         this.value = formatStatus(status);
     }
 
+
+    /**
+     * format the input into proper case
+     * @param status
+     * @return
+     */
     private String formatStatus(String status) {
         ProperCaseConverter pc = new ProperCaseConverter();
         return pc.convertToProperCase(status);
     }
+
 
     /**
      * check validity of the status string supplied

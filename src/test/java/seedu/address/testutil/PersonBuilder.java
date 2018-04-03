@@ -3,6 +3,7 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -36,6 +37,7 @@ public class PersonBuilder {
     public static final String DEFAULT_REMARK = "Hardworking but slow learner.";
     public static final String DEFAULT_RATE = "3.0";
     public static final int DEFAULT_RATECOUNT = 1;
+    public static final PairHash DEFAULT_PAIRHASH = PairHash.getDefaultPairHash();
 
     private Name name;
     private Phone phone;
@@ -49,6 +51,7 @@ public class PersonBuilder {
     private Set<Tag> tags;
     private Remark remark;
     private Rate rate;
+    private PairHash pairhash;
 
     public PersonBuilder() {
         name = new Name(DEFAULT_NAME);
@@ -60,10 +63,11 @@ public class PersonBuilder {
         level = new Level(DEFAULT_LEVEL);
         status = new Status(DEFAULT_STATUS);
         role = new Role(DEFAULT_ROLE);
-        tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
+        tags = SampleDataUtil.getTagSet();
         remark = new Remark(DEFAULT_REMARK);
         rate = new Rate(Double.parseDouble(DEFAULT_RATE), true);
         rate.setCount(DEFAULT_RATECOUNT);
+        pairhash = DEFAULT_PAIRHASH;
     }
 
     /**
@@ -82,6 +86,7 @@ public class PersonBuilder {
         tags = new HashSet<>(personToCopy.getTags());
         remark = personToCopy.getRemark();
         rate = personToCopy.getRate();
+        pairhash = personToCopy.getPairHash();
     }
 
     /**
@@ -199,6 +204,16 @@ public class PersonBuilder {
     public PersonBuilder withRate(String rate, String rateCount) {
         this.rate = new Rate(Double.parseDouble(rate), true);
         this.rate.setCount(Integer.parseInt(rateCount));
+
+        return this;
+    }
+
+     /**
+     * Sets the {@code pairhash} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withPairhash(PairHash pairhash) {
+        this.pairhash = pairhash;
+
         return this;
     }
 
@@ -208,7 +223,8 @@ public class PersonBuilder {
      */
     public Person build() {
         setTags();
-        return new Person(name, phone, email, address, price, subject, level, status, role, tags, remark, rate);
+        return new Person(name, phone, email, address, price, subject, level, status, role, tags,
+                          remark, rate, pairhash);
     }
 
 }

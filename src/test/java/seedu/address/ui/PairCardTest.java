@@ -3,6 +3,7 @@ package seedu.address.ui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.testutil.TypicalPersons.ELLE;
 import static seedu.address.ui.testutil.GuiTestAssert.assertCardDisplaysPair;
 
 import org.junit.Test;
@@ -47,7 +48,7 @@ public class PairCardTest extends GuiUnitTest {
         assertFalse(pairCard.equals(0));
 
         // different pair, same index -> returns false
-        Pair differentPair = new PairBuilder().withStudentName("differentName").build();
+        Pair differentPair = new PairBuilder().withStudent(ELLE).build();
         assertFalse(pairCard.equals(new PairCard(differentPair, 0)));
 
         // same pair, different index -> returns false

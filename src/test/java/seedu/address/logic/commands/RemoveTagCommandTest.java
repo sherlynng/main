@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_TAG;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
@@ -27,7 +26,7 @@ public class RemoveTagCommandTest {
 
     @Test
     public void execute_removeValidTag_success() throws Exception {
-        Tag tagToDelete = new Tag(VALID_TAG_FRIEND);
+        Tag tagToDelete = new Tag("English");
         RemoveTagCommand removeTagCommand = prepareCommand(tagToDelete);
 
         String expectedMessage = String.format(RemoveTagCommand.MESSAGE_DELETE_TAG_SUCCESS, tagToDelete);
@@ -51,7 +50,7 @@ public class RemoveTagCommandTest {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Tag tagToDelete = new Tag(VALID_TAG_FRIEND);
+        Tag tagToDelete = new Tag("English");
         RemoveTagCommand removeTagCommand = prepareCommand(tagToDelete);
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 

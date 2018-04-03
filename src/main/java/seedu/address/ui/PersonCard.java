@@ -54,6 +54,7 @@ public class PersonCard extends UiPart<Region> {
         return TAG_COLOR_STYLES[Math.abs(tagName.hashCode()) % TAG_COLOR_STYLES.length];
     }
 
+    //@@author aussiroth
     /**
      * Returns the color style for {@code tag}.
      * Uses the tagType value inside the Tag to determine the colour.
@@ -74,6 +75,7 @@ public class PersonCard extends UiPart<Region> {
         }
     }
 
+    //@@author
     /**
      * Creates the tag labels for {@code person}.
      */

@@ -13,6 +13,7 @@
         <remark isPrivate="false">not motivated.</remark>
         <rate isPrivate="false">2.1</rate>
         <count isPrivate="false">2</count>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Ruth Mueller</name>
@@ -27,6 +28,7 @@
         <remark isPrivate="false"> - </remark>
         <rate isPrivate="false">3</rate>
         <count isPrivate="false">1</count>
+        <pairHash isPrivate="false">0</pairHash>
 	</persons>
     <persons>
         <name>Heinz Kurz</name>
@@ -41,6 +43,7 @@
         <remark isPrivate="false">quick-witted.</remark>
         <rate isPrivate="false">4.0</rate>
         <count isPrivate="false">3</count>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Cornelia Meier</name>
@@ -55,6 +58,7 @@
         <remark isPrivate="false">very active.</remark>
         <rate isPrivate="false">3.0</rate>
         <count isPrivate="false">1</count>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Werner Meyer</name>
@@ -69,6 +73,7 @@
         <remark isPrivate="false">not very attentive.</remark>
         <rate isPrivate="false">2.5</rate>
         <count isPrivate="false">2</count>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Lydia Kunz</name>
@@ -83,6 +88,7 @@
         <remark isPrivate="false">self-motivated.</remark>
         <rate isPrivate="false">4.0</rate>
         <count isPrivate="false">1</count>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Anna Best</name>
@@ -97,6 +103,7 @@
         <remark isPrivate="false">talks a lot in lessons.</remark>
         <rate isPrivate="false">3.3</rate>
         <count isPrivate="false">3</count>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Stefan Meier</name>
@@ -111,6 +118,7 @@
         <remark isPrivate="false">unclear with basic concepts.</remark>
         <rate isPrivate="false">3.0</rate>
         <count isPrivate="false">2</count>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
     <persons>
         <name>Martin Mueller</name>
@@ -125,5 +133,6 @@
         <remark isPrivate="false">good at tackling difficult questions.</remark>
         <rate isPrivate="false">4.0</rate>
         <count isPrivate="false">4</count>
+        <pairHash isPrivate="false">0</pairHash>
     </persons>
 </addressbook>

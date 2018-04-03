@@ -11,6 +11,7 @@ import java.util.Set;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -99,6 +100,7 @@ public class RateCommand extends UndoableCommand {
         Status status = personToEdit.getStatus();
         Role role = personToEdit.getRole();
         Remark remark = personToEdit.getRemark();
+        PairHash pairHash = personToEdit.getPairHash();
 
         Rate oldRate = personToEdit.getRate();
 
@@ -132,7 +134,7 @@ public class RateCommand extends UndoableCommand {
         }
 
         return new Person(name, phone, email, address, price, subject, level, status, role,
-                          attributeTags, remark, newRate);
+                          attributeTags, remark, newRate, pairHash);
     }
 
     @Override

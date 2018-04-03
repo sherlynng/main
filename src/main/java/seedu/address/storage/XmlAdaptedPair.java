@@ -1,15 +1,14 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.pair.Pair;
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Price;
@@ -33,6 +32,8 @@ public class XmlAdaptedPair {
     private String level;
     @XmlElement(required = true)
     private String price;
+    @XmlElement(required = true)
+    private String pairHash;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -47,7 +48,7 @@ public class XmlAdaptedPair {
      * Constructs an {@code XmlAdaptedPair} with the given pair details.
      */
     public XmlAdaptedPair(String studentName, String tutorName, String subject, String level,
-                            String price,  List<XmlAdaptedTag> tagged) {
+                            String price,  List<XmlAdaptedTag> tagged, String pairHash) {
         this.studentName = studentName;
         this.tutorName = tutorName;
         this.subject = subject;
@@ -57,6 +58,7 @@ public class XmlAdaptedPair {
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
+        this.pairHash = pairHash;
     }
 
     /**
@@ -75,6 +77,7 @@ public class XmlAdaptedPair {
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
         }
+        pairHash = source.getPairHash().toString();
     }
 
     /**
@@ -130,9 +133,13 @@ public class XmlAdaptedPair {
         }
         final String price = this.price;
 
-        final Set<Tag> tags = new HashSet<>(pairTags);
+        if (this.pairHash == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    PairHash.class.getSimpleName()));
+        }
+        final PairHash pairHash =  new PairHash(Integer.parseInt(this.pairHash));
 
-        return new Pair(studentName, tutorName, subject, level, price, tags);
+        return new Pair(studentName, tutorName, subject, level, price, pairHash);
     }
 
     @Override
