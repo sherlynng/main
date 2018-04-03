@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -64,6 +65,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).orElse(new Role(""));
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
+            //@@author aussiroth
             //Add required attributes to the tag list as in documentation
             //make tags only if the attribute has been entered by user
             if (!price.toString().equals("")) {
@@ -85,7 +87,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             Remark remark = new Remark("");  // default remark is empty string for newly added Person
 
             Person person = new Person(name, phone, email, address, price, subject, level,
-                    status, role, tagList, remark);
+                    status, role, tagList, remark, PairHash.getDefaultPairHash());
             return new AddCommand(person);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);

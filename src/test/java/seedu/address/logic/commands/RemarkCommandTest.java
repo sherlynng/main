@@ -108,8 +108,8 @@ public class RemarkCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().withName("Alice Pauline")
                 .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
-                .withPrice("50").withSubject("math").withStatus("not Matched").withLevel("lower Sec")
-                .withRole("Student").withRemark(REMARK_BOB).build();
+                .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
+                .withRole("Tutor").withRemark(REMARK_BOB).build();
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Remark remark = new Remark(REMARK_BOB);
         RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, remark);
@@ -158,7 +158,7 @@ public class RemarkCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().withName("Benson Meier")
                 .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
-                .withPrice("150").withSubject("english").withStatus("not Matched").withLevel("upper Sec")
+                .withPrice("50").withSubject("Math").withStatus("Matched").withLevel("Lower Sec")
                 .withRole("Student").withRemark(REMARK_BOB).build();
         Remark remark = new Remark(REMARK_BOB);
         RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, remark);

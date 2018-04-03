@@ -19,6 +19,7 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -108,17 +109,77 @@ public class EditCommand extends UndoableCommand {
             Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
         assert personToEdit != null;
 
-        Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
-        Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-        Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
-        Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-        Price updatedPrice = editPersonDescriptor.getPrice().orElse(personToEdit.getPrice());
-        Subject updatedSubject = editPersonDescriptor.getSubject().orElse(personToEdit.getSubject());
-        Level updatedLevel = editPersonDescriptor.getLevel().orElse(personToEdit.getLevel());
-        Status updatedStatus = editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
-        Role updatedRole = editPersonDescriptor.getRole().orElse(personToEdit.getRole());
-        Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        Name updatedName = getUpdatedName(personToEdit, editPersonDescriptor);
+        Phone updatedPhone = getUpdatedPhone(personToEdit, editPersonDescriptor);
+        Email updatedEmail = getUpdatedEmail(personToEdit, editPersonDescriptor);
+        Address updatedAddress = getUpdatedAddress(personToEdit, editPersonDescriptor);
+        Price updatedPrice = getUpdatedPrice(personToEdit, editPersonDescriptor);
+        Subject updatedSubject = getUpdatedSubject(personToEdit, editPersonDescriptor);
+        Level updatedLevel = getUpdatedLevel(personToEdit, editPersonDescriptor);
+        Status updatedStatus = getUpdatedStatus(personToEdit, editPersonDescriptor);
+        Role updatedRole = getUpdatedRole(personToEdit, editPersonDescriptor);
+        Remark remark = getRemark(personToEdit);
+        PairHash pairHash = getPairHash(personToEdit);
+        Set<Tag> updatedTags = getUpdatedTags(personToEdit, editPersonDescriptor);
+        Set<Tag> attributeTags = getAttributeTags(personToEdit, updatedPrice, updatedSubject, updatedLevel,
+                updatedStatus, updatedRole, updatedTags);
 
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
+                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole,
+                attributeTags, remark, pairHash);
+    }
+
+    private static PairHash getPairHash(Person personToEdit) {
+        return personToEdit.getPairHash();
+    }
+
+    private static Remark getRemark(Person personToEdit) {
+        return personToEdit.getRemark();
+    }
+
+    private static Set<Tag> getUpdatedTags(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+    }
+
+    private static Address getUpdatedAddress(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
+    }
+
+    private static Email getUpdatedEmail(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
+    }
+
+    private static Phone getUpdatedPhone(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
+    }
+
+    private static Name getUpdatedName(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getName().orElse(personToEdit.getName());
+    }
+
+    //@@author aussiroth
+    private static Role getUpdatedRole(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getRole().orElse(personToEdit.getRole());
+    }
+
+    private static Status getUpdatedStatus(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
+    }
+
+    private static Level getUpdatedLevel(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getLevel().orElse(personToEdit.getLevel());
+    }
+
+    private static Subject getUpdatedSubject(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getSubject().orElse(personToEdit.getSubject());
+    }
+
+    private static Price getUpdatedPrice(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getPrice().orElse(personToEdit.getPrice());
+    }
+
+    private static Set<Tag> getAttributeTags(Person personToEdit, Price updatedPrice,
+        Subject updatedSubject, Level updatedLevel, Status updatedStatus, Role updatedRole, Set<Tag> updatedTags) {
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
         //clean out old person's attribute tags, then add the new ones
@@ -154,13 +215,10 @@ public class EditCommand extends UndoableCommand {
         if (!updatedRole.toString().equals("")) {
             attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
         }
-
-        Remark remark = personToEdit.getRemark();
-
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole, attributeTags, remark);
+        return attributeTags;
     }
 
+    //@@author
     @Override
     public boolean equals(Object other) {
         // short circuit if same object

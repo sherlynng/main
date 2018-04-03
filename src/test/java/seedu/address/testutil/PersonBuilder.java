@@ -3,6 +3,7 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -33,6 +34,7 @@ public class PersonBuilder {
     public static final String DEFAULT_ROLE = "Student";
     public static final String DEFAULT_TAGS = "Friend";
     public static final String DEFAULT_REMARK = "Hardworking but slow learner.";
+    public static final PairHash DEFAULT_PAIRHASH = PairHash.getDefaultPairHash();
 
     private Name name;
     private Phone phone;
@@ -45,6 +47,7 @@ public class PersonBuilder {
     private Role role;
     private Set<Tag> tags;
     private Remark remark;
+    private PairHash pairhash;
 
     public PersonBuilder() {
         name = new Name(DEFAULT_NAME);
@@ -56,8 +59,9 @@ public class PersonBuilder {
         level = new Level(DEFAULT_LEVEL);
         status = new Status(DEFAULT_STATUS);
         role = new Role(DEFAULT_ROLE);
-        tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
+        tags = SampleDataUtil.getTagSet();
         remark = new Remark(DEFAULT_REMARK);
+        pairhash = DEFAULT_PAIRHASH;
     }
 
     /**
@@ -75,6 +79,7 @@ public class PersonBuilder {
         role = personToCopy.getRole();
         tags = new HashSet<>(personToCopy.getTags());
         remark = personToCopy.getRemark();
+        pairhash = personToCopy.getPairHash();
     }
 
     /**
@@ -187,12 +192,20 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code pairhash} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withPairhash(PairHash pairhash) {
+        this.pairhash = pairhash;
+        return this;
+    }
+
+    /**
      * Builds a person based off the attributes in this class
      * @return Person with set attributes
      */
     public Person build() {
         setTags();
-        return new Person(name, phone, email, address, price, subject, level, status, role, tags, remark);
+        return new Person(name, phone, email, address, price, subject, level, status, role, tags, remark, pairhash);
     }
 
 }

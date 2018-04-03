@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -49,6 +50,8 @@ public class XmlAdaptedPerson {
     private String role;
     @XmlElement(required = true)
     private String remark;
+    @XmlElement(required = true)
+    private String pairHash;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -64,7 +67,7 @@ public class XmlAdaptedPerson {
      */
     public XmlAdaptedPerson(String name, String phone, String email, String address,
                             String price, String subject, String level, String status, String role,
-                            List<XmlAdaptedTag> tagged, String remark) {
+                            List<XmlAdaptedTag> tagged, String remark, String pairHash) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -75,6 +78,7 @@ public class XmlAdaptedPerson {
         this.level = level;
         this.role = role;
         this.remark = remark;
+        this.pairHash = pairHash;
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
@@ -96,6 +100,7 @@ public class XmlAdaptedPerson {
         price = source.getPrice().value;
         role = source.getRole().value;
         remark = source.getRemark().value;
+        pairHash = String.valueOf(source.getPairHash());
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
@@ -185,14 +190,22 @@ public class XmlAdaptedPerson {
         }
         final Role role = new Role(this.role);
 
-        final Set<Tag> tags = new HashSet<>(personTags);
 
+        final Set<Tag> tags = new HashSet<>(personTags);
         if (this.remark == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Remark.class.getSimpleName()));
         }
         final Remark remark = new Remark(this.remark);
 
-        return new Person(name, phone, email, address, price, subject, level, status, role, tags, remark);
+
+        if (this.pairHash == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    PairHash.class.getSimpleName()));
+        }
+        final PairHash pairHash =  new PairHash(Integer.parseInt(this.pairHash));
+
+        return new Person(name, phone, email, address, price, subject, level, status, role, tags, remark, pairHash);
     }
 
     @Override

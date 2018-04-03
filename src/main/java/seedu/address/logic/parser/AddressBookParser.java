@@ -14,14 +14,17 @@ import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FilterCommand;
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.FindMissingCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.MatchCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.RemoveTagCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.commands.UnmatchCommand;
 import seedu.address.logic.commands.ViewStatsCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -40,8 +43,8 @@ public class AddressBookParser {
      *
      * @param userInput full user input string
      * @return the command based on the user input
-     * @throws ParseException if the user input does not conform the expected format
-     */
+     * @throws ParseException if the user input does not conform the expected format\
+    */
     public Command parseCommand(String userInput) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
@@ -79,6 +82,10 @@ public class AddressBookParser {
         case FindCommand.COMMAND_WORD_ALIAS:
             return new FindCommandParser().parse(arguments);
 
+        case FindMissingCommand.COMMAND_WORD:
+        case FindMissingCommand.COMMAND_WORD_ALIAS:
+            return new FindMissingCommandParser().parse(arguments);
+
         case ListCommand.COMMAND_WORD:
         case ListCommand.COMMAND_WORD_ALIAS:
             return new ListCommand();
@@ -111,6 +118,14 @@ public class AddressBookParser {
         case RemarkCommand.COMMAND_WORD:
         case RemarkCommand.COMMAND_WORD_ALIAS:
             return new RemarkCommandParser().parse(arguments);
+
+        case UnmatchCommand.COMMAND_WORD:
+        case UnmatchCommand.COMMAND_WORD_ALIAS:
+            return new UnmatchCommandParser().parse(arguments);
+
+        case MatchCommand.COMMAND_WORD:
+        case MatchCommand.COMMAND_WORD_ALIAS:
+            return new MatchCommandParser().parse(arguments);
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

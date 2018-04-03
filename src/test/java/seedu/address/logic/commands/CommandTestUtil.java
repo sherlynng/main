@@ -24,6 +24,8 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
+import seedu.address.model.pair.NameContainsKeywordsPredicatePair;
+import seedu.address.model.pair.Pair;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -196,6 +198,20 @@ public class CommandTestUtil {
         model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
         assertEquals(1, model.getFilteredPersonList().size());
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only the pair at the given {@code targetIndex} in the
+     * {@code model}'s address book.
+     */
+    public static void showPairAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredPairList().size());
+
+        Pair pair = model.getFilteredPairList().get(targetIndex.getZeroBased());
+        final String[] splitName = pair.getPairName().split("\\s+");
+        model.updateFilteredPairList(new NameContainsKeywordsPredicatePair(Arrays.asList(splitName[0])));
+
+        assertEquals(1, model.getFilteredPairList().size());
     }
 
     /**

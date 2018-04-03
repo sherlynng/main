@@ -44,6 +44,7 @@ public class XmlAdaptedTag {
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted person
      */
+    //@@author aussiroth
     public Tag toModelType() throws IllegalValueException {
         String[] checkTagNameType = tagName.split(",");
         if (!Tag.isValidTagName(checkTagNameType[0])) {
@@ -61,6 +62,7 @@ public class XmlAdaptedTag {
         return new Tag(checkTagNameType[0], Tag.AllTagTypes.valueOf(checkTagNameType[1]));
     }
 
+    //@@author
     @Override
     public boolean equals(Object other) {
         if (other == this) {
