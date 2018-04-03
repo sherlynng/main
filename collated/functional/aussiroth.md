@@ -58,6 +58,7 @@
         if (!updatedRole.toString().equals("")) {
             attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
         }
+
         return attributeTags;
     }
 
@@ -127,9 +128,11 @@ public class FindMissingCommand extends Command {
             }
 
             Remark remark = new Remark("");  // default remark is empty string for newly added Person
+            Rate rate = new Rate(3, true); // default rating is 3
+            rate.setCount(1); // default rate count is 1
 
             Person person = new Person(name, phone, email, address, price, subject, level,
-                    status, role, tagList, remark, PairHash.getDefaultPairHash());
+                                       status, role, tagList, remark, rate, PairHash.getDefaultPairHash());
             return new AddCommand(person);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
