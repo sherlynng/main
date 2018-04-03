@@ -419,6 +419,38 @@ Creates a remark 'Fast learner.' for the 2nd person in STUtor.
 `*remark* 1 r/` +
 Removes the remark for the 1st person in the results of the `*find*` command.
 
+==== Giving a rating to a person : `*rate*` or `*rt*` `[In V1.4]`
+Format: `*rate* INDEX r/`
+
+Gives a rating to the person identified by the index number used in the *last person listing*. +
+
+****
+* The index refers to the index number shown in the most recent listing.
+* The index *must be a positive integer* `1, 2, 3, ...`
+* Rating must be a number *between 0 and 5 (inclusive)* with *at most 1 decimal place*.
+* Placing a `-` after the rating gives an absolute rating to the person specified.
+
+[%hardbreak]
+{nbsp}{nbsp}{nbsp}{nbsp} e.g `rate 1 r/2.0-` will set rating of the 1st person in the results
+to 2.0 and number of people who rated the person will be reset to 1.
+
+* Without placing `-` after the rating gives an accumulative rating to the person specified.
+
+[%hardbreak]
+{nbsp}{nbsp}{nbsp}{nbsp} e.g `rate 1 r/2.0` will add on to the current rating of the 1st person
+and average of the ratings will be displayed. Number of people who rated the person will also increase by 1.
+
+****
+
+Examples:
+
+* `*list*` +
+`*rate* 2 r/2.0-` +
+Gives an absolute rating of 2.0 to the 2nd person in STUtor.
+* `*find* Betsy` +
+`*rate* 1 r/4.2` +
+Gives an accumulated rating for the 1st person in the results of the `*find*` command.
+
 ==== Viewing the statistic : `*viewStats*` `[In V1.4]`
 Format: `*viewStats*`
 
