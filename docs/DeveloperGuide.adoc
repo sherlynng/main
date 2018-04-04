@@ -530,14 +530,27 @@ For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com 
 
 ==== Current Implementation
 We have added the `filter` command which inherit from `Command`. The user can `filter` according to the attributes `Subject`, `Level` and `Status` of a person.
+However, the current implementation can only filter for 1 argument.
 
 The following sequence diagram shows how the filter command works:
 
 image::FilterCommandSequenceDiagramV2.png[width="800"]
 
 [NOTE]
-The user must input arguments in case sensitive and full fashion.
-For instance, the entry `filter maTH` will not work.
+The user must input arguments in case full fashion and it is case insensitive.
+For instance, the entry `filter maTH` will work.
+
+===== Design Considerations
+
+====== Aspect: Argument for Filter Command
+
+* **Alternative 1 (current choice):** Argument to be filtered must be typed in full fashion and it is case
+insensitive.
+** Pros: Incorrect case of the argument typed will still produce the intended result.
+** Cons: User have to type the complete word.
+* **Alternative 2:** Argument to be filtered can be incomplete and it is case insensitive.
+** Pros: User can type less.
+** Cons: Arguments such as `Not Matched` and `Matched` cannot be differentiated.
 
 === UI Modifications
 
