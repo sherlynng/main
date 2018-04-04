@@ -414,7 +414,7 @@ Format: `*clear*`
 
 To clear all entries from your STUtor, use the `*clear*` command. +
 
-==== Creating a remark for a person : `*remark*` or `*rm*` `[In V1.3]`
+==== Creating a remark for a person : `*remark*` or `*rk*` `[In V1.3]`
 Format: `*remark* INDEX r/`
 
 Creates a remark for the person identified by the index number used in the *last person listing*. +
@@ -519,9 +519,13 @@ You can the file under the same path of *main/data*
 |`delete`|`d`|`delete INDEX`|`delete 3`
 |`edit`|`e`|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...` |`edit 2 n/James Lee e/jameslee@example.com`
 |`find`|`f`|`find KEYWORD [MORE_KEYWORDS]`|`find James Jake`
+|`findmissing`|`fm`|`findmissing [FIELD]...`|`findmissing phone`
 |`select`|`s`|`select INDEX`|`select 2`
+|`match`|`m`|`match INDEX_A INDEX_B`|`match 1 2`
+|`unmatch`|`um`|`unmatch INDEX`|`unmatch 2`
 |`filter`| |`filter KEYWORD`|`filter Math`
-|`remark`|`rm`|`remark INDEX r/`|`remark 2 r/Fast learner.`
+|`remark`|`rk`|`remark INDEX r/`|`remark 2 r/Fast learner.`
+|`rate`|`rt`|`rate INDEX r/`|`rate INDEX r/`
 |`list`|`l`||
 |`clear`|`c`||
 |`history`|`h`||
