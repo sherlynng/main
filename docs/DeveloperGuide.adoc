@@ -708,10 +708,31 @@ image::AutofillAdd_Delete.png[width="700"]
 
 * **Alternative 1 (current choice):** Use `Delete` button.
 ** Pros: Intuitive to user.
-** Cons: May lead to confusion since the orignal functionality of the `DELETE` button does not work now.
+** Cons: May lead to confusion since the original functionality of the `DELETE` button does not work now.
 * **Alternative 2:** Use other keyboard keys that users typically do not use, for example `F2`.
 ** Pros: Will not lead to confusion of expected keyboard functionalities.
 ** Cons: Not intuitive for users to use as they would not expect it to be a key for delete function.
+
+=== View Stats Command
+==== Current Implementation
+The intention behind creating this command is to consolidate statistical data about the people in the app.
+With these data, user will be able to foresee issues such as insufficient tutor for a particular subject with ease.
+Without this command, user will have to do manual consolidation which is inefficient. +
+Currently, the statistical data are presented in the form of pie chart which improves readability. A snapshot showing
+the role distribution between students and tutors is shown below.
+
+image::PieChartSnap.png[width="500"]
+
+==== Design Considerations
+
+===== Aspect: Displaying of statistical data
+
+* **Alternative 1 (current choice):** Replace the details in browser panel with graph.
+** Pros: Do not have to deviate from the use of command line input.
+** Cons: Cannot view person detail and statistical data simultaneously.
+* **Alternative 2:** Open a new window to show graph.
+** Pros: Can use the app and view the statistical data simultaneously.
+** Cons: Create inconvenience as user need to take additional steps to close the window.
 
 == Documentation
 
