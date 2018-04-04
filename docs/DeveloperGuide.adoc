@@ -619,12 +619,45 @@ For all fields that the user did not enter a value for, an empty string `""` wil
 * **Alternative 1 (current choice):** Store it as an empty string `""`
 ** Pros: Does not affect most of the other functionality as they will still successfully read an empty string and ignore it.
 ** Cons: Need to ensure that empty string is an accepted input when making a new attribute class. +
-User can enter prefix with only spaces as a valid input, which will be in as an unentered field, which may be unintuitive.
+User can enter prefix with only spaces as a valid input, which will be read as an unentered field, which may be unintuitive.
 
 * **Alternative 2:** Store it as a `null` value
 ** Pros: More intuitive to store a missing value as `null`.
 ** Cons: When an attribute value needs to be obtained or used, must check for `null` value and handle accordingly. +
 Must create a special constructor for the attribute class to accept a `null` for its internal `String` value.
+
+=== Find Missing Command
+==== Current Implementation
+The intention and design behind this command is to pair with the allowing of users to leave fields for a person's values unentered.
+As the design of the command, parser and sequence when a user enters a find missing command to be very similar to the filter command, the documentation
+here will focus more on the design considerations and rationale instead of repeating sequence diagrams that are almost the same as given previously. +
+Currently, the command makes use of a new predicate, `FindMissingPredicate`, to perform the check.
+Rationale for having a new command and predicate is that reusing the `Filter` command or predicate would violate Single Responsibility Principle and the idea of Separation of Concerns. +
+The `Filter` command and classes associated closely to it should have the single concern of listing people according to a search term. +
+Therefore, it is better design to create a new command for this feature.
+
+==== Design Considerations
+
+===== Aspect: Design of predicate used
+* **Alternative 1 (current choice):** One single predicate, containing a `List` of entered user arguments.
+** Pros: Ensures the predicate used in the `FindMissingCommand` remains of type `FindMissingPredicate`, ensuring better controlled
+** Cons: Increased complexity of ensuring the predicate test will correctly give a true or false value.
+
+* **Alternative 2:** Create one predicate for each user argument, then make use of `Predicate` method to perform a logical OR.
+** Pros: Predicate simply needs to check for the field that was given as its keyword.
+** Cons: Due to the `Predicate.or` method being provided by Java, it is difficult to debug and ensure an intended `.equals` check is performed.
+
+===== Aspect: Method of taking in user input
+* **Alternative 1 (current choice):** Have user arguments be combined in an OR manner.
+** Pros: Makes it easier for the user to find a person they may not be too sure which field was left empty for, since they can specify multiple ones to search. +
+Current option used since it fits best with the user need of simply finding those with missing fields to refresh their memory on which people they need to fill out the attributes for.
+
+* **Alternative 2:** Have user arguments be combined in an AND manner.
+** Pros: Allows the user to narrow down a search, especially if the size of the stored contacts is large.
+
+* **Alternative 3:** Allow user to enter only 1 argument
+** Pros: Simplifies the command significantly with only 1 field to search for.
+** Cons: Artificially limits the command heavily for users, where those who want to search for multiple missing fields will not be able to.
 
 === Autofill
 
