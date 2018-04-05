@@ -46,6 +46,17 @@ public class Rate {
     }
 
     /**
+     * Creates a default rating.
+     * @return {@code Rate} with default value of 3.0 and count 1.
+     */
+    public static Rate getDefaultRate() {
+        Rate defaultRate = new Rate(3, true);
+        defaultRate.setCount(1);
+
+        return defaultRate;
+    }
+
+    /**
      * Calculates the accumulated value of a person's rating
      * @param oldRate
      * @param newRate
