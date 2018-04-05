@@ -122,7 +122,7 @@ Examples:
 
 * `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
 * `*add* n/Betsy Crowe p/91562389 e/betsycrowe@example.com a/Pasir Ris Drive 10, #06-02 $/30 sub/Chinese lvl/Upper Pri stat/Not Matched r/Tutor`
-* `*add* n/Carl Kurz
+* `*add* n/Carl Kurz`
 
 
 [NOTE]
