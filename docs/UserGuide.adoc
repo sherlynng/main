@@ -31,6 +31,7 @@ By: `Team W11-B1`      Since: `Jun 2016`      Licence: `MIT`
 * Interested? Jump to the <<Getting Started>> now! Enjoy!
 
 == Getting Started
+This section helps you set up your STUtor on your computer.
 
 .  Ensure you have Java version __1.8.0_60__ or later installed in your Computer.
 +
@@ -39,24 +40,32 @@ Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
 .  Download the latest _STUtor.jar_ link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for your STUtor.
-.  Double-click the file to start the app. The GUI should appear in a few seconds.
+.  Copy the file to the folder you want to use for storing your STUtor.
+.  Double-click the file to start the app. You will see the interface in a few seconds.
 +
-image::Ui.png[width="790"]
+image::Ui_withLabels.png[width="790"]
 +
-.  Type the command in the command box and press kbd:[Enter] to execute it. +
+****
+*  Sections of STUtor:
+** Section 1: *Command Box* to type your commands
+** Section 2: *Result Display* to show the results of your command
+** Section 3: *Pair List* to list all pairs currently matched
+** Section 4: *Person List* to list all persons in the entire database
+** Section 5: *Person Details* to show all details of a person
+*  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing `*help*` and pressing kbd:[Enter] will open the help window.
-.  Some example commands you can try:
+*  Some example commands you can try:
 
-* `*list*` : lists all contacts
-* `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student` : adds a contact named `John Doe` to STUtor.
-* `*delete* 3` : deletes the 3rd contact shown in the current list
-* `*exit*` : exits the app
-
-.  Refer to <<Features>> for details of each command.
+** To list all contacts: `*list*`
+** To add a contact named `John Doe` and his particulars to STUtor: `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
+** To delete the 3rd contact shown in the current list: `*delete* 3`
+** To exit the app: `*exit*`
+* For more details for each command, you can view <<Basic Features>>.
+****
 
 [[Features]]
 == Features
+To use the features, you need to key in the commands in the *Command Box*.
 
 === Command Format
 
@@ -99,7 +108,7 @@ Adds a new person to STUtor. +
 ****
 * For PRICE, SUBJECT, EDUCATION_LEVEL, STATUS, ROLE:
 
-** Alias can be used to reduce typing. Refer to <<Prefix Shortcut Summary >> for more details.
+** Alias can be used to reduce typing. Refer to <<Prefix Shortcut Summary>> for more details.
 ** These information is displayed as tags for easy reference.
 ****
 
@@ -113,14 +122,15 @@ Examples:
 
 * `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
 * `*add* n/Betsy Crowe p/91562389 e/betsycrowe@example.com a/Pasir Ris Drive 10, #06-02 $/30 sub/Chinese lvl/Upper Pri stat/Not Matched r/Tutor`
-* `*add* n/Carl Kurz
+* `*add* n/Carl Kurz`
 
 
 [NOTE]
 ====
-Press kbd:[Tab] key once after typing `*add*` or `*a*` will autofill the command.
+You can press kbd:[Tab] key once after typing `*add*` or `*a*` and it will autofill the command.
 Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
-Press kbd:[Delete] key to delete a field (and its prefix).
+You can press kbd:[Delete] key to delete a field (and its prefix).
+You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillAdd_Tab.png[width="700"]
@@ -156,10 +166,11 @@ Edits the name of the 2nd person to be `Betsy Crower` and clears all existing ta
 
 [NOTE]
 ====
-Press kbd:[Tab] key once after typing `*edit*` or `*e*` will autofill the command.
+You can press kbd:[Tab] key once after typing `*edit*` or `*e*` and it will autofill the command.
 INDEX to be specified will be highlighted.
 Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
-Press kbd:[Delete] key to delete a field (and its prefix).
+You can press kbd:[Delete] key to delete a field (and its prefix).
+You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillEdit.png[width="800"]
@@ -265,8 +276,9 @@ Deletes the 1st person in the results of the `*find*` command.
 
 [NOTE]
 ====
-Press kbd:[Tab] key once after typing `*delete*` or `*d*` will autofill the command.
+You can press kbd:[Tab] key once after typing `*delete*` or `*d*` and it will autofill the command.
 INDEX to be specified will be highlighted.
+You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillDelete.png[width="500"]
@@ -293,8 +305,9 @@ Selects the 1st person in the results of the `*find*` command.
 
 [NOTE]
 ====
-Press kbd:[Tab] key once after typing `*select*` or `*s*` will autofill the command.
+You can press kbd:[Tab] key once after typing `*select*` or `*s*` and it will autofill the command.
 INDEX to be specified will be highlighted.
+You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillSelect.png[width="500"]
@@ -510,6 +523,7 @@ with the file of the same name found on your previous computer.
 You can the file under the same path of *main/data*
 
 == Command Summary
+You can use these shortcuts when typing the commands.
 
 [width="80%",cols="<20%,<20%,<20%,<20%",options="header",]
 |=======================================================================
