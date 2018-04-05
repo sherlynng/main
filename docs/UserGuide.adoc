@@ -60,7 +60,7 @@ e.g. typing `*help*` and pressing kbd:[Enter] will open the help window.
 ** To add a contact named `John Doe` and his particulars to STUtor: `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
 ** To delete the 3rd contact shown in the current list: `*delete* 3`
 ** To exit the app: `*exit*`
-* For more details for each command, you can view <<Basic Features>>.
+* For more details for each command, you can view <<Features>>.
 ****
 
 [[Features]]
