@@ -369,7 +369,7 @@ You can list all the commands that you have entered in reverse chronological ord
 
 [NOTE]
 ====
-Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and next input respectively in the command box.
+You can press kbd:[&uarr;] and kbd:[&darr;] arrows and it will display the previous and next input respectively in the command box.
 ====
 
 // tag::undoredo[]
@@ -428,7 +428,7 @@ Format: `*clear*`
 To clear all entries from your STUtor, use the `*clear*` command. +
 
 ==== Creating a remark for a person : `*remark*` or `*rk*` `[In V1.3]`
-Format: `*remark* INDEX r/`
+Format: `*remark* INDEX r/REMARK`
 
 Creates a remark for the person identified by the index number used in the *last person listing*. +
 
@@ -448,7 +448,7 @@ Creates a remark 'Fast learner.' for the 2nd person in STUtor.
 Removes the remark for the 1st person in the results of the `*find*` command.
 
 ==== Giving a rating to a person : `*rate*` or `*rt*` `[In V1.4]`
-Format: `*rate* INDEX r/`
+Format: `*rate* INDEX r/RATE`
 
 Gives a rating to the person identified by the index number used in the *last person listing*. +
 
@@ -460,14 +460,19 @@ Gives a rating to the person identified by the index number used in the *last pe
 
 [%hardbreak]
 {nbsp}{nbsp}{nbsp}{nbsp} e.g `rate 1 r/2.0-` will set rating of the 1st person in the results
-to 2.0 and number of people who rated the person will be reset to 1.
+to 2.0 and number of people who rated the person will be resetted to 1.
 
 * Without placing `-` after the rating gives an *accumulative rating* to the person specified.
 
 [%hardbreak]
 {nbsp}{nbsp}{nbsp}{nbsp} e.g `rate 1 r/2.0` will add on to the current rating of the 1st person
-and average of the ratings will be displayed. Number of people who rated the person will also increase by 1.
+and the person's average ratings will be displayed. Number of people who rated the person will also increase by 1.
 
+[NOTE]
+====
+STUtor does not keept track of all ratings of each person, hence accumulated rating value may be off by 0.2.
+Rating values are also rounded down.
+====
 ****
 
 Examples:
