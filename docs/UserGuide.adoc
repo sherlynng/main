@@ -113,7 +113,7 @@ Adds a new person to STUtor. +
 [NOTE]
 ====
 Only the NAME field is required for the command to be accepted, all other fields are optional. +
-To fill in the other fields later, you can use the edit command to edit the person with the new information.
+To fill in the other fields later, you can use the edit command to edit the person with the new information. +
 ====
 
 Format: `*add* n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
@@ -131,6 +131,7 @@ You can press kbd:[Tab] key once after typing `*add*` or `*a*` and it will autof
 Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
 You can press kbd:[Delete] key to delete a field (and its prefix).
 You can view the diagram below for a clearer visualization on how it works.
+*Important!* If you enter only empty spaces after a prefix, it will be read as no value entered into the optional field. You will not need to delete prefixes for unentered fields to enter the command.
 ====
 
 image::AutofillAdd_Tab.png[width="700"]
@@ -224,6 +225,8 @@ Returns `john` and `John Doe`
 Returns any person having names `Betsy`, `Tim`, or `John`
 
 ==== Finding people with missing fields: `*findmissing*` or `*fm*` `[In V1.4]`
+
+Lists only people who have fields that you have not yet entered, making it easy for you to search for that person you want to edit in data. +
 If no arguments for FIELD is entered, lists all people with at least one field with an empty value. +
 Otherwise, finds all people with an empty value in at least one entered FIELD.
 
