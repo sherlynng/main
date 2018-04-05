@@ -34,9 +34,9 @@ public class SampleDataUtil {
                 new Level("Upper Sec"),
                 new Status("Not Matched"),
                 new Role("Student"),
-                getTagSet("friends"),
-                new Remark(""),
-                new Rate(3, true),
+                getTagSet("100", "Math", "Upper Sec", "Not Matched", "Student"),
+                new Remark("Hardworking student."),
+                Rate.getDefaultRate(),
                 PairHash.getDefaultPairHash()),
 
             new Person(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
@@ -46,9 +46,9 @@ public class SampleDataUtil {
                 new Level("Upper Sec"),
                 new Status("Not Matched"),
                 new Role("Student"),
-                getTagSet("colleagues", "friends"),
+                getTagSet("50", "English", "Upper Sec", "Not Matched", "Student"),
                 new Remark("Very active, requires more attention."),
-                new Rate(2, true),
+                Rate.getDefaultRate(),
                 PairHash.getDefaultPairHash()),
 
             new Person(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
@@ -58,9 +58,9 @@ public class SampleDataUtil {
                 new Level("Upper Sec"),
                 new Status("Not Matched"),
                 new Role("Student"),
-                getTagSet("neighbours"),
+                getTagSet("150", "Chinese", "Upper Sec", "Not Matched", "Student"),
                 new Remark("Hardworking but very weak in Chinese."),
-                new Rate(3, true),
+                Rate.getDefaultRate(),
                 PairHash.getDefaultPairHash()),
 
             new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
@@ -70,9 +70,9 @@ public class SampleDataUtil {
                 new Level("Upper Sec"),
                 new Status("Not Matched"),
                 new Role("Tutor"),
-                getTagSet("family"),
+                getTagSet("70", "Chinese", "Upper Sec", "Not Matched", "Tutor"),
                 new Remark("Friendly and approachable."),
-                new Rate(5, true),
+                Rate.getDefaultRate(),
                 PairHash.getDefaultPairHash()),
 
             new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
@@ -82,9 +82,9 @@ public class SampleDataUtil {
                 new Level("Lower Sec"),
                 new Status("Not Matched"),
                 new Role("Tutor"),
-                getTagSet("classmates"),
+                getTagSet("20", "English", "Lower Sec", "Not Matched", "Tutor"),
                 new Remark("Bad tutor, very impatient."),
-                new Rate(1, true),
+                Rate.getDefaultRate(),
                 PairHash.getDefaultPairHash()),
 
             new Person(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
@@ -94,9 +94,9 @@ public class SampleDataUtil {
                 new Level("Upper Sec"),
                 new Status("Not Matched"),
                 new Role("Tutor"),
-                getTagSet("colleagues"),
+                getTagSet("40", "English", "Upper Sec", "Not Matched", "Tutor"),
                 new Remark("Generally friendly, but not detailed in teaching."),
-                new Rate(3, true),
+                Rate.getDefaultRate(),
                 PairHash.getDefaultPairHash()),
         };
     }
@@ -118,8 +118,27 @@ public class SampleDataUtil {
      */
     public static Set<Tag> getTagSet(String... strings) {
         HashSet<Tag> tags = new HashSet<>();
-        for (String s : strings) {
-            tags.add(new Tag(s));
+        for (int i = 0; i < strings.length; i++) {
+            switch (i) {
+                case 0:
+                    tags.add(new Tag(strings[i], Tag.AllTagTypes.PRICE));
+                    break;
+                case 1:
+                    tags.add(new Tag(strings[i], Tag.AllTagTypes.SUBJECT));
+                    break;
+                case 2:
+                    tags.add(new Tag(strings[i], Tag.AllTagTypes.LEVEL));
+                    break;
+                case 3:
+                    tags.add(new Tag(strings[i], Tag.AllTagTypes.STATUS));
+                    break;
+                case 4:
+                    tags.add(new Tag(strings[i], Tag.AllTagTypes.ROLE));
+                    break;
+                default:
+                    tags.add(new Tag(strings[i], Tag.AllTagTypes.DEFAULT));
+                    break;
+            }
         }
 
         return tags;
