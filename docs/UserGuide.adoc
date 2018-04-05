@@ -48,7 +48,7 @@ image::Ui_withLabels.png[width="790"]
 ****
 *  Sections of STUtor:
 ** Section 1: *Command Box* to type your commands
-** Section 2: *Result Box* to show the results of your command
+** Section 2: *Result Display* to show the results of your command
 ** Section 3: *Pair List* to list all pairs currently matched
 ** Section 4: *Person List* to list all persons in the entire database
 ** Section 5: *Information Panel* to show all details of a person
@@ -60,7 +60,7 @@ e.g. typing `*help*` and pressing kbd:[Enter] will open the help window.
 ** To add a contact named `John Doe` and his particulars to STUtor: `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
 ** To delete the 3rd contact shown in the current list: `*delete* 3`
 ** To exit the app: `*exit*`
-* For more details for each command, you can view <<Features>>.
+* For more details for each command, you can view <<Basic Features>>.
 ****
 
 [[Features]]
