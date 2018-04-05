@@ -28,6 +28,7 @@ import seedu.address.model.pair.NameContainsKeywordsPredicatePair;
 import seedu.address.model.pair.Pair;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.PersonMatchedCannotDeleteException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
@@ -229,6 +230,8 @@ public class CommandTestUtil {
             model.deletePerson(firstPerson);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("Person in filtered list must exist in model.", pnfe);
+        } catch (PersonMatchedCannotDeleteException e) {
+            e.printStackTrace();
         }
     }
 

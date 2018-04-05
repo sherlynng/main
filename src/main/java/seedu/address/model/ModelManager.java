@@ -17,6 +17,7 @@ import seedu.address.model.pair.exceptions.DuplicatePairException;
 import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonMatchedCannotDeleteException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 
@@ -68,7 +69,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     //===================================Person operation ===================
     @Override
-    public synchronized void deletePerson(Person target) throws PersonNotFoundException {
+    public synchronized void deletePerson(Person target) throws PersonNotFoundException,
+            PersonMatchedCannotDeleteException {
         addressBook.removePerson(target);
         indicateAddressBookChanged();
     }

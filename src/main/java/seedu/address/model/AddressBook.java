@@ -20,6 +20,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonMatchedCannotDeleteException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
@@ -168,7 +169,10 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Removes {@code key} from this {@code AddressBook}.
      * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
      */
-    public boolean removePerson(Person key) throws PersonNotFoundException {
+    public boolean removePerson(Person key) throws PersonNotFoundException, PersonMatchedCannotDeleteException {
+        if (!key.getPairHash().equals(PairHash.DEFAULT_PAIR_HASH)) {
+            throw new PersonMatchedCannotDeleteException();
+        }
         if (persons.remove(key)) {
             return true;
         } else {

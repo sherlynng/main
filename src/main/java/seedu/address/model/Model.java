@@ -7,6 +7,7 @@ import seedu.address.model.pair.Pair;
 import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonMatchedCannotDeleteException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 
@@ -35,7 +36,7 @@ public interface Model {
     //=================Person operations===========================
 
     /** Deletes the given person. */
-    void deletePerson(Person target) throws PersonNotFoundException;
+    void deletePerson(Person target) throws PersonNotFoundException, PersonMatchedCannotDeleteException;
 
     /** Adds the given person */
     void addPerson(Person person) throws DuplicatePersonException;

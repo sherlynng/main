@@ -130,5 +130,21 @@ public class Pair  {
                 && otherPair.getPairHash().equals(this.getPairHash());
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(" Student: ")
+                .append(getStudentName())
+                .append(" Tutor: ")
+                .append(getTutorName())
+                .append(" Subject: ")
+                .append(getSubject())
+                .append(" Level: ")
+                .append(getLevel())
+                .append(" Price: ")
+                .append(getPrice());
+        return builder.toString();
+    }
+
 
 }
