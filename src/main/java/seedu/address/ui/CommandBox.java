@@ -6,11 +6,15 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 
 import java.util.logging.Logger;
+
+import org.controlsfx.control.textfield.TextFields;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,7 +29,11 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.MatchCommand;
+import seedu.address.logic.commands.RateCommand;
+import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.UnmatchCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -40,7 +48,8 @@ public class CommandBox extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(CommandBox.class);
     private final Logic logic;
     private ListElementPointer historySnapshot;
-    private boolean canTab = false;
+    private boolean isFindNextField = false;
+    private boolean isMatchCommand = false;
 
     @FXML
     private TextField commandTextField;
@@ -51,6 +60,10 @@ public class CommandBox extends UiPart<Region> {
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
         historySnapshot = logic.getHistorySnapshot();
+
+        //String[] possibleWords = {"Student", "Tutor", "English", "Chinese", "Matched", "Not Matched"};
+
+        //TextFields.bindAutoCompletion(commandTextField, possibleWords);
     }
 
     /**
@@ -99,7 +112,7 @@ public class CommandBox extends UiPart<Region> {
             commandTextField.setText(AddCommand.COMMAND_WORD + " " + PREFIX_NAME + " " + PREFIX_PHONE + " "
                     + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
                     + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
-            canTab = true;
+            isFindNextField = true;
             break;
         case EditCommand.COMMAND_WORD:
         case EditCommand.COMMAND_WORD_ALIAS:
@@ -107,34 +120,70 @@ public class CommandBox extends UiPart<Region> {
                     + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
                     + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
             selectIndexToEdit();
-            canTab = false;
+            isFindNextField = false;
+            isFirstTime = true;
+            break;
+        case RemarkCommand.COMMAND_WORD:
+        case RemarkCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(RemarkCommand.COMMAND_WORD + " 1 " + PREFIX_REMARK);
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
+            break;
+        case RateCommand.COMMAND_WORD:
+        case RateCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(RateCommand.COMMAND_WORD + " 1 " + PREFIX_RATE);
+            selectIndexToEdit();
+            isFindNextField = false;
             isFirstTime = true;
             break;
         case SelectCommand.COMMAND_WORD:
         case SelectCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(SelectCommand.COMMAND_WORD + " 1");
             selectIndexToEdit();
-            canTab = false;
+            isFindNextField = false;
             break;
         case DeleteCommand.COMMAND_WORD:
         case DeleteCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(DeleteCommand.COMMAND_WORD + " 1");
             selectIndexToEdit();
-            canTab = false;
+            isFindNextField = false;
+            break;
+        case UnmatchCommand.COMMAND_WORD:
+        case UnmatchCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(UnmatchCommand.COMMAND_WORD + " 1");
+            selectIndexToEdit();
+            isFindNextField = false;
+            break;
+        case MatchCommand.COMMAND_WORD:
+        case MatchCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(MatchCommand.COMMAND_WORD + " 1 2");
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
             break;
         default:
             // no autofill
         }
 
         // subsequent times tab is pressed
-        if (canTab) {
+        if (isFindNextField) {
             nextCaretPosition = findNextField();
             if (nextCaretPosition != -1) {
                 commandTextField.positionCaret(nextCaretPosition);
             }
         }
+
+        if (isMatchCommand) {
+            selectIndexToEdit();
+        }
+
         if (isFirstTime) {
-            canTab = true;
+            if (commandTextField.getText().contains("match")) { // match command
+                isMatchCommand = true;
+            } else { // all other commands that have different behavior between first and other tabs
+                isFindNextField = true;
+            }
         }
     }
 
@@ -171,7 +220,16 @@ public class CommandBox extends UiPart<Region> {
      */
     private void selectIndexToEdit() {
         String text = commandTextField.getText();
-        int indexPosition = text.indexOf("1") + 1;
+        int caretPosition = commandTextField.getCaretPosition();
+        int indexPosition = -1;
+
+        for (int i = caretPosition; i < text.length(); i++) {
+            Character character = text.charAt(i);
+            if (Character.isDigit(character)) {
+                indexPosition = i + 1;
+                break;
+            }
+        }
 
         commandTextField.positionCaret(indexPosition);
         commandTextField.selectBackward();
@@ -218,6 +276,7 @@ public class CommandBox extends UiPart<Region> {
      */
     @FXML
     private void handleCommandInputChanged() {
+        isMatchCommand = false; // reset it back to false since MatchCommand is now executed
         try {
             CommandResult commandResult = logic.execute(commandTextField.getText());
             initHistory();
