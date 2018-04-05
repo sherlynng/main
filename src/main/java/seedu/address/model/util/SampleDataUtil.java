@@ -120,24 +120,24 @@ public class SampleDataUtil {
         HashSet<Tag> tags = new HashSet<>();
         for (int i = 0; i < strings.length; i++) {
             switch (i) {
-                case 0:
-                    tags.add(new Tag(strings[i], Tag.AllTagTypes.PRICE));
-                    break;
-                case 1:
-                    tags.add(new Tag(strings[i], Tag.AllTagTypes.SUBJECT));
-                    break;
-                case 2:
-                    tags.add(new Tag(strings[i], Tag.AllTagTypes.LEVEL));
-                    break;
-                case 3:
-                    tags.add(new Tag(strings[i], Tag.AllTagTypes.STATUS));
-                    break;
-                case 4:
-                    tags.add(new Tag(strings[i], Tag.AllTagTypes.ROLE));
-                    break;
-                default:
-                    tags.add(new Tag(strings[i], Tag.AllTagTypes.DEFAULT));
-                    break;
+            case 0:
+                tags.add(new Tag(strings[i], Tag.AllTagTypes.PRICE));
+                break;
+            case 1:
+                tags.add(new Tag(strings[i], Tag.AllTagTypes.SUBJECT));
+                break;
+            case 2:
+                tags.add(new Tag(strings[i], Tag.AllTagTypes.LEVEL));
+                break;
+            case 3:
+                tags.add(new Tag(strings[i], Tag.AllTagTypes.STATUS));
+                break;
+            case 4:
+                tags.add(new Tag(strings[i], Tag.AllTagTypes.ROLE));
+                break;
+            default:
+                tags.add(new Tag(strings[i], Tag.AllTagTypes.DEFAULT));
+                break;
             }
         }
 
