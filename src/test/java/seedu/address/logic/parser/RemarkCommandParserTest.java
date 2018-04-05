@@ -3,9 +3,9 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.REMARK_AMY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 
 import org.junit.Test;
@@ -16,8 +16,6 @@ import seedu.address.model.person.Remark;
 
 //@@author sherlynng
 public class RemarkCommandParserTest {
-
-    private static final String TAG_EMPTY = " " + PREFIX_TAG;
 
     private static final String MESSAGE_INVALID_FORMAT =
             String.format(MESSAGE_INVALID_COMMAND_FORMAT + RemarkCommand.MESSAGE_USAGE);
@@ -43,6 +41,21 @@ public class RemarkCommandParserTest {
 
         // invalid prefix being parsed as preamble
         assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT);
+
+        // no index stated for editing remark
+        assertParseFailure(parser, "edit", MESSAGE_INVALID_INDEX);
+    }
+
+    @Test
+    public void parse_validPreamble_success() {
+        Index targetIndex = INDEX_SECOND_PERSON;
+        String userInput = targetIndex.getOneBased() + " edit";
+
+        Remark remark = new Remark("");
+        RemarkCommand expectedCommand = new RemarkCommand(targetIndex, remark, true);
+
+        // edit remark
+        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test

@@ -69,6 +69,7 @@ public class RemarkCommand extends UndoableCommand {
         requireNonNull(newRemark);
 
         this.targetIndex = targetIndex;
+        this.newRemark = newRemark;
         this.isEditRemark = isEditRemark;
     }
 
@@ -86,6 +87,7 @@ public class RemarkCommand extends UndoableCommand {
             return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,
                     editedPerson.getName(), editedPerson.getRemark()));
         } else {
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             return new CommandResult(String.format(MESSAGE_EDIT_REMARK_SUCCESS, personToEdit.getName()));
         }
     }
@@ -158,6 +160,8 @@ public class RemarkCommand extends UndoableCommand {
         return other == this // short circuit if same object
                 || (other instanceof RemarkCommand // instanceof handles nulls
                 && this.targetIndex.equals(((RemarkCommand) other).targetIndex)
-                && this.newRemark.equals(((RemarkCommand) other).newRemark));
+                && this.newRemark.equals(((RemarkCommand) other).newRemark)
+                && this.isEditRemark == ((RemarkCommand) other).isEditRemark);
+
     }
 }
