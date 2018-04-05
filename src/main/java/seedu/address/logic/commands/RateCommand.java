@@ -40,7 +40,7 @@ public class RateCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Adds rating to person identified by the index number used in the last person listing. "
             + "Parameters: INDEX (must be a positive integer), RATE (must be an integer between 0 and 5 (inclusive)\n"
-            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_RATE;
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_RATE + "4.5";
 
     public static final String MESSAGE_RATE_PERSON_SUCCESS = "Added Rating to %1$s: " + "%2$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
@@ -105,10 +105,10 @@ public class RateCommand extends UndoableCommand {
 
         Rate oldRate = personToEdit.getRate();
 
-        if (newRate.getIsAbosulte()) {
+        if (newRate.getIsAbsolute()) {
             newRate.setCount(1); // reset count when set absolute
         } else {
-            newRate = Rate.acummulatedValue(oldRate, newRate);
+            newRate = Rate.accumulatedValue(oldRate, newRate);
         }
 
         Set<Tag> updatedTags = personToEdit.getTags();
