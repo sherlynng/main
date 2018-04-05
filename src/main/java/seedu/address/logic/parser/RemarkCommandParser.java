@@ -50,10 +50,10 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         Remark remark;
         try {
             if (isEditCommand) {
-                remark = ParserUtil.parseRemark((String)null);
+                remark = ParserUtil.parseRemark((String) null);
 
                 return new RemarkCommand(index, remark, isEditCommand);
-            } else {
+            }  else {
                 remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
             }
 

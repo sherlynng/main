@@ -1,7 +1,6 @@
 package seedu.address.commons.events.logic;
 
 import seedu.address.commons.events.BaseEvent;
-import seedu.address.ui.PersonCard;
 
 /**
  * Represents edit remark command is called.

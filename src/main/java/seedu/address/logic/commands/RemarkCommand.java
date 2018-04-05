@@ -101,8 +101,8 @@ public class RemarkCommand extends UndoableCommand {
         personToEdit = lastShownList.get(targetIndex.getZeroBased());
 
         if (isEditRemark) {
-            EventsCenter.getInstance().post(new EditRemarkEvent(COMMAND_WORD + " " +
-                    targetIndex.getOneBased() + " " + PREFIX_REMARK + personToEdit.getRemark().toString()));
+            EventsCenter.getInstance().post(new EditRemarkEvent(COMMAND_WORD + " "
+                    + targetIndex.getOneBased() + " " + PREFIX_REMARK + personToEdit.getRemark().toString()));
         } else {
             editedPerson = createPersonWithNewRemark(personToEdit, newRemark);
         }
