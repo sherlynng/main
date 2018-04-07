@@ -14,8 +14,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 
 import java.util.logging.Logger;
 
-import org.controlsfx.control.textfield.TextFields;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -29,7 +27,6 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.MatchCommand;
 import seedu.address.logic.commands.RateCommand;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.SelectCommand;
@@ -155,13 +152,14 @@ public class CommandBox extends UiPart<Region> {
             selectIndexToEdit();
             isFindNextField = false;
             break;
+        /*
         case MatchCommand.COMMAND_WORD:
         case MatchCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(MatchCommand.COMMAND_WORD + " 1 2");
             selectIndexToEdit();
             isFindNextField = false;
             isFirstTime = true;
-            break;
+            break; */
         default:
             // no autofill
         }
@@ -173,17 +171,17 @@ public class CommandBox extends UiPart<Region> {
                 commandTextField.positionCaret(nextCaretPosition);
             }
         }
-
+        /*
         if (isMatchCommand) {
             selectIndexToEdit();
-        }
+        }*/
 
         if (isFirstTime) {
-            if (commandTextField.getText().contains("match")) { // match command
+            /*if (commandTextField.getText().contains("match")) { // match command
                 isMatchCommand = true;
-            } else { // all other commands that have different behavior between first and other tabs
-                isFindNextField = true;
-            }
+            } else {*/ // all other commands that have different behavior between first and other tabs
+            isFindNextField = true;
+            //}
         }
     }
 
@@ -276,7 +274,7 @@ public class CommandBox extends UiPart<Region> {
      */
     @FXML
     private void handleCommandInputChanged() {
-        isMatchCommand = false; // reset it back to false since MatchCommand is now executed
+        //isMatchCommand = false; // reset it back to false since MatchCommand is now executed
         try {
             CommandResult commandResult = logic.execute(commandTextField.getText());
             initHistory();
