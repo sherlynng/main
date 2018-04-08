@@ -31,23 +31,18 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         Index index;
 
         if (!arePrefixesPresent(argMultimap, PREFIX_REMARK)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
 
 
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
 
         Remark remark;
-        try {
-            remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
-
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-        }
+        remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
 
         return new RemarkCommand(index, remark);
     }

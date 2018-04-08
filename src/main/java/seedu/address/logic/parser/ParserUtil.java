@@ -313,7 +313,7 @@ public class ParserUtil {
      * Parses a {@code Optional<String> remark} into an {@code Optional<Remark>} if {@code remark} is present.
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
-    public static Optional<Remark> parseRemark(Optional<String> remark) throws IllegalValueException {
+    public static Optional<Remark> parseRemark(Optional<String> remark) {
         requireNonNull(remark);
         return remark.isPresent() ? Optional.of(parseRemark(remark.get())) : Optional.empty();
     }
@@ -321,7 +321,7 @@ public class ParserUtil {
     /**
      * Parses a {@code String rate} into a {@code Rate}.
      * Leading and trailing whitespaces will be trimmed.
-     * Checks if user wants absolute or cummulative rating.
+     * Checks if user wants absolute or cumulative rating.
      */
     public static Rate parseRate(String rate) throws IllegalValueException {
         requireNonNull(rate);

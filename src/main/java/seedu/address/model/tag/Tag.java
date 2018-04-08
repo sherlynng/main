@@ -16,7 +16,7 @@ public class Tag {
     /**
      * This represents all the tag types.
      */
-    public enum AllTagTypes { SUBJECT, STATUS, LEVEL, PRICE, ROLE, DEFAULT }
+    public enum AllTagTypes { ROLE, SUBJECT, LEVEL, PRICE, STATUS, DEFAULT }
 
     public final String tagName;
     public final AllTagTypes tagType;
