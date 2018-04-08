@@ -8,10 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
-import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
@@ -29,7 +27,6 @@ import seedu.address.model.person.Subject;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
-import seedu.address.ui.PersonCard;
 
 //@@author sherlynng
 /**
@@ -72,8 +69,8 @@ public class RateCommand extends UndoableCommand {
             throw new AssertionError("The target person cannot be missing");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        PersonCard personCardChanged = new PersonCard(editedPerson, targetIndex.getOneBased());
-        EventsCenter.getInstance().post(new PersonPanelSelectionChangedEvent(personCardChanged));
+        //PersonCard personCardChanged = new PersonCard(editedPerson, targetIndex.getOneBased());
+        //EventsCenter.getInstance().post(new PersonPanelSelectionChangedEvent(personCardChanged));
         return new CommandResult(String.format(MESSAGE_RATE_PERSON_SUCCESS,
                                 editedPerson.getName(), newRate));
     }
