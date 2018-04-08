@@ -27,7 +27,7 @@ public class ChartsPanel extends UiPart<Region> {
     private ObservableList<Person> personList;
 
     @FXML
-    private PieChart roleDistribution;
+    private PieChart RoleDistribution;
 
 
     public ChartsPanel(ObservableList<Person> personList) {
@@ -51,7 +51,7 @@ public class ChartsPanel extends UiPart<Region> {
                 FXCollections.observableArrayList(
                 new PieChart.Data("Tutor", numTutor),
                 new PieChart.Data("student", numStudent));
-        roleDistribution.setData(pieChartData);
+        RoleDistribution.setData(pieChartData);
     }
 
     @Subscribe
