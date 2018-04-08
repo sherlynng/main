@@ -11,6 +11,7 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.commands.RemarkCommand.MESSAGE_EDIT_REMARK_SUCCESS;
 import static seedu.address.logic.commands.RemarkCommand.MESSAGE_REMARK_PERSON_SUCCESS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
@@ -56,6 +57,22 @@ public class RemarkCommandTest {
     public void constructor_nullRemark_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new RemarkCommand(INDEX_FIRST_PERSON, null);
+    }
+
+    @Test
+    public void execute_editRemark_success() throws Exception {
+        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+
+        Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        Remark remark = new Remark("");
+        RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, remark, true);
+        remarkCommand.preprocessUndoableCommand();
+        String expectedMessage = String.format(MESSAGE_EDIT_REMARK_SUCCESS, personInFilteredList.getName());
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+
+        assertCommandSuccess(remarkCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
@@ -159,8 +176,8 @@ public class RemarkCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().withName("Benson Meier")
                 .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
-                .withPrice("50").withSubject("Math").withStatus("Matched").withLevel("Lower Sec")
-                .withRole("Student").withRemark(REMARK_BOB).build();
+                .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
+                .withRole("Student").withRemark(REMARK_BOB).withRate("2.1", "2").build();
         Remark remark = new Remark(REMARK_BOB);
         RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, remark);
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
@@ -216,6 +233,15 @@ public class RemarkCommandTest {
      */
     private RemarkCommand prepareCommand(Index index, Remark remark) {
         RemarkCommand remarkCommand = new RemarkCommand(index, remark);
+        remarkCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return remarkCommand;
+    }
+
+    /**
+     * Returns an {@code RemarkCommand} with parameters {@code index} and {@code remark}
+     */
+    private RemarkCommand prepareCommand(Index index, Remark remark, boolean isEditRemark) {
+        RemarkCommand remarkCommand = new RemarkCommand(index, remark, isEditRemark);
         remarkCommand.setData(model, new CommandHistory(), new UndoRedoStack());
         return remarkCommand;
     }

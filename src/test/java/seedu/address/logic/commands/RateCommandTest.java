@@ -82,9 +82,13 @@ public class RateCommandTest {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = new PersonBuilder(personInFilteredList).withRate(VALID_RATE_AMY, RATECOUNT_AMY).build();
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), false);
-        rate.setCount(Integer.parseInt(RATECOUNT_AMY));
+        Rate accumulatedRate = personInFilteredList.getRate().accumulatedValue(personInFilteredList.getRate(), rate);
+        Person editedPerson = new PersonBuilder(personInFilteredList)
+                .withRate(Double.toString(accumulatedRate.getValue()),
+                        Integer.toString(accumulatedRate.getCount())).build();
+
+        //rate.setCount(Integer.parseInt(RATECOUNT_AMY));
         RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);
         rateCommand.preprocessUndoableCommand();
         String expectedMessage = String.format(MESSAGE_RATE_PERSON_SUCCESS,
@@ -132,7 +136,8 @@ public class RateCommandTest {
         Person editedPerson = new PersonBuilder().withName("Alice Pauline")
                 .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
                 .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
-                .withRole("Tutor").withRemark("Hardworking but slow learner.").withRate("3.0", "1").build();
+                .withRole("Tutor").withRemark("Hardworking but slow learner.")
+                .withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
         rate.setCount(Integer.parseInt(RATECOUNT_BOB));
@@ -184,7 +189,8 @@ public class RateCommandTest {
         Person editedPerson = new PersonBuilder().withName("Benson Meier")
                 .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
                 .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
-                .withRole("Student").withRemark("Not self motivated.").withRate("2.1", "2").build();
+                .withRole("Student").withRemark("Not self motivated.")
+                .withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
         rate.setCount(Integer.parseInt(RATECOUNT_BOB));
         RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);

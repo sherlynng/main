@@ -606,7 +606,7 @@ public class RateTest {
         Rate expectedRate = new Rate(2.3, true);
         expectedRate.setCount(3);
 
-        Rate actualRate = Rate.acummulatedValue(oldRate, newRate);
+        Rate actualRate = Rate.accumulatedValue(oldRate, newRate);
         assertTrue(expectedRate.equals(actualRate));
     }
 
