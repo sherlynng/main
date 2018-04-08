@@ -21,6 +21,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
@@ -33,12 +34,15 @@ import seedu.address.logic.commands.FindMissingCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.MatchCommand;
 import seedu.address.logic.commands.RateCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.RemoveTagCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.commands.UnmatchCommand;
+import seedu.address.logic.commands.ViewStatsCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.predicates.FindMissingPredicate;
 import seedu.address.model.person.KeywordPredicate;
@@ -241,6 +245,26 @@ public class AddressBookParserTest {
     public void parseCommand_undoCommandWordAliased_returnsUndoCommand() throws Exception {
         assertTrue(parser.parseCommand(UndoCommand.COMMAND_WORD_ALIAS) instanceof UndoCommand);
         assertTrue(parser.parseCommand("u 3") instanceof UndoCommand);
+    }
+
+    @Test
+    public void parseCommand_viewStats() throws Exception {
+        assertTrue(parser.parseCommand(ViewStatsCommand.COMMAND_WORD) instanceof ViewStatsCommand);
+    }
+
+    @Test
+    public void parseCommand_match() throws Exception {
+        String matchCommandString = MatchCommand.COMMAND_WORD + " 1 2";
+        MatchCommand targetCommand = new MatchCommand(Index.fromOneBased(1), Index.fromOneBased(2));
+        MatchCommand parsedCommand = (MatchCommand) parser.parseCommand(matchCommandString);
+        assertEquals(targetCommand, parsedCommand);
+    }
+
+    @Test
+    public void parseCommand_unmatch() throws Exception {
+        UnmatchCommand targetCommand = new UnmatchCommand(Index.fromOneBased(1));
+        UnmatchCommand parsedCommand = (UnmatchCommand) parser.parseCommand(UnmatchCommand.COMMAND_WORD + " 1");
+        assertEquals(targetCommand, parsedCommand);
     }
 
     //@@author
