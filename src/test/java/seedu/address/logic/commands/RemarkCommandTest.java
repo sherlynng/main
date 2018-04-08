@@ -15,8 +15,6 @@ import static seedu.address.logic.commands.RemarkCommand.MESSAGE_EDIT_REMARK_SUC
 import static seedu.address.logic.commands.RemarkCommand.MESSAGE_REMARK_PERSON_SUCCESS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Rule;

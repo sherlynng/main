@@ -135,8 +135,6 @@ public class Person {
                 && otherPerson.getStatus().equals(this.getStatus())
                 && otherPerson.getPrice().equals(this.getPrice())
                 && otherPerson.getRole().equals(this.getRole());
-                //&& otherPerson.getRemark().equals(this.getRemark())
-                //&& otherPerson.getRate().equals(this.getRate());
     }
 
     @Override
