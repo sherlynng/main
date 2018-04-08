@@ -27,6 +27,7 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.MatchCommand;
 import seedu.address.logic.commands.RateCommand;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.SelectCommand;
@@ -57,10 +58,6 @@ public class CommandBox extends UiPart<Region> {
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
         historySnapshot = logic.getHistorySnapshot();
-
-        //String[] possibleWords = {"Student", "Tutor", "English", "Chinese", "Matched", "Not Matched"};
-
-        //TextFields.bindAutoCompletion(commandTextField, possibleWords);
     }
 
     /**
@@ -100,7 +97,7 @@ public class CommandBox extends UiPart<Region> {
     private void autofillCommand() {
         String input = commandTextField.getText();
         int nextCaretPosition = -1;
-        boolean isFirstTime = false; // set this to check for edit command
+        boolean isFirstTime = false; // check for commands that have different behaviors between first and other tabs
 
         // first time tab is pressed
         switch (input) {
@@ -110,6 +107,7 @@ public class CommandBox extends UiPart<Region> {
                     + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
                     + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
             isFindNextField = true;
+            isMatchCommand = false;
             break;
         case EditCommand.COMMAND_WORD:
         case EditCommand.COMMAND_WORD_ALIAS:
@@ -119,6 +117,7 @@ public class CommandBox extends UiPart<Region> {
             selectIndexToEdit();
             isFindNextField = false;
             isFirstTime = true;
+            isMatchCommand = false;
             break;
         case RemarkCommand.COMMAND_WORD:
         case RemarkCommand.COMMAND_WORD_ALIAS:
@@ -126,6 +125,7 @@ public class CommandBox extends UiPart<Region> {
             selectIndexToEdit();
             isFindNextField = false;
             isFirstTime = true;
+            isMatchCommand = false;
             break;
         case RateCommand.COMMAND_WORD:
         case RateCommand.COMMAND_WORD_ALIAS:
@@ -133,33 +133,36 @@ public class CommandBox extends UiPart<Region> {
             selectIndexToEdit();
             isFindNextField = false;
             isFirstTime = true;
+            isMatchCommand = false;
             break;
         case SelectCommand.COMMAND_WORD:
         case SelectCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(SelectCommand.COMMAND_WORD + " 1");
             selectIndexToEdit();
             isFindNextField = false;
+            isMatchCommand = false;
             break;
         case DeleteCommand.COMMAND_WORD:
         case DeleteCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(DeleteCommand.COMMAND_WORD + " 1");
             selectIndexToEdit();
             isFindNextField = false;
+            isMatchCommand = false;
             break;
         case UnmatchCommand.COMMAND_WORD:
         case UnmatchCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(UnmatchCommand.COMMAND_WORD + " 1");
             selectIndexToEdit();
             isFindNextField = false;
+            isMatchCommand = false;
             break;
-        /*
         case MatchCommand.COMMAND_WORD:
         case MatchCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(MatchCommand.COMMAND_WORD + " 1 2");
             selectIndexToEdit();
             isFindNextField = false;
             isFirstTime = true;
-            break; */
+            break;
         default:
             // no autofill
         }
@@ -171,17 +174,17 @@ public class CommandBox extends UiPart<Region> {
                 commandTextField.positionCaret(nextCaretPosition);
             }
         }
-        /*
+
         if (isMatchCommand) {
             selectIndexToEdit();
-        }*/
+        }
 
         if (isFirstTime) {
-            /*if (commandTextField.getText().contains("match")) { // match command
+            if (commandTextField.getText().substring(0, 5).equals("match")) { // match command
                 isMatchCommand = true;
-            } else {*/ // all other commands that have different behavior between first and other tabs
-            isFindNextField = true;
-            //}
+            } else { // all other commands that have different behavior between first and other tabs
+                isFindNextField = true;
+            }
         }
     }
 
@@ -274,7 +277,6 @@ public class CommandBox extends UiPart<Region> {
      */
     @FXML
     private void handleCommandInputChanged() {
-        //isMatchCommand = false; // reset it back to false since MatchCommand is now executed
         try {
             CommandResult commandResult = logic.execute(commandTextField.getText());
             initHistory();
