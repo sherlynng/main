@@ -28,10 +28,13 @@ public class MatchCommandParserTest {
     @Test
     public void parse_invalidIndex_failure() {
         // negative index
-        assertParseFailure(parser, "-5" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "-5 1", MESSAGE_INVALID_FORMAT);
 
         // zero index
-        assertParseFailure(parser, "0" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "0 1", MESSAGE_INVALID_FORMAT);
+
+        //second index is negative, first positive
+        assertParseFailure(parser, "1 -1", MESSAGE_INVALID_FORMAT);
 
         // invalid arguments being parsed as preamble
         assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_FORMAT);
