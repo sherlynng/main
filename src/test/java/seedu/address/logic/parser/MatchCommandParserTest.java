@@ -1,7 +1,6 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 
 import org.junit.Test;
@@ -27,10 +26,10 @@ public class MatchCommandParserTest {
 
     @Test
     public void parse_invalidIndex_failure() {
-        // negative index
+        // negative index in first
         assertParseFailure(parser, "-5 1", MESSAGE_INVALID_FORMAT);
 
-        // zero index
+        // zero index in first
         assertParseFailure(parser, "0 1", MESSAGE_INVALID_FORMAT);
 
         //second index is negative, first positive
