@@ -36,14 +36,14 @@ public class MatchCommandParser implements Parser<MatchCommand> {
             indexA = ParserUtil.parseIndex(indices[0]);
         } catch (IllegalValueException e) {
             throw new ParseException(
-                    new String(MESSAGE_INVALID_COMMAND_FORMAT  + MatchCommand.MESSAGE_USAGE));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MatchCommand.MESSAGE_USAGE));
         }
 
         try {
             indexB = ParserUtil.parseIndex(indices[1]);
         } catch (IllegalValueException e) {
             throw new ParseException(
-                    new String(MESSAGE_INVALID_COMMAND_FORMAT  + MatchCommand.MESSAGE_USAGE));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MatchCommand.MESSAGE_USAGE));
         }
 
         return new MatchCommand(indexA, indexB);

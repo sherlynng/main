@@ -34,7 +34,7 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         isEditCommand = argMultimap.getPreamble().contains("edit");
 
         if (!arePrefixesPresent(argMultimap, PREFIX_REMARK) && !isEditCommand) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
 
         try {
@@ -44,21 +44,16 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
                 index = ParserUtil.parseIndex(argMultimap.getPreamble());
             }
         } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
 
         Remark remark;
-        try {
-            if (isEditCommand) {
-                remark = ParserUtil.parseRemark((String) null);
+        if (isEditCommand) {
+            remark = ParserUtil.parseRemark((String) null);
 
-                return new RemarkCommand(index, remark, isEditCommand);
-            }  else {
-                remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
-            }
-
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
+            return new RemarkCommand(index, remark, isEditCommand);
+        } else {
+            remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
         }
 
         return new RemarkCommand(index, remark);

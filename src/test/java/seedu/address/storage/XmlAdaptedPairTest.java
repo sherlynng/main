@@ -21,6 +21,7 @@ import seedu.address.testutil.Assert;
 
 public class XmlAdaptedPairTest {
     private static final String INVALID_STUDENT_NAME = "R@chel";
+    private static final String INVALID_TUTOR_NAME = "Bens[]n";
 
     private static final String INVALID_TAG = "#friend";
     private static final String INVALID_PRICE = "-50";
@@ -44,8 +45,8 @@ public class XmlAdaptedPairTest {
     }
 
     @Test
-    public void toModelType_invalidName_throwsIllegalValueException() {
-        XmlAdaptedPair pair = new XmlAdaptedPair(INVALID_STUDENT_NAME, VALID_TUTOR_NAME,
+    public void toModelType_invalidStudentName_throwsIllegalValueException() {
+        XmlAdaptedPair pair = new XmlAdaptedPair(INVALID_STUDENT_NAME, INVALID_TUTOR_NAME,
                 VALID_SUBJECT, VALID_LEVEL, VALID_PRICE, VALID_TAGS, VALID_PAIRHASH);
         String expectedMessage = Name.MESSAGE_NAME_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, pair::toModelType);
@@ -56,6 +57,14 @@ public class XmlAdaptedPairTest {
         XmlAdaptedPair pair = new XmlAdaptedPair(null, VALID_TUTOR_NAME,
                 VALID_SUBJECT, VALID_LEVEL, VALID_PRICE, VALID_TAGS, VALID_PAIRHASH);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, pair::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidTutorName_throwsIllegalValueException() {
+        XmlAdaptedPair pair = new XmlAdaptedPair(VALID_STUDENT_NAME, INVALID_TUTOR_NAME,
+                VALID_SUBJECT, VALID_LEVEL, VALID_PRICE, VALID_TAGS, VALID_PAIRHASH);
+        String expectedMessage = Name.MESSAGE_NAME_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, pair::toModelType);
     }
 
@@ -129,6 +138,7 @@ public class XmlAdaptedPairTest {
     public void testXmlAdaptedPairEquality() {
         XmlAdaptedPair alice = new XmlAdaptedPair(RANDOM_PAIR_A);
         XmlAdaptedPair copy = new XmlAdaptedPair(RANDOM_PAIR_A);
+        assertTrue(alice.equals(alice));
         assertTrue(alice.equals(copy)); //check equality if values are equal
         assertFalse(alice.equals(RANDOM_PAIR_A)); //check not equal if type is different
     }

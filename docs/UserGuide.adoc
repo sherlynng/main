@@ -31,6 +31,7 @@ By: `Team W11-B1`      Since: `Jun 2016`      Licence: `MIT`
 * Interested? Jump to the <<Getting Started>> now! Enjoy!
 
 == Getting Started
+This section helps you set up your STUtor app on your computer.
 
 .  Ensure you have Java version __1.8.0_60__ or later installed in your Computer.
 +
@@ -39,24 +40,32 @@ Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
 .  Download the latest _STUtor.jar_ link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for your STUtor.
-.  Double-click the file to start the app. The GUI should appear in a few seconds.
+.  Copy the file to the folder you want to use for storing your STUtor.
+.  Double-click the file to start the app. You will see the interface in a few seconds.
 +
-image::Ui.png[width="790"]
+image::Ui_withLabels.png[width="790"]
 +
-.  Type the command in the command box and press kbd:[Enter] to execute it. +
+****
+*  Sections of STUtor:
+** Section 1: *Command Box* to type your commands
+** Section 2: *Result Display* to show the results of your command
+** Section 3: *Pair List* to list all pairs currently matched
+** Section 4: *Person List* to list all persons in the entire database
+** Section 5: *Information Panel* to show all details of a person
+*  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing `*help*` and pressing kbd:[Enter] will open the help window.
-.  Some example commands you can try:
+*  Some example commands you can try:
 
-* `*list*` : lists all contacts
-* `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student` : adds a contact named `John Doe` to STUtor.
-* `*delete* 3` : deletes the 3rd contact shown in the current list
-* `*exit*` : exits the app
-
-.  Refer to <<Features>> for details of each command.
+** To list all contacts: `*list*`
+** To add a contact named `John Doe` and his particulars to STUtor: `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
+** To delete the 3rd contact shown in the current list: `*delete* 3`
+** To exit the app: `*exit*`
+* For more details for each command, you can view <<Basic Features>>.
+****
 
 [[Features]]
 == Features
+To use the features, you need to key in the commands in the *Command Box*.
 
 === Command Format
 
@@ -87,54 +96,53 @@ e.g. typing `*help*` and pressing kbd:[Enter] will open the help window.
 === Basic Features
 
 ==== Viewing help : `*help*`
-Format: `*help*`
-
 At any time if you are unsure of how to use STUtor, this command will bring you to the help page.
 
-==== Adding a person: `*add*` or `*a*`
-Format: `*add* n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
+Format: `*help*`
 
+==== Adding a person: `*add*` or `*a*`
 Adds a new person to STUtor. +
 
 ****
 * For PRICE, SUBJECT, EDUCATION_LEVEL, STATUS, ROLE:
 
-** Alias can be used to reduce typing. Refer to <<Prefix Shortcut Summary >> for more details.
+** Alias can be used to reduce typing. Refer to <<Prefix Shortcut Summary>> for more details.
 ** These information is displayed as tags for easy reference.
 ****
 
 [NOTE]
 ====
 Only the NAME field is required for the command to be accepted, all other fields are optional. +
-To fill in the other fields later, you can use the edit command to edit the person with the new information.
+To fill in the other fields later, you can use the edit command to edit the person with the new information. +
 ====
+
+Format: `*add* n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
 
 Examples:
 
 * `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
 * `*add* n/Betsy Crowe p/91562389 e/betsycrowe@example.com a/Pasir Ris Drive 10, #06-02 $/30 sub/Chinese lvl/Upper Pri stat/Not Matched r/Tutor`
-* `*add* n/Carl Kurz
+* `*add* n/Carl Kurz`
 
 
 [NOTE]
 ====
-Press kbd:[Tab] key once after typing `*add*` or `*a*` will autofill the command.
+You can press kbd:[Tab] key once after typing `*add*` or `*a*` and it will autofill the command.
 Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
-Press kbd:[Delete] key to delete a field (and its prefix).
+You can press kbd:[Delete] key to delete a field (and its prefix).
+You can view the diagram below for a clearer visualization on how it works.
+*Important!* If you enter only empty spaces after a prefix, it will be read as no value entered into the optional field. You will not need to delete prefixes for unentered fields to enter the command.
 ====
 
 image::AutofillAdd_Tab.png[width="700"]
 image::AutofillAdd_Delete.png[width="700"]
 
 ==== Listing all persons : `*list*` or `*l*`
-Format: `*list*`
-
 Shows a list of all persons in STUtor. +
 
+Format: `*list*`
 
 ==== Editing a person : `*edit*` or `*e*`
-Format: `*edit* INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
-
 Edits an existing person in STUtor. +
 
 ****
@@ -147,6 +155,8 @@ Edits an existing person in STUtor. +
 * Attribute tags will automatically update to reflect any changes to the actual attributes.
 ****
 
+Format: `*edit* INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
+
 Examples:
 
 * `*edit* 1 p/91234567 e/johndoe@example.com` +
@@ -156,17 +166,16 @@ Edits the name of the 2nd person to be `Betsy Crower` and clears all existing ta
 
 [NOTE]
 ====
-Press kbd:[Tab] key once after typing `*edit*` or `*e*` will autofill the command.
+You can press kbd:[Tab] key once after typing `*edit*` or `*e*` and it will autofill the command.
 INDEX to be specified will be highlighted.
 Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
-Press kbd:[Delete] key to delete a field (and its prefix).
+You can press kbd:[Delete] key to delete a field (and its prefix).
+You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillEdit.png[width="800"]
 
 ==== Filtering all persons list by subject, level, role or status: `*filter*` `[In V1.3]`
-Format: `*filter* KEYWORD`
-
 Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain any of the given keywords. +
 
 ****
@@ -179,6 +188,8 @@ Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain
 * Persons with matching keyword will be returned
 ****
 
+Format: `*filter* KEYWORD`
+
 Examples:
 
 * `*filter* Math` +
@@ -187,8 +198,6 @@ Returns persons with `Math` subject
 Returns persons with `Student` role
 
 ==== Locating persons by name: `*find*` or `*f*`
-Format: `*find* KEYWORD [MORE_KEYWORDS]`
-
 Finds persons whose NAME contain any of the given keywords. +
 
 ****
@@ -206,6 +215,8 @@ Finds persons whose NAME contain any of the given keywords. +
 {nbsp}{nbsp}{nbsp}{nbsp} e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 ****
 
+Format: `*find* KEYWORD [MORE_KEYWORDS]`
+
 Examples:
 
 * `*find* John` +
@@ -214,8 +225,8 @@ Returns `john` and `John Doe`
 Returns any person having names `Betsy`, `Tim`, or `John`
 
 ==== Finding people with missing fields: `*findmissing*` or `*fm*` `[In V1.4]`
-Format: `*findmissing* [FIELD]...`
 
+Lists only people who have fields that you have not yet entered, making it easy for you to search for that person you want to edit in data. +
 If no arguments for FIELD is entered, lists all people with at least one field with an empty value. +
 Otherwise, finds all people with an empty value in at least one entered FIELD.
 
@@ -232,6 +243,8 @@ Otherwise, finds all people with an empty value in at least one entered FIELD.
 ** subject
 ****
 
+Format: `*findmissing* [FIELD]...`
+
 Examples:
 
 * `*findmissing* role` +
@@ -244,8 +257,6 @@ Returns any person who has no entered phone or email.
 Returns any person who has no entered value for at least 1 field.
 
 ==== Deleting a person : `*delete*` or `*d*`
-Format: `*delete* INDEX`
-
 Deletes the specified person from STUtor. +
 
 ****
@@ -253,6 +264,8 @@ Deletes the specified person from STUtor. +
 * The index refers to the index number shown in the *most recent listing*.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
+
+Format: `*delete* INDEX`
 
 Examples:
 
@@ -265,15 +278,14 @@ Deletes the 1st person in the results of the `*find*` command.
 
 [NOTE]
 ====
-Press kbd:[Tab] key once after typing `*delete*` or `*d*` will autofill the command.
+You can press kbd:[Tab] key once after typing `*delete*` or `*d*` and it will autofill the command.
 INDEX to be specified will be highlighted.
+You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillDelete.png[width="500"]
 
 ==== Selecting a person : `*select*` or `*s*`
-Format: `*select* INDEX`
-
 Selects the person identified by the index number used in the *last person listing*. +
 
 ****
@@ -281,6 +293,8 @@ Selects the person identified by the index number used in the *last person listi
 * The index refers to the index number shown in the most recent listing.
 * The index *must be a positive integer* `1, 2, 3, ...`
 ****
+
+Format: `*select* INDEX`
 
 Examples:
 
@@ -293,15 +307,14 @@ Selects the 1st person in the results of the `*find*` command.
 
 [NOTE]
 ====
-Press kbd:[Tab] key once after typing `*select*` or `*s*` will autofill the command.
+You can press kbd:[Tab] key once after typing `*select*` or `*s*` and it will autofill the command.
 INDEX to be specified will be highlighted.
+You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillSelect.png[width="500"]
 
 ==== Matching a student and a tutor : `*match*` or `*m*` `[In V1.4]`
-Format: `*match* INDEX_A INDEX_B` or `*m* INDEX_A INDEX_B`
-
 Selects the persons identified by the index numbers used in the *last person listing*. +
 
 ****
@@ -322,6 +335,8 @@ For example: +
 ** `Please provide indices of unmatched student and unmatched tutor`
 ****
 
+Format: `*match* INDEX_A INDEX_B` or `*m* INDEX_A INDEX_B`
+
 Examples:
 
 * `*match* 1 2` +
@@ -335,8 +350,6 @@ or the other way round.
 ====
 
 ==== Unmatching a student and a tutor : `*ummatch*` or `*um*` `[In V1.4]`
-Format: `*unmatch* INDEX_A INDEX_B` or `*um* INDEX_A INDEX_B`
-
 Selects the pair identified by the index numbers used in the pair listing. +
 
 ****
@@ -344,30 +357,33 @@ Selects the pair identified by the index numbers used in the pair listing. +
 and *must be a positive integer* `1, 2, 3, ...`
 ****
 
+Format: `*unmatch* INDEX_A INDEX_B` or `*um* INDEX_A INDEX_B`
+
 Examples:
 
 * `*unmatch* 1` +
 Match the pair at index 1. +
 
 ==== Listing entered commands : `*history*` or `*h*`
-Format: `*history*`
-
 You can list all the commands that you have entered in reverse chronological order. +
 
 [NOTE]
 ====
-Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and next input respectively in the command box.
+You can press kbd:[&uarr;] and kbd:[&darr;] arrows and it will display the previous and next input respectively in the command box.
 ====
+
+Format: `*history*`
 
 // tag::undoredo[]
 ==== Undoing previous command : `*undo*` or `*u*`
-Format: `*undo*`
 You can easily restore STUtor to the state before the previous _undoable_ command was executed. +
 
 [NOTE]
 ====
 Undoable commands: those commands that modify STUtor's content (`*add*`, `*delete*`, `*edit*` and `*clear*`).
 ====
+
+Format: `*undo*`
 
 Examples:
 
@@ -386,10 +402,9 @@ The `*undo*` command fails as there are no undoable commands executed previously
 `*undo*` (reverses the `*delete* 1` command) +
 
 ==== Redoing the previously undone command : `*redo*` or `*r*`
-Format: `*redo*`
-
 You can easily reverse the most recent `*undo*` command. +
 
+Format: `*redo*`
 
 Examples:
 
@@ -410,13 +425,11 @@ The `*redo*` command fails as there are no `*undo*` commands executed previously
 // end::undoredo[]
 
 ==== Clearing all entries : `*clear*` or `*c*`
-Format: `*clear*`
-
 To clear all entries from your STUtor, use the `*clear*` command. +
 
-==== Creating a remark for a person : `*remark*` or `*rk*` `[In V1.3]`
-Format: `*remark* INDEX r/`
+Format: `*clear*`
 
+==== Creating a remark for a person : `*remark*` or `*rk*` `[In V1.3]`
 Creates a remark for the person identified by the index number used in the *last person listing*. +
 
 ****
@@ -424,6 +437,8 @@ Creates a remark for the person identified by the index number used in the *last
 * The index *must be a positive integer* `1, 2, 3, ...`
 * You can remove a remark by typing `r/` without specifying any remark after it.
 ****
+
+Format: `*remark* INDEX r/REMARK`
 
 Examples:
 
@@ -435,8 +450,6 @@ Creates a remark 'Fast learner.' for the 2nd person in STUtor.
 Removes the remark for the 1st person in the results of the `*find*` command.
 
 ==== Giving a rating to a person : `*rate*` or `*rt*` `[In V1.4]`
-Format: `*rate* INDEX r/`
-
 Gives a rating to the person identified by the index number used in the *last person listing*. +
 
 ****
@@ -447,15 +460,22 @@ Gives a rating to the person identified by the index number used in the *last pe
 
 [%hardbreak]
 {nbsp}{nbsp}{nbsp}{nbsp} e.g `rate 1 r/2.0-` will set rating of the 1st person in the results
-to 2.0 and number of people who rated the person will be reset to 1.
+to 2.0 and number of people who rated the person will be resetted to 1.
 
 * Without placing `-` after the rating gives an *accumulative rating* to the person specified.
 
 [%hardbreak]
 {nbsp}{nbsp}{nbsp}{nbsp} e.g `rate 1 r/2.0` will add on to the current rating of the 1st person
-and average of the ratings will be displayed. Number of people who rated the person will also increase by 1.
+and the person's average ratings will be displayed. Number of people who rated the person will also increase by 1.
 
+[NOTE]
+====
+STUtor does not keept track of all ratings of each person, hence accumulated rating value may be off by 0.2.
+Rating values are also rounded down.
+====
 ****
+
+Format: `*rate* INDEX r/RATE`
 
 Examples:
 
@@ -467,8 +487,6 @@ Gives an absolute rating of 2.0 to the 2nd person in STUtor.
 Gives an accumulated rating for the 1st person in the results of the `*find*` command.
 
 ==== Viewing the statistic : `*viewStats*` `[In V1.4]`
-Format: `*viewStats*`
-
 Shows statistical information such as role distribution(Student/Tutor ratio) in the form of a pie chart. +
 
 ****
@@ -477,12 +495,12 @@ Shows statistical information such as role distribution(Student/Tutor ratio) in 
 * To exit from `*viewStats*`, you can simply click on person in the person list.
 ****
 
-==== Exiting the program : `*exit*`
-Format: `*exit*`
+Format: `*viewStats*`
 
+==== Exiting the program : `*exit*`
 Exits the program. +
 
-
+Format: `*exit*`
 
 ==== Saving the data
 
@@ -510,6 +528,7 @@ with the file of the same name found on your previous computer.
 You can the file under the same path of *main/data*
 
 == Command Summary
+You can use these shortcuts when typing the commands.
 
 [width="80%",cols="<20%,<20%,<20%,<20%",options="header",]
 |=======================================================================

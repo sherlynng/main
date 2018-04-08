@@ -51,7 +51,7 @@ public class XmlUtilTest {
     private static final String VALID_PAIRHASH = PairHash.getDefaultPairHash().toString();
 
     private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(
-            new XmlAdaptedTag("friends"));
+            new XmlAdaptedTag("friends", "DEFAULT"));
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
