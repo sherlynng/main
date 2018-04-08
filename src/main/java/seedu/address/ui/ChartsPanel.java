@@ -51,7 +51,7 @@ public class ChartsPanel extends UiPart<Region> {
                 FXCollections.observableArrayList(
                 new PieChart.Data("Tutor", numTutor),
                 new PieChart.Data("student", numStudent));
-        RoleDistribution.setData(pieChartData);
+        roleDistribution.setData(pieChartData);
     }
 
     @Subscribe
