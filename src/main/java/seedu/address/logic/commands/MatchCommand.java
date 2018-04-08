@@ -92,5 +92,9 @@ public class MatchCommand extends UndoableCommand {
 
     }
 
-
+    @Override
+    public boolean equals(Object other) {
+        return this == other //short circuit for same object
+            || (other instanceof MatchCommand
+            && indexA.equals(((MatchCommand) other).indexA) && indexB.equals(((MatchCommand) other).indexB));    }
 }
