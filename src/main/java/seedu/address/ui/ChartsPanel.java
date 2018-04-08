@@ -27,7 +27,7 @@ public class ChartsPanel extends UiPart<Region> {
     private ObservableList<Person> personList;
 
     @FXML
-    private PieChart RoleDistribution;
+    private PieChart roleDistribution;
 
 
     public ChartsPanel(ObservableList<Person> personList) {
