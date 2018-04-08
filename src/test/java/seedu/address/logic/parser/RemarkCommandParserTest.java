@@ -36,10 +36,10 @@ public class RemarkCommandParserTest {
     @Test
     public void parse_invalidPreamble_failure() {
         // negative index
-        assertParseFailure(parser, "-5" + REMARK_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "-5" + PREFIX_REMARK + REMARK_AMY, MESSAGE_INVALID_FORMAT);
 
         // zero index
-        assertParseFailure(parser, "0" + REMARK_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "0" + PREFIX_REMARK + REMARK_AMY, MESSAGE_INVALID_FORMAT);
 
         // invalid prefix being parsed as preamble
         assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT);
