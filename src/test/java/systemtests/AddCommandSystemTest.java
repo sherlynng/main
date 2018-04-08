@@ -207,6 +207,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
                 + TAG_DESC_FRIEND;
         assertCommandFailure(command, Email.MESSAGE_EMAIL_CONSTRAINTS);
 
+        //@@author aussiroth
         /* Case: invalid price -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + INVALID_PRICE_DESC + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY + ROLE_DESC_AMY
@@ -236,6 +237,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
                 + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY + ROLE_DESC_AMY
                 + INVALID_TAG_DESC;
         assertCommandFailure(command, Tag.MESSAGE_TAG_CONSTRAINTS);
+        //@@author
     }
 
     /**

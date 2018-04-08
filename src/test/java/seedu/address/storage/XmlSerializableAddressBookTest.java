@@ -51,6 +51,7 @@ public class XmlSerializableAddressBookTest {
         dataFromFile.toModelType();
     }
 
+    //@@author aussiroth
     @Test
     public void testSerializableAddressBookEquality() throws Exception {
         XmlSerializableAddressBook dataFromFile = XmlUtil.getDataFromFile(TYPICAL_PERSONS_FILE,
