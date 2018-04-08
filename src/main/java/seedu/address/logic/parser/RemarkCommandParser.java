@@ -2,7 +2,6 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.RemarkCommand.MESSAGE_USAGE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 
 import java.util.stream.Stream;
@@ -34,7 +33,7 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         isEditCommand = argMultimap.getPreamble().contains("edit");
 
         if (!arePrefixesPresent(argMultimap, PREFIX_REMARK) && !isEditCommand) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
         }
 
         try {
@@ -44,7 +43,7 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
                 index = ParserUtil.parseIndex(argMultimap.getPreamble());
             }
         } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+            throw new ParseException(ive.getMessage());
         }
 
         Remark remark;
