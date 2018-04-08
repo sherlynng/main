@@ -36,6 +36,7 @@ public class XmlAdaptedTagTest {
     public void testXmlAdaptedTagEquality() {
         XmlAdaptedTag tagMath = new XmlAdaptedTag("math", "SUBJECT");
         XmlAdaptedTag copy = new XmlAdaptedTag("math", "SUBJECT");
+        assertTrue(tagMath.equals(tagMath));
         //check equality if values are equal
         assertTrue(tagMath.equals(copy));
         //check not equal if type is different

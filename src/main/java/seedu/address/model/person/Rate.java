@@ -77,7 +77,7 @@ public class Rate {
     }
 
     /**
-     * Returns true if a given string is a valid person email.
+     * Returns true if a given string is a valid person rate.
      */
     public static boolean isValidRate(String test) {
         return test.equals("") || test.matches(RATE_VALIDATION_REGEX) || test.matches(RATE_VALIDATION_REGEX_ABSOLUTE);
