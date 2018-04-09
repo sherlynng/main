@@ -333,6 +333,9 @@ For example: +
 ** `Please provide indices of one student and one tutor.`
 ** `Not the same subject.`
 ** `Please provide indices of unmatched student and unmatched tutor`
+* The order of entering indices does not matter.
+That is, you can enter the student's index first followed by the tutor's index,
+or the other way round.
 ****
 
 Format: `*match* INDEX_A INDEX_B` or `*m* INDEX_A INDEX_B`
@@ -344,10 +347,13 @@ Match the person at index 1 to the person at index 2. +
 
 [NOTE]
 ====
-The order of entering indices does not matter.
-That is, you can enter the student's index first followed by the tutor's index,
-or the other way round.
+You can press kbd:[Tab] key once after typing `*match*` or `*m*` and it will autofill the command.
+INDEX to be specified will be highlighted. Press kbd:[Tab] key again will jump to the next index to be filled in.
+You can view the diagram below for a clearer visualization on how it works.
 ====
+
+image::AutofillMatch.png[width="700"]
+
 
 ==== Unmatching a student and a tutor : `*ummatch*` or `*um*` `[In V1.4]`
 Selects the pair identified by the index numbers used in the pair listing. +
@@ -363,6 +369,15 @@ Examples:
 
 * `*unmatch* 1` +
 Match the pair at index 1. +
+
+[NOTE]
+====
+You can press kbd:[Tab] key once after typing `*unmatch*` or `*um*` and it will autofill the command.
+INDEX to be specified will be highlighted.
+You can view the diagram below for a clearer visualization on how it works.
+====
+
+image::AutofillUnmatch.png[width="500"]
 
 ==== Listing entered commands : `*history*` or `*h*`
 You can list all the commands that you have entered in reverse chronological order. +
@@ -436,9 +451,10 @@ Creates a remark for the person identified by the index number used in the *last
 * The index refers to the index number shown in the most recent listing.
 * The index *must be a positive integer* `1, 2, 3, ...`
 * You can remove a remark by typing `r/` without specifying any remark after it.
+* You can edit a remark by typing `edit` after indicating the index you want to edit.
 ****
 
-Format: `*remark* INDEX r/REMARK`
+Format: `*remark* INDEX r/REMARK` or `*remark* INDEX edit`
 
 Examples:
 
@@ -448,6 +464,19 @@ Creates a remark 'Fast learner.' for the 2nd person in STUtor.
 * `*find* Betsy` +
 `*remark* 1 r/` +
 Removes the remark for the 1st person in the results of the `*find*` command.
+
+* `*list*` +
+`*remark* 1 edit` +
+Edits the remark of the 1st person in STUtor.
+
+[NOTE]
+====
+You can press kbd:[Tab] key once after typing `*remark*` or `*rk*` and it will autofill the command.
+INDEX to be specified will be highlighted. Press kbd:[Tab] key again will jump to the position for you to input your remark.
+You can view the diagram below for a clearer visualization on how it works.
+====
+
+image::AutofillRemark.png[width="700"]
 
 ==== Giving a rating to a person : `*rate*` or `*rt*` `[In V1.4]`
 Gives a rating to the person identified by the index number used in the *last person listing*. +
@@ -485,6 +514,15 @@ Gives an absolute rating of 2.0 to the 2nd person in STUtor.
 * `*find* Betsy` +
 `*rate* 1 r/4.2` +
 Gives an accumulated rating for the 1st person in the results of the `*find*` command.
+
+[NOTE]
+====
+You can press kbd:[Tab] key once after typing `*rate*` or `*rt*` and it will autofill the command.
+INDEX to be specified will be highlighted. Press kbd:[Tab] key again will jump to the position for you to input your rating.
+You can view the diagram below for a clearer visualization on how it works.
+====
+
+image::AutofillRate.png[width="700"]
 
 ==== Viewing the statistic : `*viewStats*` `[In V1.4]`
 Shows statistical information such as role distribution(Student/Tutor ratio) in the form of a pie chart. +
