@@ -12,7 +12,7 @@ public class RateCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Adds rating to person identified by the index number used in the last person listing. "
             + "Parameters: INDEX (must be a positive integer), RATE (must be an integer between 0 and 5 (inclusive)\n"
-            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_RATE;
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_RATE + "4.5";
 
     public static final String MESSAGE_RATE_PERSON_SUCCESS = "Added Rating to %1$s: " + "%2$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
@@ -41,6 +41,8 @@ public class RateCommand extends UndoableCommand {
             throw new AssertionError("The target person cannot be missing");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        //PersonCard personCardChanged = new PersonCard(editedPerson, targetIndex.getOneBased());
+        //EventsCenter.getInstance().post(new PersonPanelSelectionChangedEvent(personCardChanged));
         return new CommandResult(String.format(MESSAGE_RATE_PERSON_SUCCESS,
                                 editedPerson.getName(), newRate));
     }
@@ -73,17 +75,17 @@ public class RateCommand extends UndoableCommand {
         Status status = personToEdit.getStatus();
         Role role = personToEdit.getRole();
         Remark remark = personToEdit.getRemark();
-        PairHash pairHash = personToEdit.getPairHash();
+        Set<PairHash> pairHashes = personToEdit.getPairHashes();
 
         Rate oldRate = personToEdit.getRate();
 
-        if (newRate.getisAbsolute()) {
+        if (newRate.getIsAbsolute()) {
             newRate.setCount(1); // reset count when set absolute
         } else {
             newRate = Rate.accumulatedValue(oldRate, newRate);
         }
 
-        Set<Tag> updatedTags = personToEdit.getTags();
+        Set<Tag> updatedTags = new HashSet<>(personToEdit.getTags());
 
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
@@ -107,7 +109,7 @@ public class RateCommand extends UndoableCommand {
         }
 
         return new Person(name, phone, email, address, price, subject, level, status, role,
-                          attributeTags, remark, newRate, pairHash);
+                          attributeTags, remark, newRate, pairHashes);
     }
 
     @Override
@@ -132,13 +134,16 @@ public class RemarkCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Adds a remark to person identified by the index number used in the last person listing. "
             + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_REMARK;
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_REMARK + "Hardworking student"
+            + "\t\t OR \t\t" + COMMAND_WORD + " 1 edit";
 
     public static final String MESSAGE_REMARK_PERSON_SUCCESS = "Added Remark to %1$s: " + "%2$s";
+    public static final String MESSAGE_EDIT_REMARK_SUCCESS = "Editing Remark of %1$s...";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
     private final Index targetIndex;
     private Remark newRemark;
+    private boolean isEditRemark;
 
     private Person personToEdit;
     private Person editedPerson;
@@ -149,20 +154,37 @@ public class RemarkCommand extends UndoableCommand {
 
         this.targetIndex = targetIndex;
         this.newRemark = newRemark;
+        this.isEditRemark = false;
+    }
+
+    public RemarkCommand(Index targetIndex, Remark newRemark, boolean isEditRemark) {
+        requireNonNull(targetIndex);
+        requireNonNull(newRemark);
+
+        this.targetIndex = targetIndex;
+        this.newRemark = newRemark;
+        this.isEditRemark = isEditRemark;
     }
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
-        try {
-            model.updatePerson(personToEdit, editedPerson);
-        } catch (DuplicatePersonException dpe) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-        } catch (PersonNotFoundException pnfe) {
-            throw new AssertionError("The target person cannot be missing");
+        if (!isEditRemark) {
+            try {
+                model.updatePerson(personToEdit, editedPerson);
+            } catch (DuplicatePersonException dpe) {
+                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            } catch (PersonNotFoundException pnfe) {
+                throw new AssertionError("The target person cannot be missing");
+            }
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+            //PersonCard personCardChanged = new PersonCard(editedPerson, targetIndex.getOneBased());
+            //EventsCenter.getInstance().post(new PersonPanelSelectionChangedEvent(personCardChanged));
+            return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,
+                    editedPerson.getName(), editedPerson.getRemark()));
+        } else {
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+            return new CommandResult(String.format(MESSAGE_EDIT_REMARK_SUCCESS, personToEdit.getName()));
         }
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,
-                                editedPerson.getName(), editedPerson.getRemark()));
     }
 
     @Override
@@ -174,7 +196,13 @@ public class RemarkCommand extends UndoableCommand {
         }
 
         personToEdit = lastShownList.get(targetIndex.getZeroBased());
-        editedPerson = createPersonWithNewRemark(personToEdit, newRemark);
+
+        if (isEditRemark) {
+            EventsCenter.getInstance().post(new EditRemarkEvent(COMMAND_WORD + " "
+                    + targetIndex.getOneBased() + " " + PREFIX_REMARK + personToEdit.getRemark().toString()));
+        } else {
+            editedPerson = createPersonWithNewRemark(personToEdit, newRemark);
+        }
     }
 
     /**
@@ -193,9 +221,9 @@ public class RemarkCommand extends UndoableCommand {
         Status status = personToEdit.getStatus();
         Role role = personToEdit.getRole();
         Rate rate = personToEdit.getRate();
-        PairHash pairHash = personToEdit.getPairHash();
+        Set<PairHash> pairHashes = personToEdit.getPairHashes();
 
-        Set<Tag> updatedTags = personToEdit.getTags();
+        Set<Tag> updatedTags = new HashSet<>(personToEdit.getTags());
 
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
@@ -219,7 +247,7 @@ public class RemarkCommand extends UndoableCommand {
         }
 
         return new Person(name, phone, email, address, price, subject, level, status, role,
-                          attributeTags, newRemark, rate, pairHash);
+                          attributeTags, newRemark, rate, pairHashes);
     }
 
     @Override
@@ -227,7 +255,9 @@ public class RemarkCommand extends UndoableCommand {
         return other == this // short circuit if same object
                 || (other instanceof RemarkCommand // instanceof handles nulls
                 && this.targetIndex.equals(((RemarkCommand) other).targetIndex)
-                && this.newRemark.equals(((RemarkCommand) other).newRemark));
+                && this.newRemark.equals(((RemarkCommand) other).newRemark)
+                && this.isEditRemark == ((RemarkCommand) other).isEditRemark);
+
     }
 }
 ```
@@ -250,7 +280,7 @@ public class RemarkCommand extends UndoableCommand {
      * Parses a {@code Optional<String> remark} into an {@code Optional<Remark>} if {@code remark} is present.
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
-    public static Optional<Remark> parseRemark(Optional<String> remark) throws IllegalValueException {
+    public static Optional<Remark> parseRemark(Optional<String> remark) {
         requireNonNull(remark);
         return remark.isPresent() ? Optional.of(parseRemark(remark.get())) : Optional.empty();
     }
@@ -258,7 +288,7 @@ public class RemarkCommand extends UndoableCommand {
     /**
      * Parses a {@code String rate} into a {@code Rate}.
      * Leading and trailing whitespaces will be trimmed.
-     * Checks if user wants absolute or cummulative rating.
+     * Checks if user wants absolute or cumulative rating.
      */
     public static Rate parseRate(String rate) throws IllegalValueException {
         requireNonNull(rate);
@@ -312,13 +342,13 @@ public class RateCommandParser implements Parser<RateCommand> {
         Index index;
 
         if (!arePrefixesPresent(argMultimap, PREFIX_RATE)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
         }
 
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
         }
 
         Rate rate;
@@ -359,24 +389,31 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
 
         Index index;
+        boolean isEditCommand;
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_REMARK)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
+        isEditCommand = argMultimap.getPreamble().contains("edit");
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_REMARK) && !isEditCommand) {
+            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
         }
 
-
         try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            if (isEditCommand) {
+                index = ParserUtil.parseIndex(argMultimap.getPreamble().replace("edit", ""));
+            } else {
+                index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            }
         } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
+            throw new ParseException(ive.getMessage());
         }
 
         Remark remark;
-        try {
-            remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
+        if (isEditCommand) {
+            remark = ParserUtil.parseRemark((String) null);
 
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
+            return new RemarkCommand(index, remark, isEditCommand);
+        } else {
+            remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
         }
 
         return new RemarkCommand(index, remark);
@@ -435,6 +472,17 @@ public class Rate {
     }
 
     /**
+     * Creates a default rating.
+     * @return {@code Rate} with default value of 3.0 and count 1.
+     */
+    public static Rate getDefaultRate() {
+        Rate defaultRate = new Rate(3, true);
+        defaultRate.setCount(1);
+
+        return defaultRate;
+    }
+
+    /**
      * Calculates the accumulated value of a person's rating
      * @param oldRate
      * @param newRate
@@ -455,7 +503,7 @@ public class Rate {
     }
 
     /**
-     * Returns true if a given string is a valid person email.
+     * Returns true if a given string is a valid person rate.
      */
     public static boolean isValidRate(String test) {
         return test.equals("") || test.matches(RATE_VALIDATION_REGEX) || test.matches(RATE_VALIDATION_REGEX_ABSOLUTE);
@@ -473,7 +521,7 @@ public class Rate {
         this.count = count;
     }
 
-    public boolean getisAbsolute() {
+    public boolean getIsAbsolute() {
         return isAbsolute;
     }
 
@@ -636,7 +684,7 @@ public class BrowserPanel extends UiPart<Region> {
     private void autofillCommand() {
         String input = commandTextField.getText();
         int nextCaretPosition = -1;
-        boolean isFirstTime = false; // set this to check for edit command
+        boolean isFirstTime = false; // check for commands that have different behaviors between first and other tabs
 
         // first time tab is pressed
         switch (input) {
@@ -645,7 +693,8 @@ public class BrowserPanel extends UiPart<Region> {
             commandTextField.setText(AddCommand.COMMAND_WORD + " " + PREFIX_NAME + " " + PREFIX_PHONE + " "
                     + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
                     + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
-            canTab = true;
+            isFindNextField = true;
+            isMatchCommand = false;
             break;
         case EditCommand.COMMAND_WORD:
         case EditCommand.COMMAND_WORD_ALIAS:
@@ -653,34 +702,77 @@ public class BrowserPanel extends UiPart<Region> {
                     + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
                     + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
             selectIndexToEdit();
-            canTab = false;
+            isFindNextField = false;
             isFirstTime = true;
+            isMatchCommand = false;
+            break;
+        case RemarkCommand.COMMAND_WORD:
+        case RemarkCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(RemarkCommand.COMMAND_WORD + " 1 " + PREFIX_REMARK);
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
+            isMatchCommand = false;
+            break;
+        case RateCommand.COMMAND_WORD:
+        case RateCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(RateCommand.COMMAND_WORD + " 1 " + PREFIX_RATE);
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
+            isMatchCommand = false;
             break;
         case SelectCommand.COMMAND_WORD:
         case SelectCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(SelectCommand.COMMAND_WORD + " 1");
             selectIndexToEdit();
-            canTab = false;
+            isFindNextField = false;
+            isMatchCommand = false;
             break;
         case DeleteCommand.COMMAND_WORD:
         case DeleteCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(DeleteCommand.COMMAND_WORD + " 1");
             selectIndexToEdit();
-            canTab = false;
+            isFindNextField = false;
+            isMatchCommand = false;
+            break;
+        case UnmatchCommand.COMMAND_WORD:
+        case UnmatchCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(UnmatchCommand.COMMAND_WORD + " 1");
+            selectIndexToEdit();
+            isFindNextField = false;
+            isMatchCommand = false;
+            break;
+        case MatchCommand.COMMAND_WORD:
+        case MatchCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(MatchCommand.COMMAND_WORD + " 1 2");
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
             break;
         default:
             // no autofill
         }
 
         // subsequent times tab is pressed
-        if (canTab) {
+        if (isFindNextField) {
             nextCaretPosition = findNextField();
             if (nextCaretPosition != -1) {
                 commandTextField.positionCaret(nextCaretPosition);
             }
         }
+
+        if (isMatchCommand) {
+            selectIndexToEdit();
+        }
+
         if (isFirstTime) {
-            canTab = true;
+            if (commandTextField.getText().length() >= 5
+                && commandTextField.getText().substring(0, 5).equals("match")) { // match command
+                isMatchCommand = true;
+            } else { // all other commands that have different behavior between first and other tabs
+                isFindNextField = true;
+            }
         }
     }
 
@@ -717,10 +809,21 @@ public class BrowserPanel extends UiPart<Region> {
      */
     private void selectIndexToEdit() {
         String text = commandTextField.getText();
-        int indexPosition = text.indexOf("1") + 1;
+        int caretPosition = commandTextField.getCaretPosition();
+        int indexPosition = -1;
+
+        for (int i = caretPosition; i < text.length(); i++) {
+            Character character = text.charAt(i);
+            if (Character.isDigit(character)) {
+                indexPosition = i;
+                break;
+            }
+        }
 
         commandTextField.positionCaret(indexPosition);
-        commandTextField.selectBackward();
+        if (indexPosition != -1) {
+            commandTextField.selectForward();
+        }
     }
 ```
 ###### \resources\view\BrowserPanel.fxml
