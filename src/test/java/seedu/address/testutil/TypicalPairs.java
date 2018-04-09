@@ -1,11 +1,11 @@
 package seedu.address.testutil;
 
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.DANIEL;
 import static seedu.address.testutil.TypicalPersons.ELLE;
 import static seedu.address.testutil.TypicalPersons.FIONA;
-import static seedu.address.testutil.TypicalPersons.GEORGE;
-import static seedu.address.testutil.TypicalPersons.HENRY;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ import seedu.address.model.pair.Pair;
  */
 public class TypicalPairs {
 
-    public static final Pair RANDOM_PAIR_A = new PairBuilder().withStudent(HENRY).withTutor(GEORGE)
+    public static final Pair RANDOM_PAIR_A = new PairBuilder().withStudent(BENSON).withTutor(ALICE)
             .build();
 
     public static final Pair RANDOM_PAIR_B = new PairBuilder().withStudent(DANIEL).withTutor(CARL)

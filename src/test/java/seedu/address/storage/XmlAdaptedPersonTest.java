@@ -8,6 +8,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,10 @@ public class XmlAdaptedPersonTest {
     private static final String VALID_STATUS = BENSON.getStatus().toString();
     private static final String VALID_ROLE = BENSON.getRole().toString();
     private static final String VALID_PRICE = BENSON.getPrice().toString();
-    private static final String VALID_PAIRHASH = (new PairHash(123)).toString();
+
+    private static final List<XmlAdaptedPairHash> VALID_PAIRHASH = Collections.singletonList(
+            new XmlAdaptedPairHash(PairHash.DEFAULT_PAIR_HASH));
+
     private static final List<XmlAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(XmlAdaptedTag::new)
             .collect(Collectors.toList());

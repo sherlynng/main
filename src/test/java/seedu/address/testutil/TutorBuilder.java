@@ -173,7 +173,7 @@ public class TutorBuilder {
     public Tutor build() {
         setTags();
         return new Tutor(name, phone, email, address, price, subject, level, status, tags,
-                         remark, rate, PairHash.DEFAULT_PAIR_HASH);
+                         remark, rate, PairHash.getDefaultPairHashSet());
     }
 
 }
