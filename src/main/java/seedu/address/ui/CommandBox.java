@@ -6,11 +6,15 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 
 import java.util.logging.Logger;
+
+import com.google.common.eventbus.Subscribe;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.logic.EditRemarkEvent;
 import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.logic.ListElementPointer;
 import seedu.address.logic.Logic;
@@ -25,7 +30,11 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.MatchCommand;
+import seedu.address.logic.commands.RateCommand;
+import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.UnmatchCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -40,7 +49,9 @@ public class CommandBox extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(CommandBox.class);
     private final Logic logic;
     private ListElementPointer historySnapshot;
-    private boolean canTab = false;
+    private boolean isFindNextField = false;
+    private boolean isMatchCommand = false;
+    private boolean isEditRemarkCommand;
 
     @FXML
     private TextField commandTextField;
@@ -51,6 +62,9 @@ public class CommandBox extends UiPart<Region> {
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
         historySnapshot = logic.getHistorySnapshot();
+        isEditRemarkCommand = false;
+
+        registerAsAnEventHandler(this);
     }
 
     /**
@@ -90,7 +104,7 @@ public class CommandBox extends UiPart<Region> {
     private void autofillCommand() {
         String input = commandTextField.getText();
         int nextCaretPosition = -1;
-        boolean isFirstTime = false; // set this to check for edit command
+        boolean isFirstTime = false; // check for commands that have different behaviors between first and other tabs
 
         // first time tab is pressed
         switch (input) {
@@ -99,7 +113,8 @@ public class CommandBox extends UiPart<Region> {
             commandTextField.setText(AddCommand.COMMAND_WORD + " " + PREFIX_NAME + " " + PREFIX_PHONE + " "
                     + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
                     + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
-            canTab = true;
+            isFindNextField = true;
+            isMatchCommand = false;
             break;
         case EditCommand.COMMAND_WORD:
         case EditCommand.COMMAND_WORD_ALIAS:
@@ -107,34 +122,77 @@ public class CommandBox extends UiPart<Region> {
                     + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
                     + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
             selectIndexToEdit();
-            canTab = false;
+            isFindNextField = false;
             isFirstTime = true;
+            isMatchCommand = false;
+            break;
+        case RemarkCommand.COMMAND_WORD:
+        case RemarkCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(RemarkCommand.COMMAND_WORD + " 1 " + PREFIX_REMARK);
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
+            isMatchCommand = false;
+            break;
+        case RateCommand.COMMAND_WORD:
+        case RateCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(RateCommand.COMMAND_WORD + " 1 " + PREFIX_RATE);
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
+            isMatchCommand = false;
             break;
         case SelectCommand.COMMAND_WORD:
         case SelectCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(SelectCommand.COMMAND_WORD + " 1");
             selectIndexToEdit();
-            canTab = false;
+            isFindNextField = false;
+            isMatchCommand = false;
             break;
         case DeleteCommand.COMMAND_WORD:
         case DeleteCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(DeleteCommand.COMMAND_WORD + " 1");
             selectIndexToEdit();
-            canTab = false;
+            isFindNextField = false;
+            isMatchCommand = false;
+            break;
+        case UnmatchCommand.COMMAND_WORD:
+        case UnmatchCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(UnmatchCommand.COMMAND_WORD + " 1");
+            selectIndexToEdit();
+            isFindNextField = false;
+            isMatchCommand = false;
+            break;
+        case MatchCommand.COMMAND_WORD:
+        case MatchCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(MatchCommand.COMMAND_WORD + " 1 2");
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
             break;
         default:
             // no autofill
         }
 
         // subsequent times tab is pressed
-        if (canTab) {
+        if (isFindNextField) {
             nextCaretPosition = findNextField();
             if (nextCaretPosition != -1) {
                 commandTextField.positionCaret(nextCaretPosition);
             }
         }
+
+        if (isMatchCommand) {
+            selectIndexToEdit();
+        }
+
         if (isFirstTime) {
-            canTab = true;
+            if (commandTextField.getText().length() >= 5
+                && commandTextField.getText().substring(0, 5).equals("match")) { // match command
+                isMatchCommand = true;
+            } else { // all other commands that have different behavior between first and other tabs
+                isFindNextField = true;
+            }
         }
     }
 
@@ -171,10 +229,21 @@ public class CommandBox extends UiPart<Region> {
      */
     private void selectIndexToEdit() {
         String text = commandTextField.getText();
-        int indexPosition = text.indexOf("1") + 1;
+        int caretPosition = commandTextField.getCaretPosition();
+        int indexPosition = -1;
+
+        for (int i = caretPosition; i < text.length(); i++) {
+            Character character = text.charAt(i);
+            if (Character.isDigit(character)) {
+                indexPosition = i;
+                break;
+            }
+        }
 
         commandTextField.positionCaret(indexPosition);
-        commandTextField.selectBackward();
+        if (indexPosition != -1) {
+            commandTextField.selectForward();
+        }
     }
     //@@author
 
@@ -223,7 +292,12 @@ public class CommandBox extends UiPart<Region> {
             initHistory();
             historySnapshot.next();
             // process result of the command
-            commandTextField.setText("");
+            if (!isEditRemarkCommand) {
+                commandTextField.setText("");
+            } else {
+                // do not replace text
+                isEditRemarkCommand = false; // reset it back to default
+            }
             logger.info("Result: " + commandResult.feedbackToUser);
             raise(new NewResultAvailableEvent(commandResult.feedbackToUser));
 
@@ -264,6 +338,14 @@ public class CommandBox extends UiPart<Region> {
         }
 
         styleClass.add(ERROR_STYLE_CLASS);
+    }
+
+    @Subscribe
+    private void handleEditCommandEvent(EditRemarkEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        replaceText(event.getPersonRemark());
+
+        isEditRemarkCommand = true;
     }
 
 }

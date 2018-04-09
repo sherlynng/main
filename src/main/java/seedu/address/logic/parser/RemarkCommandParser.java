@@ -29,20 +29,32 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
 
         Index index;
+        boolean isEditCommand;
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_REMARK)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        isEditCommand = argMultimap.getPreamble().contains("edit");
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_REMARK) && !isEditCommand) {
+            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
         }
 
-
         try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            if (isEditCommand) {
+                index = ParserUtil.parseIndex(argMultimap.getPreamble().replace("edit", ""));
+            } else {
+                index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            }
         } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+            throw new ParseException(ive.getMessage());
         }
 
         Remark remark;
-        remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
+        if (isEditCommand) {
+            remark = ParserUtil.parseRemark((String) null);
+
+            return new RemarkCommand(index, remark, isEditCommand);
+        } else {
+            remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
+        }
 
         return new RemarkCommand(index, remark);
     }

@@ -77,10 +77,10 @@ public class RateCommand extends UndoableCommand {
 
         Rate oldRate = personToEdit.getRate();
 
-        if (newRate.getIsAbosulte()) {
+        if (newRate.getisAbsolute()) {
             newRate.setCount(1); // reset count when set absolute
         } else {
-            newRate = Rate.acummulatedValue(oldRate, newRate);
+            newRate = Rate.accumulatedValue(oldRate, newRate);
         }
 
         Set<Tag> updatedTags = personToEdit.getTags();
@@ -419,7 +419,7 @@ public class Rate {
 
     private double value;
     private int count;
-    private boolean isAbosulte;
+    private boolean isAbsolute;
 
     /**
      * Constructs an {@code Rating}.
@@ -431,7 +431,7 @@ public class Rate {
         checkArgument(isValidRate(Double.toString(rating)), MESSAGE_RATE_CONSTRAINTS);
 
         this.value = rating;
-        this.isAbosulte = isAbsolute;
+        this.isAbsolute = isAbsolute;
     }
 
     /**
@@ -440,7 +440,7 @@ public class Rate {
      * @param newRate
      * @return {@code Rate} that contains updated value and count
      */
-    public static Rate acummulatedValue (Rate oldRate, Rate newRate) {
+    public static Rate accumulatedValue (Rate oldRate, Rate newRate) {
         double value;
         double newValue;
 
@@ -473,8 +473,8 @@ public class Rate {
         this.count = count;
     }
 
-    public boolean getIsAbosulte() {
-        return isAbosulte;
+    public boolean getisAbsolute() {
+        return isAbsolute;
     }
 
     @Override

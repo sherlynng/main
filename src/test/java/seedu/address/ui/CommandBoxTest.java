@@ -1,6 +1,11 @@
 package seedu.address.ui;
 
 import static org.junit.Assert.assertEquals;
+import static seedu.address.logic.commands.RemarkCommand.COMMAND_WORD;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
+import static seedu.address.testutil.EventsUtil.postNow;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import java.util.ArrayList;
 
@@ -9,11 +14,13 @@ import org.junit.Test;
 
 import guitests.guihandles.CommandBoxHandle;
 import javafx.scene.input.KeyCode;
+import seedu.address.commons.events.logic.EditRemarkEvent;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.person.Person;
 
 public class CommandBoxTest extends GuiUnitTest {
 
@@ -173,10 +180,10 @@ public class CommandBoxTest extends GuiUnitTest {
         assertEquals(expectedOutput, actualOutput);
 
         // checks if tab works correctly
-        /*expectedOutput = "add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50"
-                + " sub/Math lvl/Lower Sec stat/Not Matched r/Student";
+        expectedOutput = "add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50"
+                         + " sub/Math lvl/Lower Sec stat/Not Matched r/Student";
         actualOutput = enterPersonDetails();
-        assertEquals(expectedOutput, actualOutput);*/
+        assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
@@ -227,6 +234,72 @@ public class CommandBoxTest extends GuiUnitTest {
     }
 
     @Test
+    public void handleKeyPress_unmatchCommandPressTab_autofill() {
+        String expectedOutput = "unmatch 1";
+
+        // checks for unmatch command word
+        commandBoxHandle.setInput("unmatch");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for unmatch command word alias
+        commandBoxHandle.setInput("um");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_unmatchCommandChangeIndex_autofill() {
+        String expectedOutput = "unmatch 2";
+
+        // checks for unmatch command word
+        commandBoxHandle.setInput("unmatch");
+        guiRobot.push(KeyCode.TAB);
+
+        // change index in unmatch command
+        guiRobot.push(KeyCode.DIGIT2);
+
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_matchCommandPressTab_autofill() {
+        String expectedOutput = "match 1 2";
+
+        // checks for match command word
+        commandBoxHandle.setInput("match");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for match command word alias
+        commandBoxHandle.setInput("m");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_matchCommandChangeIndexes_autofill() {
+        String expectedOutput = "match 4 5";
+
+        // checks for match command word
+        commandBoxHandle.setInput("match");
+        guiRobot.push(KeyCode.TAB);
+
+        // change indexes in match command
+        guiRobot.push(KeyCode.DIGIT4);
+        guiRobot.push(KeyCode.TAB);
+        guiRobot.push(KeyCode.DIGIT5);
+
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
     public void handleKeyPress_editCommandPressTab_autofill() {
         String expectedOutput = "edit 1 n/ p/ e/ a/ $/ sub/ lvl/ stat/ r/";
 
@@ -243,29 +316,105 @@ public class CommandBoxTest extends GuiUnitTest {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    @Test
+    public void handleKeyPress_editCommandPressDelete_removePreviousPrefix() {
+        String expectedOutput = "edit 1 p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+
+        // checks for edit command word
+        commandBoxHandle.setInput("edit");
+        guiRobot.push(KeyCode.TAB);
+        guiRobot.push(KeyCode.TAB);
+
+        guiRobot.push(KeyCode.DELETE);
+
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // delete 7 more times for testing repetitive pressing of delete button
+        int i = 0;
+        while (i < 7) {
+            guiRobot.push(KeyCode.DELETE);
+            i++;
+        }
+        commandBoxHandle.insertInput("Tutor");
+
+        expectedOutput = "edit 1 r/Tutor";
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_remarkCommandPressTab_autofill() {
+        String expectedOutput = "remark 1 r/";
+
+        // checks for remark command word
+        commandBoxHandle.setInput("remark");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for remark command word alias
+        commandBoxHandle.setInput("rk");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_rateCommandPressTab_autofill() {
+        String expectedOutput = "rate 1 r/";
+
+        // checks for rate command word
+        commandBoxHandle.setInput("rate");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for rate command word alias
+        commandBoxHandle.setInput("rt");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
     /**
      * Enters Person details using GUI robot
      * @return String entered by GUI robot
      */
     private String enterPersonDetails() {
-        commandBoxHandle.setInput("John Doe");
+        commandBoxHandle.insertInput("John Doe");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("98765432");
+        commandBoxHandle.insertInput("98765432");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("johnd@example.com");
+        commandBoxHandle.insertInput("johnd@example.com");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("311, Clementi Ave 2, #02-25");
+        commandBoxHandle.insertInput("311, Clementi Ave 2, #02-25");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("50");
+        commandBoxHandle.insertInput("50");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Math");
+        commandBoxHandle.insertInput("Math");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Lower Sec");
+        commandBoxHandle.insertInput("Lower Sec");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Not Matched");
+        commandBoxHandle.insertInput("Not Matched");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Student");
+        commandBoxHandle.insertInput("Student");
 
         return commandBoxHandle.getInput();
+    }
+
+    @Test
+    public void editRemarkEventTest_success() {
+        Person person = ALICE;
+
+        EditRemarkEvent editRemarkEventStub = new EditRemarkEvent(COMMAND_WORD + " "
+                + INDEX_FIRST_PERSON + " " + PREFIX_REMARK + person.getRemark());
+        postNow(editRemarkEventStub);
+
+        String expectedOutput = COMMAND_WORD + " " + INDEX_FIRST_PERSON + " " + PREFIX_REMARK + person.getRemark();
+        String actualOutput = commandBoxHandle.getInput();
+
+        guiRobot.pauseForHuman();
+        assertEquals(expectedOutput, actualOutput);
     }
 }

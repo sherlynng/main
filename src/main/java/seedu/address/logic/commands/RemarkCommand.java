@@ -8,8 +8,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.events.logic.EditRemarkEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
@@ -27,6 +29,7 @@ import seedu.address.model.person.Subject;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+
 //@@author sherlynng
 /**
  * Adds a remark to person to the address book.
@@ -39,13 +42,16 @@ public class RemarkCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Adds a remark to person identified by the index number used in the last person listing. "
             + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_REMARK;
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_REMARK + "Hardworking student"
+            + "\t\t OR \t\t" + COMMAND_WORD + " 1 edit";
 
     public static final String MESSAGE_REMARK_PERSON_SUCCESS = "Added Remark to %1$s: " + "%2$s";
+    public static final String MESSAGE_EDIT_REMARK_SUCCESS = "Editing Remark of %1$s...";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
     private final Index targetIndex;
     private Remark newRemark;
+    private boolean isEditRemark;
 
     private Person personToEdit;
     private Person editedPerson;
@@ -56,20 +62,37 @@ public class RemarkCommand extends UndoableCommand {
 
         this.targetIndex = targetIndex;
         this.newRemark = newRemark;
+        this.isEditRemark = false;
+    }
+
+    public RemarkCommand(Index targetIndex, Remark newRemark, boolean isEditRemark) {
+        requireNonNull(targetIndex);
+        requireNonNull(newRemark);
+
+        this.targetIndex = targetIndex;
+        this.newRemark = newRemark;
+        this.isEditRemark = isEditRemark;
     }
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
-        try {
-            model.updatePerson(personToEdit, editedPerson);
-        } catch (DuplicatePersonException dpe) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-        } catch (PersonNotFoundException pnfe) {
-            throw new AssertionError("The target person cannot be missing");
+        if (!isEditRemark) {
+            try {
+                model.updatePerson(personToEdit, editedPerson);
+            } catch (DuplicatePersonException dpe) {
+                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            } catch (PersonNotFoundException pnfe) {
+                throw new AssertionError("The target person cannot be missing");
+            }
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+            //PersonCard personCardChanged = new PersonCard(editedPerson, targetIndex.getOneBased());
+            //EventsCenter.getInstance().post(new PersonPanelSelectionChangedEvent(personCardChanged));
+            return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,
+                    editedPerson.getName(), editedPerson.getRemark()));
+        } else {
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+            return new CommandResult(String.format(MESSAGE_EDIT_REMARK_SUCCESS, personToEdit.getName()));
         }
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,
-                                editedPerson.getName(), editedPerson.getRemark()));
     }
 
     @Override
@@ -81,7 +104,13 @@ public class RemarkCommand extends UndoableCommand {
         }
 
         personToEdit = lastShownList.get(targetIndex.getZeroBased());
-        editedPerson = createPersonWithNewRemark(personToEdit, newRemark);
+
+        if (isEditRemark) {
+            EventsCenter.getInstance().post(new EditRemarkEvent(COMMAND_WORD + " "
+                    + targetIndex.getOneBased() + " " + PREFIX_REMARK + personToEdit.getRemark().toString()));
+        } else {
+            editedPerson = createPersonWithNewRemark(personToEdit, newRemark);
+        }
     }
 
     /**
@@ -134,6 +163,8 @@ public class RemarkCommand extends UndoableCommand {
         return other == this // short circuit if same object
                 || (other instanceof RemarkCommand // instanceof handles nulls
                 && this.targetIndex.equals(((RemarkCommand) other).targetIndex)
-                && this.newRemark.equals(((RemarkCommand) other).newRemark));
+                && this.newRemark.equals(((RemarkCommand) other).newRemark)
+                && this.isEditRemark == ((RemarkCommand) other).isEditRemark);
+
     }
 }
