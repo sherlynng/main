@@ -13,6 +13,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 
 /**
  * A utility class for Person.
@@ -49,8 +50,11 @@ public class PersonUtil {
         sb.append(PREFIX_ROLE + person.getRole().value + " ");
 
         person.getTags().stream().forEach(
-            s -> sb.append(PREFIX_TAG + s.tagName + " ")
-        );
+            s -> {
+                if (s.tagType == Tag.AllTagTypes.DEFAULT) {
+                    sb.append(PREFIX_TAG + s.tagName + " ");
+                }
+            });
         return sb.toString();
     }
 }

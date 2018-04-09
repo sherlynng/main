@@ -144,7 +144,7 @@ public class EditCommand extends UndoableCommand {
     }
 
     private static Set<Tag> getUpdatedTags(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
-        return editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        return editPersonDescriptor.getTags().orElse(new HashSet<>(personToEdit.getTags()));
     }
 
     private static Address getUpdatedAddress(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {

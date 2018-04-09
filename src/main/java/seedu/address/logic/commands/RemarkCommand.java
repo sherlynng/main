@@ -131,7 +131,7 @@ public class RemarkCommand extends UndoableCommand {
         Rate rate = personToEdit.getRate();
         Set<PairHash> pairHashes = personToEdit.getPairHashes();
 
-        Set<Tag> updatedTags = personToEdit.getTags();
+        Set<Tag> updatedTags = new HashSet<>(personToEdit.getTags());
 
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
