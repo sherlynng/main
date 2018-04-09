@@ -100,7 +100,7 @@ public class RemarkCommand extends UndoableCommand {
         Status status = personToEdit.getStatus();
         Role role = personToEdit.getRole();
         Rate rate = personToEdit.getRate();
-        PairHash pairHash = personToEdit.getPairHash();
+        Set<PairHash> pairHashes = personToEdit.getPairHashes();
 
         Set<Tag> updatedTags = personToEdit.getTags();
 
@@ -126,7 +126,7 @@ public class RemarkCommand extends UndoableCommand {
         }
 
         return new Person(name, phone, email, address, price, subject, level, status, role,
-                          attributeTags, newRemark, rate, pairHash);
+                          attributeTags, newRemark, rate, pairHashes);
     }
 
     @Override

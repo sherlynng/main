@@ -7,10 +7,12 @@ import java.util.List;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.pair.exceptions.DuplicatePairException;
 import seedu.address.model.person.Person;
 
+//@@author alexawangzi
 /**
- * Edits the details of an existing person in the address book.
+ * Match a tutor and a student in STUtor.
  */
 public class MatchCommand extends UndoableCommand {
 
@@ -29,6 +31,7 @@ public class MatchCommand extends UndoableCommand {
     public static final String MESSAGE_MISMATCH_WRONG_PRICE = "Not the same price. ";
     public static final String MESSAGE_MISMATCH_WRONG_STATUS = "Please provide indices of unmatched student and "
             + "unmatched tutor.";
+    public static final String MESSAGE_MISMATCH_ALREADY_MATCHED = "The two persons are already matched.";
 
     private final Index indexA;
     private final Index indexB;
@@ -36,7 +39,6 @@ public class MatchCommand extends UndoableCommand {
     private Person tutor;
 
 
-    //@@author alexawangzi
     /**
      * @param indexA,of the person in the filtered person list to match
      */
@@ -47,16 +49,17 @@ public class MatchCommand extends UndoableCommand {
     }
 
 
-    //@@author alexawangzi
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
-
-        model.addPair(student, tutor);
+        try {
+            model.addPair(student, tutor);
+        } catch (DuplicatePairException dpe) {
+            throw new CommandException(MESSAGE_MISMATCH_ALREADY_MATCHED);
+        }
         return new CommandResult(String.format(MESSAGE_MATCH_SUCCESS, student.getName().fullName
                 + " and " + tutor.getName().fullName));
     }
 
-    //@@author alexawangzi
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Person> lastShownList = model.getFilteredPersonList();
@@ -69,9 +72,6 @@ public class MatchCommand extends UndoableCommand {
         //filter invalid matchings
         if (student.getRole().equals(tutor.getRole())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_ROLE));
-        }
-        if (student.isMatched() || tutor.isMatched()) {
-            throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_STATUS));
         }
         if (!student.getSubject().equals(tutor.getSubject())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_SUBJECT));

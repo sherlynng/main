@@ -10,6 +10,7 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -294,6 +295,37 @@ public class ParserUtil {
         }
         return tagSet;
     }
+
+    //@@author alexawangzi
+    /**
+     * Parses a {@code String pariHash} into a {@code PairHash}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws IllegalValueException if the given {@code  pairHash} is invalid.
+     */
+    public static PairHash parsePairHash(String pairHash) throws IllegalValueException {
+        requireNonNull(pairHash);
+        String trimmedPairHash = pairHash.trim();
+        if (!PairHash.isValidPairHashValue(trimmedPairHash)) {
+            throw new IllegalValueException(PairHash.MESSAGE_PAIRHASH_CONSTRAINTS);
+        }
+        return new PairHash(trimmedPairHash);
+    }
+
+
+    //@@author alexawangzi
+    /**
+     * Parses {@code Collection<String> pairHashes} into a {@code Set<PairHash>}.
+     */
+    public static Set<PairHash> parsePairHashes(Collection<String> pairHashes) throws IllegalValueException {
+        requireNonNull(pairHashes);
+        final Set<PairHash> pairHashSet = new HashSet<>();
+        for (String pairHashValue : pairHashes) {
+            pairHashSet.add(parsePairHash(pairHashValue));
+        }
+        return pairHashSet;
+    }
+
 
     //@@author sherlynng
     /**
