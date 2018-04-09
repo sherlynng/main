@@ -29,11 +29,13 @@ public class CommandBoxHandle extends NodeHandle<TextField> {
     public void setInput(String input) {
         click();
         guiRobot.interact(() -> getRootNode().setText(input));
-        /* if (getRootNode().getCaretPosition() == 0) {
-            guiRobot.interact(() -> getRootNode().setText(input));
-        } else {
-            guiRobot.interact(() -> getRootNode().insertText(getRootNode().getCaretPosition(), input));
-        } */
+    }
+
+    /**
+     * Inserts text in the command box at current caret position.
+     */
+    public void insertInput (String input) {
+        guiRobot.interact(() -> getRootNode().insertText(getRootNode().getCaretPosition(), input));
     }
 
     /**
