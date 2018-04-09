@@ -4,6 +4,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import seedu.address.model.person.Level;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Price;
@@ -13,6 +14,10 @@ import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
 
 //@@author aussiroth
+
+/**
+ * This class contains static methods for use when performing attribute tag related tasks.
+ */
 public class AttributeTagSetter {
 
     /**
