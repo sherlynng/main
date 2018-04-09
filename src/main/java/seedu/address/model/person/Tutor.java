@@ -26,12 +26,12 @@ public class Tutor extends Person {
      * @param remark
      * @param rate
      * @param tags
-     * @param pairhash
+     * @param pairhashes
      */
     public Tutor(Name name, Phone phone, Email email, Address address, Price price,
                  Subject subject, Level level, Status status, Set<Tag> tags, Remark remark,
-                 Rate rate, PairHash pairhash) {
+                 Rate rate, Set<PairHash> pairhashes) {
         super(name, phone, email, address, price, subject, level, status, new Role("student"),
-              tags, remark, rate, pairhash);
+              tags, remark, rate, pairhashes);
     }
 }

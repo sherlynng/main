@@ -3,10 +3,10 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.MatchCommand.MESSAGE_MATCH_FAILED;
+import static seedu.address.logic.commands.MatchCommand.MESSAGE_MISMATCH_ALREADY_MATCHED;
 import static seedu.address.logic.commands.MatchCommand.MESSAGE_MISMATCH_WRONG_LEVEL;
 import static seedu.address.logic.commands.MatchCommand.MESSAGE_MISMATCH_WRONG_PRICE;
 import static seedu.address.logic.commands.MatchCommand.MESSAGE_MISMATCH_WRONG_ROLE;
-import static seedu.address.logic.commands.MatchCommand.MESSAGE_MISMATCH_WRONG_STATUS;
 import static seedu.address.logic.commands.MatchCommand.MESSAGE_MISMATCH_WRONG_SUBJECT;
 import static seedu.address.testutil.TypicalPersons.LISA;
 import static seedu.address.testutil.TypicalPersons.MARY;
@@ -66,7 +66,7 @@ public class MatchCommandTest {
         Index indexA = Index.fromOneBased(1);
         Index indexB = Index.fromOneBased(2);
         MatchCommand matchCommand = prepareCommand(indexA, indexB);
-        assertCommandFailure(matchCommand, model, String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_STATUS));
+        assertCommandFailure(matchCommand, model, MESSAGE_MISMATCH_ALREADY_MATCHED);
     }
 
     //@@author alexawangzi

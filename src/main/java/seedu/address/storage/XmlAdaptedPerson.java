@@ -55,11 +55,11 @@ public class XmlAdaptedPerson {
     private String rate;
     @XmlElement(required = true)
     private String count;
-    @XmlElement(required = true)
-    private String pairHash;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
+    @XmlElement
+    private List<XmlAdaptedPairHash> paired = new ArrayList<>();
 
     /**
      * Constructs an XmlAdaptedPerson.
@@ -72,7 +72,8 @@ public class XmlAdaptedPerson {
      */
     public XmlAdaptedPerson(String name, String phone, String email, String address,
                             String price, String subject, String level, String status, String role,
-                            List<XmlAdaptedTag> tagged, String remark, String rate, String count, String pairHash) {
+                            List<XmlAdaptedTag> tagged, String remark, String rate, String count,
+                            List<XmlAdaptedPairHash> paired) {
 
         this.name = name;
         this.phone = phone;
@@ -86,9 +87,11 @@ public class XmlAdaptedPerson {
         this.remark = remark;
         this.rate = rate;
         this.count = count;
-        this.pairHash = pairHash;
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
+        }
+        if (paired != null) {
+            this.paired = new ArrayList<>(paired);
         }
     }
 
@@ -110,10 +113,13 @@ public class XmlAdaptedPerson {
         remark = source.getRemark().value;
         rate = Double.toString(source.getRate().getValue());
         count = Integer.toString(source.getRate().getCount());
-        pairHash = String.valueOf(source.getPairHash());
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
+        }
+        paired = new ArrayList<>();
+        for (PairHash ph : source.getPairHashes()) {
+            paired.add(new XmlAdaptedPairHash(ph));
         }
     }
 
@@ -126,6 +132,11 @@ public class XmlAdaptedPerson {
         final List<Tag> personTags = new ArrayList<>();
         for (XmlAdaptedTag tag : tagged) {
             personTags.add(tag.toModelType());
+        }
+
+        final List<PairHash> personPairHashes = new ArrayList<>();
+        for (XmlAdaptedPairHash ph : paired) {
+            personPairHashes.add(ph.toModelType());
         }
 
         if (this.name == null) {
@@ -200,8 +211,6 @@ public class XmlAdaptedPerson {
         }
         final Role role = new Role(this.role);
 
-
-        final Set<Tag> tags = new HashSet<>(personTags);
         if (this.remark == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     Remark.class.getSimpleName()));
@@ -217,14 +226,12 @@ public class XmlAdaptedPerson {
         final Rate rate = new Rate(Double.parseDouble(this.rate), true);
         rate.setCount(Integer.parseInt(count));
 
-        if (this.pairHash == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    PairHash.class.getSimpleName()));
-        }
-        final PairHash pairHash =  new PairHash(Integer.parseInt(this.pairHash));
+        final Set<Tag> tags = new HashSet<>(personTags);
+        final Set<PairHash> pairHashes = new HashSet<>(personPairHashes);
+
 
         return new Person(name, phone, email, address, price, subject, level, status, role,
-                          tags, remark, rate, pairHash);
+                          tags, remark, rate, pairHashes);
     }
 
     @Override

@@ -103,7 +103,7 @@ public class RateCommand extends UndoableCommand {
         Status status = personToEdit.getStatus();
         Role role = personToEdit.getRole();
         Remark remark = personToEdit.getRemark();
-        PairHash pairHash = personToEdit.getPairHash();
+        Set<PairHash> pairHashes = personToEdit.getPairHashes();
 
         Rate oldRate = personToEdit.getRate();
 
@@ -113,7 +113,7 @@ public class RateCommand extends UndoableCommand {
             newRate = Rate.accumulatedValue(oldRate, newRate);
         }
 
-        Set<Tag> updatedTags = personToEdit.getTags();
+        Set<Tag> updatedTags = new HashSet<>(personToEdit.getTags());
 
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
@@ -137,7 +137,7 @@ public class RateCommand extends UndoableCommand {
         }
 
         return new Person(name, phone, email, address, price, subject, level, status, role,
-                          attributeTags, remark, newRate, pairHash);
+                          attributeTags, remark, newRate, pairHashes);
     }
 
     @Override
