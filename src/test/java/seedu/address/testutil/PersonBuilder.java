@@ -33,7 +33,6 @@ public class PersonBuilder {
     public static final String DEFAULT_LEVEL = "Lower Sec";
     public static final String DEFAULT_STATUS = "Not Matched";
     public static final String DEFAULT_ROLE = "Student";
-    public static final String DEFAULT_TAGS = "Friend";
     public static final String DEFAULT_REMARK = "Hardworking but slow learner.";
     public static final String DEFAULT_RATE = "3.0";
     public static final int DEFAULT_RATECOUNT = 1;
@@ -101,7 +100,11 @@ public class PersonBuilder {
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
      */
     public PersonBuilder withTags(String ... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
+        HashSet<Tag> setTags = new HashSet<>();
+        for (String tagString : tags) {
+            setTags.add(new Tag(tagString));
+        }
+        this.tags = setTags;
         return this;
     }
 
