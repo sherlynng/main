@@ -581,4 +581,5 @@ You can use these shortcuts in adding a person, or editing a person's details.
 |role | `r/t`| `r/tutor`
 |role | `r/s`| `r/student`
 |=======================================================================
+
 // end::prefixshortcut[]
