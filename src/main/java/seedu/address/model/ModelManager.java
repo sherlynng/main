@@ -25,7 +25,6 @@ import seedu.address.model.tag.Tag;
  * Represents the in-memory model of the address book data.
  * All changes to any model should be synchronized.
  */
-
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
