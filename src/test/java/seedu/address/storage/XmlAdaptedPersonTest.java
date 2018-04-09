@@ -279,15 +279,6 @@ public class XmlAdaptedPersonTest {
     }
 
     @Test
-    public void toModelType_nullPairHash_throwsIllegalValueException() {
-        XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
-                VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, VALID_STATUS, VALID_ROLE, VALID_TAGS,
-                VALID_REMARK, VALID_RATE, VALID_RATECOUNT, null);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, PairHash.class.getSimpleName());
-        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
-    }
-
-    @Test
     public void testXmlAdaptedPersonEquality() {
         XmlAdaptedPerson alice = new XmlAdaptedPerson(ALICE);
         XmlAdaptedPerson copy = new XmlAdaptedPerson(ALICE);
