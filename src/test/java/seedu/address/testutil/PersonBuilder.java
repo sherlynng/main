@@ -37,7 +37,7 @@ public class PersonBuilder {
     public static final String DEFAULT_REMARK = "Hardworking but slow learner.";
     public static final String DEFAULT_RATE = "3.0";
     public static final int DEFAULT_RATECOUNT = 1;
-    public static final PairHash DEFAULT_PAIRHASH = PairHash.getDefaultPairHash();
+    public static final Set<PairHash> DEFAULT_PAIRHASH = PairHash.getDefaultPairHashSet();
 
     private Name name;
     private Phone phone;
@@ -51,7 +51,7 @@ public class PersonBuilder {
     private Set<Tag> tags;
     private Remark remark;
     private Rate rate;
-    private PairHash pairhash;
+    private Set<PairHash> pairHashes;
 
     public PersonBuilder() {
         name = new Name(DEFAULT_NAME);
@@ -67,7 +67,7 @@ public class PersonBuilder {
         remark = new Remark(DEFAULT_REMARK);
         rate = new Rate(Double.parseDouble(DEFAULT_RATE), true);
         rate.setCount(DEFAULT_RATECOUNT);
-        pairhash = DEFAULT_PAIRHASH;
+        pairHashes = DEFAULT_PAIRHASH;
     }
 
     /**
@@ -86,7 +86,7 @@ public class PersonBuilder {
         tags = new HashSet<>(personToCopy.getTags());
         remark = personToCopy.getRemark();
         rate = personToCopy.getRate();
-        pairhash = personToCopy.getPairHash();
+        pairHashes = personToCopy.getPairHashes();
     }
 
     /**
@@ -208,12 +208,14 @@ public class PersonBuilder {
         return this;
     }
 
+    //@@author alexawangzi
     /**
      * Sets the {@code pairhash} of the {@code Person} that we are building.
      */
-    public PersonBuilder withPairhash(PairHash pairhash) {
-        this.pairhash = pairhash;
-
+    public PersonBuilder withPairhash(PairHash pairHash) {
+        Set<PairHash> pairHashesSet = new HashSet<PairHash>();
+        pairHashesSet.add(pairHash);
+        this.pairHashes = pairHashesSet;
         return this;
     }
 
@@ -224,7 +226,7 @@ public class PersonBuilder {
     public Person build() {
         setTags();
         return new Person(name, phone, email, address, price, subject, level, status, role, tags,
-                          remark, rate, pairhash);
+                          remark, rate, pairHashes);
     }
 
 }
