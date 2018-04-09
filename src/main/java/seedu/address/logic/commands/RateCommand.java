@@ -111,7 +111,7 @@ public class RateCommand extends UndoableCommand {
             newRate = Rate.acummulatedValue(oldRate, newRate);
         }
 
-        Set<Tag> updatedTags = personToEdit.getTags();
+        Set<Tag> updatedTags = new HashSet<>(personToEdit.getTags());
 
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);

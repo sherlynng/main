@@ -1,5 +1,6 @@
 package seedu.address.testutil;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,7 +43,7 @@ public class EditPersonDescriptorBuilder {
         descriptor.setLevel(person.getLevel());
         descriptor.setStatus(person.getStatus());
         descriptor.setRole(person.getRole());
-        descriptor.setTags(person.getTags());
+        descriptor.setTags(new HashSet<>(person.getTags()));
     }
 
     /**

@@ -144,7 +144,7 @@ public class EditCommand extends UndoableCommand {
     }
 
     private static Set<Tag> getUpdatedTags(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
-        return editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        return editPersonDescriptor.getTags().orElse(new HashSet<>(personToEdit.getTags()));
     }
 
     private static Address getUpdatedAddress(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
@@ -375,6 +375,12 @@ public class EditCommand extends UndoableCommand {
          */
         public Optional<Set<Tag>> getTags() {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
+        }
+
+        @Override
+        public String toString() {
+            return getName() + " " + getPhone() + " " + getEmail() + " " + getAddress() + " "
+                    + getPrice() + " " + getRole() + " " + getLevel() + " " + getStatus() + " " + getTags();
         }
 
         @Override
