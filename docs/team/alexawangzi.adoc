@@ -1,0 +1,93 @@
+= Wang Zi - Project Portfolio
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: STUtor - v1.5
+
+---
+
+== Overview
+
+STUtor -v1.5 is a desktop address book targeting tutor coordinators
+to help them _matching_ and _managing_ a large database of tutors and students. +
+The user interacts with it using a CLI, and it has a GUI created with JavaFX.
+It is written in Java, and has about 25 kLoC.
+
+== Summary of contributions
+
+* *Major enhancement*:
+added *the ability to match/unmatch a student and a tutor*
+** What it does:
+allows the user to choose a student and a tutor to match, or to choose a currently matched pair and unmatch it.
+** Justification:
+This feature makes the accounting process of matching easier.
+Matching/Unmatching is done automatically after the target student and tutor is provided by the user,
+therefore saving time in marking individual tutor or student and updating their status.
+** Highlights:
+The new Pair class interact heavily with the existing Person and Tag class,
+and careful thinking is required to ensure full exploitation of the existing classes
+without increasing the coupling.
+
+
+* *Minor enhancement*:
+Added the ability to accept case-insensitive input, as well as shortcuts,
+for filling in subject, level, status and role.
+On top of that, standardize storage format and display to follow <<proper-case, proper case>>.
+
+* *Code contributed*: [https://github.com/CS2103JAN2018-W11-B1/main/blob/master/collated/functional/alexawangzi.md[Functional code]] [https://github.com/CS2103JAN2018-W11-B1/main/blob/master/collated/test/alexawangzi.md[Test code]]
+
+* *Other contributions*:
+
+** Project management:
+*** Managed releases `v1.3` - `v1.5rc` (3 releases) on GitHub
+** Enhancements to existing features:
+*** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34])
+*** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
+** Documentation:
+*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14]
+** Community:
+*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
+*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
+*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
+** Tools:
+*** Integrated a third party library (Natty) to the project (https://github.com[#42])
+*** Integrated a new Github plugin (CircleCI) to the team repo
+
+_{you can add/remove categories in the list above}_
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=match]
+
+include::../UserGuide.adoc[tag=unmatch]
+
+include::../UserGuide.adoc[tag=ccommandsummary]
+
+include::../UserGuide.adoc[tag=prefixshorcut]
+
+include::../UserGuide.adoc[tag=faq]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+include::../DeveloperGuide.adoc[tag=matchunmatch]
+
+include::../DeveloperGuide.adoc[tag=fillingshortcut]
+
+include::../DeveloperGuide.adoc[tag=caseinsensitiveinput]
+
+[appendix]
+== Glossary
+
+[[proper-case]] Proper case::
+Proper case is any text that is written with each of the first letters of every word being capitalized.
+For example, "This Is An Example Of Proper Case."
