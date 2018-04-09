@@ -51,7 +51,7 @@ public class RemoveTagCommand extends UndoableCommand {
         List<Person> lastShownList = model.getFilteredPersonList();
         Set<Tag> tagsInPersons = lastShownList.stream()
                 .map(Person::getTags)
-                .flatMap(Set::stream)
+                .flatMap(List::stream)
                 .collect(Collectors.toSet());
         if (!tagsInPersons.contains(targetTag)) {
             throw new CommandException(Messages.MESSAGE_INVALID_TAG);

@@ -146,7 +146,8 @@ public class AddressBook implements ReadOnlyAddressBook {
      *  list.
      */
     private Person syncWithMasterTagList(Person person) {
-        final UniqueTagList personTags = new UniqueTagList(person.getTags());
+        Set<Tag> personTagsAsSet = new HashSet<>(person.getTags());
+        final UniqueTagList personTags = new UniqueTagList(personTagsAsSet);
         tags.mergeFrom(personTags);
 
         // Create map with values = tag object references in the master list
@@ -394,7 +395,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     private void removeUnusedTags() {
         Set<Tag> tagsInPersons = persons.asObservableList().stream()
                            .map(Person::getTags)
-                .flatMap(Set::stream)
+                .flatMap(List::stream)
                 .collect(Collectors.toSet());
         tags.setTags(tagsInPersons);
     }
