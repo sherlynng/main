@@ -30,13 +30,13 @@ public class ChartsPanel extends UiPart<Region> {
     private ObservableList<Person> personList;
 
     @FXML
-    private PieChart RoleDistribution;
+    private PieChart roleDistribution;
     @FXML
-    private BarChart<?, ?> TutorSubject;
+    private BarChart<?, ?> tutorSubject;
     @FXML
-    private BarChart<?, ?> StudentSubject;
+    private BarChart<?, ?> studentSubject;
 
-    
+
     public ChartsPanel(ObservableList<Person> personList) {
         super(FXML);
         this.personList = personList;
@@ -58,7 +58,7 @@ public class ChartsPanel extends UiPart<Region> {
                 FXCollections.observableArrayList(
                 new PieChart.Data("Tutor: " + numTutor, numTutor),
                 new PieChart.Data("Student: " + numStudent, numStudent));
-        RoleDistribution.setData(pieChartData);
+        roleDistribution.setData(pieChartData);
 
         ObservableList<Person> tutorEngList =
                 tutorList.filtered(person -> person.getSubject().equals(new Subject("English")));
@@ -82,9 +82,9 @@ public class ChartsPanel extends UiPart<Region> {
         set1.getData().add(new XYChart.Data("Math", numMathTutor));
         set1.getData().add(new XYChart.Data("Physics", numPhyTutor));
         set1.getData().add(new XYChart.Data("Chemistry", numChemTutor));
-        TutorSubject.getData().clear();
-        TutorSubject.layout();
-        TutorSubject.getData().addAll(set1);
+        tutorSubject.getData().clear();
+        tutorSubject.layout();
+        tutorSubject.getData().addAll(set1);
 
         ObservableList<Person> studentEngList =
                 studentList.filtered(person -> person.getSubject().equals(new Subject("English")));
@@ -108,9 +108,9 @@ public class ChartsPanel extends UiPart<Region> {
         set2.getData().add(new XYChart.Data("Math", numMathStudent));
         set2.getData().add(new XYChart.Data("Physics", numPhyStudent));
         set2.getData().add(new XYChart.Data("Chemistry", numChemStudent));
-        StudentSubject.getData().clear();
-        StudentSubject.layout();
-        StudentSubject.getData().addAll(set2);
+        studentSubject.getData().clear();
+        studentSubject.layout();
+        studentSubject.getData().addAll(set2);
 
     }
 

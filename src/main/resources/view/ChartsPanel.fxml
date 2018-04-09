@@ -13,8 +13,8 @@
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="900" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="606.0" style="-fx-background-color: #ffffff;">
          <children>
-            <PieChart fx:id="RoleDistribution" prefHeight="195.0" prefWidth="606.0" title="Role Distribution" />
-            <BarChart fx:id="TutorSubject" layoutY="200.0" prefHeight="203.0" prefWidth="298.0" title="Tutor Subjects">
+            <PieChart fx:id="roleDistribution" prefHeight="195.0" prefWidth="606.0" title="Role Distribution" />
+            <BarChart fx:id="tutorSubject" layoutY="200.0" prefHeight="203.0" prefWidth="298.0" title="Tutor Subjects">
               <xAxis>
                 <CategoryAxis prefHeight="17.0" prefWidth="244.0" side="BOTTOM" />
               </xAxis>
@@ -22,7 +22,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
-            <BarChart fx:id="StudentSubject" layoutX="305.0" layoutY="200.0" prefHeight="203.0" prefWidth="298.0" title="Student Subjects">
+            <BarChart fx:id="studentSubject" layoutX="305.0" layoutY="200.0" prefHeight="203.0" prefWidth="298.0" title="Student Subjects">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
