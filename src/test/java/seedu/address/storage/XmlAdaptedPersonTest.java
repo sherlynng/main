@@ -23,6 +23,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
 import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
+import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
 import seedu.address.testutil.Assert;
@@ -36,6 +37,7 @@ public class XmlAdaptedPersonTest {
     private static final String INVALID_PRICE = "-50";
     private static final String INVALID_LEVEL = "kindergarden";
     private static final String INVALID_SUBJECT = "fake news";
+    private static final String INVALID_ROLE = "nottutor";
     private static final String INVALID_STATUS = "very matched";
     private static final String INVALID_RATE = "5.5";
 
@@ -217,6 +219,25 @@ public class XmlAdaptedPersonTest {
     }
 
     @Test
+    public void toModelType_nullRole_throwsIllegalValueException() {
+        XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, VALID_STATUS, null, VALID_TAGS, VALID_REMARK,
+                VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Role.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidRole_throwsIllegalValueException() {
+        XmlAdaptedPerson person =
+                new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                        VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, VALID_STATUS, INVALID_ROLE,
+                        VALID_TAGS, VALID_REMARK, VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = Role.MESSAGE_ROLE_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
     public void toModelType_nullStatus_throwsIllegalValueException() {
         XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
                 VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, null, VALID_ROLE, VALID_TAGS, VALID_REMARK,
@@ -254,9 +275,19 @@ public class XmlAdaptedPersonTest {
     }
 
     @Test
+    public void toModelType_nullPairHash_throwsIllegalValueException() {
+        XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, VALID_STATUS, VALID_ROLE, VALID_TAGS,
+                VALID_REMARK, VALID_RATE, VALID_RATECOUNT, null);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, PairHash.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
     public void testXmlAdaptedPersonEquality() {
         XmlAdaptedPerson alice = new XmlAdaptedPerson(ALICE);
         XmlAdaptedPerson copy = new XmlAdaptedPerson(ALICE);
+        assertTrue(alice.equals(alice));
         assertTrue(alice.equals(copy)); //check equality if values are equal
         assertFalse(alice.equals(ALICE)); //check not equal if type is different
     }

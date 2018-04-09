@@ -21,8 +21,7 @@ import seedu.address.model.person.Rate;
 //@@author sherlynng
 public class RateCommandParserTest {
 
-    private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT + RateCommand.MESSAGE_USAGE);
+    private static final String MESSAGE_INVALID_FORMAT = MESSAGE_INVALID_COMMAND_FORMAT + RateCommand.MESSAGE_USAGE;
 
     private RateCommandParser parser = new RateCommandParser();
 

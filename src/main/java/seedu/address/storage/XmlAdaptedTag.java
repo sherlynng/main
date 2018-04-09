@@ -24,10 +24,10 @@ public class XmlAdaptedTag {
     public XmlAdaptedTag() {}
 
     /**
-     * Constructs a {@code XmlAdaptedTag} with the given {@code tagName}.
+     * Constructs a {@code XmlAdaptedTag} with the given {@code tagName} and no tag type.
      */
     public XmlAdaptedTag(String tagName) {
-        this.tagName = tagName + "," + Tag.AllTagTypes.DEFAULT.toString();
+        this.tagName = tagName;
     }
 
     /**
@@ -39,12 +39,19 @@ public class XmlAdaptedTag {
         tagName = source.tagName + "," + source.tagType.toString();
     }
 
+    //@@author aussiroth
+    /**
+     * Constructs a {@code XmlAdaptedTag} with the given {@code tagName} and {@code tagType}.
+     */
+    public XmlAdaptedTag(String tagName, String tagType) {
+        this.tagName = tagName + "," + tagType;
+    }
+
     /**
      * Converts this jaxb-friendly adapted tag object into the model's Tag object.
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted person
      */
-    //@@author aussiroth
     public Tag toModelType() throws IllegalValueException {
         String[] checkTagNameType = tagName.split(",");
         if (!Tag.isValidTagName(checkTagNameType[0])) {

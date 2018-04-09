@@ -14,12 +14,15 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 
 import java.util.logging.Logger;
 
+import com.google.common.eventbus.Subscribe;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.logic.EditRemarkEvent;
 import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.logic.ListElementPointer;
 import seedu.address.logic.Logic;
@@ -48,6 +51,7 @@ public class CommandBox extends UiPart<Region> {
     private ListElementPointer historySnapshot;
     private boolean isFindNextField = false;
     private boolean isMatchCommand = false;
+    private boolean isEditRemarkCommand;
 
     @FXML
     private TextField commandTextField;
@@ -58,6 +62,9 @@ public class CommandBox extends UiPart<Region> {
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
         historySnapshot = logic.getHistorySnapshot();
+        isEditRemarkCommand = false;
+
+        registerAsAnEventHandler(this);
     }
 
     /**
@@ -285,7 +292,12 @@ public class CommandBox extends UiPart<Region> {
             initHistory();
             historySnapshot.next();
             // process result of the command
-            commandTextField.setText("");
+            if (!isEditRemarkCommand) {
+                commandTextField.setText("");
+            } else {
+                // do not replace text
+                isEditRemarkCommand = false; // reset it back to default
+            }
             logger.info("Result: " + commandResult.feedbackToUser);
             raise(new NewResultAvailableEvent(commandResult.feedbackToUser));
 
@@ -326,6 +338,14 @@ public class CommandBox extends UiPart<Region> {
         }
 
         styleClass.add(ERROR_STYLE_CLASS);
+    }
+
+    @Subscribe
+    private void handleEditCommandEvent(EditRemarkEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        replaceText(event.getPersonRemark());
+
+        isEditRemarkCommand = true;
     }
 
 }

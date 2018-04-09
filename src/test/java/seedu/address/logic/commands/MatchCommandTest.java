@@ -126,7 +126,4 @@ public class MatchCommandTest {
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
-
-
-
 }

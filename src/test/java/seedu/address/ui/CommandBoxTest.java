@@ -1,6 +1,11 @@
 package seedu.address.ui;
 
 import static org.junit.Assert.assertEquals;
+import static seedu.address.logic.commands.RemarkCommand.COMMAND_WORD;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
+import static seedu.address.testutil.EventsUtil.postNow;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import java.util.ArrayList;
 
@@ -9,11 +14,13 @@ import org.junit.Test;
 
 import guitests.guihandles.CommandBoxHandle;
 import javafx.scene.input.KeyCode;
+import seedu.address.commons.events.logic.EditRemarkEvent;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.person.Person;
 
 public class CommandBoxTest extends GuiUnitTest {
 
@@ -394,5 +401,20 @@ public class CommandBoxTest extends GuiUnitTest {
         commandBoxHandle.insertInput("Student");
 
         return commandBoxHandle.getInput();
+    }
+
+    @Test
+    public void editRemarkEventTest_success() {
+        Person person = ALICE;
+
+        EditRemarkEvent editRemarkEventStub = new EditRemarkEvent(COMMAND_WORD + " "
+                + INDEX_FIRST_PERSON + " " + PREFIX_REMARK + person.getRemark());
+        postNow(editRemarkEventStub);
+
+        String expectedOutput = COMMAND_WORD + " " + INDEX_FIRST_PERSON + " " + PREFIX_REMARK + person.getRemark();
+        String actualOutput = commandBoxHandle.getInput();
+
+        guiRobot.pauseForHuman();
+        assertEquals(expectedOutput, actualOutput);
     }
 }

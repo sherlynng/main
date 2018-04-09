@@ -80,7 +80,7 @@ public class Pair  {
     }
 
     public String getPairName() {
-        return studentName + " /w " + tutorName;
+        return studentName + " & " + tutorName;
     }
 
     public PairHash getPairHash() {

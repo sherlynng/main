@@ -195,6 +195,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
                         + INVALID_EMAIL_DESC,
                 Email.MESSAGE_EMAIL_CONSTRAINTS);
 
+        //@@author aussiroth
         /* Case: invalid price -> rejected */
         assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
                         + INVALID_PRICE_DESC,
@@ -230,6 +231,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
                 + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED + SUBJECT_DESC_BOB
                 + ROLE_DESC_BOB;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
+        //@@author
     }
 
     /**
