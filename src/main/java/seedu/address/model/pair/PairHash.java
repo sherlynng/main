@@ -2,7 +2,9 @@ package seedu.address.model.pair;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import seedu.address.model.person.Level;
 import seedu.address.model.person.Person;
@@ -17,21 +19,29 @@ import seedu.address.model.person.Subject;
  */
 public class PairHash {
 
+    public static final String PAIRHASH_VALIDATION_REGEX = "-?[0-9]{0,10}";
+    public static final String MESSAGE_PAIRHASH_CONSTRAINTS = "PairHash should be a signed integer.";
+
     public static final PairHash DEFAULT_PAIR_HASH = new PairHash(0);
     public final int value;
 
 
     public PairHash (Person student, Person tutor, Subject subject, Level level, Price price) {
         requireAllNonNull(student, tutor, subject, level, price);
-        this.value = Objects.hash(student, tutor, subject, level, price);
+        this.value = Objects.hash(student.toString(), tutor.toString(), subject, level, price);
+    }
+
+    public PairHash(String input) {
+        this.value = Integer.parseInt(input);
     }
 
     public PairHash(int input) {
         this.value = input;
     }
 
-    public static PairHash getDefaultPairHash() {
-        return DEFAULT_PAIR_HASH;
+    public static Set<PairHash> getDefaultPairHashSet() {
+        Set<PairHash> defaultPairHashSet = new HashSet<PairHash>();
+        return defaultPairHashSet;
     }
 
     @Override
@@ -46,4 +56,14 @@ public class PairHash {
                 && this.value == (((PairHash) other).value)); // state check
     }
 
+    public int getValue() {
+        return value;
+    }
+
+    /**
+     * Returns true if a given string is a valid pairHash
+     */
+    public static boolean isValidPairHashValue(String test) {
+        return test.matches(PAIRHASH_VALIDATION_REGEX);
+    }
 }

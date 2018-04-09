@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.pair.PairHash;
+import seedu.address.model.pair.UniquePairHashList;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -28,15 +29,18 @@ public class Person {
     private final Remark remark;
     private final Rate rate;
 
-    private PairHash pairHash;
+
 
     private final UniqueTagList tags;
+    private final UniquePairHashList pairHashes;
+
 
     /**
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Price price, Subject subject,
-                  Level level, Status status, Role role, Set<Tag> tags, Remark remark, Rate rate, PairHash pairHash) {
+                  Level level, Status status, Role role, Set<Tag> tags, Remark remark, Rate rate,
+                  Set<PairHash> pairHashes) {
 
         requireAllNonNull(name, phone, email, address, price, subject, level, status, tags);
         this.name = name;
@@ -54,7 +58,7 @@ public class Person {
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
 
-        this.pairHash = pairHash;
+        this.pairHashes = new UniquePairHashList(pairHashes);
     }
 
     public Name getName() {
@@ -109,8 +113,8 @@ public class Person {
         return Collections.unmodifiableSet(tags.toSet());
     }
 
-    public PairHash getPairHash() {
-        return pairHash;
+    public Set<PairHash> getPairHashes() {
+        return Collections.unmodifiableSet(pairHashes.toSet());
     }
 
 
@@ -141,7 +145,7 @@ public class Person {
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(name, phone, email, address, price, subject, level, status, role, tags,
-                            remark, rate);
+                            remark, rate, pairHashes);
     }
 
     @Override
@@ -153,9 +157,7 @@ public class Person {
                 .append(" Email: ")
                 .append(getEmail())
                 .append(" Address: ")
-                .append(getAddress())
-                .append(" Tags: ");
-        getTags().forEach(builder::append);
+                .append(getAddress());
         return builder.toString();
     }
 
