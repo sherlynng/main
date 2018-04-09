@@ -18,12 +18,12 @@ import seedu.address.model.tag.UniqueTagList;
  */
 public class Pair  {
 
-    public final String studentName;
-    public final String tutorName;
-    public final String subject;
-    public final String level;
-    public final String price;
-    public final PairHash pairHash;
+    private final String studentName;
+    private final String tutorName;
+    private final String subject;
+    private final String level;
+    private final String price;
+    private final PairHash pairHash;
     private final UniqueTagList tags;
 
 

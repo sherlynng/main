@@ -13,8 +13,8 @@ import seedu.address.model.person.Subject;
 
 //@@author alexawangzi
 /**
- * Represents a pairHash in the address book.
- * The pariHash is attached to a pair, its student and its tutor to facilitate match/unmatch operations.
+ * Represents a PairHash in the address book.
+ * The PairHash is attached to a pair, its student and its tutor to facilitate match/unmatch operations.
  * Guarantees: immutable;
  */
 public class PairHash {
