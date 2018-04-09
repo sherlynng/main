@@ -106,12 +106,8 @@ public class ModelManager extends ComponentManager implements Model {
      * @param tutor
      * @throws DuplicatePersonException
      */
-    public synchronized void addPair(Person student, Person tutor)  {
-        try {
-            addressBook.addPair(student, tutor);
-        } catch (DuplicatePairException e) {
-            e.printStackTrace();
-        }
+    public synchronized void addPair(Person student, Person tutor) throws DuplicatePairException {
+        addressBook.addPair(student, tutor);
         updateFilteredPairList(PREDICATE_SHOW_ALL_PAIRS);
         indicateAddressBookChanged();
     }

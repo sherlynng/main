@@ -8,6 +8,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,10 @@ public class XmlAdaptedPersonTest {
     private static final String VALID_STATUS = BENSON.getStatus().toString();
     private static final String VALID_ROLE = BENSON.getRole().toString();
     private static final String VALID_PRICE = BENSON.getPrice().toString();
-    private static final String VALID_PAIRHASH = (new PairHash(123)).toString();
+
+    private static final List<XmlAdaptedPairHash> VALID_PAIRHASH = Collections.singletonList(
+            new XmlAdaptedPairHash(PairHash.DEFAULT_PAIR_HASH));
+
     private static final List<XmlAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(XmlAdaptedTag::new)
             .collect(Collectors.toList());
@@ -271,15 +275,6 @@ public class XmlAdaptedPersonTest {
                 VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, VALID_STATUS, VALID_ROLE, VALID_TAGS,
                 VALID_REMARK, null, VALID_RATECOUNT, VALID_PAIRHASH);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Rate.class.getSimpleName());
-        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
-    }
-
-    @Test
-    public void toModelType_nullPairHash_throwsIllegalValueException() {
-        XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
-                VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, VALID_STATUS, VALID_ROLE, VALID_TAGS,
-                VALID_REMARK, VALID_RATE, VALID_RATECOUNT, null);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, PairHash.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 

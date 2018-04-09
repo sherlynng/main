@@ -186,7 +186,7 @@ public class StudentBuilder {
     public Student build() {
         setTags();
         return new Student(name, phone, email, address, price, subject, level, status, tags,
-                           remark, rate, PairHash.DEFAULT_PAIR_HASH);
+                           remark, rate, PairHash.getDefaultPairHashSet());
     }
 
 }

@@ -121,18 +121,18 @@ public class EditCommand extends UndoableCommand {
         Role updatedRole = getUpdatedRole(personToEdit, editPersonDescriptor);
         Remark remark = getRemark(personToEdit);
         Rate rate = getRate(personToEdit);
-        PairHash pairHash = getPairHash(personToEdit);
+        Set<PairHash> pairHashes = getPairHashes(personToEdit);
         Set<Tag> updatedTags = getUpdatedTags(personToEdit, editPersonDescriptor);
         Set<Tag> attributeTags = getAttributeTags(personToEdit, updatedPrice, updatedSubject, updatedLevel,
                 updatedStatus, updatedRole, updatedTags);
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
                 updatedPrice, updatedSubject, updatedLevel, updatedStatus, updatedRole, attributeTags,
-                remark, rate, pairHash);
+                remark, rate, pairHashes);
     }
 
-    private static PairHash getPairHash(Person personToEdit) {
-        return personToEdit.getPairHash();
+    private static Set<PairHash> getPairHashes(Person personToEdit) {
+        return personToEdit.getPairHashes();
     }
 
     private static Remark getRemark(Person personToEdit) {

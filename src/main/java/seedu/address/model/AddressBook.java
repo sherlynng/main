@@ -161,7 +161,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return new Person(
                 person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                 person.getPrice(), person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                correctTagReferences, person.getRemark(), person.getRate(), person.getPairHash());
+                correctTagReferences, person.getRemark(), person.getRate(), person.getPairHashes());
     }
 
 
@@ -171,7 +171,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
      */
     public boolean removePerson(Person key) throws PersonNotFoundException, PersonMatchedCannotDeleteException {
-        if (!key.getPairHash().equals(PairHash.DEFAULT_PAIR_HASH)) {
+        if (!key.getPairHashes().isEmpty()) {
             throw new PersonMatchedCannotDeleteException();
         }
         if (persons.remove(key)) {
@@ -209,8 +209,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         Pair key = new Pair(student, tutor, student.getSubject(), student.getLevel(), student.getPrice());
         pairs.add(key);
         PairHash pairHash = key.getPairHash();
-        flipStatus(student, pairHash);
-        flipStatus(tutor, pairHash);
+        addPairHash(student, pairHash);
+        addPairHash(tutor, pairHash);
     }
 
     //@@author alexawangzi
@@ -223,8 +223,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         if (pairs.remove(key)) {
             PairHash pairHash = key.getPairHash();
             for (Person person : persons) {
-                if (person.getPairHash().equals(pairHash)) {
-                    flipStatus(person, PairHash.DEFAULT_PAIR_HASH);
+                if (person.getPairHashes().contains(pairHash)) {
+                    removePairHash(person, pairHash);
                 }
             }
             return true;
@@ -235,39 +235,69 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     //@@author alexawangzi
     /**
-     * flip the status of a person, update pairhash and tags accordingly
-     * if the person is currently matched, update status to be "Not Matched" and pairhash to be 0,
-     * otherwise update status to be "Matched" and parihash to be the new pairhash
+     * add parihash to be the person
      * @param person
-     * @param pairhash
+     * @param pairHash
      */
-    private void flipStatus(Person person, PairHash pairhash) {
+    private void addPairHash(Person person, PairHash pairHash) {
         Person editedPerson;
+        Set<PairHash> pairHashSet = new HashSet<PairHash>();
+        pairHashSet.addAll(person.getPairHashes());
+        pairHashSet.add(pairHash);
 
         Set<Tag> attributeTags = new HashSet<Tag>();
-
         attributeTags.add(new Tag(person.getRole().value, Tag.AllTagTypes.ROLE));
         attributeTags.add(new Tag(person.getPrice().value, Tag.AllTagTypes.PRICE));
         attributeTags.add(new Tag(person.getSubject().value, Tag.AllTagTypes.SUBJECT));
         attributeTags.add(new Tag(person.getLevel().value, Tag.AllTagTypes.LEVEL));
-        if (person.isMatched()) {
-            attributeTags.add(new Tag("Not Matched", Tag.AllTagTypes.STATUS));
-        } else {
-            attributeTags.add(new Tag("Matched", Tag.AllTagTypes.STATUS));
+
+        attributeTags.add(new Tag("Matched", Tag.AllTagTypes.STATUS));
+        editedPerson = new Person(person.getName(), person.getPhone(),
+                    person.getEmail(), person.getAddress(), person.getPrice(),
+                    person.getSubject(), person.getLevel(), new Status("Matched"),
+                    person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairHashSet);
+
+        try {
+            updatePerson(person, editedPerson);
+        } catch (DuplicatePersonException e) {
+            throw new AssertionError("Should not have duplicates");
+        } catch (PersonNotFoundException e) {
+            throw new AssertionError("Match exits means person must be in database.");
         }
-        if (person.isMatched()) {
+    }
+
+    //@@author alexawangzi
+    /**
+     * add parihash to be the person
+     * @param person
+     * @param pairHash
+     */
+    private void removePairHash(Person person, PairHash pairHash) {
+        Person editedPerson;
+        Set<PairHash> pairHashSet = new HashSet<PairHash>();
+        pairHashSet.addAll(person.getPairHashes());
+        pairHashSet.remove(pairHash);
+
+        Set<Tag> attributeTags = new HashSet<Tag>();
+        attributeTags.add(new Tag(person.getRole().value, Tag.AllTagTypes.ROLE));
+        attributeTags.add(new Tag(person.getPrice().value, Tag.AllTagTypes.PRICE));
+        attributeTags.add(new Tag(person.getSubject().value, Tag.AllTagTypes.SUBJECT));
+        attributeTags.add(new Tag(person.getLevel().value, Tag.AllTagTypes.LEVEL));
+
+        if (pairHashSet.isEmpty()) {
+            attributeTags.add(new Tag("Not Matched", Tag.AllTagTypes.STATUS));
             editedPerson = new Person(person.getName(), person.getPhone(),
                     person.getEmail(), person.getAddress(), person.getPrice(),
                     person.getSubject(), person.getLevel(), new Status("Not Matched"),
-                    person.getRole(), attributeTags, person.getRemark(), person.getRate(),
-                    PairHash.getDefaultPairHash());
+                    person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairHashSet);
         } else {
+            attributeTags.add(new Tag("Matched", Tag.AllTagTypes.STATUS));
             editedPerson = new Person(person.getName(), person.getPhone(),
                     person.getEmail(), person.getAddress(), person.getPrice(),
                     person.getSubject(), person.getLevel(), new Status("Matched"),
-                    person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairhash);
-
+                    person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairHashSet);
         }
+
         try {
             updatePerson(person, editedPerson);
         } catch (DuplicatePersonException e) {
@@ -347,7 +377,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person updatedPerson = new Person (person.getName(), person.getPhone(),
                 person.getEmail(), person.getAddress(), person.getPrice(),
                person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                updatedTags, person.getRemark(), person.getRate(), person.getPairHash());
+                updatedTags, person.getRemark(), person.getRate(), person.getPairHashes());
         try {
             updatePerson(person, updatedPerson);
         } catch (DuplicatePersonException dupe) {

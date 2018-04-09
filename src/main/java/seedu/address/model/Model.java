@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.pair.Pair;
+import seedu.address.model.pair.exceptions.DuplicatePairException;
 import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -64,7 +65,7 @@ public interface Model {
     //=================Pair operations===========================
 
     /** Adds the given pair */
-    void addPair(Person student, Person tutor);
+    void addPair(Person student, Person tutor) throws DuplicatePairException;
 
     /** Deletes the given pair. */
     void deletePair(Pair target) throws PairNotFoundException;

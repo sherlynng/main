@@ -16,6 +16,7 @@ import org.junit.rules.ExpectedException;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.pair.PairHash;
+import seedu.address.storage.XmlAdaptedPairHash;
 import seedu.address.storage.XmlAdaptedPerson;
 import seedu.address.storage.XmlAdaptedTag;
 import seedu.address.storage.XmlSerializableAddressBook;
@@ -48,10 +49,13 @@ public class XmlUtilTest {
     private static final String VALID_REMARK = "Fast learner";
     private static final String VALID_RATE = "4.0";
     private static final String VALID_RATECOUNT = "3";
-    private static final String VALID_PAIRHASH = PairHash.getDefaultPairHash().toString();
+
 
     private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(
             new XmlAdaptedTag("friends", "DEFAULT"));
+
+    private static final List<XmlAdaptedPairHash> VALID_PAIRHASH = Collections.singletonList(
+            new XmlAdaptedPairHash(PairHash.DEFAULT_PAIR_HASH));
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

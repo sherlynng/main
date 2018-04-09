@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PAIRHASH;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
@@ -67,6 +68,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).orElse(new Status(""));
             Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).orElse(new Role(""));
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+            Set<PairHash> pairHashList = ParserUtil.parsePairHashes(argMultimap.getAllValues(PREFIX_PAIRHASH));
 
             //make sure name is not accidentally set to empty string as it is the only compulsory field.
             assert(!name.equals(""));
@@ -93,7 +95,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             rate.setCount(1); // default rate count is 1
 
             Person person = new Person(name, phone, email, address, price, subject, level,
-                                       status, role, tagList, remark, rate, PairHash.getDefaultPairHash());
+                                       status, role, tagList, remark, rate, pairHashList);
             return new AddCommand(person);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
