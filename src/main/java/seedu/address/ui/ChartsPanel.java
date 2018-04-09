@@ -33,6 +33,8 @@ public class ChartsPanel extends UiPart<Region> {
     private PieChart RoleDistribution;
     @FXML
     private BarChart<?, ?> TutorSubject;
+    @FXML
+    private BarChart<?, ?> StudentSubject;
 
 
     public ChartsPanel(ObservableList<Person> personList) {
@@ -83,7 +85,33 @@ public class ChartsPanel extends UiPart<Region> {
         TutorSubject.getData().clear();
         TutorSubject.layout();
         TutorSubject.getData().addAll(set1);
-        
+
+        ObservableList<Person> studentEngList =
+                studentList.filtered(person -> person.getSubject().equals(new Subject("English")));
+        ObservableList<Person> studentChiList =
+                studentList.filtered(person -> person.getSubject().equals(new Subject("Chinese")));
+        ObservableList<Person> studentMathList =
+                studentList.filtered(person -> person.getSubject().equals(new Subject("Math")));
+        ObservableList<Person> studentPhyList =
+                studentList.filtered(person -> person.getSubject().equals(new Subject("Physics")));
+        ObservableList<Person> studentChemList =
+                studentList.filtered(person -> person.getSubject().equals(new Subject("Chemistry")));
+        int numEngStudent = studentEngList.size();
+        int numChiStudent = studentChiList.size();
+        int numMathStudent = studentMathList.size();
+        int numPhyStudent = studentPhyList.size();
+        int numChemStudent = studentChemList.size();
+
+        XYChart.Series set2 = new XYChart.Series<>();
+        set2.getData().add(new XYChart.Data("English", numEngStudent));
+        set2.getData().add(new XYChart.Data("Chinese", numChiStudent));
+        set2.getData().add(new XYChart.Data("Math", numMathStudent));
+        set2.getData().add(new XYChart.Data("Physics", numPhyStudent));
+        set2.getData().add(new XYChart.Data("Chemistry", numChemStudent));
+        StudentSubject.getData().clear();
+        StudentSubject.layout();
+        StudentSubject.getData().addAll(set2);
+
     }
 
     @Subscribe
