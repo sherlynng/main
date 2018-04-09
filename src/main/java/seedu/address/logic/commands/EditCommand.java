@@ -378,12 +378,6 @@ public class EditCommand extends UndoableCommand {
         }
 
         @Override
-        public String toString() {
-            return getName() + " " + getPhone() + " " + getEmail() + " " + getAddress() + " "
-                    + getPrice() + " " + getRole() + " " + getLevel() + " " + getStatus() + " " + getTags();
-        }
-
-        @Override
         public boolean equals(Object other) {
             // short circuit if same object
             if (other == this) {

@@ -43,7 +43,17 @@ public class EditPersonDescriptorBuilder {
         descriptor.setLevel(person.getLevel());
         descriptor.setStatus(person.getStatus());
         descriptor.setRole(person.getRole());
-        descriptor.setTags(new HashSet<>(person.getTags()));
+        HashSet<Tag> correctTags = new HashSet<>();
+        for (Tag tag : person.getTags()) {
+            if (tag.tagType == Tag.AllTagTypes.DEFAULT) {
+                correctTags.add(tag);
+            }
+        }
+        if (correctTags.size() == 0) {
+            descriptor.setTags(null);
+        } else {
+            descriptor.setTags(new HashSet<>(correctTags));
+        }
     }
 
     /**
