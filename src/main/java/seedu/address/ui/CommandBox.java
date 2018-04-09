@@ -180,7 +180,8 @@ public class CommandBox extends UiPart<Region> {
         }
 
         if (isFirstTime) {
-            if (commandTextField.getText().substring(0, 5).equals("match")) { // match command
+            if (commandTextField.getText().length() >= 5
+                && commandTextField.getText().substring(0, 5).equals("match")) { // match command
                 isMatchCommand = true;
             } else { // all other commands that have different behavior between first and other tabs
                 isFindNextField = true;
@@ -227,13 +228,15 @@ public class CommandBox extends UiPart<Region> {
         for (int i = caretPosition; i < text.length(); i++) {
             Character character = text.charAt(i);
             if (Character.isDigit(character)) {
-                indexPosition = i + 1;
+                indexPosition = i;
                 break;
             }
         }
 
         commandTextField.positionCaret(indexPosition);
-        commandTextField.selectBackward();
+        if (indexPosition != -1) {
+            commandTextField.selectForward();
+        }
     }
     //@@author
 
