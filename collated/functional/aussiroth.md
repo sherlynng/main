@@ -278,6 +278,26 @@ public class FindMissingPredicate implements Predicate<Person> {
 ###### \java\seedu\address\model\tag\Tag.java
 ``` java
     /**
+     * Constructs a {@code Tag}.
+     *
+     * @param tagName A valid tag name.
+     * @param tagType A valid tag type.
+     */
+    public Tag(String tagName, AllTagTypes tagType) {
+        this.tagType = tagType;
+        requireNonNull(tagName);
+        checkArgument(isValidTagName(tagName), MESSAGE_TAG_CONSTRAINTS);
+        this.tagName = tagName;
+    }
+
+    /**
+     * Returns true if a given string is a valid tag name.
+     */
+    public static boolean isValidTagName(String test) {
+        return test.matches(TAG_VALIDATION_REGEX);
+    }
+
+    /**
      * returns true if given string is a valid tag type.
      * @param test A string to test.
      */

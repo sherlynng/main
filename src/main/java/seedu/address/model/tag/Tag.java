@@ -34,6 +34,7 @@ public class Tag implements Comparable<Tag> {
         this.tagType = AllTagTypes.DEFAULT;
     }
 
+    //@@author aussiroth
     /**
      * Constructs a {@code Tag}.
      *
@@ -54,7 +55,6 @@ public class Tag implements Comparable<Tag> {
         return test.matches(TAG_VALIDATION_REGEX);
     }
 
-    //@@author aussiroth
     /**
      * returns true if given string is a valid tag type.
      * @param test A string to test.
