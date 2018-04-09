@@ -227,6 +227,40 @@ public class CommandBoxTest extends GuiUnitTest {
     }
 
     @Test
+    public void handleKeyPress_unmatchCommandPressTab_autofill() {
+        String expectedOutput = "unmatch 1";
+
+        // checks for unmatch command word
+        commandBoxHandle.setInput("unmatch");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for unmatch command word alias
+        commandBoxHandle.setInput("um");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_matchCommandPressTab_autofill() {
+        String expectedOutput = "match 1 2";
+
+        // checks for match command word
+        commandBoxHandle.setInput("match");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for match command word alias
+        commandBoxHandle.setInput("m");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
     public void handleKeyPress_editCommandPressTab_autofill() {
         String expectedOutput = "edit 1 n/ p/ e/ a/ $/ sub/ lvl/ stat/ r/";
 
@@ -238,6 +272,40 @@ public class CommandBoxTest extends GuiUnitTest {
 
         // checks for edit command word alias
         commandBoxHandle.setInput("e");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_remarkCommandPressTab_autofill() {
+        String expectedOutput = "remark 1 r/";
+
+        // checks for remark command word
+        commandBoxHandle.setInput("remark");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for remark command word alias
+        commandBoxHandle.setInput("rk");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_rateCommandPressTab_autofill() {
+        String expectedOutput = "rate 1 r/";
+
+        // checks for rate command word
+        commandBoxHandle.setInput("rate");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for rate command word alias
+        commandBoxHandle.setInput("rt");
         guiRobot.push(KeyCode.TAB);
         actualOutput = commandBoxHandle.getInput();
         assertEquals(expectedOutput, actualOutput);
