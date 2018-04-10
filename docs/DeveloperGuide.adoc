@@ -558,19 +558,14 @@ insensitive.
 ** Pros: User can type less.
 ** Cons: Arguments such as `Not Matched` and `Matched` cannot be differentiated.
 
+// tag::uimodifications[]
 === UI Modifications
 
 ==== Browser Panel
 The browser panel is modified to show the selected person’s details instead of opening up a URL.
-This allows better visualization of a person’s details as each person now has up 9 attributes: `Name`, `Phone`,
-`Address`, `Email`, `Role`, `Status`, `Subject`, `Level`, `Price` to be displayed.
+This allows better visualization of a person’s details as each person now has up 11 attributes: `Name`, `Phone`,
+`Address`, `Email`, `Role`, `Status`, `Subject`, `Level`, `Price`, `Remark`, `Rate` to be displayed.
 Below shows the modifications made:
-
-**Before**
-
-image::OldBrowserPanel.png[width="500"]
-
-**After**
 
 image::NewBrowserPanel.png[width="500"]
 
@@ -583,9 +578,6 @@ We choose to place the person's name at the top of the browser panel for easy id
 other details are organized in a table format for easy reference. Rows of the table are also alternately colored
 to increase readability.
 
-[NOTE]
-In the case if the person attribute is null (except `Name` cannot be null), it will be displayed as an empty string.
-
 ===== Design Considerations
 
 ====== Aspect: Layout of Browser Panel
@@ -597,6 +589,7 @@ and the other specifying the actual content.
 * **Alternative 2:** Centralized display of person details without usage of tables and reference to the type of attribute.
 ** Pros: More visually appealing as formatting is less rigid and squarish.
 ** Cons: Locating an attribute may not be easy due to lack of labelling.
+// end::uimodifications[]
 
 ==== Person Card
 Person card is improved to show the list of person’s details more concisely and clearly.
@@ -678,6 +671,7 @@ Current option used since it fits best with the user need of simply finding thos
 ** Pros: Simplifies the command significantly with only 1 field to search for.
 ** Cons: Artificially limits the command heavily for users, where those who want to search for multiple missing fields will not be able to.
 
+// tag::autofill[]
 === Autofill
 
 Due to the significant amount of attributes to type in, especially when adding or editing a person, we decided to create
@@ -691,7 +685,7 @@ When keyboard `Delete` or `Tab` is pressed, depending on the user input in the c
 will be shifted accordingly. Below shows the workflow when `Delete` or `Tab` is pressed.
 
 .Activity Diagram for Autofill
-image::AutofillActivityDiagram.png[width="700"]
+image::AutofillActivityDiagram.png[width="500"]
 
 ===== Find Next Field
 To find the next field to shift the caret to, manipulation of `String` is used to locate the next instance of `/` in the
@@ -741,6 +735,9 @@ manually having to shift the caret to change the index.
 only autofills `find` and expects the user to remember the command format. Furthermore, using command alias (e.g. `f`) requires
 less typing from the user.
 
+// end::autofill[]
+
+// tag::review[]
 === Review Feature
 As a tuition coordinator may receive feedback from students or tutors regarding their lessons, this feature helps the tuition coordinator
 to manage these information easily. Review feature in STUtor includes both adding a remark and rating for a student or tutor.
@@ -770,10 +767,10 @@ appropriate modifications.
 
 The following sequence diagrams shows how the remark operation works:
 
-image::RemarkCommandSequenceDiagram.png[width="700"]
+image::RemarkCommandSequenceDiagram.png[width="550"]
 .Sequence Diagram for `remark`
 
-image::RemarkCommandSequenceDiagram1.png[width="700"]
+image::RemarkCommandSequenceDiagram1.png[width="550"]
 
 
 ==== Design Considerations
@@ -808,10 +805,10 @@ in the user input. When setting an absolute rating, the app resets `count` back 
 
 The following sequence diagrams shows how the rate operation works:
 
-image::RateCommandSequenceDiagram.png[width="700"]
+image::RateCommandSequenceDiagram.png[width="550"]
 .Sequence Diagram for `rate`
 
-image::RateCommandSequenceDiagram1.png[width="700"]
+image::RateCommandSequenceDiagram1.png[width="550"]
 
 ==== Design Considerations
 ===== Aspect: Indication for Absolute Rating
@@ -831,6 +828,8 @@ image::RateCommandSequenceDiagram1.png[width="700"]
 * **Alternative 2:** Store all past ratings of a person and take the average
 ** Pros: Produces accurate rating.
 ** Cons: Can potentially take up lots of storage space as there is no limit to the number of times a person can be rated.
+
+// end::review[]
 
 === View Stats Command
 ==== Current Implementation
