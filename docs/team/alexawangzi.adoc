@@ -116,3 +116,4 @@ A pair will have the level, price and subject displayed as tags.
 
 .Illustration of usage of tags. Tags appear below the person/pair name.
 image::tagExampleForWangZiPPP.jpg[width="800"]
+
