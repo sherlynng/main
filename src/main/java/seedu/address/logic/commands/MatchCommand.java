@@ -12,7 +12,7 @@ import seedu.address.model.person.Person;
 
 //@@author alexawangzi
 /**
- * Match a tutor and a student in STUtor.
+ * Match a tutor and a student in STUtor
  */
 public class MatchCommand extends UndoableCommand {
 

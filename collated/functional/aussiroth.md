@@ -109,6 +109,22 @@ public class FindMissingCommand extends Command {
 ```
 ###### \java\seedu\address\logic\parser\AddCommandParser.java
 ``` java
+        //Change here from original code is that I create a class with empty string if user did not enter a value.
+        try {
+            Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
+            Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).orElse(new Phone(""));
+            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).orElse(new Email(""));
+            Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).orElse(new Address(""));
+            Price price = ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE)).orElse(new Price(""));
+            Subject subject = ParserUtil.parseSubject(argMultimap.getValue(PREFIX_SUBJECT)).orElse(new Subject(""));
+            Level level = ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).orElse(new Level(""));
+            Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).orElse(new Status(""));
+            Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).orElse(new Role(""));
+            Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+            Set<PairHash> pairHashList = ParserUtil.parsePairHashes(argMultimap.getAllValues(PREFIX_PAIRHASH));
+
+            //make sure name is not accidentally set to empty string as it is the only compulsory field.
+            assert(!name.equals(""));
             //Add required attributes to the tag list as in documentation
             //make tags only if the attribute has been entered by user
             if (!price.toString().equals("")) {
@@ -132,7 +148,7 @@ public class FindMissingCommand extends Command {
             rate.setCount(1); // default rate count is 1
 
             Person person = new Person(name, phone, email, address, price, subject, level,
-                                       status, role, tagList, remark, rate, PairHash.getDefaultPairHash());
+                                       status, role, tagList, remark, rate, pairHashList);
             return new AddCommand(person);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
@@ -232,8 +248,40 @@ public class FindMissingPredicate implements Predicate<Person> {
     }
 }
 ```
+###### \java\seedu\address\model\tag\Tag.java
+``` java
+    /**
+     * returns true if given string is a valid tag type.
+     * @param test A string to test.
+     */
+    public static boolean isValidTagType(String test) {
+        for (AllTagTypes tType : AllTagTypes.values()) {
+            if (tType.toString().equals(test)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int compareTo(Tag other) {
+        return this.tagType.compareTo(other.tagType);
+    }
+
+```
 ###### \java\seedu\address\storage\XmlAdaptedTag.java
 ``` java
+    /**
+     * Constructs a {@code XmlAdaptedTag} with the given {@code tagName} and {@code tagType}.
+     */
+    public XmlAdaptedTag(String tagName, String tagType) {
+        this.tagName = tagName + "," + tagType;
+    }
+
+    /**
+     * Converts this jaxb-friendly adapted tag object into the model's Tag object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated in the adapted person
+     */
     public Tag toModelType() throws IllegalValueException {
         String[] checkTagNameType = tagName.split(",");
         if (!Tag.isValidTagName(checkTagNameType[0])) {

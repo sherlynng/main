@@ -1,604 +1,325 @@
 # aussiroth
-###### \java\seedu\address\logic\commands\FindMissingCommandTest.java
+###### \java\seedu\address\logic\commands\EditCommand.java
+``` java
+    private static Role getUpdatedRole(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getRole().orElse(personToEdit.getRole());
+    }
+
+    private static Status getUpdatedStatus(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
+    }
+
+    private static Level getUpdatedLevel(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getLevel().orElse(personToEdit.getLevel());
+    }
+
+    private static Subject getUpdatedSubject(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getSubject().orElse(personToEdit.getSubject());
+    }
+
+    private static Price getUpdatedPrice(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+        return editPersonDescriptor.getPrice().orElse(personToEdit.getPrice());
+    }
+
+    private static Set<Tag> getAttributeTags(Person personToEdit, Price updatedPrice,
+        Subject updatedSubject, Level updatedLevel, Status updatedStatus, Role updatedRole, Set<Tag> updatedTags) {
+        //create a new modifiable set of tags
+        Set<Tag> attributeTags = new HashSet<>(updatedTags);
+        //clean out old person's attribute tags, then add the new ones
+
+        //ignore if attribute is empty (not entered yet by user)
+        if (!personToEdit.getPrice().toString().equals("")) {
+            attributeTags.remove(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
+        }
+        if (!personToEdit.getLevel().toString().equals("")) {
+            attributeTags.remove(new Tag(personToEdit.getLevel().toString(), Tag.AllTagTypes.LEVEL));
+        }
+        if (!personToEdit.getSubject().toString().equals("")) {
+            attributeTags.remove(new Tag(personToEdit.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
+        }
+        if (!personToEdit.getStatus().toString().equals("")) {
+            attributeTags.remove(new Tag(personToEdit.getStatus().toString(), Tag.AllTagTypes.STATUS));
+        }
+        if (!personToEdit.getRole().toString().equals("")) {
+            attributeTags.remove(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
+        }
+        if (!updatedPrice.toString().equals("")) {
+            attributeTags.add(new Tag(updatedPrice.toString(), Tag.AllTagTypes.PRICE));
+        }
+        if (!updatedSubject.toString().equals("")) {
+            attributeTags.add(new Tag(updatedSubject.toString(), Tag.AllTagTypes.SUBJECT));
+        }
+        if (!updatedLevel.toString().equals("")) {
+            attributeTags.add(new Tag(updatedLevel.toString(), Tag.AllTagTypes.LEVEL));
+        }
+        if (!updatedStatus.toString().equals("")) {
+            attributeTags.add(new Tag(updatedStatus.toString(), Tag.AllTagTypes.STATUS));
+        }
+        if (!updatedRole.toString().equals("")) {
+            attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
+        }
+
+        return attributeTags;
+    }
+
+```
+###### \java\seedu\address\logic\commands\FindMissingCommand.java
 ``` java
 /**
- * Contains integration tests (interaction with the Model) for {@code FindMissingCommand}.
+ * Finds and lists all persons in address book whose name contains any of the argument keywords.
+ * Keyword matching is case sensitive.
  */
-public class FindMissingCommandTest {
-    private Model missingAttributesModel = new ModelManager(getMissingAttributesAddressBook(), new UserPrefs());
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+public class FindMissingCommand extends Command {
 
-    @Test
-    public void equalsTest() {
-        FindMissingPredicate firstPredicate =
-                new FindMissingPredicate(Collections.singletonList("first"));
-        FindMissingPredicate secondPredicate =
-                new FindMissingPredicate(Collections.singletonList("second"));
+    public static final String COMMAND_WORD = "findmissing";
+    public static final String COMMAND_WORD_ALIAS = "fm";
+    public static final String[] ATTRIBUTE_VALUES =
+            new String[] {"phone", "email", "address", "price", "level", "role", "status", "subject"};
+    public static final HashSet<String> SET_ATTRIBUTE_VALUES = new HashSet<>(Arrays.asList(ATTRIBUTE_VALUES));
 
-        FindMissingCommand firstCommand = new FindMissingCommand(firstPredicate);
-        FindMissingCommand secondCommand = new FindMissingCommand(secondPredicate);
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Filter all persons whose fields have unentered values.\n"
+            + "With parameters, only those with specified fields with unentered values will be shown."
+            + "With no parameters, all persons with at least one field with unentered values will be shown"
+            + "Parameters: [ATTRIBUTE_NAME]\n"
+            + "Example: " + COMMAND_WORD + " email phone";
 
-        // same object -> returns true
-        assertTrue(firstCommand.equals(firstCommand));
-        // same values -> returns true
-        FindMissingCommand firstCommandCopy = new FindMissingCommand(firstPredicate);
-        assertTrue(firstCommand.equals(firstCommandCopy));
-        // different types -> returns false
-        assertFalse(firstCommand.equals("A String"));
-        // null -> returns false
-        assertFalse(firstCommand.equals(null));
-        // different input list -> returns false
-        assertFalse(firstCommand.equals(secondCommand));
+    public static final String MESSAGE_INVALID_ATTRIBUTE = "The attribute %s is invalid.\n"
+            + "The valid attributes are: phone, email, address, price, level, role, status, subject.";
+
+    private final Predicate<Person> predicate;
+
+    public FindMissingCommand(Predicate<Person> predicate) {
+        this.predicate = predicate;
     }
 
-    @Test
-    public void execute_noMissingFields_noPersonFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
-        //special prepare command/assert command success using the typical persons model
-        FindMissingCommand command = new FindMissingCommand(
-                new FindMissingPredicate(Arrays.asList("phone")));
-        command.setData(model, new CommandHistory(), new UndoRedoStack());
-        AddressBook expectedAddressBook = new AddressBook(model.getAddressBook());
-        CommandResult result = command.execute();
-        assertEquals(expectedMessage, result.feedbackToUser);
-        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
-        assertEquals(expectedAddressBook, model.getAddressBook());
+    @Override
+    public CommandResult execute() {
+        model.updateFilteredPersonList(predicate);
+        return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredPersonList().size()));
     }
 
-    @Test
-    public void execute_oneField_onePersonFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
-        FindMissingCommand command = prepareCommand("phone");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(JAMES));
-        command = prepareCommand("email");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(JAMES));
-        command = prepareCommand("address");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(KEN));
-        command = prepareCommand("subject");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(KEN));
-        command = prepareCommand("level");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(LENNY));
-        command = prepareCommand("price");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(LENNY));
-        command = prepareCommand("status");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(MISTER));
-        command = prepareCommand("role");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(MISTER));
-    }
-
-    @Test
-    public void execute_multipleField_multiplePersonFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 2);
-        FindMissingCommand command = prepareCommand("email address");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(JAMES, KEN));
-    }
-
-    /**
-     * Parses {@code userInput} into a {@code FindMissingCommand}.
-     */
-    private FindMissingCommand prepareCommand(String userInput) {
-        FindMissingCommand command = new FindMissingCommand(
-                new FindMissingPredicate(Arrays.asList(userInput.split("\\s+"))));
-        command.setData(missingAttributesModel, new CommandHistory(), new UndoRedoStack());
-        return command;
-    }
-
-    /**
-     * Asserts that {@code command} is successfully executed, and<br>
-     *     - the command feedback is equal to {@code expectedMessage}<br>
-     *     - the {@code FilteredList<Person>} is equal to {@code expectedList}<br>
-     *     - the {@code AddressBook} in model remains the same after executing the {@code command}
-     */
-    private void assertCommandSuccess(FindMissingCommand command, String expectedMessage, List<Person> expectedList) {
-        AddressBook expectedAddressBook = new AddressBook(missingAttributesModel.getAddressBook());
-        CommandResult result = command.execute();
-
-        assertEquals(expectedMessage, result.feedbackToUser);
-        assertEquals(expectedList, missingAttributesModel.getFilteredPersonList());
-        assertEquals(expectedAddressBook, missingAttributesModel.getAddressBook());
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof FindMissingCommand // instanceof handles nulls
+                && this.predicate.equals(((FindMissingCommand) other).predicate)); // state check
     }
 }
 ```
-###### \java\seedu\address\logic\parser\AddCommandParserTest.java
+###### \java\seedu\address\logic\parser\AddCommandParser.java
 ``` java
-    @Test
-    public void parse_compulsoryFieldMissing_failure() {
-        //Only name is compulsory now
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE);
-
-        // missing name prefix
-        assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_ENGLISH + LEVEL_DESC_LOWER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB,
-                expectedMessage);
-    }
-
-    @Test
-    public void parse_optionalFieldMissing_success() {
-        //All non-name fields are optional
-        //phone
-        Person expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone("")
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
-                .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
-                .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
-                + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
-        //email
-        expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail("").withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
-                .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
-                .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
-                + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
-        //address
-        expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress("").withSubject(VALID_SUBJECT_BOB)
-                .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
-                .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
-                + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
-        //subject
-        expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject("")
-                .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
-                .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
-                + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
-        //level
-        expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
-                .withLevel("").withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
-                .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + STATUS_DESC_UNMATCHED
-                + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
-        //Status
-        expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
-                .withLevel(VALID_LEVEL_BOB).withStatus("").withPrice(VALID_PRICE_BOB)
-                .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB
-                + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
-        //price
-        expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
-                .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice("")
-                .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
-                + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
-        //role
-        expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
-                .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
-                .withRole("").withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
-                + PRICE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
-        //all missing but name
-        expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone("")
-                .withEmail("").withAddress("").withSubject("")
-                .withLevel("").withStatus("").withPrice("")
-                .withRole("").build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB, new AddCommand(expectedPerson));
-
-    }
-
-    @Test
-    public void parse_invalidValue_failure() {
-        // invalid name
-        assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_CHINESE + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
-                + ROLE_DESC_BOB + TAG_DESC_FRIEND, Name.MESSAGE_NAME_CONSTRAINTS);
-
-        // invalid phone
-        assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_BOB + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
-                + ROLE_DESC_BOB + TAG_DESC_FRIEND, Phone.MESSAGE_PHONE_CONSTRAINTS);
-
-        // invalid email
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_BOB + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
-                + ROLE_DESC_BOB + TAG_DESC_FRIEND, Email.MESSAGE_EMAIL_CONSTRAINTS);
-
-        // invalid price
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_BOB + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + INVALID_PRICE_DESC
-                + ROLE_DESC_BOB + TAG_DESC_FRIEND, Price.MESSAGE_PRICE_CONSTRAINTS);
-
-        // invalid subject
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + INVALID_SUBJECT_DESC + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
-                + ROLE_DESC_BOB + TAG_DESC_FRIEND, Subject.MESSAGE_SUBJECT_CONSTRAINTS);
-
-        // invalid level
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_BOB + INVALID_LEVEL_DESC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
-                + ROLE_DESC_BOB + TAG_DESC_FRIEND, Level.MESSAGE_LEVEL_CONSTRAINTS);
-
-        // invalid tag
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_CHINESE + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
-                + ROLE_DESC_BOB + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_TAG_CONSTRAINTS);
-
-        // invalid status
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_CHINESE + LEVEL_DESC_UPPER_SEC + INVALID_STATUS_DESC + PRICE_DESC_BOB
-                + ROLE_DESC_BOB + INVALID_TAG_DESC + VALID_TAG_FRIEND, Status.MESSAGE_STATUS_CONSTRAINTS);
-
-        // two invalid values, only first invalid value reported
-        assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + VALID_ADDRESS_BOB
-                + SUBJECT_DESC_CHINESE + INVALID_LEVEL_DESC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB + ROLE_DESC_BOB,
-                Name.MESSAGE_NAME_CONSTRAINTS);
-
-        // non-empty preamble
-        assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_CHINESE + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED
-                        + ROLE_DESC_BOB + PRICE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE, MESSAGE_USAGE));
-    }
-
-```
-###### \java\seedu\address\logic\parser\AddressBookParserTest.java
-``` java
-    @Test
-    public void parseCommand_findMissing() throws Exception {
-        List<String> keywords = Arrays.asList("address");
-        FindMissingPredicate targetP = new FindMissingPredicate(keywords);
-        FindMissingCommand command = (FindMissingCommand) parser.parseCommand(
-                FindMissingCommand.COMMAND_WORD + " "
-                        + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindMissingCommand(targetP), command);
-    }
-
-```
-###### \java\seedu\address\logic\parser\AddressBookParserTest.java
-``` java
-    @Test
-    public void parseCommand_addAliased() throws Exception {
-        Person person = new PersonBuilder().build();
-        AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommandAliased(person));
-        assertEquals(new AddCommand(person), command);
-    }
-
-    @Test
-    public void parseCommand_clearAliased() throws Exception {
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD_ALIAS) instanceof ClearCommand);
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD_ALIAS + " 3") instanceof ClearCommand);
-    }
-
-    @Test
-    public void parseCommand_deleteAliased() throws Exception {
-        DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD_ALIAS + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_PERSON), command);
-    }
-
-    @Test
-    public void parseCommand_editAliased() throws Exception {
-        Person person = new PersonBuilder().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
-        EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD_ALIAS + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getPersonDetails(person));
-        assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
-    }
-
-    @Test
-    public void parseCommand_findMissingAliased() throws Exception {
-        List<String> keywords = Arrays.asList("address");
-        Predicate<Person> targetP = new FindMissingPredicate(keywords);
-        FindMissingCommand command = (FindMissingCommand) parser.parseCommand(
-                FindMissingCommand.COMMAND_WORD_ALIAS + " "
-                        + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindMissingCommand(targetP), command);
-    }
-
-    @Test
-    public void parseCommand_historyAliased() throws Exception {
-        assertTrue(parser.parseCommand(HistoryCommand.COMMAND_WORD_ALIAS) instanceof HistoryCommand);
-        assertTrue(parser.parseCommand(HistoryCommand.COMMAND_WORD_ALIAS + " 3") instanceof HistoryCommand);
-
+        //Change here from original code is that I create a class with empty string if user did not enter a value.
         try {
-            parser.parseCommand("histories");
-            fail("The expected ParseException was not thrown.");
-        } catch (ParseException pe) {
-            assertEquals(MESSAGE_UNKNOWN_COMMAND, pe.getMessage());
+            Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
+            Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).orElse(new Phone(""));
+            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).orElse(new Email(""));
+            Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).orElse(new Address(""));
+            Price price = ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE)).orElse(new Price(""));
+            Subject subject = ParserUtil.parseSubject(argMultimap.getValue(PREFIX_SUBJECT)).orElse(new Subject(""));
+            Level level = ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).orElse(new Level(""));
+            Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).orElse(new Status(""));
+            Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).orElse(new Role(""));
+            Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+            Set<PairHash> pairHashList = ParserUtil.parsePairHashes(argMultimap.getAllValues(PREFIX_PAIRHASH));
+
+            //make sure name is not accidentally set to empty string as it is the only compulsory field.
+            assert(!name.equals(""));
+            //Add required attributes to the tag list as in documentation
+            //make tags only if the attribute has been entered by user
+            if (!price.toString().equals("")) {
+                tagList.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
+            }
+            if (!subject.toString().equals("")) {
+                tagList.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
+            }
+            if (!level.toString().equals("")) {
+                tagList.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
+            }
+            if (!status.toString().equals("")) {
+                tagList.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
+            }
+            if (!role.toString().equals("")) {
+                tagList.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
+            }
+
+            Remark remark = new Remark("");  // default remark is empty string for newly added Person
+            Rate rate = new Rate(3, true); // default rating is 3
+            rate.setCount(1); // default rate count is 1
+
+            Person person = new Person(name, phone, email, address, price, subject, level,
+                                       status, role, tagList, remark, rate, pairHashList);
+            return new AddCommand(person);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
         }
     }
 
-    @Test
-    public void parseCommand_listAliased() throws Exception {
-        assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD_ALIAS) instanceof ListCommand);
-        assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD_ALIAS + " 3") instanceof ListCommand);
-    }
-
-    @Test
-    public void parseCommand_selectAliased() throws Exception {
-        SelectCommand command = (SelectCommand) parser.parseCommand(
-                SelectCommand.COMMAND_WORD_ALIAS + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new SelectCommand(INDEX_FIRST_PERSON), command);
-    }
-
-    @Test
-    public void parseCommand_redoCommandWordAliased_returnsRedoCommand() throws Exception {
-        assertTrue(parser.parseCommand(RedoCommand.COMMAND_WORD_ALIAS) instanceof RedoCommand);
-        assertTrue(parser.parseCommand("r 1") instanceof RedoCommand);
-    }
-
-    @Test
-    public void parseCommand_undoCommandWordAliased_returnsUndoCommand() throws Exception {
-        assertTrue(parser.parseCommand(UndoCommand.COMMAND_WORD_ALIAS) instanceof UndoCommand);
-        assertTrue(parser.parseCommand("u 3") instanceof UndoCommand);
-    }
-
-```
-###### \java\seedu\address\logic\parser\FindMissingCommandParserTest.java
-``` java
-public class FindMissingCommandParserTest {
-
-    private FindMissingCommandParser parser = new FindMissingCommandParser();
-
-    @Test
-    public void parse_validArgs_returnsFindMissingCommand() {
-        //setup predicate correctly
-        String[] keywords = {"email", "address"};
-        Predicate<Person> finalPredicate = new FindMissingPredicate(Arrays.asList(keywords));
-        FindMissingCommand expectedFindMissingCommand = new FindMissingCommand(finalPredicate);
-
-        //single whitespace
-        assertParseSuccess(parser, "email address", expectedFindMissingCommand);
-        // multiple whitespaces between keywords
-        assertParseSuccess(parser, "email \t  address \t", expectedFindMissingCommand);
-        //check case insensitive
-        assertParseSuccess(parser, "eMAIl aDdReSS", expectedFindMissingCommand);
-
-        //check parse if empty user input
-        keywords = Arrays.copyOf(FindMissingCommand.ATTRIBUTE_VALUES, FindMissingCommand.ATTRIBUTE_VALUES.length);
-        finalPredicate = new FindMissingPredicate(Arrays.asList(keywords));
-        expectedFindMissingCommand = new FindMissingCommand(finalPredicate);
-        assertParseSuccess(parser, "", expectedFindMissingCommand);
-    }
-
-    @Test
-    public void parse_invalidArgs_throwsParseException() {
-        String expectedParseFailureMessage = FindMissingCommand.MESSAGE_INVALID_ATTRIBUTE;
-        assertParseFailure(parser, "abcdefg", String.format(expectedParseFailureMessage, "abcdefg"));
-        assertParseFailure(parser, "addres phon", String.format(expectedParseFailureMessage, "addres"));
-    }
-}
-```
-###### \java\seedu\address\model\person\EmailTest.java
-``` java
-    @Test
-    public void checkEmailEquality() {
-        //test email against non-email type
-        assertFalse(new Email("test@abc.com").equals(null));
-        assertFalse(new Email("test@abc.com").equals(new Address("test@abc.com")));
-        //test correctly returns equal if email string is the same
-        assertTrue(new Email("test@abc.com").equals(new Email("test@abc.com")));
-    }
-
-    @Test
-    public void checkEmailHashCode() {
-        Email email = new Email("PeterJack_1190@example.com");
-        assertTrue(email.hashCode() == email.value.hashCode());
-        email = new Email("test@localhost");
-        assertTrue(email.hashCode() == email.value.hashCode());
-        email = new Email("peter_jack@very-very-very-long-example.com");
-        assertTrue(email.hashCode() == email.value.hashCode());
-    }
-}
-```
-###### \java\seedu\address\model\person\LevelTest.java
-``` java
-public class LevelTest {
-
-    @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new Level(null));
-    }
-
-    @Test
-    public void isValidLevel() {
-        // null level
-        Assert.assertThrows(NullPointerException.class, () -> Level.isValidLevel(null));
-
-        // invalid levels
-        assertFalse(Level.isValidLevel("JC")); // not accepted levels
-        assertFalse(Level.isValidLevel("middle Sec"));
-
-        // valid levels
-        assertTrue(Level.isValidLevel("upper Sec"));
-        assertTrue(Level.isValidLevel("lower Pri"));
-        assertTrue(Level.isValidLevel("Upper pri")); //check case insensitive
-        assertTrue(Level.isValidLevel("Lower sec"));
-    }
-
-    @Test
-    public void checkLevelEquality() {
-        //test level against non-level type
-        assertFalse(new Level("upper Sec").equals(null));
-        assertFalse(new Level("upper Sec").equals(new Tag("upper Sec")));
-        //test correctly returns equal if level string is the same
-        assertTrue(new Level("upper Sec").equals(new Level("upper Sec")));
-    }
-
-    @Test
-    public void checkLevelHashCode() {
-        Level level = new Level("upper sec");
-        assertTrue(level.hashCode() == level.value.hashCode());
-        level = new Level("lower sec");
-        assertTrue(level.hashCode() == level.value.hashCode());
-        level = new Level("lower pri");
-        assertTrue(level.hashCode() == level.value.hashCode());
-    }
-}
-```
-###### \java\seedu\address\model\person\NameTest.java
-``` java
-    @Test
-    public void checkNameEquality() {
-        //test name against non-name type
-        assertFalse(new Name("Stutor").equals(null));
-        assertFalse(new Name("Stutor").equals(new Address("Stutor")));
-        //test correctly returns equal if name string is the same
-        assertTrue(new Name("Stutor").equals(new Name("Stutor")));
-    }
-
-    @Test
-    public void checkNameHashCode() {
-        Name name = new Name("peter jack");
-        assertTrue(name.hashCode() == name.fullName.hashCode());
-        name = new Name("12345");
-        assertTrue(name.hashCode() == name.fullName.hashCode());
-        name = new Name("Capital Tan");
-        assertTrue(name.hashCode() == name.fullName.hashCode());
-    }
-}
-```
-###### \java\seedu\address\model\person\PriceTest.java
-``` java
-public class PriceTest {
-
-    @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new Price(null));
-    }
-
-    @Test
-    public void isValidPrice() {
-
-        // invalid prices
-        assertFalse(Price.isValidPrice("-5")); // negative numbers
-        assertFalse(Price.isValidPrice("-100"));
-
-        // valid prices
-        assertTrue(Price.isValidPrice("25"));
-        assertTrue(Price.isValidPrice("5")); // single digit
-        assertTrue(Price.isValidPrice("123456")); // large number
-    }
-
-```
-###### \java\seedu\address\model\person\PriceTest.java
-``` java
-    @Test
-    public void checkPriceEquality() {
-        //test price against non-price type
-        assertFalse(new Price("100").equals(null));
-        assertFalse(new Price("100").equals(new Tag("100")));
-        //test correctly returns equal if price string is the same
-        assertTrue(new Price("100").equals(new Price("100")));
-    }
-
-    @Test
-    public void checkPriceHashCode() {
-        Price price = new Price("25");
-        assertTrue(price.hashCode() == price.value.hashCode());
-        price = new Price("5");
-        assertTrue(price.hashCode() == price.value.hashCode());
-        price = new Price("123456");
-        assertTrue(price.hashCode() == price.value.hashCode());
-    }
-}
-```
-###### \java\seedu\address\model\person\StatusTest.java
-``` java
-public class StatusTest {
-
-    @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new Status(null));
-    }
-
-    @Test
-    public void isValidStatus() {
-
-        // invalid statuses
-        assertFalse(Status.isValidStatus("notastatus")); // not listed statuses
-        assertFalse(Status.isValidStatus("somewhatmatched"));
-
-        // valid status
-        assertTrue(Status.isValidStatus("not Matched"));
-        assertTrue(Status.isValidStatus("matched"));
-    }
-
-    @Test
-    public void checkStatusEquality() {
-        //test status against non-status type
-        assertFalse(new Status("matched").equals(null));
-        assertFalse(new Status("matched").equals(new Tag("matched")));
-        //test correctly returns equal if status string is the same
-        assertTrue(new Status("matched").equals(new Status("matched")));
-    }
-
-    @Test
-    public void checkStatusHashCode() {
-        Status status = new Status("not Matched");
-        assertTrue(status.hashCode() == status.value.hashCode());
-        status = new Status("matched");
-        assertTrue(status.hashCode() == status.value.hashCode());
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
 }
 ```
-###### \java\seedu\address\model\person\SubjectTest.java
+###### \java\seedu\address\logic\parser\FindMissingCommandParser.java
 ``` java
-public class SubjectTest {
+/**
+ * Parses input arguments and creates a new FilterCommand object
+ */
+public class FindMissingCommandParser implements Parser<FindMissingCommand> {
 
-    @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new Subject(null));
-    }
-
-    @Test
-    public void isValidPrice() {
-        // null subject
-        Assert.assertThrows(NullPointerException.class, () -> Subject.isValidSubject(null));
-
-        // invalid subject
-        assertFalse(Subject.isValidSubject("computer science")); //subjects not in list
-        assertFalse(Subject.isValidSubject("malay"));
-
-        // valid subjects
-        assertTrue(Subject.isValidSubject("math"));
-        assertTrue(Subject.isValidSubject("English")); // check that case doesn't matter
-        assertTrue(Subject.isValidSubject("chemistrY"));
-    }
-
-    @Test
-    public void checkSubjectEquality() {
-        //test name against non-name type
-        assertFalse(new Subject("math").equals(null));
-        assertFalse(new Subject("math").equals(new Address("math")));
-        //test correctly returns equal if name string is the same
-        assertTrue(new Subject("math").equals(new Subject("math")));
-    }
-
-    @Test
-    public void checkSubjectHashCode() {
-        Subject subject = new Subject("math");
-        assertTrue(subject.hashCode() == subject.value.hashCode());
-        subject = new Subject("english");
-        assertTrue(subject.hashCode() == subject.value.hashCode());
-        subject = new Subject("chemistry");
-        assertTrue(subject.hashCode() == subject.value.hashCode());
+    /**
+     * Parses the given {@code String} of arguments in the context of the FindMissingCommand
+     * and returns an FindMissingCommand object for execution.
+     * @throws ParseException if the user input contains non-attribute values
+     */
+    public FindMissingCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        String[] fieldKeywords = trimmedArgs.split("\\s+");
+        //validate user input, and set all input to lowercase.
+        for (int i = 0; i < fieldKeywords.length; i++) {
+            fieldKeywords[i] = fieldKeywords[i].toLowerCase();
+            if (!(fieldKeywords[i].equals("") || FindMissingCommand.SET_ATTRIBUTE_VALUES.contains(fieldKeywords[i]))) {
+                throw new ParseException(String.format(FindMissingCommand.MESSAGE_INVALID_ATTRIBUTE, fieldKeywords[i]));
+            }
+        }
+        //If user enters no parameters, the command is equivalent to entering ALL parameters.
+        if (fieldKeywords[0].equals("")) {
+            fieldKeywords = Arrays.copyOf(FindMissingCommand.ATTRIBUTE_VALUES,
+                    FindMissingCommand.ATTRIBUTE_VALUES.length);
+        }
+        Predicate<Person> finalPredicate = new FindMissingPredicate(Arrays.asList(fieldKeywords));
+        return new FindMissingCommand(finalPredicate);
     }
 }
 ```
-###### \java\seedu\address\model\tag\TagTest.java
+###### \java\seedu\address\logic\predicates\FindMissingPredicate.java
 ``` java
-    @Test
-    public void isValidTagType() {
-        //incorrect string
-        assertFalse(Tag.isValidTagType("NOTATYPE"));
-        //correct type
-        assertTrue(Tag.isValidTagType("SUBJECT"));
-        assertTrue(Tag.isValidTagType("STATUS"));
+/**
+ * Tests that a {@code Person}'s specified {@code Attribute} as given in {@code keyword} is an empty string.
+ */
+public class FindMissingPredicate implements Predicate<Person> {
+    private final List<String> keywords;
+
+    /**
+     * Constructs a new FindMissingPredicate based off given list.
+     * @param keywords A non-empty ArrayList of keywords containing attributes.
+     */
+    public FindMissingPredicate(List<String> keywords) {
+        assert(keywords.size() >= 1);
+        //sort to ensure equality check passes
+        Collections.sort(keywords);
+        this.keywords = keywords;
     }
 
+    @Override
+    public boolean test(Person person) {
+        for (String keyword : keywords) {
+            if (keyword.equals("email") && person.getEmail().value.equals("")) {
+                return true;
+            } else if (keyword.equals("phone") && person.getPhone().value.equals("")) {
+                return true;
+            } else if (keyword.equals("address") && person.getAddress().value.equals("")) {
+                return true;
+            } else if (keyword.equals("price") && person.getPrice().value.equals("")) {
+                return true;
+            } else if (keyword.equals("level") && person.getLevel().value.equals("")) {
+                return true;
+            } else if (keyword.equals("subject") && person.getSubject().value.equals("")) {
+                return true;
+            } else if (keyword.equals("role") && person.getRole().value.equals("")) {
+                return true;
+            } else if (keyword.equals("status") && person.getStatus().value.equals("")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof FindMissingPredicate // instanceof handles nulls
+                && this.keywords.equals(((FindMissingPredicate) other).keywords)); // state check
+    }
 }
+```
+###### \java\seedu\address\model\tag\Tag.java
+``` java
+    /**
+     * returns true if given string is a valid tag type.
+     * @param test A string to test.
+     */
+    public static boolean isValidTagType(String test) {
+        for (AllTagTypes tType : AllTagTypes.values()) {
+            if (tType.toString().equals(test)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int compareTo(Tag other) {
+        return this.tagType.compareTo(other.tagType);
+    }
+
+```
+###### \java\seedu\address\storage\XmlAdaptedTag.java
+``` java
+    /**
+     * Constructs a {@code XmlAdaptedTag} with the given {@code tagName} and {@code tagType}.
+     */
+    public XmlAdaptedTag(String tagName, String tagType) {
+        this.tagName = tagName + "," + tagType;
+    }
+
+    /**
+     * Converts this jaxb-friendly adapted tag object into the model's Tag object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated in the adapted person
+     */
+    public Tag toModelType() throws IllegalValueException {
+        String[] checkTagNameType = tagName.split(",");
+        if (!Tag.isValidTagName(checkTagNameType[0])) {
+            throw new IllegalValueException(Tag.MESSAGE_TAG_CONSTRAINTS);
+        }
+        //additional check if the comma exists
+        if (checkTagNameType.length == 1) {
+            logger.warning("Could not find tag type in file. Initialising it as DEFAULT type.");
+            return new Tag(checkTagNameType[0]);
+        }
+        if (!Tag.isValidTagType(checkTagNameType[1])) {
+            logger.warning("Tag Type in file is not recognised. Initialising it as DEFAULT type.");
+            checkTagNameType[1] = Tag.AllTagTypes.DEFAULT.toString();
+        }
+        return new Tag(checkTagNameType[0], Tag.AllTagTypes.valueOf(checkTagNameType[1]));
+    }
+
+```
+###### \java\seedu\address\ui\PersonCard.java
+``` java
+    /**
+     * Returns the color style for {@code tag}.
+     * Uses the tagType value inside the Tag to determine the colour.
+     */
+    private String getTagColorStyleFor(Tag tag) {
+        switch (tag.tagType) {
+        case SUBJECT:
+            return TAG_COLOR_STYLES[0]; //subject is teal
+        case LEVEL:
+            return TAG_COLOR_STYLES[1]; //level is red
+        case STATUS:
+            return TAG_COLOR_STYLES[2]; //status is yellow
+        case PRICE:
+            return TAG_COLOR_STYLES[3]; //price is blue
+        //fall through to default
+        default:
+            return TAG_COLOR_STYLES[8]; //all non-attribute are black
+        }
+    }
+
 ```

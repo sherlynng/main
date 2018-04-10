@@ -2,7 +2,7 @@ package seedu.address.model.person;
 
 //@@author alexawangzi
 /**
- * Helper class to change a string to proper class
+ * Helper class to change a String to proper class ("This Is An Example Of Proper Case.")
  */
 class ProperCaseConverter {
 

@@ -1,860 +1,828 @@
 # sherlynng
-###### \java\seedu\address\logic\commands\RateCommandTest.java
+###### \java\seedu\address\logic\commands\RateCommand.java
 ``` java
 /**
- * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand)
- * and unit tests for RateCommand.
+ * Adds a remark to person to the address book.
  */
-public class RateCommandTest {
+public class RateCommand extends UndoableCommand {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    public static final String COMMAND_WORD = "rate";
+    public static final String COMMAND_WORD_ALIAS = "rt";
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Adds rating to person identified by the index number used in the last person listing. "
+            + "Parameters: INDEX (must be a positive integer), RATE (must be an integer between 0 and 5 (inclusive)\n"
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_RATE + "4.5";
 
-    @Test
-    public void constructor_nullIndex_throwsNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
-        new RateCommand(null, rate);
+    public static final String MESSAGE_RATE_PERSON_SUCCESS = "Added Rating to %1$s: " + "%2$s";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+
+    private final Index targetIndex;
+    private Rate newRate;
+
+    private Person personToEdit;
+    private Person editedPerson;
+
+    public RateCommand(Index targetIndex, Rate newRate) {
+        requireNonNull(targetIndex);
+        requireNonNull(newRate);
+
+        this.targetIndex = targetIndex;
+        this.newRate = newRate;
     }
 
-    @Test
-    public void constructor_nullRate_throwsNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        new RateCommand(INDEX_FIRST_PERSON, null);
+    @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        try {
+            model.updatePerson(personToEdit, editedPerson);
+        } catch (DuplicatePersonException dpe) {
+            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("The target person cannot be missing");
+        }
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        //PersonCard personCardChanged = new PersonCard(editedPerson, targetIndex.getOneBased());
+        //EventsCenter.getInstance().post(new PersonPanelSelectionChangedEvent(personCardChanged));
+        return new CommandResult(String.format(MESSAGE_RATE_PERSON_SUCCESS,
+                                editedPerson.getName(), newRate));
     }
 
-    @Test
-    public void execute_filteredListAbsoluteRate_success() throws Exception {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+    @Override
+    protected void preprocessUndoableCommand() throws CommandException {
+        List<Person> lastShownList = model.getFilteredPersonList();
 
-        Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = new PersonBuilder(personInFilteredList).withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
-        rate.setCount(Integer.parseInt(RATECOUNT_BOB));
-        RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);
-        rateCommand.preprocessUndoableCommand();
-        String expectedMessage = String.format(MESSAGE_RATE_PERSON_SUCCESS,
-                                 editedPerson.getName(), VALID_RATE_BOB);
+        if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        }
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedPerson);
-
-        assertCommandSuccess(rateCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_filteredListAccumulatedRate_success() throws Exception {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
-
-        Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = new PersonBuilder(personInFilteredList).withRate(VALID_RATE_AMY, RATECOUNT_AMY).build();
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), false);
-        rate.setCount(Integer.parseInt(RATECOUNT_AMY));
-        RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);
-        rateCommand.preprocessUndoableCommand();
-        String expectedMessage = String.format(MESSAGE_RATE_PERSON_SUCCESS,
-                editedPerson.getName(), VALID_RATE_AMY);
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedPerson);
-
-        assertCommandSuccess(rateCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_invalidPersonIndexUnfilteredList_failure() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
-        rate.setCount(Integer.parseInt(RATECOUNT_BOB));
-        RateCommand rateCommand = prepareCommand(outOfBoundIndex, rate);
-
-        assertCommandFailure(rateCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        personToEdit = lastShownList.get(targetIndex.getZeroBased());
+        editedPerson = createPersonWithNewRate(personToEdit, newRate);
     }
 
     /**
-     * Adds rate in filtered list where index is larger than size of filtered list,
-     * but smaller than size of address book
+     * Creates and returns a {@code Person} with the details of {@code personToEdit}.
      */
-    @Test
-    public void execute_invalidPersonIndexFilteredList_failure() {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
-        Index outOfBoundIndex = INDEX_SECOND_PERSON;
-        // ensures that outOfBoundIndex is still in bounds of address book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
+    private static Person createPersonWithNewRate(Person personToEdit, Rate newRate) {
+        assert personToEdit != null;
 
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
-        rate.setCount(Integer.parseInt(RATECOUNT_BOB));
-        RateCommand rateCommand = prepareCommand(outOfBoundIndex, rate);
+        Name name = personToEdit.getName();
+        Phone phone = personToEdit.getPhone();
+        Email email = personToEdit.getEmail();
+        Address address = personToEdit.getAddress();
+        Price price = personToEdit.getPrice();
+        Subject subject = personToEdit.getSubject();
+        Level level = personToEdit.getLevel();
+        Status status = personToEdit.getStatus();
+        Role role = personToEdit.getRole();
+        Remark remark = personToEdit.getRemark();
+        Set<PairHash> pairHashes = personToEdit.getPairHashes();
 
-        assertCommandFailure(rateCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        Rate oldRate = personToEdit.getRate();
+
+        if (newRate.getIsAbsolute()) {
+            newRate.setCount(1); // reset count when set absolute
+        } else {
+            newRate = Rate.accumulatedValue(oldRate, newRate);
+        }
+
+        Set<Tag> updatedTags = new HashSet<>(personToEdit.getTags());
+
+        //create a new modifiable set of tags
+        Set<Tag> attributeTags = new HashSet<>(updatedTags);
+        //clean out old person's attribute tags, then add the new ones
+
+        //ignore if attribute is empty (not entered yet by user)
+        if (!personToEdit.getPrice().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
+        }
+        if (!personToEdit.getLevel().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getLevel().toString(), Tag.AllTagTypes.LEVEL));
+        }
+        if (!personToEdit.getSubject().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
+        }
+        if (!personToEdit.getStatus().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getStatus().toString(), Tag.AllTagTypes.STATUS));
+        }
+        if (!personToEdit.getRole().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
+        }
+
+        return new Person(name, phone, email, address, price, subject, level, status, role,
+                          attributeTags, remark, newRate, pairHashes);
     }
 
-    @Test
-    public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Person editedPerson = new PersonBuilder().withName("Alice Pauline")
-                .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
-                .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
-                .withRole("Tutor").withRemark("Hardworking but slow learner.").withRate("3.0", "1").build();
-        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
-        rate.setCount(Integer.parseInt(RATECOUNT_BOB));
-        RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-
-        // add rate -> adds rate to first person
-        rateCommand.execute();
-        undoRedoStack.push(rateCommand);
-
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-        // redo -> same first person with rate added again
-        expectedModel.updatePerson(personToEdit, editedPerson);
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-
-    @Test
-    public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
-        rate.setCount(Integer.parseInt(RATECOUNT_BOB));
-        RateCommand rateCommand = prepareCommand(outOfBoundIndex, rate);
-
-        // execution failed -> rateCommand not pushed into undoRedoStack
-        assertCommandFailure(rateCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-
-        // no commands in undoRedoStack -> undoCommand and redoCommand fail
-        assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
-        assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
-    }
-
-    /**
-     * 1. Adds a rate to a {@code Person} from a filtered list.
-     * 2. Undo the adding of rate.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously edited person in the
-     * unfiltered list is different from the index at the filtered list.
-     * 4. Redo the adding of rate. This ensures {@code RedoCommand} edits the person object regardless of indexing.
-     */
-    @Test
-    public void executeUndoRedo_validIndexFilteredList_samePersonEdited() throws Exception {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Person editedPerson = new PersonBuilder().withName("Benson Meier")
-                .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
-                .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
-                .withRole("Student").withRemark("Not self motivated.").withRate("2.1", "2").build();
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
-        rate.setCount(Integer.parseInt(RATECOUNT_BOB));
-        RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-
-        showPersonAtIndex(model, INDEX_SECOND_PERSON);
-        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-
-        // add rate -> adds rate to second person in unfiltered person list / first person in filtered person list
-        rateCommand.execute();
-        undoRedoStack.push(rateCommand);
-
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-        expectedModel.updatePerson(personToEdit, editedPerson);
-        assertNotEquals(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), personToEdit);
-        // redo -> adds rate to same second person in unfiltered person list
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-
-    @Test
-    public void equals() throws Exception {
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
-        rate.setCount(Integer.parseInt(RATECOUNT_BOB));
-        final RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);
-
-        // same values -> returns true
-        Person bob = new PersonBuilder().withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
-        RateCommand commandWithSameValues = prepareCommand(INDEX_FIRST_PERSON, bob.getRate());
-        assertTrue(rateCommand.equals(commandWithSameValues));
-
-        // same object -> returns true
-        assertTrue(rateCommand.equals(rateCommand));
-
-        // null -> returns false
-        assertFalse(rateCommand.equals(null));
-
-        // different types -> returns false
-        assertFalse(rateCommand.equals(new ClearCommand()));
-
-        // different index -> returns false
-        bob = new PersonBuilder().withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
-        RateCommand commandWithDifferentIndex = prepareCommand(INDEX_SECOND_PERSON, bob.getRate());
-        assertFalse(rateCommand.equals(commandWithDifferentIndex));
-
-        // different rate -> returns false
-        Person amy = new PersonBuilder().withRate(VALID_RATE_AMY, RATECOUNT_AMY).build();
-        RateCommand commandWithDifferentPerson = prepareCommand(INDEX_FIRST_PERSON, amy.getRate());
-        assertFalse(rateCommand.equals(commandWithDifferentPerson));
-    }
-
-    /**
-     * Returns an {@code RateCommand} with parameters {@code index} and {@code rate}
-     */
-    private RateCommand prepareCommand(Index index, Rate rate) {
-        RateCommand rateCommand = new RateCommand(index, rate);
-        rateCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return rateCommand;
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof RateCommand // instanceof handles nulls
+                && this.targetIndex.equals(((RateCommand) other).targetIndex)
+                && this.newRate.equals(((RateCommand) other).newRate));
     }
 }
 ```
-###### \java\seedu\address\logic\commands\RemarkCommandTest.java
+###### \java\seedu\address\logic\commands\RemarkCommand.java
 ``` java
 /**
- * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand)
- * and unit tests for RemarkCommand.
+ * Adds a remark to person to the address book.
  */
-public class RemarkCommandTest {
+public class RemarkCommand extends UndoableCommand {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    public static final String COMMAND_WORD = "remark";
+    public static final String COMMAND_WORD_ALIAS = "rk";
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Adds a remark to person identified by the index number used in the last person listing. "
+            + "Parameters: INDEX (must be a positive integer)\n"
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_REMARK + "Hardworking student"
+            + "\t\t OR \t\t" + COMMAND_WORD + " 1 edit";
 
-    @Test
-    public void constructor_nullIndex_throwsNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        Remark remark = new Remark(REMARK_BOB);
-        new RemarkCommand(null, remark);
+    public static final String MESSAGE_REMARK_PERSON_SUCCESS = "Added Remark to %1$s: " + "%2$s";
+    public static final String MESSAGE_EDIT_REMARK_SUCCESS = "Editing Remark of %1$s...";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+
+    private final Index targetIndex;
+    private Remark newRemark;
+    private boolean isEditRemark;
+
+    private Person personToEdit;
+    private Person editedPerson;
+
+    public RemarkCommand(Index targetIndex, Remark newRemark) {
+        requireNonNull(targetIndex);
+        requireNonNull(newRemark);
+
+        this.targetIndex = targetIndex;
+        this.newRemark = newRemark;
+        this.isEditRemark = false;
     }
 
-    @Test
-    public void constructor_nullRemark_throwsNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        new RemarkCommand(INDEX_FIRST_PERSON, null);
+    public RemarkCommand(Index targetIndex, Remark newRemark, boolean isEditRemark) {
+        requireNonNull(targetIndex);
+        requireNonNull(newRemark);
+
+        this.targetIndex = targetIndex;
+        this.newRemark = newRemark;
+        this.isEditRemark = isEditRemark;
     }
 
-    @Test
-    public void execute_filteredList_success() throws Exception {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
-
-        Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = new PersonBuilder(personInFilteredList).withRemark(REMARK_BOB).build();
-        Remark remark = new Remark(REMARK_BOB);
-        RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, remark);
-        remarkCommand.preprocessUndoableCommand();
-        String expectedMessage = String.format(MESSAGE_REMARK_PERSON_SUCCESS,
-                                 editedPerson.getName(), editedPerson.getRemark());
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedPerson);
-
-        assertCommandSuccess(remarkCommand, model, expectedMessage, expectedModel);
+    @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        if (!isEditRemark) {
+            try {
+                model.updatePerson(personToEdit, editedPerson);
+            } catch (DuplicatePersonException dpe) {
+                throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            } catch (PersonNotFoundException pnfe) {
+                throw new AssertionError("The target person cannot be missing");
+            }
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+            //PersonCard personCardChanged = new PersonCard(editedPerson, targetIndex.getOneBased());
+            //EventsCenter.getInstance().post(new PersonPanelSelectionChangedEvent(personCardChanged));
+            return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,
+                    editedPerson.getName(), editedPerson.getRemark()));
+        } else {
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+            return new CommandResult(String.format(MESSAGE_EDIT_REMARK_SUCCESS, personToEdit.getName()));
+        }
     }
 
-    @Test
-    public void execute_invalidPersonIndexUnfilteredList_failure() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        Remark remark = new Remark(REMARK_BOB);
-        RemarkCommand remarkCommand = prepareCommand(outOfBoundIndex, remark);
+    @Override
+    protected void preprocessUndoableCommand() throws CommandException {
+        List<Person> lastShownList = model.getFilteredPersonList();
 
-        assertCommandFailure(remarkCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-    }
+        if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        }
 
-    /**
-     * Adds remark in filtered list where index is larger than size of filtered list,
-     * but smaller than size of address book
-     */
-    @Test
-    public void execute_invalidPersonIndexFilteredList_failure() {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
-        Index outOfBoundIndex = INDEX_SECOND_PERSON;
-        // ensures that outOfBoundIndex is still in bounds of address book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
+        personToEdit = lastShownList.get(targetIndex.getZeroBased());
 
-        Remark remark = new Remark(REMARK_BOB);
-        RemarkCommand remarkCommand = prepareCommand(outOfBoundIndex, remark);
-
-        assertCommandFailure(remarkCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-    }
-
-    @Test
-    public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Person editedPerson = new PersonBuilder().withName("Alice Pauline")
-                .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
-                .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
-                .withRole("Tutor").withRemark(REMARK_BOB).build();
-        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Remark remark = new Remark(REMARK_BOB);
-        RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, remark);
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-
-        // add remark -> adds remark to first person
-        remarkCommand.execute();
-        undoRedoStack.push(remarkCommand);
-
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-        // redo -> same first person with remark added again
-        expectedModel.updatePerson(personToEdit, editedPerson);
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-
-    @Test
-    public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        Remark remark = new Remark(REMARK_BOB);
-        RemarkCommand remarkCommand = prepareCommand(outOfBoundIndex, remark);
-
-        // execution failed -> remarkCommand not pushed into undoRedoStack
-        assertCommandFailure(remarkCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-
-        // no commands in undoRedoStack -> undoCommand and redoCommand fail
-        assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
-        assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
+        if (isEditRemark) {
+            EventsCenter.getInstance().post(new EditRemarkEvent(COMMAND_WORD + " "
+                    + targetIndex.getOneBased() + " " + PREFIX_REMARK + personToEdit.getRemark().toString()));
+        } else {
+            editedPerson = createPersonWithNewRemark(personToEdit, newRemark);
+        }
     }
 
     /**
-     * 1. Adds a remark to a {@code Person} from a filtered list.
-     * 2. Undo the adding of remark.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously edited person in the
-     * unfiltered list is different from the index at the filtered list.
-     * 4. Redo the adding of remark. This ensures {@code RedoCommand} edits the person object regardless of indexing.
+     * Creates and returns a {@code Person} with the details of {@code personToEdit}.
      */
-    @Test
-    public void executeUndoRedo_validIndexFilteredList_samePersonEdited() throws Exception {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Person editedPerson = new PersonBuilder().withName("Benson Meier")
-                .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
-                .withPrice("50").withSubject("Math").withStatus("Matched").withLevel("Lower Sec")
-                .withRole("Student").withRemark(REMARK_BOB).build();
-        Remark remark = new Remark(REMARK_BOB);
-        RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, remark);
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+    private static Person createPersonWithNewRemark(Person personToEdit, Remark newRemark) {
+        assert personToEdit != null;
 
-        showPersonAtIndex(model, INDEX_SECOND_PERSON);
-        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Name name = personToEdit.getName();
+        Phone phone = personToEdit.getPhone();
+        Email email = personToEdit.getEmail();
+        Address address = personToEdit.getAddress();
+        Price price = personToEdit.getPrice();
+        Subject subject = personToEdit.getSubject();
+        Level level = personToEdit.getLevel();
+        Status status = personToEdit.getStatus();
+        Role role = personToEdit.getRole();
+        Rate rate = personToEdit.getRate();
+        Set<PairHash> pairHashes = personToEdit.getPairHashes();
 
-        // add remark -> adds remark to second person in unfiltered person list / first person in filtered person list
-        remarkCommand.execute();
-        undoRedoStack.push(remarkCommand);
+        Set<Tag> updatedTags = new HashSet<>(personToEdit.getTags());
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        //create a new modifiable set of tags
+        Set<Tag> attributeTags = new HashSet<>(updatedTags);
+        //clean out old person's attribute tags, then add the new ones
 
-        expectedModel.updatePerson(personToEdit, editedPerson);
-        assertNotEquals(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), personToEdit);
-        // redo -> adds remark to same second person in unfiltered person list
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+        //ignore if attribute is empty (not entered yet by user)
+        if (!personToEdit.getPrice().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
+        }
+        if (!personToEdit.getLevel().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getLevel().toString(), Tag.AllTagTypes.LEVEL));
+        }
+        if (!personToEdit.getSubject().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
+        }
+        if (!personToEdit.getStatus().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getStatus().toString(), Tag.AllTagTypes.STATUS));
+        }
+        if (!personToEdit.getRole().toString().equals("")) {
+            attributeTags.add(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
+        }
+
+        return new Person(name, phone, email, address, price, subject, level, status, role,
+                          attributeTags, newRemark, rate, pairHashes);
     }
 
-    @Test
-    public void equals() throws Exception {
-        Remark remark = new Remark(REMARK_BOB);
-        final RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, remark);
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof RemarkCommand // instanceof handles nulls
+                && this.targetIndex.equals(((RemarkCommand) other).targetIndex)
+                && this.newRemark.equals(((RemarkCommand) other).newRemark)
+                && this.isEditRemark == ((RemarkCommand) other).isEditRemark);
 
-        // same values -> returns true
-        Person bob = new PersonBuilder().withRemark(REMARK_BOB).build();
-        RemarkCommand commandWithSameValues = prepareCommand(INDEX_FIRST_PERSON, bob.getRemark());
-        assertTrue(remarkCommand.equals(commandWithSameValues));
+    }
+}
+```
+###### \java\seedu\address\logic\parser\ParserUtil.java
+``` java
+    /**
+     * Parses a {@code String remark} into a {@code Remark}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static Remark parseRemark(String remark) {
+        if (remark == null) {
+            remark = ""; // set it as empty string if there is no user input
+        }
+        String trimmedRemark = remark.trim();
 
-        // same object -> returns true
-        assertTrue(remarkCommand.equals(remarkCommand));
-
-        // null -> returns false
-        assertFalse(remarkCommand.equals(null));
-
-        // different types -> returns false
-        assertFalse(remarkCommand.equals(new ClearCommand()));
-
-        // different index -> returns false
-        bob = new PersonBuilder().withRemark(REMARK_BOB).build();
-        RemarkCommand commandWithDifferentIndex = prepareCommand(INDEX_SECOND_PERSON, bob.getRemark());
-        assertFalse(remarkCommand.equals(commandWithDifferentIndex));
-
-        // different remark -> returns false
-        Person amy = new PersonBuilder().withRemark(REMARK_AMY).build();
-        RemarkCommand commandWithDifferentPerson = prepareCommand(INDEX_FIRST_PERSON, amy.getRemark());
-        assertFalse(remarkCommand.equals(commandWithDifferentPerson));
+        return new Remark(trimmedRemark);
     }
 
     /**
-     * Returns an {@code RemarkCommand} with parameters {@code index} and {@code remark}
+     * Parses a {@code Optional<String> remark} into an {@code Optional<Remark>} if {@code remark} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
      */
-    private RemarkCommand prepareCommand(Index index, Remark remark) {
-        RemarkCommand remarkCommand = new RemarkCommand(index, remark);
-        remarkCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return remarkCommand;
-    }
-}
-```
-###### \java\seedu\address\logic\parser\AddressBookParserTest.java
-``` java
-    @Test
-    public void parseCommand_remark() throws Exception {
-        RemarkCommand command = (RemarkCommand) parser.parseCommand(RemarkCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + REMARK_AMY);
-        Remark remark = new Remark(REMARK_AMY);
-        assertEquals(new RemarkCommand(INDEX_FIRST_PERSON, remark), command);
-    }
-
-    @Test
-    public void parseCommand_remarkAliased() throws Exception {
-        RemarkCommand command = (RemarkCommand) parser.parseCommand(RemarkCommand.COMMAND_WORD_ALIAS + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + REMARK_AMY);
-        Remark remark = new Remark(REMARK_AMY);
-        assertEquals(new RemarkCommand(INDEX_FIRST_PERSON, remark), command);
-    }
-
-    @Test
-    public void parseCommand_rate() throws Exception {
-        RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY);
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
-        assertEquals(new RateCommand(INDEX_FIRST_PERSON, rate), command);
-    }
-
-    @Test
-    public void parseCommand_rateAliased() throws Exception {
-        RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD_ALIAS + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY);
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
-        assertEquals(new RateCommand(INDEX_FIRST_PERSON, rate), command);
-    }
-```
-###### \java\seedu\address\logic\parser\ParserUtilTest.java
-``` java
-    @Test
-    public void parseRemark_null_returnsEmptyStringRemark() {
-        Remark expectedRemark = new Remark("");
-        assertEquals(expectedRemark, ParserUtil.parseRemark((String) null));
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseRemark((Optional<String>) null));
-    }
-
-    @Test
-    public void parseRemark_optionalEmpty_returnsOptionalEmpty() throws Exception {
-        assertFalse(ParserUtil.parseRemark(Optional.empty()).isPresent());
-    }
-
-    @Test
-    public void parseRemark_validValueWithoutWhitespace_returnsRemark() throws Exception {
-        Remark expectedRemark = new Remark(VALID_REMARK);
-        assertEquals(expectedRemark, ParserUtil.parseRemark(VALID_REMARK));
-        assertEquals(Optional.of(expectedRemark), ParserUtil.parseRemark(Optional.of(VALID_REMARK)));
-    }
-
-    @Test
-    public void parseRemark_validValueWithWhitespace_returnsTrimmedRemark() throws Exception {
-        String remarkWithWhitespace = WHITESPACE + VALID_REMARK + WHITESPACE;
-        Remark expectedRemark = new Remark(VALID_REMARK);
-        assertEquals(expectedRemark, ParserUtil.parseRemark(remarkWithWhitespace));
-        assertEquals(Optional.of(expectedRemark), ParserUtil.parseRemark(Optional.of(remarkWithWhitespace)));
-    }
-}
-```
-###### \java\seedu\address\logic\parser\RateCommandParserTest.java
-``` java
-public class RateCommandParserTest {
-
-    private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT + RateCommand.MESSAGE_USAGE);
-
-    private RateCommandParser parser = new RateCommandParser();
-
-    @Test
-    public void parse_missingParts_failure() {
-        // no index specified
-        String userInput = PREFIX_RATE + INVALID_RATE_EXCEEDRANGE;
-        assertParseFailure(parser, userInput, MESSAGE_INVALID_FORMAT);
-
-        // no index and no field specified
-        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
-    }
-
-    @Test
-    public void parse_invalidPreamble_failure() {
-        // negative index
-        String userInput = "-5" + " " + PREFIX_RATE + VALID_RATE_AMY;
-        assertParseFailure(parser, userInput, MESSAGE_INVALID_FORMAT);
-
-        // zero index
-        userInput = "0" + " " + PREFIX_RATE + VALID_RATE_AMY;
-        assertParseFailure(parser, userInput, MESSAGE_INVALID_FORMAT);
-
-        // invalid prefix being parsed as preamble
-        assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT);
-    }
-
-    @Test
-    public void parse_invalidRate_failure() {
-        // exceed rate range
-        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_RATE + INVALID_RATE_EXCEEDRANGE;
-        assertParseFailure(parser, userInput, MESSAGE_RATE_CONSTRAINTS);
-
-        // negative rate
-        userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_RATE + INVALID_RATE_NEGATIVE;
-        assertParseFailure(parser, userInput, MESSAGE_RATE_CONSTRAINTS);
-    }
-
-    @Test
-    public void parse_allFieldsSpecifiedAbsoulteRate_success() {
-        Index targetIndex = INDEX_SECOND_PERSON;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY;
-
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
-        RateCommand expectedCommand = new RateCommand(targetIndex, rate);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-
-    @Test
-    public void parse_allFieldsSpecifiedAccumulatedRate_success() {
-        Index targetIndex = INDEX_FIRST_PERSON;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_RATE + VALID_RATE_BOB;
-
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
-        RateCommand expectedCommand = new RateCommand(targetIndex, rate);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-}
-```
-###### \java\seedu\address\logic\parser\RemarkCommandParserTest.java
-``` java
-public class RemarkCommandParserTest {
-
-    private static final String TAG_EMPTY = " " + PREFIX_TAG;
-
-    private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT + RemarkCommand.MESSAGE_USAGE);
-
-    private RemarkCommandParser parser = new RemarkCommandParser();
-
-    @Test
-    public void parse_missingParts_failure() {
-        // no index specified
-        assertParseFailure(parser, REMARK_AMY, MESSAGE_INVALID_FORMAT);
-
-        // no index and no field specified
-        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
-    }
-
-    @Test
-    public void parse_invalidPreamble_failure() {
-        // negative index
-        assertParseFailure(parser, "-5" + REMARK_AMY, MESSAGE_INVALID_FORMAT);
-
-        // zero index
-        assertParseFailure(parser, "0" + REMARK_AMY, MESSAGE_INVALID_FORMAT);
-
-        // invalid prefix being parsed as preamble
-        assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT);
-    }
-
-    @Test
-    public void parse_allFieldsSpecified_success() {
-        Index targetIndex = INDEX_SECOND_PERSON;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_REMARK + REMARK_AMY;
-
-        Remark remark = new Remark(REMARK_AMY);
-        RemarkCommand expectedCommand = new RemarkCommand(targetIndex, remark);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-
-    @Test
-    public void parse_indexFieldSpecifiedNullRemark_success() {
-        Index targetIndex = INDEX_SECOND_PERSON;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_REMARK;
-
-        Remark remark = new Remark("");
-        RemarkCommand expectedCommand = new RemarkCommand(targetIndex, remark);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-}
-```
-###### \java\seedu\address\model\person\RateTest.java
-``` java
-public class RateTest {
-
-    @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new Rate((Double) null, true));
-    }
-
-    @Test
-    public void checkRateAccumulatedValue() {
-        Rate oldRate = new Rate(2, true);
-        oldRate.setCount(2);
-        Rate newRate = new Rate(3, true);
-        Rate expectedRate = new Rate(2.3, true);
-        expectedRate.setCount(3);
-
-        Rate actualRate = Rate.accumulatedValue(oldRate, newRate);
-        assertTrue(expectedRate.equals(actualRate));
-    }
-
-    @Test
-    public void checkRateToString() {
-        assertTrue(new Rate(3, true).toString().equals("3.0")); // Integer rating
-        assertTrue(new Rate(2.1, true).toString().equals("2.1")); // Rating with decimal value
-    }
-
-    @Test
-    public void isValidRate() {
-
-        // invalid rate
-        assertFalse(Rate.isValidRate("-1.0")); // negative numbers
-        assertFalse(Rate.isValidRate("6.0")); // exceed 5
-
-        // valid rate
-        assertTrue(Rate.isValidRate("3.3"));
-        assertTrue(Rate.isValidRate("1")); // single digit
-    }
-
-    @Test
-    public void checkRateEquality() {
-        //test rate against non-rate type
-        assertFalse(new Rate(1, true).equals(null));
-        assertFalse(new Rate(1, true).equals(new Tag("100")));
-        //test correctly returns equal if rate string is the same
-        assertTrue(new Rate(1, true).equals(new Rate(1, true)));
-    }
-
-    @Test
-    public void checkRateHashCode() {
-        Rate rate = new Rate(3, true);
-        assertTrue(rate.hashCode() == rate.hashCode());
-        rate = new Rate(2.1, true);
-        assertTrue(rate.hashCode() == rate.hashCode());
-        rate = new Rate(4.5, false);
-        assertTrue(rate.hashCode() == rate.hashCode());
-    }
-}
-```
-###### \java\seedu\address\model\person\RemarkTest.java
-``` java
-public class RemarkTest {
-
-    @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new Remark(null));
-    }
-
-    @Test
-    public void checkRemarkToString() {
-        assertTrue(new Remark("Friendly and patient.").toString() == "Friendly and patient.");
-    }
-
-    @Test
-    public void checkRemarkEquality() {
-        //test remark against non-address type
-        assertFalse(new Remark("Friendly and patient.").equals(null));
-        assertFalse(new Remark("Friendly and patient.").equals(new Address("Friendly and patient.")));
-
-        //test correctly returns equal if remark string is the same
-        assertTrue(new Remark("Friendly and patient.").equals(new Remark("Friendly and patient.")));
-    }
-
-    @Test
-    public void checkRemarkHashCode() {
-        Remark remark = new Remark("Friendly and patient.");
-        assertTrue(remark.hashCode() == remark.value.hashCode());
-        remark = new Remark(" - ");
-        assertTrue(remark.hashCode() == remark.value.hashCode());
-        remark = new Remark("Late and impatient tutor.");
-        assertTrue(remark.hashCode() == remark.value.hashCode());
-    }
-}
-```
-###### \java\seedu\address\ui\BrowserPanelTest.java
-``` java
-public class BrowserPanelTest extends GuiUnitTest {
-    private PersonPanelSelectionChangedEvent selectionChangedEventStubStudent;
-    private PersonPanelSelectionChangedEvent selectionChangedEventStubTutor;
-    //private PersonPanelSelectionChangedEvent selectionChangedEventStubPersonOnlyNameSpecified;
-
-    private BrowserPanel browserPanel;
-    private BrowserPanelHandle browserPanelHandle;
-
-    //private Person personOnlyNameSpecified;
-
-    @Before
-    public void setUp() {
-        /*personOnlyNameSpecified  = new PersonBuilder().withName("Hilda Lim")
-                .withAddress(null).withEmail(null).withPhone(null)
-                .withPrice(null).withSubject(null).withStatus(null).withLevel(null)
-                .withTags(new String[0]).build();*/
-
-        selectionChangedEventStubStudent = new PersonPanelSelectionChangedEvent(new PersonCard(ALICE, 0));
-        selectionChangedEventStubTutor = new PersonPanelSelectionChangedEvent(new PersonCard(BENSON, 0));
-        //selectionChangedEventStubPersonOnlyNameSpecified =
-        //        new PersonPanelSelectionChangedEvent(new PersonCard(personOnlyNameSpecified, 0));
-
-
-        guiRobot.interact(() -> browserPanel = new BrowserPanel());
-        uiPartRule.setUiPart(browserPanel);
-
-        browserPanelHandle = new BrowserPanelHandle(browserPanel.getRoot());
-    }
-
-    @Test
-    public void display() {
-        // student
-        Person student = ALICE;
-        postNow(selectionChangedEventStubStudent);
-        assertBrowserDisplay(student);
-
-        // tutor
-        Person tutor = BENSON;
-        postNow(selectionChangedEventStubTutor);
-        assertBrowserDisplay(tutor);
-
-        // person with only name specified
-        //postNow(selectionChangedEventStubTutor);
-        //assertBrowserDisplay(personOnlyNameSpecified);
+    public static Optional<Remark> parseRemark(Optional<String> remark) {
+        requireNonNull(remark);
+        return remark.isPresent() ? Optional.of(parseRemark(remark.get())) : Optional.empty();
     }
 
     /**
-     * Asserts that {@code browserPanel} displays the details of {@code expectedPerson} correctly.
+     * Parses a {@code String rate} into a {@code Rate}.
+     * Leading and trailing whitespaces will be trimmed.
+     * Checks if user wants absolute or cumulative rating.
      */
-    private void assertBrowserDisplay(Person expectedPerson) {
-        guiRobot.pauseForHuman();
+    public static Rate parseRate(String rate) throws IllegalValueException {
+        requireNonNull(rate);
 
-        // verify person details are displayed correctly
-        assertBrowserDisplaysPerson(expectedPerson, browserPanelHandle);
-    }
-}
-```
-###### \java\seedu\address\ui\CommandBoxTest.java
-``` java
-    @Test
-    public void handleKeyPress_addCommandPressTab_autofill() {
-        String expectedOutput = "add n/ p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+        if (rate.equals("")) {
+            throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
+        }
 
-        // checks for add command word
-        commandBoxHandle.setInput("add");
-        guiRobot.push(KeyCode.TAB);
-        String actualOutput = commandBoxHandle.getInput();
-        assertEquals(expectedOutput, actualOutput);
+        Character lastChar = rate.charAt(rate.length() - 1);
+        boolean isAbsolute = false;
 
-        // checks for add command word alias
-        commandBoxHandle.setInput("a");
-        guiRobot.push(KeyCode.TAB);
-        actualOutput = commandBoxHandle.getInput();
-        assertEquals(expectedOutput, actualOutput);
+        // user wants absolute rate value
+        if (lastChar.equals('-')) {
+            rate = rate.substring(0, rate.length() - 1);
+            isAbsolute = true;
+        }
+        String trimmedRate = rate.trim();
+        if (!Rate.isValidRate(rate)) {
+            throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
+        }
 
-        // checks if tab works correctly
-        /*expectedOutput = "add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50"
-                + " sub/Math lvl/Lower Sec stat/Not Matched r/Student";
-        actualOutput = enterPersonDetails();
-        assertEquals(expectedOutput, actualOutput);*/
-    }
-
-    @Test
-    public void handleKeyPress_addCommandPressDelete_removePreviousPrefix() {
-        String expectedOutput = "add p/ e/ a/ $/ sub/ lvl/ stat/ r/";
-
-        // checks for add command word
-        commandBoxHandle.setInput("add");
-        guiRobot.push(KeyCode.TAB);
-        guiRobot.push(KeyCode.DELETE);
-
-        String actualOutput = commandBoxHandle.getInput();
-        assertEquals(expectedOutput, actualOutput);
-    }
-
-    @Test
-    public void handleKeyPress_selectCommandPressTab_autofill() {
-        String expectedOutput = "select 1";
-
-        // checks for select command word
-        commandBoxHandle.setInput("select");
-        guiRobot.push(KeyCode.TAB);
-        String actualOutput = commandBoxHandle.getInput();
-        assertEquals(expectedOutput, actualOutput);
-
-        // checks for select command word alias
-        commandBoxHandle.setInput("s");
-        guiRobot.push(KeyCode.TAB);
-        actualOutput = commandBoxHandle.getInput();
-        assertEquals(expectedOutput, actualOutput);
-    }
-
-    @Test
-    public void handleKeyPress_deleteCommandPressTab_autofill() {
-        String expectedOutput = "delete 1";
-
-        // checks for delete command word
-        commandBoxHandle.setInput("delete");
-        guiRobot.push(KeyCode.TAB);
-        String actualOutput = commandBoxHandle.getInput();
-        assertEquals(expectedOutput, actualOutput);
-
-        // checks for delete command word alias
-        commandBoxHandle.setInput("d");
-        guiRobot.push(KeyCode.TAB);
-        actualOutput = commandBoxHandle.getInput();
-        assertEquals(expectedOutput, actualOutput);
-    }
-
-    @Test
-    public void handleKeyPress_editCommandPressTab_autofill() {
-        String expectedOutput = "edit 1 n/ p/ e/ a/ $/ sub/ lvl/ stat/ r/";
-
-        // checks for edit command word
-        commandBoxHandle.setInput("edit");
-        guiRobot.push(KeyCode.TAB);
-        String actualOutput = commandBoxHandle.getInput();
-        assertEquals(expectedOutput, actualOutput);
-
-        // checks for edit command word alias
-        commandBoxHandle.setInput("e");
-        guiRobot.push(KeyCode.TAB);
-        actualOutput = commandBoxHandle.getInput();
-        assertEquals(expectedOutput, actualOutput);
+        return new Rate(Double.parseDouble(trimmedRate), isAbsolute);
     }
 
     /**
-     * Enters Person details using GUI robot
-     * @return String entered by GUI robot
+     * Parses a {@code Optional<String> rate} into an {@code Optional<Rate>} if {@code rate} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
      */
-    private String enterPersonDetails() {
-        commandBoxHandle.setInput("John Doe");
-        guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("98765432");
-        guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("johnd@example.com");
-        guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("311, Clementi Ave 2, #02-25");
-        guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("50");
-        guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Math");
-        guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Lower Sec");
-        guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Not Matched");
-        guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Student");
-
-        return commandBoxHandle.getInput();
+    public static Optional<Rate> parseRate(Optional<String> rate) throws IllegalValueException {
+        requireNonNull(rate);
+        return rate.isPresent() ? Optional.of(parseRate(rate.get())) : Optional.empty();
     }
 }
+```
+###### \java\seedu\address\logic\parser\RateCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new RateCommand object
+ */
+public class RateCommandParser implements Parser<RateCommand> {
+
+    /**
+     * Parses the given {@code String} of rates in the context of the RateCommand
+     * and returns a RateCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public RateCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_RATE);
+
+        Index index;
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_RATE)) {
+            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
+        }
+
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (IllegalValueException ive) {
+            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
+        }
+
+        Rate rate;
+        try {
+            rate = ParserUtil.parseRate(argMultimap.getValue(PREFIX_RATE)).get();
+
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+
+        return new RateCommand(index, rate);
+    }
+
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+
+}
+```
+###### \java\seedu\address\logic\parser\RemarkCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new RemarkCommand object
+ */
+public class RemarkCommandParser implements Parser<RemarkCommand> {
+
+    /**
+     * Parses the given {@code String} of remarks in the context of the RemarkCommand
+     * and returns a RemarkCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public RemarkCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
+
+        Index index;
+        boolean isEditCommand;
+
+        isEditCommand = argMultimap.getPreamble().contains("edit");
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_REMARK) && !isEditCommand) {
+            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
+        }
+
+        try {
+            if (isEditCommand) {
+                index = ParserUtil.parseIndex(argMultimap.getPreamble().replace("edit", ""));
+            } else {
+                index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            }
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage());
+        }
+
+        Remark remark;
+        if (isEditCommand) {
+            remark = ParserUtil.parseRemark((String) null);
+
+            return new RemarkCommand(index, remark, isEditCommand);
+        } else {
+            remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
+        }
+
+        return new RemarkCommand(index, remark);
+    }
+
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+
+
+}
+```
+###### \java\seedu\address\model\person\Rate.java
+``` java
+/**
+ * Represents a Person's rating in the address book.
+ * Guarantees: immutable;
+ */
+public class Rate {
+
+    /* Regex notation
+    ^                   # Start of string
+    (?:                 # Either match...
+    5(?:\.0)?           # 5.0 (or 5)
+    |                   # or
+    [0-4](?:\.[0-9])?   # 0.0-4.9 (or 1-4)
+    |                   # or
+    0?\.[1-9]           # 0.1-0.9 (or .1-.9)
+    )                   # End of alternation
+    $                   # End of string
+     */
+    public static final String RATE_VALIDATION_REGEX = "^(?:5(?:\\.0)?|[0-4](?:\\.[0-9])?|0?\\.[0-9])$";
+    public static final String RATE_VALIDATION_REGEX_ABSOLUTE = "^(?:5(?:\\.0)?|[0-4](?:\\.[0-9])?|0?\\.[0-9])" + "-";
+    public static final String MESSAGE_RATE_CONSTRAINTS =
+            "Rate must be a number between 0 and 5 (inclusive) with at most 1 decimal place";
+
+    private double value;
+    private int count;
+    private boolean isAbsolute;
+
+    /**
+     * Constructs an {@code Rating}.
+     *
+     * @param rating A valid rating.
+     */
+    public Rate (double rating, boolean isAbsolute) {
+        requireNonNull(rating);
+        checkArgument(isValidRate(Double.toString(rating)), MESSAGE_RATE_CONSTRAINTS);
+
+        this.value = rating;
+        this.isAbsolute = isAbsolute;
+    }
+
+    /**
+     * Creates a default rating.
+     * @return {@code Rate} with default value of 3.0 and count 1.
+     */
+    public static Rate getDefaultRate() {
+        Rate defaultRate = new Rate(3, true);
+        defaultRate.setCount(1);
+
+        return defaultRate;
+    }
+
+    /**
+     * Calculates the accumulated value of a person's rating
+     * @param oldRate
+     * @param newRate
+     * @return {@code Rate} that contains updated value and count
+     */
+    public static Rate accumulatedValue (Rate oldRate, Rate newRate) {
+        double value;
+        double newValue;
+
+        value = oldRate.getValue() * oldRate.getCount();
+        newValue = (value + newRate.getValue()) / (oldRate.getCount() + 1);
+        newValue = Math.floor(newValue * 10) / 10;
+
+        newRate = new Rate(newValue, true);
+        newRate.setCount(oldRate.getCount() + 1);
+
+        return newRate;
+    }
+
+    /**
+     * Returns true if a given string is a valid person rate.
+     */
+    public static boolean isValidRate(String test) {
+        return test.equals("") || test.matches(RATE_VALIDATION_REGEX) || test.matches(RATE_VALIDATION_REGEX_ABSOLUTE);
+    }
+
+    public double getValue() {
+        return this.value;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public boolean getIsAbsolute() {
+        return isAbsolute;
+    }
+
+    @Override
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("0.0");
+        return df.format(value);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Rate // instanceof handles nulls
+                && this.value == ((Rate) other).value
+                && this.count == ((Rate) other).count); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.valueOf(value).hashCode();
+    }
+
+}
+```
+###### \java\seedu\address\model\person\Remark.java
+``` java
+/**
+ * Represents a Person's remark in the address book.
+ * Guarantees: immutable;
+ */
+public class Remark {
+
+    public final String value;
+
+    /**
+     * Constructs an {@code Remark}.
+     *
+     * @param remark A valid remark.
+     */
+    public Remark(String remark) {
+        requireNonNull(remark);
+        this.value = remark;
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Remark // instanceof handles nulls
+                && this.value.equals(((Remark) other).value)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+}
+```
+###### \java\seedu\address\ui\BrowserPanel.java
+``` java
+public class BrowserPanel extends UiPart<Region> {
+
+    private static final String FXML = "BrowserPanel.fxml";
+
+    private final Logger logger = LogsCenter.getLogger(this.getClass());
+
+    @FXML
+    private GridPane grid;
+    @FXML
+    private HBox ratingBox;
+    @FXML
+    private Label name;
+    @FXML
+    private Label id;
+    @FXML
+    private Label phone;
+    @FXML
+    private Label address;
+    @FXML
+    private Label email;
+    @FXML
+    private Label role;
+    @FXML
+    private Label status;
+    @FXML
+    private Label subject;
+    @FXML
+    private Label level;
+    @FXML
+    private Label price;
+    @FXML
+    private Label remark;
+    @FXML
+    private Label rating;
+    @FXML
+    private Label rateCount;
+
+    public BrowserPanel() {
+        super(FXML);
+
+        name.setText("");
+        grid.setVisible(false);
+        ratingBox.setVisible(false);
+
+        registerAsAnEventHandler(this);
+    }
+
+    /**
+     * Loads a {@code person}'s details into the browser panel.
+     */
+    public void loadPersonDetails(Person person) {
+        grid.setVisible(true);
+        ratingBox.setVisible(true);
+
+        name.setText(person.getName().fullName);
+        phone.setText(person.getPhone().value);
+        address.setText(person.getAddress().value);
+        email.setText(person.getEmail().value);
+        status.setText(person.getStatus().value);
+        subject.setText(person.getSubject().value);
+        level.setText(person.getLevel().value);
+        price.setText("$" + person.getPrice().value + " / hr");
+        role.setText(person.getRole().value);
+        remark.setText(person.getRemark().value);
+        rating.setText(Double.toString(person.getRate().getValue()));
+        rateCount.setText(Integer.toString(person.getRate().getCount()));
+    }
+
+    @Subscribe
+    private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        loadPersonDetails(event.getNewSelection().person);
+    }
+}
+```
+###### \java\seedu\address\ui\CommandBox.java
+``` java
+        case TAB:
+            keyEvent.consume();
+            autofillCommand();
+            break;
+        case DELETE:
+            keyEvent.consume();
+            deletePreviousPrefix();
+            break;
+        default:
+            // let JavaFx handle the keypress
+        }
+    }
+
+    /**
+     * Sets {@code CommandBox}'s text field with input format and
+     * if next field is present, it positions the caret to the next field.
+     */
+    private void autofillCommand() {
+        String input = commandTextField.getText();
+        int nextCaretPosition = -1;
+        boolean isFirstTime = false; // check for commands that have different behaviors between first and other tabs
+
+        // first time tab is pressed
+        switch (input) {
+        case AddCommand.COMMAND_WORD:
+        case AddCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(AddCommand.COMMAND_WORD + " " + PREFIX_NAME + " " + PREFIX_PHONE + " "
+                    + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
+                    + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
+            isFindNextField = true;
+            isMatchCommand = false;
+            break;
+        case EditCommand.COMMAND_WORD:
+        case EditCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(EditCommand.COMMAND_WORD + " 1 " + PREFIX_NAME + " " + PREFIX_PHONE + " "
+                    + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
+                    + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
+            isMatchCommand = false;
+            break;
+        case RemarkCommand.COMMAND_WORD:
+        case RemarkCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(RemarkCommand.COMMAND_WORD + " 1 " + PREFIX_REMARK);
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
+            isMatchCommand = false;
+            break;
+        case RateCommand.COMMAND_WORD:
+        case RateCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(RateCommand.COMMAND_WORD + " 1 " + PREFIX_RATE);
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
+            isMatchCommand = false;
+            break;
+        case SelectCommand.COMMAND_WORD:
+        case SelectCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(SelectCommand.COMMAND_WORD + " 1");
+            selectIndexToEdit();
+            isFindNextField = false;
+            isMatchCommand = false;
+            break;
+        case DeleteCommand.COMMAND_WORD:
+        case DeleteCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(DeleteCommand.COMMAND_WORD + " 1");
+            selectIndexToEdit();
+            isFindNextField = false;
+            isMatchCommand = false;
+            break;
+        case UnmatchCommand.COMMAND_WORD:
+        case UnmatchCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(UnmatchCommand.COMMAND_WORD + " 1");
+            selectIndexToEdit();
+            isFindNextField = false;
+            isMatchCommand = false;
+            break;
+        case MatchCommand.COMMAND_WORD:
+        case MatchCommand.COMMAND_WORD_ALIAS:
+            commandTextField.setText(MatchCommand.COMMAND_WORD + " 1 2");
+            selectIndexToEdit();
+            isFindNextField = false;
+            isFirstTime = true;
+            break;
+        default:
+            // no autofill
+        }
+
+        // subsequent times tab is pressed
+        if (isFindNextField) {
+            nextCaretPosition = findNextField();
+            if (nextCaretPosition != -1) {
+                commandTextField.positionCaret(nextCaretPosition);
+            }
+        }
+
+        if (isMatchCommand) {
+            selectIndexToEdit();
+        }
+
+        if (isFirstTime) {
+            if (commandTextField.getText().length() >= 5
+                && commandTextField.getText().substring(0, 5).equals("match")) { // match command
+                isMatchCommand = true;
+            } else { // all other commands that have different behavior between first and other tabs
+                isFindNextField = true;
+            }
+        }
+    }
+
+    /**
+     * Deletes the previous prefix from current caret position and
+     * if next field is present, it positions the caret to the next field.
+     */
+    private void deletePreviousPrefix() {
+        String text = commandTextField.getText();
+        int caretPosition = commandTextField.getCaretPosition();
+        int deleteStart = text.lastIndexOf(" ", caretPosition - 1);
+
+        if (deleteStart != -1) {
+            commandTextField.deleteText(deleteStart, caretPosition);
+            commandTextField.positionCaret(findNextField());
+        }
+    }
+
+    /**
+     * Finds the next input field from current caret position and
+     * if next field is present, it positions the caret to the next field.
+     */
+    private int findNextField() {
+        String text = commandTextField.getText();
+        int caretPosition = commandTextField.getCaretPosition();
+        int nextFieldPosition = text.indexOf("/", caretPosition);
+
+        return nextFieldPosition + 1;
+    }
+
+    /**
+     * Positions the caret to index position
+     * and selects the index to be edited.
+     */
+    private void selectIndexToEdit() {
+        String text = commandTextField.getText();
+        int caretPosition = commandTextField.getCaretPosition();
+        int indexPosition = -1;
+
+        for (int i = caretPosition; i < text.length(); i++) {
+            Character character = text.charAt(i);
+            if (Character.isDigit(character)) {
+                indexPosition = i;
+                break;
+            }
+        }
+
+        commandTextField.positionCaret(indexPosition);
+        if (indexPosition != -1) {
+            commandTextField.selectForward();
+        }
+    }
 ```

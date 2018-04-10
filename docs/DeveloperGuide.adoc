@@ -781,8 +781,8 @@ When a `Pair` is created through the `match` command, a`PairHash` is generated a
 .Activity diagram for Match Command
 image::MatchActivityDiagram.png[width="700"]
 
-Similarly, when a `Pair` is removed through the `unmatch` command, its `PairHash` is retrieved and removed from the
-`Student` and `Tutor` involved.
+Similarly, when a `Pair` is removed through the `unmatch` command, its `PairHash` is extracted
+and used to retrieve the `Student` and `Tutor` involved. This `PairHash` is then deleted from the persons.
 
 [NOTE]
 `PairHash` objects associated with a particular `Person` object is stored inside that `Person` as a list. +
