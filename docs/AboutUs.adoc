@@ -28,7 +28,7 @@ Responsibilities: UI
 
 === Ng Xin Ler
 image::sherlynng.jpg[width="150", align="left"]
-{empty}[http://github.com/sherylnng[github]] [<<sherlynng#, portfolio>>]
+{empty}[http://github.com/sherlynng[github]] [<<sherlynng#, portfolio>>]
 
 Role: Documentation, Code quality
 Responsibilities: Storage
