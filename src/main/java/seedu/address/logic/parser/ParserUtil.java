@@ -385,6 +385,11 @@ public class ParserUtil {
         return rate.isPresent() ? Optional.of(parseRate(rate.get())) : Optional.empty();
     }
 
+    /**
+     * Checks if new rate is of absolute type
+     * @param rate
+     * @return true if rate is of absolute type
+     */
     private static boolean checkRateIsAbsolute(String rate) {
         Character lastChar = rate.charAt(rate.length() - 1);
 
