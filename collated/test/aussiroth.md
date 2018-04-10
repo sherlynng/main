@@ -335,6 +335,26 @@ public class FindMissingCommandTest {
         assertTrue(parser.parseCommand("u 3") instanceof UndoCommand);
     }
 
+    @Test
+    public void parseCommand_viewStats() throws Exception {
+        assertTrue(parser.parseCommand(ViewStatsCommand.COMMAND_WORD) instanceof ViewStatsCommand);
+    }
+
+    @Test
+    public void parseCommand_match() throws Exception {
+        String matchCommandString = MatchCommand.COMMAND_WORD + " 1 2";
+        MatchCommand targetCommand = new MatchCommand(Index.fromOneBased(1), Index.fromOneBased(2));
+        MatchCommand parsedCommand = (MatchCommand) parser.parseCommand(matchCommandString);
+        assertEquals(targetCommand, parsedCommand);
+    }
+
+    @Test
+    public void parseCommand_unmatch() throws Exception {
+        UnmatchCommand targetCommand = new UnmatchCommand(Index.fromOneBased(1));
+        UnmatchCommand parsedCommand = (UnmatchCommand) parser.parseCommand(UnmatchCommand.COMMAND_WORD + " 1");
+        assertEquals(targetCommand, parsedCommand);
+    }
+
 ```
 ###### \java\seedu\address\logic\parser\FindMissingCommandParserTest.java
 ``` java
@@ -601,4 +621,224 @@ public class SubjectTest {
     }
 
 }
+```
+###### \java\seedu\address\storage\XmlAdaptedPersonTest.java
+``` java
+    @Test
+    public void toModelType_invalidLevel_throwsIllegalValueException() {
+        XmlAdaptedPerson person =
+                new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                        VALID_PRICE, VALID_SUBJECT, INVALID_LEVEL, VALID_STATUS, VALID_ROLE,
+                        VALID_TAGS, VALID_REMARK, VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = Level.MESSAGE_LEVEL_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullLevel_throwsIllegalValueException() {
+        XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_PRICE, VALID_SUBJECT, null, VALID_STATUS, VALID_ROLE, VALID_TAGS, VALID_REMARK,
+                VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Level.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidSubject_throwsIllegalValueException() {
+        XmlAdaptedPerson person =
+                new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                        VALID_PRICE, INVALID_SUBJECT, VALID_LEVEL, VALID_STATUS, VALID_ROLE,
+                        VALID_TAGS, VALID_REMARK, VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = Subject.MESSAGE_SUBJECT_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullSubject_throwsIllegalValueException() {
+        XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_PRICE, null, VALID_LEVEL, VALID_STATUS, VALID_ROLE, VALID_TAGS, VALID_REMARK,
+                VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Subject.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidPrice_throwsIllegalValueException() {
+        XmlAdaptedPerson person =
+                new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                        INVALID_PRICE, VALID_SUBJECT, VALID_LEVEL, VALID_STATUS, VALID_ROLE,
+                        VALID_TAGS, VALID_REMARK, VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = Price.MESSAGE_PRICE_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullPrice_throwsIllegalValueException() {
+        XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                null, VALID_SUBJECT, VALID_LEVEL, VALID_STATUS, VALID_ROLE, VALID_TAGS, VALID_REMARK,
+                        VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Price.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidStatus_throwsIllegalValueException() {
+        XmlAdaptedPerson person =
+                new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                        VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, INVALID_STATUS, VALID_ROLE,
+                        VALID_TAGS, VALID_REMARK, VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = Status.MESSAGE_STATUS_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullRole_throwsIllegalValueException() {
+        XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, VALID_STATUS, null, VALID_TAGS, VALID_REMARK,
+                VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Role.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidRole_throwsIllegalValueException() {
+        XmlAdaptedPerson person =
+                new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                        VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, VALID_STATUS, INVALID_ROLE,
+                        VALID_TAGS, VALID_REMARK, VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = Role.MESSAGE_ROLE_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullStatus_throwsIllegalValueException() {
+        XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, null, VALID_ROLE, VALID_TAGS, VALID_REMARK,
+                VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Status.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+```
+###### \java\seedu\address\storage\XmlAdaptedTagTest.java
+``` java
+public class XmlAdaptedTagTest {
+
+    @Test
+    public void toModelType_validTagDetails_returnsTag() throws Exception {
+        Tag expectedTag = new Tag("math", Tag.AllTagTypes.SUBJECT);
+        XmlAdaptedTag xmlExpectedTag = new XmlAdaptedTag(expectedTag);
+        assertEquals(expectedTag, xmlExpectedTag.toModelType());
+    }
+
+    @Test
+    public void toModelType_noTagType_returnsWithDefaultType() throws Exception {
+        Tag expectedTag = new Tag("math");
+        XmlAdaptedTag xmlTag = new XmlAdaptedTag("math");
+        assertEquals(expectedTag, xmlTag.toModelType());
+    }
+
+    @Test
+    public void toModelType_unknownTagType_returnsWithDefaultType() throws Exception {
+        Tag expectedTag = new Tag("math");
+        XmlAdaptedTag xmlTag = new XmlAdaptedTag("math", "nonexistenttype");
+        assertEquals(expectedTag, xmlTag.toModelType());
+    }
+
+    @Test
+    public void testXmlAdaptedTagEquality() {
+        XmlAdaptedTag tagMath = new XmlAdaptedTag("math", "SUBJECT");
+        XmlAdaptedTag copy = new XmlAdaptedTag("math", "SUBJECT");
+        assertTrue(tagMath.equals(tagMath));
+        //check equality if values are equal
+        assertTrue(tagMath.equals(copy));
+        //check not equal if type is different
+        assertFalse(tagMath.equals(new Tag("math", Tag.AllTagTypes.SUBJECT)));
+    }
+}
+```
+###### \java\seedu\address\storage\XmlSerializableAddressBookTest.java
+``` java
+    @Test
+    public void testSerializableAddressBookEquality() throws Exception {
+        XmlSerializableAddressBook dataFromFile = XmlUtil.getDataFromFile(TYPICAL_PERSONS_FILE,
+                XmlSerializableAddressBook.class);
+        XmlSerializableAddressBook copy = XmlUtil.getDataFromFile(TYPICAL_PERSONS_FILE,
+                XmlSerializableAddressBook.class);
+        AddressBook addressBookFromFile = dataFromFile.toModelType();
+        assertTrue(dataFromFile.equals(dataFromFile));
+        assertTrue(dataFromFile.equals(copy)); //assert equality is true if values are equal
+        assertFalse(dataFromFile.equals(addressBookFromFile)); //assert equality is false if class is different
+    }
+}
+```
+###### \java\systemtests\AddCommandSystemTest.java
+``` java
+        /* Case: invalid price -> rejected */
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + INVALID_PRICE_DESC + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY + ROLE_DESC_AMY
+                + TAG_DESC_FRIEND;
+        assertCommandFailure(command, Price.MESSAGE_PRICE_CONSTRAINTS);
+
+        /* Case: invalid subject -> rejected */
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + PRICE_DESC_AMY + INVALID_SUBJECT_DESC + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY + ROLE_DESC_AMY
+                + TAG_DESC_FRIEND;
+        assertCommandFailure(command, Subject.MESSAGE_SUBJECT_CONSTRAINTS);
+
+        /* Case: invalid level -> rejected */
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + INVALID_LEVEL_DESC + ROLE_DESC_AMY
+                + TAG_DESC_FRIEND;
+        assertCommandFailure(command, Level.MESSAGE_LEVEL_CONSTRAINTS);
+
+        /* Case: invalid role -> rejected */
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY + INVALID_ROLE_DESC
+                + TAG_DESC_FRIEND;
+        assertCommandFailure(command, Role.MESSAGE_ROLE_CONSTRAINTS);
+
+        /* Case: invalid tag -> rejected */
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY + ROLE_DESC_AMY
+                + INVALID_TAG_DESC;
+        assertCommandFailure(command, Tag.MESSAGE_TAG_CONSTRAINTS);
+```
+###### \java\systemtests\EditCommandSystemTest.java
+``` java
+        /* Case: invalid price -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_PRICE_DESC,
+                Price.MESSAGE_PRICE_CONSTRAINTS);
+
+        /* Case: invalid subject -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_SUBJECT_DESC,
+                Subject.MESSAGE_SUBJECT_CONSTRAINTS);
+
+        /* Case: invalid level -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_LEVEL_DESC,
+                Level.MESSAGE_LEVEL_CONSTRAINTS);
+
+        /* Case: invalid tag -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                        + INVALID_TAG_DESC,
+                Tag.MESSAGE_TAG_CONSTRAINTS);
+
+        /* Case: edit a person with new values same as another person's values -> rejected */
+        executeCommand(PersonUtil.getAddCommand(BOB));
+        assertTrue(getModel().getAddressBook().getPersonList().contains(BOB));
+        index = INDEX_FIRST_PERSON;
+        assertFalse(getModel().getFilteredPersonList().get(index.getZeroBased()).equals(BOB));
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED + SUBJECT_DESC_BOB
+                + ROLE_DESC_BOB + TAG_DESC_FRIEND;
+        assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
+
+        /* Case: edit a person with new values same as another person's values but with different tags -> rejected */
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED + SUBJECT_DESC_BOB
+                + ROLE_DESC_BOB;
+        assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
 ```

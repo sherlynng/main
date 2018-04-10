@@ -1,4 +1,75 @@
 # aussiroth
+###### \java\seedu\address\logic\AttributeTagSetter.java
+``` java
+
+/**
+ * This class contains static methods for use when performing attribute tag related tasks.
+ */
+public class AttributeTagSetter {
+
+    /**
+     * This function takes in a person and a set of tags.
+     * If present, each of the attribute tags for that person will be removed from the set of tags.
+     * The resulting set of tags is then returned.
+     * @param person A person to remove the attribute tags from.
+     * @param updatedTags The current set of tags of that person.
+     * @return A copy of attributeTags representing the Tags for that person, with all attribute tags removed.
+     */
+    public static Set<Tag> removePresentAttributeTags(Person person, Set<Tag> updatedTags) {
+        //create a new modifiable set of tags
+        Set<Tag> attributeTags = new HashSet<>(updatedTags);
+        //ignore if attribute is empty (not entered yet by user)
+        if (!person.getPrice().toString().equals("")) {
+            attributeTags.remove(new Tag(person.getPrice().toString(), Tag.AllTagTypes.PRICE));
+        }
+        if (!person.getLevel().toString().equals("")) {
+            attributeTags.remove(new Tag(person.getLevel().toString(), Tag.AllTagTypes.LEVEL));
+        }
+        if (!person.getSubject().toString().equals("")) {
+            attributeTags.remove(new Tag(person.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
+        }
+        if (!person.getStatus().toString().equals("")) {
+            attributeTags.remove(new Tag(person.getStatus().toString(), Tag.AllTagTypes.STATUS));
+        }
+        if (!person.getRole().toString().equals("")) {
+            attributeTags.remove(new Tag(person.getRole().toString(), Tag.AllTagTypes.ROLE));
+        }
+        return new HashSet<>(attributeTags);
+    }
+
+    /**
+     *
+     * @param attributeTags The set of tags to update
+     * @param price The new price entered
+     * @param subject The new subject entered
+     * @param level The new level entered
+     * @param status The new status entered
+     * @param role The new role entered
+     * @return A copy of attributeTags representing the Tags for that person, with all the 5 attribute tags entered.
+     */
+    public static Set<Tag> addNewAttributeTags(Set<Tag> attributeTags, Price price, Subject subject,
+        Level level, Status status, Role role) {
+        requireAllNonNull(price, subject, level, status, role);
+        //ignore empty strings i.e. user did not enter that field
+        if (!price.toString().equals("")) {
+            attributeTags.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
+        }
+        if (!subject.toString().equals("")) {
+            attributeTags.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
+        }
+        if (!level.toString().equals("")) {
+            attributeTags.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
+        }
+        if (!status.toString().equals("")) {
+            attributeTags.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
+        }
+        if (!role.toString().equals("")) {
+            attributeTags.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
+        }
+        return new HashSet<>(attributeTags);
+    }
+}
+```
 ###### \java\seedu\address\logic\commands\EditCommand.java
 ``` java
     private static Role getUpdatedRole(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
@@ -26,39 +97,9 @@
         //create a new modifiable set of tags
         Set<Tag> attributeTags = new HashSet<>(updatedTags);
         //clean out old person's attribute tags, then add the new ones
-
-        //ignore if attribute is empty (not entered yet by user)
-        if (!personToEdit.getPrice().toString().equals("")) {
-            attributeTags.remove(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
-        }
-        if (!personToEdit.getLevel().toString().equals("")) {
-            attributeTags.remove(new Tag(personToEdit.getLevel().toString(), Tag.AllTagTypes.LEVEL));
-        }
-        if (!personToEdit.getSubject().toString().equals("")) {
-            attributeTags.remove(new Tag(personToEdit.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
-        }
-        if (!personToEdit.getStatus().toString().equals("")) {
-            attributeTags.remove(new Tag(personToEdit.getStatus().toString(), Tag.AllTagTypes.STATUS));
-        }
-        if (!personToEdit.getRole().toString().equals("")) {
-            attributeTags.remove(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
-        }
-        if (!updatedPrice.toString().equals("")) {
-            attributeTags.add(new Tag(updatedPrice.toString(), Tag.AllTagTypes.PRICE));
-        }
-        if (!updatedSubject.toString().equals("")) {
-            attributeTags.add(new Tag(updatedSubject.toString(), Tag.AllTagTypes.SUBJECT));
-        }
-        if (!updatedLevel.toString().equals("")) {
-            attributeTags.add(new Tag(updatedLevel.toString(), Tag.AllTagTypes.LEVEL));
-        }
-        if (!updatedStatus.toString().equals("")) {
-            attributeTags.add(new Tag(updatedStatus.toString(), Tag.AllTagTypes.STATUS));
-        }
-        if (!updatedRole.toString().equals("")) {
-            attributeTags.add(new Tag(updatedRole.toString(), Tag.AllTagTypes.ROLE));
-        }
-
+        attributeTags = AttributeTagSetter.removePresentAttributeTags(personToEdit, attributeTags);
+        attributeTags = AttributeTagSetter.addNewAttributeTags(attributeTags, updatedPrice, updatedSubject,
+                updatedLevel, updatedStatus, updatedRole);
         return attributeTags;
     }
 
@@ -109,30 +150,32 @@ public class FindMissingCommand extends Command {
 ```
 ###### \java\seedu\address\logic\parser\AddCommandParser.java
 ``` java
+        //Change here from original code is that I create a class with empty string if user did not enter a value.
+        try {
+            Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
+            Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).orElse(new Phone(""));
+            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).orElse(new Email(""));
+            Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).orElse(new Address(""));
+            Price price = ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE)).orElse(new Price(""));
+            Subject subject = ParserUtil.parseSubject(argMultimap.getValue(PREFIX_SUBJECT)).orElse(new Subject(""));
+            Level level = ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).orElse(new Level(""));
+            Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).orElse(new Status(""));
+            Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).orElse(new Role(""));
+            Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+            Set<PairHash> pairHashList = ParserUtil.parsePairHashes(argMultimap.getAllValues(PREFIX_PAIRHASH));
+
+            //make sure name is not accidentally set to empty string as it is the only compulsory field.
+            assert(!name.equals(""));
             //Add required attributes to the tag list as in documentation
             //make tags only if the attribute has been entered by user
-            if (!price.toString().equals("")) {
-                tagList.add(new Tag(price.toString(), Tag.AllTagTypes.PRICE));
-            }
-            if (!subject.toString().equals("")) {
-                tagList.add(new Tag(subject.toString(), Tag.AllTagTypes.SUBJECT));
-            }
-            if (!level.toString().equals("")) {
-                tagList.add(new Tag(level.toString(), Tag.AllTagTypes.LEVEL));
-            }
-            if (!status.toString().equals("")) {
-                tagList.add(new Tag(status.toString(), Tag.AllTagTypes.STATUS));
-            }
-            if (!role.toString().equals("")) {
-                tagList.add(new Tag(role.toString(), Tag.AllTagTypes.ROLE));
-            }
+            tagList = AttributeTagSetter.addNewAttributeTags(tagList, price, subject, level, status, role);
 
             Remark remark = new Remark("");  // default remark is empty string for newly added Person
             Rate rate = new Rate(3, true); // default rating is 3
             rate.setCount(1); // default rate count is 1
 
             Person person = new Person(name, phone, email, address, price, subject, level,
-                                       status, role, tagList, remark, rate, PairHash.getDefaultPairHash());
+                                       status, role, tagList, remark, rate, pairHashList);
             return new AddCommand(person);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
@@ -232,8 +275,60 @@ public class FindMissingPredicate implements Predicate<Person> {
     }
 }
 ```
+###### \java\seedu\address\model\tag\Tag.java
+``` java
+    /**
+     * Constructs a {@code Tag}.
+     *
+     * @param tagName A valid tag name.
+     * @param tagType A valid tag type.
+     */
+    public Tag(String tagName, AllTagTypes tagType) {
+        this.tagType = tagType;
+        requireNonNull(tagName);
+        checkArgument(isValidTagName(tagName), MESSAGE_TAG_CONSTRAINTS);
+        this.tagName = tagName;
+    }
+
+    /**
+     * Returns true if a given string is a valid tag name.
+     */
+    public static boolean isValidTagName(String test) {
+        return test.matches(TAG_VALIDATION_REGEX);
+    }
+
+    /**
+     * returns true if given string is a valid tag type.
+     * @param test A string to test.
+     */
+    public static boolean isValidTagType(String test) {
+        for (AllTagTypes tType : AllTagTypes.values()) {
+            if (tType.toString().equals(test)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int compareTo(Tag other) {
+        return this.tagType.compareTo(other.tagType);
+    }
+
+```
 ###### \java\seedu\address\storage\XmlAdaptedTag.java
 ``` java
+    /**
+     * Constructs a {@code XmlAdaptedTag} with the given {@code tagName} and {@code tagType}.
+     */
+    public XmlAdaptedTag(String tagName, String tagType) {
+        this.tagName = tagName + "," + tagType;
+    }
+
+    /**
+     * Converts this jaxb-friendly adapted tag object into the model's Tag object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated in the adapted person
+     */
     public Tag toModelType() throws IllegalValueException {
         String[] checkTagNameType = tagName.split(",");
         if (!Tag.isValidTagName(checkTagNameType[0])) {
