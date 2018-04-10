@@ -313,7 +313,7 @@ public class PairBuilder {
 ###### \java\seedu\address\testutil\PersonBuilder.java
 ``` java
     /**
-     * Sets the {@code pairhash} of the {@code Person} that we are building.
+     * Sets the {@code pairHash} of the {@code Person} that we are building.
      */
     public PersonBuilder withPairhash(PairHash pairHash) {
         Set<PairHash> pairHashesSet = new HashSet<PairHash>();

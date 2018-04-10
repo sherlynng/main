@@ -259,14 +259,12 @@ public class RemarkCommand extends UndoableCommand {
             throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
         }
 
-        Character lastChar = rate.charAt(rate.length() - 1);
-        boolean isAbsolute = false;
+        boolean isAbsolute = checkRateIsAbsolute(rate);
 
-        // user wants absolute rate value
-        if (lastChar.equals('-')) {
+        if (isAbsolute) {
             rate = rate.substring(0, rate.length() - 1);
-            isAbsolute = true;
         }
+
         String trimmedRate = rate.trim();
         if (!Rate.isValidRate(rate)) {
             throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
@@ -282,6 +280,22 @@ public class RemarkCommand extends UndoableCommand {
     public static Optional<Rate> parseRate(Optional<String> rate) throws IllegalValueException {
         requireNonNull(rate);
         return rate.isPresent() ? Optional.of(parseRate(rate.get())) : Optional.empty();
+    }
+
+    /**
+     * Checks if new rate is of absolute type
+     * @param rate
+     * @return true if rate is of absolute type
+     */
+    private static boolean checkRateIsAbsolute(String rate) {
+        Character lastChar = rate.charAt(rate.length() - 1);
+
+        // user wants absolute rate value
+        if (lastChar.equals('-')) {
+            rate = rate.substring(0, rate.length() - 1);
+            return true;
+        }
+        return false;
     }
 }
 ```
@@ -351,16 +365,16 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
 
         Index index;
-        boolean isEditCommand;
+        boolean isEditRemark;
 
-        isEditCommand = argMultimap.getPreamble().contains("edit");
+        isEditRemark = argMultimap.getPreamble().contains("edit");
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_REMARK) && !isEditCommand) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_REMARK) && !isEditRemark) {
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
         }
 
         try {
-            if (isEditCommand) {
+            if (isEditRemark) {
                 index = ParserUtil.parseIndex(argMultimap.getPreamble().replace("edit", ""));
             } else {
                 index = ParserUtil.parseIndex(argMultimap.getPreamble());
@@ -370,10 +384,10 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         }
 
         Remark remark;
-        if (isEditCommand) {
+        if (isEditRemark) {
             remark = ParserUtil.parseRemark((String) null);
 
-            return new RemarkCommand(index, remark, isEditCommand);
+            return new RemarkCommand(index, remark, isEditRemark);
         } else {
             remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
         }
@@ -788,6 +802,16 @@ public class BrowserPanel extends UiPart<Region> {
         }
     }
 ```
+###### \java\seedu\address\ui\CommandBox.java
+``` java
+    @Subscribe
+    private void handleEditRemarkEvent(EditRemarkEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        replaceText(event.getPersonRemark());
+
+        isEditRemarkCommand = true;
+    }
+```
 ###### \resources\view\BrowserPanel.fxml
 ``` fxml
 <?import javafx.geometry.Insets?>
@@ -1011,275 +1035,5 @@ public class BrowserPanel extends UiPart<Region> {
 
 .browser_stackPane_even {
     -fx-background-color: #4C4C4C
-}
-```
-###### \resources\view\DarkTheme.css
-``` css
-
-.anchor-pane {
-     -fx-background-color: derive(#1d1d1d, 20%);
-}
-
-.pane-with-border {
-     -fx-background-color: derive(#1d1d1d, 20%);
-     -fx-border-color: derive(#1d1d1d, 10%);
-     -fx-border-top-width: 1px;
-}
-
-.status-bar {
-    -fx-background-color: derive(#1d1d1d, 20%);
-    -fx-text-fill: black;
-}
-
-.result-display {
-    -fx-background-color: transparent;
-    -fx-font-family: "Segoe UI Light";
-    -fx-font-size: 13pt;
-    -fx-text-fill: white;
-}
-
-.result-display .label {
-    -fx-text-fill: black !important;
-}
-
-.status-bar .label {
-    -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
-}
-
-.status-bar-with-border {
-    -fx-background-color: derive(#1d1d1d, 30%);
-    -fx-border-color: derive(#1d1d1d, 25%);
-    -fx-border-width: 1px;
-}
-
-.status-bar-with-border .label {
-    -fx-text-fill: white;
-}
-
-.grid-pane {
-    -fx-background-color: derive(#1d1d1d, 30%);
-    -fx-border-color: derive(#1d1d1d, 30%);
-    -fx-border-width: 1px;
-}
-
-.grid-pane .anchor-pane {
-    -fx-background-color: derive(#1d1d1d, 30%);
-}
-
-.context-menu {
-    -fx-background-color: derive(#1d1d1d, 50%);
-}
-
-.context-menu .label {
-    -fx-text-fill: white;
-}
-
-.menu-bar {
-    -fx-background-color: derive(#1d1d1d, 20%);
-}
-
-.menu-bar .label {
-    -fx-font-size: 14pt;
-    -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
-    -fx-opacity: 0.9;
-}
-
-.menu .left-container {
-    -fx-background-color: black;
-}
-
-/*
- * Metro style Push Button
- * Author: Pedro Duque Vieira
- * http://pixelduke.wordpress.com/2012/10/23/jmetro-windows-8-controls-on-java/
- */
-.button {
-    -fx-padding: 5 22 5 22;
-    -fx-border-color: #e2e2e2;
-    -fx-border-width: 2;
-    -fx-background-radius: 0;
-    -fx-background-color: #1d1d1d;
-    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 11pt;
-    -fx-text-fill: #d8d8d8;
-    -fx-background-insets: 0 0 0 0, 0, 1, 2;
-}
-
-.button:hover {
-    -fx-background-color: #3a3a3a;
-}
-
-.button:pressed, .button:default:hover:pressed {
-  -fx-background-color: white;
-  -fx-text-fill: #1d1d1d;
-}
-
-.button:focused {
-    -fx-border-color: white, white;
-    -fx-border-width: 1, 1;
-    -fx-border-style: solid, segments(1, 1);
-    -fx-border-radius: 0, 0;
-    -fx-border-insets: 1 1 1 1, 0;
-}
-
-.button:disabled, .button:default:disabled {
-    -fx-opacity: 0.4;
-    -fx-background-color: #1d1d1d;
-    -fx-text-fill: white;
-}
-
-.button:default {
-    -fx-background-color: -fx-focus-color;
-    -fx-text-fill: #ffffff;
-}
-
-.button:default:hover {
-    -fx-background-color: derive(-fx-focus-color, 30%);
-}
-
-.dialog-pane {
-    -fx-background-color: #1d1d1d;
-}
-
-.dialog-pane > *.button-bar > *.container {
-    -fx-background-color: #1d1d1d;
-}
-
-.dialog-pane > *.label.content {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-}
-
-.dialog-pane:header *.header-panel {
-    -fx-background-color: derive(#1d1d1d, 25%);
-}
-
-.dialog-pane:header *.header-panel *.label {
-    -fx-font-size: 18px;
-    -fx-font-style: italic;
-    -fx-fill: white;
-    -fx-text-fill: white;
-}
-
-.scroll-bar {
-    -fx-background-color: derive(#1d1d1d, 20%);
-}
-
-.scroll-bar .thumb {
-    -fx-background-color: derive(#1d1d1d, 50%);
-    -fx-background-insets: 3;
-}
-
-.scroll-bar .increment-button, .scroll-bar .decrement-button {
-    -fx-background-color: transparent;
-    -fx-padding: 0 0 0 0;
-}
-
-.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
-    -fx-shape: " ";
-}
-
-.scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {
-    -fx-padding: 1 8 1 8;
-}
-
-.scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
-    -fx-padding: 8 1 8 1;
-}
-
-#cardPane {
-    -fx-background-color: transparent;
-    -fx-border-width: 0;
-}
-
-#commandTypeLabel {
-    -fx-font-size: 11px;
-    -fx-text-fill: #F70D1A;
-}
-
-#commandTextField {
-    -fx-background-color: transparent #383838 transparent #383838;
-    -fx-background-insets: 0;
-    -fx-border-color: #383838 #383838 #ffffff #383838;
-    -fx-border-insets: 0;
-    -fx-border-width: 1;
-    -fx-font-family: "Segoe UI Light";
-    -fx-font-size: 13pt;
-    -fx-text-fill: white;
-}
-
-#filterField, #personListPanel, #personWebpage {
-    -fx-effect: innershadow(gaussian, black, 10, 0, 0, 0);
-}
-
-#resultDisplay .content {
-    -fx-background-color: transparent, #383838, transparent, #383838;
-    -fx-background-radius: 0;
-}
-
-#tags {
-    -fx-hgap: 7;
-    -fx-vgap: 3;
-}
-
-#tags .label {
-    -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
-    -fx-font-size: 11;
-}
-
-#tags .teal {
-    -fx-text-fill: white;
-    -fx-background-color: #3e7b91;
-}
-
-#tags .red {
-    -fx-text-fill: black;
-    -fx-background-color: red;
-}
-
-#tags .yellow {
-    -fx-text-fill: black;
-    -fx-background-color: yellow;
-}
-
-#tags .blue {
-    -fx-text-fill: white;
-    -fx-background-color: blue;
-}
-
-#tags .orange {
-    -fx-text-fill: black;
-    -fx-background-color: orange;
-}
-
-#tags .brown {
-    -fx-text-fill: white;
-    -fx-background-color: brown;
-}
-
-#tags .green {
-    -fx-text-fill: black;
-    -fx-background-color: green;
-}
-
-#tags .pink {
-    -fx-text-fill: black;
-    -fx-background-color: pink;
-}
-
-#tags .black {
-    -fx-text-fill: white;
-    -fx-background-color: black;
-    -fx-background-color: black;
-}
-
-#tags .grey {
-    -fx-text-fill: black;
-    -fx-background-color: grey;
 }
 ```
