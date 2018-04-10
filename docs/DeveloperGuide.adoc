@@ -743,7 +743,7 @@ Without this command, user will have to do manual consolidation which is ineffic
 Currently, the statistical data are presented in the form of pie chart which improves readability. A snapshot showing
 the role distribution between students and tutors is shown below.
 
-image::PieChartSnap.png[width="500"]
+image::CompleteChartSnap.png[width="500"]
 
 ==== Design Considerations
 
