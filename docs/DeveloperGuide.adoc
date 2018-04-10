@@ -573,7 +573,14 @@ This allows better visualization of a person’s details as each person now has 
 `Address`, `Email`, `Role`, `Status`, `Subject`, `Level`, `Price`, `Remark`, `Rate` to be displayed.
 Below shows the modifications made:
 
+**Before**
+
+image::OldBrowserPanel.png[width="500"]
+
+**After**
+
 image::NewBrowserPanel.png[width="500"]
+
 
 ===== Current Implementation
 The UI is modified using `SceneBuilder` and the layout is specified in link:{repoURL}/blob/master/src/main/resources/view/BrowserPanel.fxml[`BrowserPanel.fxml`].
