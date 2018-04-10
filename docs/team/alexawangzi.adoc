@@ -8,50 +8,70 @@
 
 == Overview
 
-STUtor -v1.5 is a desktop address book targeting tutor coordinators
-to help them _matching_ and _managing_ a large database of tutors and students. +
-The user interacts with it using a CLI, and it has a GUI created with JavaFX.
+STUtor -v1.5 is a desktop application targeting tutor coordinators
+to help them _match_ and _manage_ a large database of tutors and students. +
+The user can perform actions such as adding/ removing a person, editing and view
+personal information, match a student with a tutor, and so on. +
+The user interacts with the application using a CLI, and it has a GUI created with JavaFX.
 It is written in Java, and has about 25 kLoC.
 
 == Summary of contributions
 
-* *Major enhancement*:
-added *the ability to match/unmatch a student and a tutor*
+=== Major Enhancement
+
+* Added the ability to *match/unmatch a student and a tutor*
 ** What it does:
-allows the user to choose a student and a tutor to match, or to choose a currently matched pair and unmatch it.
+allows the user to choose a student and a tutor to match.
+Compatibilty checking will be done to ensure validity of the pair(must be one student and one tutor,
+must be of the same subject, etc).
+Similarly, the user can choose a currently matched pair and unmatch it.
 ** Justification:
-This feature makes the accounting process of matching easier.
-Matching/Unmatching is done automatically after the target student and tutor is provided by the user,
-therefore saving time in marking individual tutor or student and updating their status.
+This feature makes the accounting process of matching and unmatching easier,
+saving time in marking individual tutor or student and updating their status.
+All the user has to provide is the indices of the target student and tutor.
+
 ** Highlights:
-The new Pair class interact heavily with the existing Person and Tag class,
-and careful thinking is required to ensure full exploitation of the existing classes
+The new Pair class interact heavily with the existing <<person, Person>> and <<tag, Tag>> class,
+and careful thinking is required to ensure good usage of the existing classes
 without increasing the coupling.
+Please refer to my writings in the *"Contribution to the Developer Guide"* section for detailed explanations on implementation.
 
 
-* *Minor enhancement*:
-Added the ability to accept case-insensitive input, as well as shortcuts,
-for filling in subject, level, status and role.
-On top of that, standardize storage format and display to follow <<proper-case, proper case>>.
+=== Minor Enhancement
+* Added the ability to accept *case-insensitive input* and *shortcuts* for filling in personal information.
+** What it does:
+When the user is editing information of a person, the
+** Justification:
+Since the application is CLI-based and the user has a large database to manage, a lot of typing is required.
+Having shortcuts saves time for typing, and acceptance of case-insensitive input means even if the user type
+in the wrong case, the input will not be rejected and the user does not need to enter the information all over
+again.
+** Highlights:
+On top of accepting the input as it is, storage format and display are made to follow <<proper-case, proper case>>.
+This means information are displayed in a more readable and standardized format, despite it might have been entered
+in various cases.
 
-* *Code contributed*: [https://github.com/CS2103JAN2018-W11-B1/main/blob/master/collated/functional/alexawangzi.md[Functional code]] [https://github.com/CS2103JAN2018-W11-B1/main/blob/master/collated/test/alexawangzi.md[Test code]]
+=== Code Contributed
 
-* *Other contributions*:
+** [https://github.com/CS2103JAN2018-W11-B1/main/blob/master/collated/functional/alexawangzi.md[Functional code]]
+** [https://github.com/CS2103JAN2018-W11-B1/main/blob/master/collated/test/alexawangzi.md[Test code]]
 
-** Project management:
+=== Other Contributions
+
 ** Enhancements to existing features:
+Added a remove tag function to remove a certain tag from all persons in the database.
 ** Documentation:
+*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com/CS2103JAN2018-W11-B1/main/pull/98/files[#98]
 ** Community:
-** Tools:
-
-
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-T15-B1/main/issues/62[1], https://github.com/CS2103JAN2018-T15-B1/main/issues/58[2], https://github.com/CS2103JAN2018-T15-B1/main/issues/71[3])
 
 
 == Contributions to the User Guide
 
 
 |===
-|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|_Given below are sections I contributed to the User Guide.
+They showcase my ability to write documentation targeting end-users._
 |===
 
 include::../UserGuide.adoc[tag=match]
@@ -82,3 +102,18 @@ include::../DeveloperGuide.adoc[tag=caseinsensitiveinput]
 [[proper-case]] Proper case::
 Proper case is any text that is written with each of the first letters of every word being capitalized.
 For example, "This Is An Example Of Proper Case."
+
+[[person]] Person::
+The class used to store information about a person.
+
+.Person class diagram with methods omitted
+image::personClassDiagram.png[width="400"]
+
+[[tag]] Tag::
+Tags are used to displayed personal information for easy referencing.
+In STUtor, a person will have his/her role, subject, level, price, status displayed as tags.
+A pair will have the level, price and subject displayed as tags.
+
+.Illustration of usage of tags. Tags appear below the person/pair name.
+image::tagExampleForWangZiPPP.jpg[width="800"]
+

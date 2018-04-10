@@ -37,9 +37,9 @@ public class Level {
 
     //@@author alexawangzi
     /**
-     * format the input into proper case
+     * format level into proper case
      * @param level
-     * @return
+     * @return String representing level in proper case
      */
     private String formatLevel(String level) {
         ProperCaseConverter pc = new ProperCaseConverter();
@@ -50,7 +50,7 @@ public class Level {
     /**
      * check validity of the level string supplied
      * @param level
-     * @return string representing a valid level
+     * @return String representing a valid level
      */
     private String validateLevel(String level) {
         level.toLowerCase();
@@ -62,6 +62,8 @@ public class Level {
     //@@author alexawangzi
     /**
      * Convert a shortcut to full level name
+     * @param original
+     * @return String representing the full level
      */
     public String convertToFullLevel(String original) {
         String cur = original.toLowerCase();
