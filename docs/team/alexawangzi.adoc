@@ -115,5 +115,5 @@ In STUtor, a person will have his/her role, subject, level, price, status displa
 A pair will have the level, price and subject displayed as tags.
 
 .Illustration of usage of tags. Tags appear below the person/pair name.
-image::tagExampleForWangZiPPP.jpg[width="800"]
+image::tagExampleForWangZiPPP.png[width="800"]
 
