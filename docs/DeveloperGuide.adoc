@@ -398,12 +398,12 @@ Certain properties of the application can be controlled (e.g App name, logging l
 Each of the attributes `Price`, `Subject`, `Level` and `Status` of a person each have a tag with the value added to the person.
 This is done when user performs `add` or `edit` command.
 
-In the AddCommandParser, after successfully parsing the `Price`, `Subject`, `Level`, `Status` input, the code has been modified such that a new `Tag` containing the correct value and attribute is automatically created after.
-For the EditCommand, the `createEditedPerson` command will remove the previous attribute tags in the `Person` list of tags, then recreate the attribute tags using the new `Person` class attribute values.
+The creation of these tags from attributes is facilitated by static methods from a class in logic, called ``. This class contains methods to remove existing attribute tags from a person, which can be used when needing to edit or find non-attribute tags of the person.
+Another method is to create the new attribute tags from provided input and return the new set of tags. This class is currently invoked from a static context, as its use currently is solely for managing the tags of a given `Person`.
 
 [NOTE]
 Since the `Price`, `Subject`, `Level` and `Status` attributes have been parsed and checked to conform to expected values, there is no need to reparse the values when creating them as a `Tag`. +
-The acceptable inputs for a `Tag` must necessarily allow all the acceptable inputs for `Price`, `Subject`, `Level` and `Status` to prevent errors.
+The acceptable inputs for a `Tag` must necessarily allow all the acceptable inputs for `Price`, `Subject`, `Level`, `Status` and `Role` to prevent errors.
 
 ==== Model Implementation
 The `Tag` class can support the ability to classify which attribute the tag was created from. This is done by adding an enum `AllTagsType` to the `Tag` class.
