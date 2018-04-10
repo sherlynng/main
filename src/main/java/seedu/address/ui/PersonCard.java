@@ -75,7 +75,7 @@ public class PersonCard extends UiPart<Region> {
         }
     }
 
-    //@@author
+    //@@author dannyngmx94
     /**
      * Creates the tag labels for {@code person}.
      */
@@ -87,6 +87,7 @@ public class PersonCard extends UiPart<Region> {
         });
     }
 
+    //@@author
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
