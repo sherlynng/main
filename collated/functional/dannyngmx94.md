@@ -101,6 +101,35 @@ public class FilterCommandParser implements Parser<FilterCommand> {
     }
 }
 ```
+###### \java\seedu\address\model\person\KeywordPredicate.java
+``` java
+/**
+ * Tests that a {@code Person}'s {@code Attribute} matches any of the keywords given.
+ */
+public class KeywordPredicate implements Predicate<Person> {
+    private final String keyword;
+
+    public KeywordPredicate(String keyword) {
+        this.keyword = keyword;
+    }
+
+    @Override
+    public boolean test(Person person) {
+        return (person.getSubject().toString().equalsIgnoreCase(keyword)
+                || person.getLevel().toString().equalsIgnoreCase(keyword)
+                || person.getStatus().toString().equalsIgnoreCase(keyword)
+                || person.getRole().toString().equalsIgnoreCase(keyword));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof KeywordPredicate // instanceof handles nulls
+                && this.keyword.equals(((KeywordPredicate) other).keyword)); // state check
+    }
+
+}
+```
 ###### \java\seedu\address\ui\ChartsPanel.java
 ``` java
 /**
@@ -264,6 +293,20 @@ public class InfoPanel extends UiPart<Region> {
     }
 }
 ```
+###### \java\seedu\address\ui\PersonCard.java
+``` java
+    /**
+     * Creates the tag labels for {@code person}.
+     */
+    private void initTags(Person person) {
+        person.getTags().forEach(tag -> {
+            Label tagLabel = new Label(tag.tagName);
+            tagLabel.getStyleClass().add(getTagColorStyleFor(tag));
+            tags.getChildren().add(tagLabel);
+        });
+    }
+
+```
 ###### \resources\view\ChartsPanel.fxml
 ``` fxml
 
@@ -292,6 +335,59 @@ public class InfoPanel extends UiPart<Region> {
       </AnchorPane>
    </children>
 </StackPane>
+```
+###### \resources\view\DarkTheme.css
+``` css
+#tags .teal {
+    -fx-text-fill: white;
+    -fx-background-color: #3e7b91;
+}
+
+#tags .red {
+    -fx-text-fill: black;
+    -fx-background-color: red;
+}
+
+#tags .yellow {
+    -fx-text-fill: black;
+    -fx-background-color: yellow;
+}
+
+#tags .blue {
+    -fx-text-fill: white;
+    -fx-background-color: blue;
+}
+
+#tags .orange {
+    -fx-text-fill: black;
+    -fx-background-color: orange;
+}
+
+#tags .brown {
+    -fx-text-fill: white;
+    -fx-background-color: brown;
+}
+
+#tags .green {
+    -fx-text-fill: black;
+    -fx-background-color: green;
+}
+
+#tags .pink {
+    -fx-text-fill: black;
+    -fx-background-color: pink;
+}
+
+#tags .black {
+    -fx-text-fill: white;
+    -fx-background-color: black;
+    -fx-background-color: black;
+}
+
+#tags .grey {
+    -fx-text-fill: black;
+    -fx-background-color: grey;
+}
 ```
 ###### \resources\view\InfoPanel.fxml
 ``` fxml
