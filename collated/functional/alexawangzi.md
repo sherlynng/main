@@ -2,7 +2,7 @@
 ###### \java\seedu\address\logic\commands\MatchCommand.java
 ``` java
 /**
- * Match a tutor and a student in STUtor.
+ * Match a tutor and a student in STUtor
  */
 public class MatchCommand extends UndoableCommand {
 
@@ -248,16 +248,12 @@ public class MatchCommandParser implements Parser<MatchCommand> {
 ###### \java\seedu\address\model\AddressBook.java
 ``` java
     /**
-     * Adds a pair to the address book
+     * Adds a pair to the address book, and store pairHash to the Student and Tutor involved
      * @param student
      * @param tutor
      * @throws seedu.address.model.pair.exceptions.DuplicatePairException if an equivalent pair already exists.
      */
     public void addPair(Person student, Person tutor) throws DuplicatePairException {
-        //  Pair pair = syncWithMasterTagList(p);
-        // TODO: the tags master list will be updated even though the below line fails.
-        // This can cause the tags master list to have additional tags that are not tagged to any pair
-        // in the pair list.
         Pair key = new Pair(student, tutor, student.getSubject(), student.getLevel(), student.getPrice());
         pairs.add(key);
         PairHash pairHash = key.getPairHash();
@@ -291,7 +287,7 @@ public class MatchCommandParser implements Parser<MatchCommand> {
 ###### \java\seedu\address\model\AddressBook.java
 ``` java
     /**
-     * add parihash to be the person
+     * add pairHash to be the person's list of pairHashes
      * @param person
      * @param pairHash
      */
@@ -301,6 +297,7 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         pairHashSet.addAll(person.getPairHashes());
         pairHashSet.add(pairHash);
 
+        //update status to Matched if the person's original pairHash List is empty
         Set<Tag> attributeTags = new HashSet<Tag>();
         attributeTags.add(new Tag(person.getRole().value, Tag.AllTagTypes.ROLE));
         attributeTags.add(new Tag(person.getPrice().value, Tag.AllTagTypes.PRICE));
@@ -326,7 +323,7 @@ public class MatchCommandParser implements Parser<MatchCommand> {
 ###### \java\seedu\address\model\AddressBook.java
 ``` java
     /**
-     * add parihash to be the person
+     * remove pairHash from the person
      * @param person
      * @param pairHash
      */
@@ -342,6 +339,7 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         attributeTags.add(new Tag(person.getSubject().value, Tag.AllTagTypes.SUBJECT));
         attributeTags.add(new Tag(person.getLevel().value, Tag.AllTagTypes.LEVEL));
 
+        //update status to not Matched if the person's pairHash List is empty after removal
         if (pairHashSet.isEmpty()) {
             attributeTags.add(new Tag("Not Matched", Tag.AllTagTypes.STATUS));
             editedPerson = new Person(person.getName(), person.getPhone(),
@@ -599,9 +597,9 @@ public class PersonMatchedCannotDeleteException extends Exception {
 ###### \java\seedu\address\model\person\Level.java
 ``` java
     /**
-     * format the input into proper case
+     * format level into proper case
      * @param level
-     * @return
+     * @return String representing level in proper case
      */
     private String formatLevel(String level) {
         ProperCaseConverter pc = new ProperCaseConverter();
@@ -614,7 +612,7 @@ public class PersonMatchedCannotDeleteException extends Exception {
     /**
      * check validity of the level string supplied
      * @param level
-     * @return string representing a valid level
+     * @return String representing a valid level
      */
     private String validateLevel(String level) {
         level.toLowerCase();
@@ -628,6 +626,8 @@ public class PersonMatchedCannotDeleteException extends Exception {
 ``` java
     /**
      * Convert a shortcut to full level name
+     * @param original
+     * @return String representing the full level
      */
     public String convertToFullLevel(String original) {
         String cur = original.toLowerCase();
@@ -646,7 +646,7 @@ public class PersonMatchedCannotDeleteException extends Exception {
 ###### \java\seedu\address\model\person\ProperCaseConverter.java
 ``` java
 /**
- * Helper class to change a string to proper class
+ * Helper class to change a String to proper class ("This Is An Example Of Proper Case.")
  */
 class ProperCaseConverter {
 
