@@ -392,18 +392,23 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+// tag::attributetags[]
 === Automatic creation of tags from person attributes
 
 ==== Current implementation
 Each of the attributes `Price`, `Subject`, `Level` and `Status` of a person each have a tag with the value added to the person.
 This is done when user performs `add` or `edit` command.
 
-In the AddCommandParser, after successfully parsing the `Price`, `Subject`, `Level`, `Status` input, the code has been modified such that a new `Tag` containing the correct value and attribute is automatically created after.
-For the EditCommand, the `createEditedPerson` command will remove the previous attribute tags in the `Person` list of tags, then recreate the attribute tags using the new `Person` class attribute values.
+The creation of these tags from attributes is facilitated by static methods from a class in logic, called `AttributeTagSetter`. This class contains methods to remove existing attribute tags from a person, which can be used when needing to edit or find non-attribute tags of the person.
+Another method is to create the new attribute tags from provided input and return the new set of tags. This class is currently invoked from a static context, as its use currently is solely for managing the tags of a given `Person`. +
+The sequence diagram below (figure 18) shows where the creation of these tags in the sequence of parsing an `Add` command. +
+
+.Sequence diagram for creating attribute tags
+image::AttributeTagsSequenceDiagram.png[width="800"]
 
 [NOTE]
 Since the `Price`, `Subject`, `Level` and `Status` attributes have been parsed and checked to conform to expected values, there is no need to reparse the values when creating them as a `Tag`. +
-The acceptable inputs for a `Tag` must necessarily allow all the acceptable inputs for `Price`, `Subject`, `Level` and `Status` to prevent errors.
+The acceptable inputs for a `Tag` must necessarily allow all the acceptable inputs for `Price`, `Subject`, `Level`, `Status` and `Role` to prevent errors.
 
 ==== Model Implementation
 The `Tag` class can support the ability to classify which attribute the tag was created from. This is done by adding an enum `AllTagsType` to the `Tag` class.
@@ -412,7 +417,7 @@ A tag can be created without being from an attribute, with just a tag name. In t
 This is the current `Tag` class in UML notation
 
 .`Tag` Class
-image::TagClassDiagram.png[width="600"]
+image::TagClassDiagram.png[width="800"]
 
 This new attribute is used to implement the capability to standardize all tags created as a `Price` attribute to have the same color, all tags created as a `Subject` attribute to have the same color, and so on.
 This has been implemented as a new overloaded `getTagColorStyleFor` method, which takes in a Tag instead of a String. Depending on the tagType value, the correct colour will be assigned to the tag.
@@ -458,6 +463,7 @@ image::tagStorage.png[width="400"]
 ** Pros: Keeps the `Tag` class a simple as possible.
 ** Cons: Difficult to maintain, must ensure that there are no values that can possibly be in more than 1 person attribute.
 
+// end::attributetags[]
 // tag::fillingshortcut[]
 === Shortcuts for the user in filling fields
 
@@ -613,9 +619,10 @@ longer list of people at one time.
 
 ===== Coloring of Tags
 To allow easy identification of the category that a tag belongs to, different colors are used for different attributes
-of a person. A standardized color is used for each attribute and its color is stored in `Tag` such that the color
-will be retained when the user reopens the application.
+of a person. A standardized color is used for each attribute this colour is determined from the `tagType` attribute of the `Tag`.
+This ensures the color will be consistent for each person and the color will be retained when the user reopens the application.
 
+// tag::optionaladd[]
 === Optional Fields for Add Command
 ==== Current Implementation
 
@@ -643,7 +650,12 @@ Must create a special constructor for the attribute class to accept a `null` for
 The intention and design behind this command is to pair with the allowing of users to leave fields for a person's values unentered.
 As the design of the command, parser and sequence when a user enters a find missing command to be very similar to the filter command, the documentation
 here will focus more on the design considerations and rationale instead of repeating sequence diagrams that are almost the same as given previously. +
-Currently, the command makes use of a new predicate, `FindMissingPredicate`, to perform the check.
+
+Currently, the command makes use of a new predicate, `FindMissingPredicate`, to perform the check. +
+The implementation of the OR search in the `FindMissingPredicate` is as follows: +
+For each entered field by the user, if that field is unentered by the user, then the predicate will immediately return `true` as the person fits the criteria. +
+If at the end of checking all values at the list, then the person has all fields specified by the user filled. Therefore, the predicate will return `false` in this case. +
+
 Rationale for having a new command and predicate is that reusing the `Filter` command or predicate would violate Single Responsibility Principle and the idea of Separation of Concerns. +
 The `Filter` command and classes associated closely to it should have the single concern of listing people according to a search term. +
 Therefore, it is better design to create a new command for this feature.
@@ -671,7 +683,10 @@ Current option used since it fits best with the user need of simply finding thos
 ** Pros: Simplifies the command significantly with only 1 field to search for.
 ** Cons: Artificially limits the command heavily for users, where those who want to search for multiple missing fields will not be able to.
 
+// end::optionaladd[]
+
 // tag::autofill[]
+
 === Autofill
 
 Due to the significant amount of attributes to type in, especially when adding or editing a person, we decided to create
@@ -893,8 +908,8 @@ When a `Pair` is created through the `match` command, a`PairHash` is generated a
 .Activity diagram for Match Command
 image::MatchActivityDiagram.png[width="700"]
 
-Similarly, when a `Pair` is removed through the `unmatch` command, its `PairHash` is retrieved and removed from the
-`Student` and `Tutor` involved.
+Similarly, when a `Pair` is removed through the `unmatch` command, its `PairHash` is extracted
+and used to retrieve the `Student` and `Tutor` involved. This `PairHash` is then deleted from the persons.
 
 [NOTE]
 `PairHash` objects associated with a particular `Person` object is stored inside that `Person` as a list. +

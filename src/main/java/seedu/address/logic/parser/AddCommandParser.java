@@ -71,7 +71,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
             Set<PairHash> pairHashList = ParserUtil.parsePairHashes(argMultimap.getAllValues(PREFIX_PAIRHASH));
 
-            //make sure name is not accidentally set to empty string as it is the only compulsory field.
+            //make sure name is never set to empty string as it is the only compulsory field.
             assert(!name.equals(""));
             //Add required attributes to the tag list as in documentation
             //make tags only if the attribute has been entered by user
