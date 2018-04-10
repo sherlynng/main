@@ -847,10 +847,6 @@ image::PieChartSnap.png[width="500"]
 ** Pros: Can use the app and view the statistical data simultaneously.
 ** Cons: Create inconvenience as user need to take additional steps to close the window.
 
-=== Creating a Remark for a Person
-==== Current Implementation
-
-
 == Documentation
 
 We use asciidoc for writing documentation.
