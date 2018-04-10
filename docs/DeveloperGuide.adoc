@@ -538,6 +538,7 @@ For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com 
 
 // end::caseinsensitiveinput[]
 
+// tag::filter[]
 === Filter feature
 
 ==== Current Implementation
@@ -563,7 +564,7 @@ insensitive.
 * **Alternative 2:** Argument to be filtered can be incomplete and it is case insensitive.
 ** Pros: User can type less.
 ** Cons: Arguments such as `Not Matched` and `Matched` cannot be differentiated.
-
+// end::filter[]
 === UI Modifications
 
 ==== Browser Panel
@@ -733,6 +734,7 @@ image::AutofillAdd_Delete.png[width="700"]
 ** Pros: Will not lead to confusion of expected keyboard functionalities.
 ** Cons: Not intuitive for users to use as they would not expect it to be a key for delete function.
 
+// tag::viewstats[]
 === View Stats Command
 ==== Current Implementation
 The intention behind creating this command is to consolidate statistical data about the people in the app.
@@ -753,6 +755,7 @@ image::PieChartSnap.png[width="500"]
 * **Alternative 2:** Open a new window to show graph.
 ** Pros: Can use the app and view the statistical data simultaneously.
 ** Cons: Create inconvenience as user need to take additional steps to close the window.
+// end::viewstats[]
 
 // tag::matchunmatch[]
 === Match Command & Unmatch Command
