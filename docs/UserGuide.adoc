@@ -379,6 +379,7 @@ For example: +
 You can press kbd:[Tab] key once after typing `*match*` or `*m*` and it will autofill the command.
 INDEX to be specified will be highlighted. Press kbd:[Tab] key again will jump to the next index to be filled in.
 You can view the diagram below for a clearer visualization on how it works.
+====
 
 image::AutofillMatch.png[width="700"]
 
