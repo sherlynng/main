@@ -566,8 +566,6 @@ insensitive.
 ** Cons: Arguments such as `Not Matched` and `Matched` cannot be differentiated.
 
 // end::filter[]
-=======
-
 // tag::uimodifications[]
 
 === UI Modifications
