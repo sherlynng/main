@@ -43,25 +43,28 @@ This app will not work with earlier versions of Java 8.
 .  Copy the file to the folder you want to use for storing your STUtor.
 .  Double-click the file to start the app. You will see the interface in a few seconds.
 +
-image::Ui_withLabels.png[width="790"]
-+
-****
+
+// tag::ui[]
+
+image::Ui_withLabels.png[width="500"]
+
 *  Sections of STUtor:
 ** Section 1: *Command Box* to type your commands
 ** Section 2: *Result Display* to show the results of your command
 ** Section 3: *Pair List* to list all pairs currently matched
 ** Section 4: *Person List* to list all persons in the entire database
 ** Section 5: *Information Panel* to show all details of a person
+// end::ui[]
+
 *  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing `*help*` and pressing kbd:[Enter] will open the help window.
 *  Some example commands you can try:
-
 ** To list all contacts: `*list*`
 ** To add a contact named `John Doe` and his particulars to STUtor: `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
 ** To delete the 3rd contact shown in the current list: `*delete* 3`
 ** To exit the app: `*exit*`
 * For more details for each command, you can view <<Basic Features>>.
-****
+
 
 [[Features]]
 == Features
@@ -126,7 +129,6 @@ Examples:
 * `*add* n/Betsy Crowe p/91562389 e/betsycrowe@example.com a/Pasir Ris Drive 10, #06-02 $/30 sub/Chinese lvl/Upper Pri stat/Not Matched r/Tutor`
 * `*add* n/Carl Kurz`
 
-
 [NOTE]
 ====
 You can press kbd:[Tab] key once after typing `*add*` or `*a*` and it will autofill the command.
@@ -171,6 +173,8 @@ Edits the phone number and email address of the 1st person to be `91234567` and 
 * `*edit* 2 n/Betsy Crower t/` +
 Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
+// tag::sampleautofill[]
+
 [NOTE]
 ====
 You can press kbd:[Tab] key once after typing `*edit*` or `*e*` and it will autofill the command.
@@ -182,6 +186,7 @@ You can view the diagram below for a clearer visualization on how it works.
 
 image::AutofillEdit.png[width="800"]
 
+// end::sampleautofill[]
 // end::edit[]
 
 // tag::filter[]
@@ -348,7 +353,6 @@ They must have *the same subject, level and price*.
 Format: `*match* PERSON_A_INDEX PERSON_B_INDEX` or `*m* PERSON_A_INDEX PERSON_B_INDEX`
 
 Examples:
-
 * `*match* 1 3` +
 Match the person at index 1 to the person at index 3.
 
@@ -374,7 +378,17 @@ For example: +
 ====
 // end::match[]
 
+[NOTE]
+====
+You can press kbd:[Tab] key once after typing `*match*` or `*m*` and it will autofill the command.
+INDEX to be specified will be highlighted. Press kbd:[Tab] key again will jump to the next index to be filled in.
+You can view the diagram below for a clearer visualization on how it works.
+====
+
+image::AutofillMatch.png[width="700"]
+
 // tag::unmatch[]
+
 ==== Unmatching a student and a tutor : `*ummatch*` or `*um*` `[In V1.4]`
 Once a pair finishes the course, you can unmatch them.
 Simply select the pair identified by the index numbers used in the *pair listing*. +
@@ -387,6 +401,15 @@ Examples:
 Unmatch the pair at index 1. +
 
 // end::unmatch[]
+
+[NOTE]
+====
+You can press kbd:[Tab] key once after typing `*unmatch*` or `*um*` and it will autofill the command.
+INDEX to be specified will be highlighted.
+You can view the diagram below for a clearer visualization on how it works.
+====
+
+image::AutofillUnmatch.png[width="500"]
 
 ==== Listing entered commands : `*history*` or `*h*`
 You can list all the commands that you have entered in reverse chronological order. +
@@ -453,6 +476,8 @@ To clear all entries from your STUtor, use the `*clear*` command. +
 
 Format: `*clear*`
 
+// tag::remark[]
+
 ==== Creating a remark for a person : `*remark*` or `*rk*` `[In V1.3]`
 Creates a remark for the person identified by the index number used in the *last person listing*. +
 
@@ -460,9 +485,10 @@ Creates a remark for the person identified by the index number used in the *last
 * The index refers to the index number shown in the most recent listing.
 * The index *must be a positive integer* `1, 2, 3, ...`
 * You can remove a remark by typing `r/` without specifying any remark after it.
+* You can edit a remark by typing `edit` after indicating the index you want to edit.
 ****
 
-Format: `*remark* INDEX r/REMARK`
+Format: `*remark* INDEX r/REMARK` or `*remark* INDEX edit`
 
 Examples:
 
@@ -473,6 +499,22 @@ Creates a remark 'Fast learner.' for the 2nd person in STUtor.
 `*remark* 1 r/` +
 Removes the remark for the 1st person in the results of the `*find*` command.
 
+* `*list*` +
+`*remark* 1 edit` +
+Edits the remark of the 1st person in STUtor.
+
+// end::remark[]
+
+[NOTE]
+====
+You can press kbd:[Tab] key once after typing `*remark*` or `*rk*` and it will autofill the command.
+INDEX to be specified will be highlighted. Press kbd:[Tab] key again will jump to the position for you to input your remark.
+You can view the diagram below for a clearer visualization on how it works.
+====
+
+image::AutofillRemark.png[width="700"]
+
+// tag::rate[]
 ==== Giving a rating to a person : `*rate*` or `*rt*` `[In V1.4]`
 Gives a rating to the person identified by the index number used in the *last person listing*. +
 
@@ -510,7 +552,20 @@ Gives an absolute rating of 2.0 to the 2nd person in STUtor.
 `*rate* 1 r/4.2` +
 Gives an accumulated rating for the 1st person in the results of the `*find*` command.
 
+<<<<<<< HEAD
 // tag::viewstats[]
+=======
+// end::rate[]
+
+[NOTE]
+====
+You can press kbd:[Tab] key once after typing `*rate*` or `*rt*` and it will autofill the command.
+INDEX to be specified will be highlighted. Press kbd:[Tab] key again will jump to the position for you to input your rating.
+You can view the diagram below for a clearer visualization on how it works.
+====
+
+image::AutofillRate.png[width="700"]
+>>>>>>> 1e61c88e63ce26e8a0aee408055f0190f64b5628
 
 ==== Viewing the statistic : `*viewStats*` `[In V1.4]`
 Shows statistical information such as role distribution(Student/Tutor ratio) in the form of a pie chart. +

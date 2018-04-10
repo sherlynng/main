@@ -29,16 +29,16 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
 
         Index index;
-        boolean isEditCommand;
+        boolean isEditRemark;
 
-        isEditCommand = argMultimap.getPreamble().contains("edit");
+        isEditRemark = argMultimap.getPreamble().contains("edit");
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_REMARK) && !isEditCommand) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_REMARK) && !isEditRemark) {
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
         }
 
         try {
-            if (isEditCommand) {
+            if (isEditRemark) {
                 index = ParserUtil.parseIndex(argMultimap.getPreamble().replace("edit", ""));
             } else {
                 index = ParserUtil.parseIndex(argMultimap.getPreamble());
@@ -48,10 +48,10 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         }
 
         Remark remark;
-        if (isEditCommand) {
+        if (isEditRemark) {
             remark = ParserUtil.parseRemark((String) null);
 
-            return new RemarkCommand(index, remark, isEditCommand);
+            return new RemarkCommand(index, remark, isEditRemark);
         } else {
             remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
         }

@@ -340,12 +340,13 @@ public class CommandBox extends UiPart<Region> {
         styleClass.add(ERROR_STYLE_CLASS);
     }
 
+    //@@author sherlynng
     @Subscribe
-    private void handleEditCommandEvent(EditRemarkEvent event) {
+    private void handleEditRemarkEvent(EditRemarkEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         replaceText(event.getPersonRemark());
 
         isEditRemarkCommand = true;
     }
-
+    //@@author
 }

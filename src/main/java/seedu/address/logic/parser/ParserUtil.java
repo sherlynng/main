@@ -362,14 +362,12 @@ public class ParserUtil {
             throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
         }
 
-        Character lastChar = rate.charAt(rate.length() - 1);
-        boolean isAbsolute = false;
+        boolean isAbsolute = checkRateIsAbsolute(rate);
 
-        // user wants absolute rate value
-        if (lastChar.equals('-')) {
+        if (isAbsolute) {
             rate = rate.substring(0, rate.length() - 1);
-            isAbsolute = true;
         }
+
         String trimmedRate = rate.trim();
         if (!Rate.isValidRate(rate)) {
             throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
@@ -385,5 +383,21 @@ public class ParserUtil {
     public static Optional<Rate> parseRate(Optional<String> rate) throws IllegalValueException {
         requireNonNull(rate);
         return rate.isPresent() ? Optional.of(parseRate(rate.get())) : Optional.empty();
+    }
+
+    /**
+     * Checks if new rate is of absolute type
+     * @param rate
+     * @return true if rate is of absolute type
+     */
+    private static boolean checkRateIsAbsolute(String rate) {
+        Character lastChar = rate.charAt(rate.length() - 1);
+
+        // user wants absolute rate value
+        if (lastChar.equals('-')) {
+            rate = rate.substring(0, rate.length() - 1);
+            return true;
+        }
+        return false;
     }
 }
