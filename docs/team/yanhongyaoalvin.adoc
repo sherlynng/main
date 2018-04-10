@@ -1,0 +1,62 @@
+= Yan Hong Yao Alvin - Project Portfolio
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: STUtor - v1.5
+
+---
+
+== Overview
+
+STUtor -v1.5 is a desktop address book targeting tutor coordinators
+to help them _matching_ and _managing_ a large database of tutors and students. +
+The user interacts with it using a CLI, and it has a GUI created with JavaFX.
+It is written in Java, and has about 25 kLoC.
+
+== Summary of contributions
+
+* *Major enhancement*:
+Changed the functionality of add command to reduce number of compulsory fields.
+** What it does:
+Allows the user to add a new person with only their name, without entering any of the other fields.
+** Justification:
+This feature makes management and including new people much easier. When adding new tutors or students to the application, the coordinator might not always get all the required fields and may need to clarify further. +
+This setup allows them to go ahead and add the person first, while being able to find and edit in the details later. +
+Furthermore, if the user wants to add all the details at once, the command becomes extremely long - therefore users will feel less burdened if they have a choice to not add in all the details in one-shot.
+** Highlights:
+
+
+
+* *Minor enhancement*:
+Added the creation of special tags based off 5 attributes of the person.
+These tags would make use of the method of displaying tags to show important information about the tutor and student, such as the subject they are looking for a tutor/student for. +
+Each attribute has a special color associated with it to make visual recognition easy, as well as ordering them in a single, specific order.
+
+
+* *Code contributed*: [https://github.com/CS2103JAN2018-W11-B1/main/blob/master/collated/functional/aussiroth.md[Functional code]] [https://github.com/CS2103JAN2018-W11-B1/main/blob/master/collated/test/aussiroth.md[Test code]]
+
+* *Other contributions*:
+
+** Project management:
+** Enhancements to existing features:
+** Documentation:
+** Community:
+** Tools:
+
+
+
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
