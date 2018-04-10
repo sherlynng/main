@@ -60,7 +60,7 @@ include::../UserGuide.adoc[tag=unmatch]
 
 include::../UserGuide.adoc[tag=commandsummary]
 
-include::../UserGuide.adoc[tag=prefixshorcut]
+include::../UserGuide.adoc[tag=prefixshortcut]
 
 include::../UserGuide.adoc[tag=faq]
 
