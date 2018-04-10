@@ -37,7 +37,7 @@ Responsibilities: Storage
 
 === Wang Zi
 image::alexawangzi.jpg[width="150", align="left"]
-{empty}[http://github.com/alexawangzi[github]] [<<johndoe#, portfolio>>]
+{empty}[http://github.com/alexawangzi[github]] [<<alexawangzi#, portfolio>>]
 
 Role: Integration, Scheduling and tracking
 Responsibilities: Model
@@ -46,7 +46,7 @@ Responsibilities: Model
 
 === Yan Hong Yao Alvin
 image::aussiroth.jpg[width="150", align="left"]
-{empty}[http://github.com/aussiroth[github]] [<<johndoe#, portfolio>>]
+{empty}[http://github.com/aussiroth[github]] [<<aussiroth#, portfolio>>]
 
 Role: Team Lead
 Responsibilities: Logic

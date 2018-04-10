@@ -100,6 +100,8 @@ At any time if you are unsure of how to use STUtor, this command will bring you 
 
 Format: `*help*`
 
+
+// tag::add[]
 ==== Adding a person: `*add*` or `*a*`
 Adds a new person to STUtor. +
 
@@ -128,22 +130,27 @@ Examples:
 [NOTE]
 ====
 You can press kbd:[Tab] key once after typing `*add*` or `*a*` and it will autofill the command.
-Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
-You can press kbd:[Delete] key to delete a field (and its prefix).
-You can view the diagram below for a clearer visualization on how it works.
-*Important!* If you enter only empty spaces after a prefix, it will be read as no value entered into the optional field. You will not need to delete prefixes for unentered fields to enter the command.
+Further pressing of kbd:[Tab] key will jump to the next field to be filled in. +
+You can press kbd:[Delete] key to delete a field (and its prefix). +
+You can view the diagram below for a clearer visualization on how it works. +
+*Important!* If you enter only empty spaces after a prefix, it will be read as no value entered into the optional field. You do not need to delete prefixes for unentered fields to enter the command.
 ====
 
 image::AutofillAdd_Tab.png[width="700"]
 image::AutofillAdd_Delete.png[width="700"]
+
+// end::add[]
 
 ==== Listing all persons : `*list*` or `*l*`
 Shows a list of all persons in STUtor. +
 
 Format: `*list*`
 
+// tag::edit[]
+
 ==== Editing a person : `*edit*` or `*e*`
 Edits an existing person in STUtor. +
+This also allows you to fill in unentered attributes by simply editing that attribute.
 
 ****
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
@@ -174,6 +181,8 @@ You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillEdit.png[width="800"]
+
+// end::edit[]
 
 ==== Filtering all persons list by subject, level, role or status: `*filter*` `[In V1.3]`
 Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain any of the given keywords. +
@@ -224,6 +233,8 @@ Returns `john` and `John Doe`
 * `*find* Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
+// tag::findmissing[]
+
 ==== Finding people with missing fields: `*findmissing*` or `*fm*` `[In V1.4]`
 
 Lists only people who have fields that you have not yet entered, making it easy for you to search for that person you want to edit in data. +
@@ -264,6 +275,8 @@ Deletes the specified person from STUtor. +
 * The index refers to the index number shown in the *most recent listing*.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
+
+// end::findmissing[]
 
 Format: `*delete* INDEX`
 
