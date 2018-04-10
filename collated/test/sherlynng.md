@@ -49,9 +49,13 @@ public class RateCommandTest {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = new PersonBuilder(personInFilteredList).withRate(VALID_RATE_AMY, RATECOUNT_AMY).build();
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), false);
-        rate.setCount(Integer.parseInt(RATECOUNT_AMY));
+        Rate accumulatedRate = personInFilteredList.getRate().accumulatedValue(personInFilteredList.getRate(), rate);
+        Person editedPerson = new PersonBuilder(personInFilteredList)
+                .withRate(Double.toString(accumulatedRate.getValue()),
+                        Integer.toString(accumulatedRate.getCount())).build();
+
+        //rate.setCount(Integer.parseInt(RATECOUNT_AMY));
         RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);
         rateCommand.preprocessUndoableCommand();
         String expectedMessage = String.format(MESSAGE_RATE_PERSON_SUCCESS,
@@ -99,7 +103,8 @@ public class RateCommandTest {
         Person editedPerson = new PersonBuilder().withName("Alice Pauline")
                 .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
                 .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
-                .withRole("Tutor").withRemark("Hardworking but slow learner.").withRate("3.0", "1").build();
+                .withRole("Tutor").withRemark("Hardworking but slow learner.")
+                .withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
         rate.setCount(Integer.parseInt(RATECOUNT_BOB));
@@ -151,7 +156,8 @@ public class RateCommandTest {
         Person editedPerson = new PersonBuilder().withName("Benson Meier")
                 .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
                 .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
-                .withRole("Student").withRemark("Not self motivated.").withRate("2.1", "2").build();
+                .withRole("Student").withRemark("Not self motivated.")
+                .withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
         rate.setCount(Integer.parseInt(RATECOUNT_BOB));
         RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);
@@ -238,6 +244,22 @@ public class RemarkCommandTest {
     public void constructor_nullRemark_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new RemarkCommand(INDEX_FIRST_PERSON, null);
+    }
+
+    @Test
+    public void execute_editRemark_success() throws Exception {
+        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+
+        Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        Remark remark = new Remark("");
+        RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, remark, true);
+        remarkCommand.preprocessUndoableCommand();
+        String expectedMessage = String.format(MESSAGE_EDIT_REMARK_SUCCESS, personInFilteredList.getName());
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+
+        assertCommandSuccess(remarkCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
@@ -341,8 +363,8 @@ public class RemarkCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().withName("Benson Meier")
                 .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
-                .withPrice("50").withSubject("Math").withStatus("Matched").withLevel("Lower Sec")
-                .withRole("Student").withRemark(REMARK_BOB).build();
+                .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
+                .withRole("Student").withRemark(REMARK_BOB).withRate("2.1", "2").build();
         Remark remark = new Remark(REMARK_BOB);
         RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, remark);
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
@@ -398,6 +420,15 @@ public class RemarkCommandTest {
      */
     private RemarkCommand prepareCommand(Index index, Remark remark) {
         RemarkCommand remarkCommand = new RemarkCommand(index, remark);
+        remarkCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return remarkCommand;
+    }
+
+    /**
+     * Returns an {@code RemarkCommand} with parameters {@code index} and {@code remark}
+     */
+    private RemarkCommand prepareCommand(Index index, Remark remark, boolean isEditRemark) {
+        RemarkCommand remarkCommand = new RemarkCommand(index, remark, isEditRemark);
         remarkCommand.setData(model, new CommandHistory(), new UndoRedoStack());
         return remarkCommand;
     }
@@ -471,8 +502,7 @@ public class RemarkCommandTest {
 ``` java
 public class RateCommandParserTest {
 
-    private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT + RateCommand.MESSAGE_USAGE);
+    private static final String MESSAGE_INVALID_FORMAT = MESSAGE_INVALID_COMMAND_FORMAT + RateCommand.MESSAGE_USAGE;
 
     private RateCommandParser parser = new RateCommandParser();
 
@@ -538,10 +568,7 @@ public class RateCommandParserTest {
 ``` java
 public class RemarkCommandParserTest {
 
-    private static final String TAG_EMPTY = " " + PREFIX_TAG;
-
-    private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT + RemarkCommand.MESSAGE_USAGE);
+    private static final String MESSAGE_INVALID_FORMAT = MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE;
 
     private RemarkCommandParser parser = new RemarkCommandParser();
 
@@ -557,13 +584,28 @@ public class RemarkCommandParserTest {
     @Test
     public void parse_invalidPreamble_failure() {
         // negative index
-        assertParseFailure(parser, "-5" + REMARK_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "-5 " + PREFIX_REMARK + REMARK_AMY, MESSAGE_INVALID_INDEX);
 
         // zero index
-        assertParseFailure(parser, "0" + REMARK_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "0 " + PREFIX_REMARK + REMARK_AMY, MESSAGE_INVALID_INDEX);
 
         // invalid prefix being parsed as preamble
         assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT);
+
+        // no index stated for editing remark
+        assertParseFailure(parser, "edit", MESSAGE_INVALID_INDEX);
+    }
+
+    @Test
+    public void parse_validPreamble_success() {
+        Index targetIndex = INDEX_SECOND_PERSON;
+        String userInput = targetIndex.getOneBased() + " edit";
+
+        Remark remark = new Remark("");
+        RemarkCommand expectedCommand = new RemarkCommand(targetIndex, remark, true);
+
+        // edit remark
+        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
@@ -761,10 +803,10 @@ public class BrowserPanelTest extends GuiUnitTest {
         assertEquals(expectedOutput, actualOutput);
 
         // checks if tab works correctly
-        /*expectedOutput = "add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50"
-                + " sub/Math lvl/Lower Sec stat/Not Matched r/Student";
+        expectedOutput = "add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50"
+                         + " sub/Math lvl/Lower Sec stat/Not Matched r/Student";
         actualOutput = enterPersonDetails();
-        assertEquals(expectedOutput, actualOutput);*/
+        assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
@@ -815,6 +857,72 @@ public class BrowserPanelTest extends GuiUnitTest {
     }
 
     @Test
+    public void handleKeyPress_unmatchCommandPressTab_autofill() {
+        String expectedOutput = "unmatch 1";
+
+        // checks for unmatch command word
+        commandBoxHandle.setInput("unmatch");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for unmatch command word alias
+        commandBoxHandle.setInput("um");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_unmatchCommandChangeIndex_autofill() {
+        String expectedOutput = "unmatch 2";
+
+        // checks for unmatch command word
+        commandBoxHandle.setInput("unmatch");
+        guiRobot.push(KeyCode.TAB);
+
+        // change index in unmatch command
+        guiRobot.push(KeyCode.DIGIT2);
+
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_matchCommandPressTab_autofill() {
+        String expectedOutput = "match 1 2";
+
+        // checks for match command word
+        commandBoxHandle.setInput("match");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for match command word alias
+        commandBoxHandle.setInput("m");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_matchCommandChangeIndexes_autofill() {
+        String expectedOutput = "match 4 5";
+
+        // checks for match command word
+        commandBoxHandle.setInput("match");
+        guiRobot.push(KeyCode.TAB);
+
+        // change indexes in match command
+        guiRobot.push(KeyCode.DIGIT4);
+        guiRobot.push(KeyCode.TAB);
+        guiRobot.push(KeyCode.DIGIT5);
+
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
     public void handleKeyPress_editCommandPressTab_autofill() {
         String expectedOutput = "edit 1 n/ p/ e/ a/ $/ sub/ lvl/ stat/ r/";
 
@@ -831,30 +939,106 @@ public class BrowserPanelTest extends GuiUnitTest {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    @Test
+    public void handleKeyPress_editCommandPressDelete_removePreviousPrefix() {
+        String expectedOutput = "edit 1 p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+
+        // checks for edit command word
+        commandBoxHandle.setInput("edit");
+        guiRobot.push(KeyCode.TAB);
+        guiRobot.push(KeyCode.TAB);
+
+        guiRobot.push(KeyCode.DELETE);
+
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // delete 7 more times for testing repetitive pressing of delete button
+        int i = 0;
+        while (i < 7) {
+            guiRobot.push(KeyCode.DELETE);
+            i++;
+        }
+        commandBoxHandle.insertInput("Tutor");
+
+        expectedOutput = "edit 1 r/Tutor";
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_remarkCommandPressTab_autofill() {
+        String expectedOutput = "remark 1 r/";
+
+        // checks for remark command word
+        commandBoxHandle.setInput("remark");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for remark command word alias
+        commandBoxHandle.setInput("rk");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void handleKeyPress_rateCommandPressTab_autofill() {
+        String expectedOutput = "rate 1 r/";
+
+        // checks for rate command word
+        commandBoxHandle.setInput("rate");
+        guiRobot.push(KeyCode.TAB);
+        String actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+
+        // checks for rate command word alias
+        commandBoxHandle.setInput("rt");
+        guiRobot.push(KeyCode.TAB);
+        actualOutput = commandBoxHandle.getInput();
+        assertEquals(expectedOutput, actualOutput);
+    }
+
     /**
      * Enters Person details using GUI robot
      * @return String entered by GUI robot
      */
     private String enterPersonDetails() {
-        commandBoxHandle.setInput("John Doe");
+        commandBoxHandle.insertInput("John Doe");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("98765432");
+        commandBoxHandle.insertInput("98765432");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("johnd@example.com");
+        commandBoxHandle.insertInput("johnd@example.com");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("311, Clementi Ave 2, #02-25");
+        commandBoxHandle.insertInput("311, Clementi Ave 2, #02-25");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("50");
+        commandBoxHandle.insertInput("50");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Math");
+        commandBoxHandle.insertInput("Math");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Lower Sec");
+        commandBoxHandle.insertInput("Lower Sec");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Not Matched");
+        commandBoxHandle.insertInput("Not Matched");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.setInput("Student");
+        commandBoxHandle.insertInput("Student");
 
         return commandBoxHandle.getInput();
+    }
+
+    @Test
+    public void editRemarkEventTest_success() {
+        Person person = ALICE;
+
+        EditRemarkEvent editRemarkEventStub = new EditRemarkEvent(COMMAND_WORD + " "
+                + INDEX_FIRST_PERSON + " " + PREFIX_REMARK + person.getRemark());
+        postNow(editRemarkEventStub);
+
+        String expectedOutput = COMMAND_WORD + " " + INDEX_FIRST_PERSON + " " + PREFIX_REMARK + person.getRemark();
+        String actualOutput = commandBoxHandle.getInput();
+
+        guiRobot.pauseForHuman();
+        assertEquals(expectedOutput, actualOutput);
     }
 }
 ```

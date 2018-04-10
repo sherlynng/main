@@ -85,8 +85,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         Person toAdd = AMY;
         String command = "   " + AddCommand.COMMAND_WORD + "  " + NAME_DESC_AMY + "  " + PHONE_DESC_AMY + " "
                 + EMAIL_DESC_AMY + "   " + ADDRESS_DESC_AMY + "   " + SUBJECT_DESC_AMY + "  " + LEVEL_DESC_AMY + "  "
-                + STATUS_DESC_UNMATCHED + "  " + PRICE_DESC_AMY + ROLE_DESC_AMY + "  " + TAG_DESC_FRIEND + " ";
-        System.out.println(command);
+                + STATUS_DESC_UNMATCHED + "  " + PRICE_DESC_AMY + " " + ROLE_DESC_AMY + " " + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: undo adding Amy to the list -> Amy deleted */
@@ -271,7 +270,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
             throw new IllegalArgumentException("toAdd already exists in the model.");
         }
         String expectedResultMessage = String.format(AddCommand.MESSAGE_SUCCESS, toAdd);
-
+        System.out.println("expected message " + expectedResultMessage);
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
     }
 

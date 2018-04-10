@@ -458,30 +458,12 @@ image::tagStorage.png[width="400"]
 ** Pros: Keeps the `Tag` class a simple as possible.
 ** Cons: Difficult to maintain, must ensure that there are no values that can possibly be in more than 1 person attribute.
 
-=== Case-insensitive input
-
-==== Current Implementation
-We made input of fields case-insensitive to reduce user input error.
-
-After parsing and validation, the field entered is converted to <<proper-case, proper case>> internally, so tags generated from the field information will be standardized and more readable for the user.
-
-The exceptions are `Price` and `Phone` as they consist only of numbers and require no conversion. `Email` is converted to all lower-case to follow the convention.
-
-==== Model Implementation
-We utilise the `ProperCaseConverter` object to convert all parsed and valid input into proper case.
-The sequence diagram below shows how this is achieved in the constructor of `Role` class.
-
-
-.Sequence Diagram for achieveing case insensitive input
-image::SDforCaseInsensitiveInput.png[width="800"]
-
-The other classes utilise the `ProperCaseConverter` object in a similar way.
-
+// tag::fillingshortcut[]
 === Shortcuts for the user in filling fields
 
 ==== Current Implementation
 Due to the nature of the application, the user will input certain information repetitively.
-For example, `Role` can only be one of `student` or `tutor`.
+For example, `Role` can only be one of `Student` or `Tutor`.
 
 Thus, we have created shortcuts to improve efficiency in filling the fields.
 We currently support shortcuts for `Subject`, `Level`, `Status`, and `Role`.
@@ -502,7 +484,6 @@ We currently support shortcuts for `Subject`, `Level`, `Status`, and `Role`.
 |role | `r/t`| `r/tutor`
 |role | `r/s`| `r/student`
 |=======================================================================
-.Input shortcuts
 
 ==== Model Implementation
 The shortcut is first validated, then the field information is converted to its full form.
@@ -514,17 +495,42 @@ Below is the function that performs conversion in the Role class. Other classes 
        if (cur == null) {
            return "";
         } else if (cur.equals("s")) {
-            cur = "student";
+            cur = "Student";
         } else if (cur.equals("t")) {
-            cur = "tutor";
+            cur = "Tutor";
         }
        return cur;
  }
 ----
+// end::fillingshortcut[]
+
+// tag::caseinsensitiveinput[]
+=== Case-insensitive input
+
+==== Current Implementation
+We made input of fields case-insensitive to reduce user input error.
+
+After parsing and validation, the field entered is converted to <<proper-case, proper case>> internally, so tags generated from the field information will be standardized and more readable for the user.
+
+The exceptions are `Price` and `Phone` as they consist only of numbers and require no conversion. `Email` is converted to all lower-case to follow the convention.
+
+==== Model Implementation
+We utilise the `ProperCaseConverter` object to convert all parsed and valid input into proper case.
+The sequence diagram below shows how this is achieved in the constructor of `Role` class.
+
+
+.Sequence Diagram for achieveing case insensitive input
+image::SDforCaseInsensitiveInput.png[width="800"]
+
+The other classes utilise the `ProperCaseConverter` object in a similar way.
+
+
 [NOTE]
 The user can input shortcuts in case-insensitive fashion.
 For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com a/NUS #04-02 $/50 sub/PHy lvl/uP stat/nM t/T`
 , the stored entry will be `John Doe Phone: 98765432 Email: johnd@example.com Address: NUS #04-02 Tags: [Tutor][Upper Pri][50][Physics][Not Matched]`
+
+// end::caseinsensitiveinput[]
 
 === Filter feature
 
@@ -846,6 +852,61 @@ image::PieChartSnap.png[width="500"]
 * **Alternative 2:** Open a new window to show graph.
 ** Pros: Can use the app and view the statistical data simultaneously.
 ** Cons: Create inconvenience as user need to take additional steps to close the window.
+
+// tag::matchunmatch[]
+=== Match Command & Unmatch Command
+A tuition coordinator needs to record which students are receiving tuition from which tutors.
+Intuitively, the `match` command allows the user to pair a student with a tutor,
+while the `unmatch` command removes the pair. +
+The matched pairs will be stored in STUtor.xml, and displayed on the pair list panel (the leftmost vertical panel).
+
+==== Current Implementation
+A matched pair is stored as a `Pair` object.
+To uniquely identify each pair, we utilise a `PairHash` class. +
+
+.Class diagram to show associations between Person, Pair and PairHash class.
+image::PairClassDiagram.png[width="700"]
+
+As seen above, a `Pair` is constructed using one `Student` and one `Tutor`.
+The association between a `PairHash` object and a `Pair` object is one-to-one.
+A `Person` (`Student` or `Tutor`) can have any number of unique `PairHash`, that is,
+a student can be paired to multiple tutors and vice versa. +
+
+==== Design Considerations
+
+===== Acceptance of Many-to-Many matches
+We allow a student to be paired to multiple tutors and vice versa,
+because one student may take tuition for several subjects, and a tutor
+is likely to take a few students. +
+On top of that, we also allow a student to be paired to multiple tutors
+for the same subject. To justify, consider a student who wants to receive English
+tuition and would like to have specialized tutors to train him on Comprehension and
+Composition separately.
+
+===== The PairHash Class
+Due to the one-to-one association between `Pair` and `PairHash`, `PairHash` is used to
+facilitate matching and unmatching, as well as updating the status of a person.
+It helps to reduce coupling between `Pair` and `Person` objects. +
+
+When a `Pair` is created through the `match` command, a`PairHash` is generated and automatically stored in the
+`Pair` itself, as well as the `Student` and `Tutor` objects involved (see below).
+
+.Activity diagram for Match Command
+image::MatchActivityDiagram.png[width="700"]
+
+Similarly, when a `Pair` is removed through the `unmatch` command, its `PairHash` is retrieved and removed from the
+`Student` and `Tutor` involved.
+
+[NOTE]
+`PairHash` objects associated with a particular `Person` object is stored inside that `Person` as a list. +
+Whenever a `PairHash` is add to/ removed from the list (a `match`/ `unmatch` command is executed), a check is done to makes sure the status
+of the person remains correct. If the list is empty, that `Person` 's status will be `Not Matched`, else it will be `Matched`.
+
+
+// end::matchunmatch[]
+
+
+
 
 == Documentation
 

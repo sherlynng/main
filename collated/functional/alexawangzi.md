@@ -1,6 +1,34 @@
 # alexawangzi
 ###### \java\seedu\address\logic\commands\MatchCommand.java
 ``` java
+/**
+ * Match a tutor and a student in STUtor.
+ */
+public class MatchCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "match";
+    public static final String COMMAND_WORD_ALIAS = "m";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Match a student and a tutor for lesson.\n"
+            + "Parameters: INDEX_A, INDEX_B (must be non-zero positive integers, one student and one tutor.) "
+            + "Example: " + COMMAND_WORD + " 4 7 ";
+
+    public static final String MESSAGE_MATCH_SUCCESS = "Created new match %1$s\n";
+    public static final String MESSAGE_MATCH_FAILED = "Matching failed.\n %1$s";
+    public static final String MESSAGE_MISMATCH_WRONG_ROLE = "Please provide indices of one student and one tutor.";
+    public static final String MESSAGE_MISMATCH_WRONG_SUBJECT = "Not the same subject. ";
+    public static final String MESSAGE_MISMATCH_WRONG_LEVEL = "Not the same level. ";
+    public static final String MESSAGE_MISMATCH_WRONG_PRICE = "Not the same price. ";
+    public static final String MESSAGE_MISMATCH_WRONG_STATUS = "Please provide indices of unmatched student and "
+            + "unmatched tutor.";
+    public static final String MESSAGE_MISMATCH_ALREADY_MATCHED = "The two persons are already matched.";
+
+    private final Index indexA;
+    private final Index indexB;
+    private Person student;
+    private Person tutor;
+
+
     /**
      * @param indexA,of the person in the filtered person list to match
      */
@@ -11,20 +39,17 @@
     }
 
 
-```
-###### \java\seedu\address\logic\commands\MatchCommand.java
-``` java
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
-
-        model.addPair(student, tutor);
+        try {
+            model.addPair(student, tutor);
+        } catch (DuplicatePairException dpe) {
+            throw new CommandException(MESSAGE_MISMATCH_ALREADY_MATCHED);
+        }
         return new CommandResult(String.format(MESSAGE_MATCH_SUCCESS, student.getName().fullName
                 + " and " + tutor.getName().fullName));
     }
 
-```
-###### \java\seedu\address\logic\commands\MatchCommand.java
-``` java
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Person> lastShownList = model.getFilteredPersonList();
@@ -37,9 +62,6 @@
         //filter invalid matchings
         if (student.getRole().equals(tutor.getRole())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_ROLE));
-        }
-        if (student.isMatched() || tutor.isMatched()) {
-            throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_STATUS));
         }
         if (!student.getSubject().equals(tutor.getSubject())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_SUBJECT));
@@ -60,7 +82,11 @@
 
     }
 
-
+    @Override
+    public boolean equals(Object other) {
+        return this == other //short circuit for same object
+            || (other instanceof MatchCommand
+            && indexA.equals(((MatchCommand) other).indexA) && indexB.equals(((MatchCommand) other).indexB));    }
 }
 ```
 ###### \java\seedu\address\logic\commands\UnmatchCommand.java
@@ -158,19 +184,54 @@ public class MatchCommandParser implements Parser<MatchCommand> {
             indexA = ParserUtil.parseIndex(indices[0]);
         } catch (IllegalValueException e) {
             throw new ParseException(
-                    new String(MESSAGE_INVALID_COMMAND_FORMAT  + MatchCommand.MESSAGE_USAGE));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MatchCommand.MESSAGE_USAGE));
         }
 
         try {
             indexB = ParserUtil.parseIndex(indices[1]);
         } catch (IllegalValueException e) {
             throw new ParseException(
-                    new String(MESSAGE_INVALID_COMMAND_FORMAT  + MatchCommand.MESSAGE_USAGE));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MatchCommand.MESSAGE_USAGE));
         }
 
         return new MatchCommand(indexA, indexB);
     }
 }
+```
+###### \java\seedu\address\logic\parser\ParserUtil.java
+``` java
+    /**
+     * Parses a {@code String pariHash} into a {@code PairHash}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws IllegalValueException if the given {@code  pairHash} is invalid.
+     */
+    public static PairHash parsePairHash(String pairHash) throws IllegalValueException {
+        requireNonNull(pairHash);
+        String trimmedPairHash = pairHash.trim();
+        if (!PairHash.isValidPairHashValue(trimmedPairHash)) {
+            throw new IllegalValueException(PairHash.MESSAGE_PAIRHASH_CONSTRAINTS);
+        }
+        return new PairHash(trimmedPairHash);
+    }
+
+
+```
+###### \java\seedu\address\logic\parser\ParserUtil.java
+``` java
+    /**
+     * Parses {@code Collection<String> pairHashes} into a {@code Set<PairHash>}.
+     */
+    public static Set<PairHash> parsePairHashes(Collection<String> pairHashes) throws IllegalValueException {
+        requireNonNull(pairHashes);
+        final Set<PairHash> pairHashSet = new HashSet<>();
+        for (String pairHashValue : pairHashes) {
+            pairHashSet.add(parsePairHash(pairHashValue));
+        }
+        return pairHashSet;
+    }
+
+
 ```
 ###### \java\seedu\address\model\AddressBook.java
 ``` java
@@ -200,8 +261,8 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         Pair key = new Pair(student, tutor, student.getSubject(), student.getLevel(), student.getPrice());
         pairs.add(key);
         PairHash pairHash = key.getPairHash();
-        flipStatus(student, pairHash);
-        flipStatus(tutor, pairHash);
+        addPairHash(student, pairHash);
+        addPairHash(tutor, pairHash);
     }
 
 ```
@@ -216,8 +277,8 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         if (pairs.remove(key)) {
             PairHash pairHash = key.getPairHash();
             for (Person person : persons) {
-                if (person.getPairHash().equals(pairHash)) {
-                    flipStatus(person, PairHash.DEFAULT_PAIR_HASH);
+                if (person.getPairHashes().contains(pairHash)) {
+                    removePairHash(person, pairHash);
                 }
             }
             return true;
@@ -230,39 +291,71 @@ public class MatchCommandParser implements Parser<MatchCommand> {
 ###### \java\seedu\address\model\AddressBook.java
 ``` java
     /**
-     * flip the status of a person, update pairhash and tags accordingly
-     * if the person is currently matched, update status to be "Not Matched" and pairhash to be 0,
-     * otherwise update status to be "Matched" and parihash to be the new pairhash
+     * add parihash to be the person
      * @param person
-     * @param pairhash
+     * @param pairHash
      */
-    private void flipStatus(Person person, PairHash pairhash) {
+    private void addPairHash(Person person, PairHash pairHash) {
         Person editedPerson;
+        Set<PairHash> pairHashSet = new HashSet<PairHash>();
+        pairHashSet.addAll(person.getPairHashes());
+        pairHashSet.add(pairHash);
 
         Set<Tag> attributeTags = new HashSet<Tag>();
-
         attributeTags.add(new Tag(person.getRole().value, Tag.AllTagTypes.ROLE));
         attributeTags.add(new Tag(person.getPrice().value, Tag.AllTagTypes.PRICE));
         attributeTags.add(new Tag(person.getSubject().value, Tag.AllTagTypes.SUBJECT));
         attributeTags.add(new Tag(person.getLevel().value, Tag.AllTagTypes.LEVEL));
-        if (person.isMatched()) {
-            attributeTags.add(new Tag("Not Matched", Tag.AllTagTypes.STATUS));
-        } else {
-            attributeTags.add(new Tag("Matched", Tag.AllTagTypes.STATUS));
+
+        attributeTags.add(new Tag("Matched", Tag.AllTagTypes.STATUS));
+        editedPerson = new Person(person.getName(), person.getPhone(),
+                    person.getEmail(), person.getAddress(), person.getPrice(),
+                    person.getSubject(), person.getLevel(), new Status("Matched"),
+                    person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairHashSet);
+
+        try {
+            updatePerson(person, editedPerson);
+        } catch (DuplicatePersonException e) {
+            throw new AssertionError("Should not have duplicates");
+        } catch (PersonNotFoundException e) {
+            throw new AssertionError("Match exits means person must be in database.");
         }
-        if (person.isMatched()) {
+    }
+
+```
+###### \java\seedu\address\model\AddressBook.java
+``` java
+    /**
+     * add parihash to be the person
+     * @param person
+     * @param pairHash
+     */
+    private void removePairHash(Person person, PairHash pairHash) {
+        Person editedPerson;
+        Set<PairHash> pairHashSet = new HashSet<PairHash>();
+        pairHashSet.addAll(person.getPairHashes());
+        pairHashSet.remove(pairHash);
+
+        Set<Tag> attributeTags = new HashSet<Tag>();
+        attributeTags.add(new Tag(person.getRole().value, Tag.AllTagTypes.ROLE));
+        attributeTags.add(new Tag(person.getPrice().value, Tag.AllTagTypes.PRICE));
+        attributeTags.add(new Tag(person.getSubject().value, Tag.AllTagTypes.SUBJECT));
+        attributeTags.add(new Tag(person.getLevel().value, Tag.AllTagTypes.LEVEL));
+
+        if (pairHashSet.isEmpty()) {
+            attributeTags.add(new Tag("Not Matched", Tag.AllTagTypes.STATUS));
             editedPerson = new Person(person.getName(), person.getPhone(),
                     person.getEmail(), person.getAddress(), person.getPrice(),
                     person.getSubject(), person.getLevel(), new Status("Not Matched"),
-                    person.getRole(), attributeTags, person.getRemark(), person.getRate(),
-                    PairHash.getDefaultPairHash());
+                    person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairHashSet);
         } else {
+            attributeTags.add(new Tag("Matched", Tag.AllTagTypes.STATUS));
             editedPerson = new Person(person.getName(), person.getPhone(),
                     person.getEmail(), person.getAddress(), person.getPrice(),
                     person.getSubject(), person.getLevel(), new Status("Matched"),
-                    person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairhash);
-
+                    person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairHashSet);
         }
+
         try {
             updatePerson(person, editedPerson);
         } catch (DuplicatePersonException e) {
@@ -290,12 +383,8 @@ public class MatchCommandParser implements Parser<MatchCommand> {
      * @param tutor
      * @throws DuplicatePersonException
      */
-    public synchronized void addPair(Person student, Person tutor)  {
-        try {
-            addressBook.addPair(student, tutor);
-        } catch (DuplicatePairException e) {
-            e.printStackTrace();
-        }
+    public synchronized void addPair(Person student, Person tutor) throws DuplicatePairException {
+        addressBook.addPair(student, tutor);
         updateFilteredPairList(PREDICATE_SHOW_ALL_PAIRS);
         indicateAddressBookChanged();
     }
@@ -310,12 +399,12 @@ public class MatchCommandParser implements Parser<MatchCommand> {
  */
 public class Pair  {
 
-    public final String studentName;
-    public final String tutorName;
-    public final String subject;
-    public final String level;
-    public final String price;
-    public final PairHash pairHash;
+    private final String studentName;
+    private final String tutorName;
+    private final String subject;
+    private final String level;
+    private final String price;
+    private final PairHash pairHash;
     private final UniqueTagList tags;
 
 
@@ -372,7 +461,7 @@ public class Pair  {
     }
 
     public String getPairName() {
-        return studentName + " /w " + tutorName;
+        return studentName + " & " + tutorName;
     }
 
     public PairHash getPairHash() {
@@ -422,17 +511,36 @@ public class Pair  {
                 && otherPair.getPairHash().equals(this.getPairHash());
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(" Student: ")
+                .append(getStudentName())
+                .append(" Tutor: ")
+                .append(getTutorName())
+                .append(" Subject: ")
+                .append(getSubject())
+                .append(" Level: ")
+                .append(getLevel())
+                .append(" Price: ")
+                .append(getPrice());
+        return builder.toString();
+    }
+
 
 }
 ```
 ###### \java\seedu\address\model\pair\PairHash.java
 ``` java
 /**
- * Represents a pairHash in the address book.
- * The pariHash is attached to a pair, its student and its tutor to facilitate match/unmatch operations.
+ * Represents a PairHash in the address book.
+ * The PairHash is attached to a pair, its student and its tutor to facilitate match/unmatch operations.
  * Guarantees: immutable;
  */
 public class PairHash {
+
+    public static final String PAIRHASH_VALIDATION_REGEX = "-?[0-9]{0,10}";
+    public static final String MESSAGE_PAIRHASH_CONSTRAINTS = "PairHash should be a signed integer.";
 
     public static final PairHash DEFAULT_PAIR_HASH = new PairHash(0);
     public final int value;
@@ -440,15 +548,20 @@ public class PairHash {
 
     public PairHash (Person student, Person tutor, Subject subject, Level level, Price price) {
         requireAllNonNull(student, tutor, subject, level, price);
-        this.value = Objects.hash(student, tutor, subject, level, price);
+        this.value = Objects.hash(student.toString(), tutor.toString(), subject, level, price);
+    }
+
+    public PairHash(String input) {
+        this.value = Integer.parseInt(input);
     }
 
     public PairHash(int input) {
         this.value = input;
     }
 
-    public static PairHash getDefaultPairHash() {
-        return DEFAULT_PAIR_HASH;
+    public static Set<PairHash> getDefaultPairHashSet() {
+        Set<PairHash> defaultPairHashSet = new HashSet<PairHash>();
+        return defaultPairHashSet;
     }
 
     @Override
@@ -463,6 +576,24 @@ public class PairHash {
                 && this.value == (((PairHash) other).value)); // state check
     }
 
+    public int getValue() {
+        return value;
+    }
+
+    /**
+     * Returns true if a given string is a valid pairHash
+     */
+    public static boolean isValidPairHashValue(String test) {
+        return test.matches(PAIRHASH_VALIDATION_REGEX);
+    }
+}
+```
+###### \java\seedu\address\model\person\exceptions\PersonMatchedCannotDeleteException.java
+``` java
+/**
+ * Signals that the operation is invalid as the person is matched and cannot be deleted
+ */
+public class PersonMatchedCannotDeleteException extends Exception {
 }
 ```
 ###### \java\seedu\address\model\person\Level.java
@@ -564,13 +695,13 @@ public class Student extends Person {
      * @param remark
      * @param rate
      * @param tags
-     * @param pairhash
+     * @param pairhashes
      */
     public Student(Name name, Phone phone, Email email, Address address,
                    Price price, Subject subject, Level level, Status status,
-                   Set<Tag> tags, Remark remark, Rate rate, PairHash pairhash) {
+                   Set<Tag> tags, Remark remark, Rate rate,  Set<PairHash> pairhashes) {
         super(name, phone, email, address, price, subject, level, status, new Role("student"),
-              tags, remark, rate, pairhash);
+              tags, remark, rate, pairhashes);
     }
 }
 ```
@@ -596,13 +727,13 @@ public class Tutor extends Person {
      * @param remark
      * @param rate
      * @param tags
-     * @param pairhash
+     * @param pairhashes
      */
     public Tutor(Name name, Phone phone, Email email, Address address, Price price,
                  Subject subject, Level level, Status status, Set<Tag> tags, Remark remark,
-                 Rate rate, PairHash pairhash) {
+                 Rate rate, Set<PairHash> pairhashes) {
         super(name, phone, email, address, price, subject, level, status, new Role("student"),
-              tags, remark, rate, pairhash);
+              tags, remark, rate, pairhashes);
     }
 }
 ```

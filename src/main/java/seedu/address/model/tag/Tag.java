@@ -7,7 +7,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Represents a Tag in the address book.
  * Guarantees: immutable; name is valid as declared in {@link #isValidTagName(String)}
  */
-public class Tag {
+public class Tag implements Comparable<Tag> {
 
     public static final String MESSAGE_TAG_CONSTRAINTS = "Tags names should contain only "
             + "alphanumeric characters and spaces";
@@ -34,6 +34,7 @@ public class Tag {
         this.tagType = AllTagTypes.DEFAULT;
     }
 
+    //@@author aussiroth
     /**
      * Constructs a {@code Tag}.
      *
@@ -67,6 +68,11 @@ public class Tag {
         return false;
     }
 
+    public int compareTo(Tag other) {
+        return this.tagType.compareTo(other.tagType);
+    }
+
+    //@@author
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object

@@ -10,6 +10,7 @@ import java.util.Set;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.AttributeTagSetter;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
@@ -103,7 +104,7 @@ public class RateCommand extends UndoableCommand {
         Status status = personToEdit.getStatus();
         Role role = personToEdit.getRole();
         Remark remark = personToEdit.getRemark();
-        PairHash pairHash = personToEdit.getPairHash();
+        Set<PairHash> pairHashes = personToEdit.getPairHashes();
 
         Rate oldRate = personToEdit.getRate();
 
@@ -113,31 +114,12 @@ public class RateCommand extends UndoableCommand {
             newRate = Rate.accumulatedValue(oldRate, newRate);
         }
 
-        Set<Tag> updatedTags = personToEdit.getTags();
-
         //create a new modifiable set of tags
-        Set<Tag> attributeTags = new HashSet<>(updatedTags);
-        //clean out old person's attribute tags, then add the new ones
-
-        //ignore if attribute is empty (not entered yet by user)
-        if (!personToEdit.getPrice().toString().equals("")) {
-            attributeTags.add(new Tag(personToEdit.getPrice().toString(), Tag.AllTagTypes.PRICE));
-        }
-        if (!personToEdit.getLevel().toString().equals("")) {
-            attributeTags.add(new Tag(personToEdit.getLevel().toString(), Tag.AllTagTypes.LEVEL));
-        }
-        if (!personToEdit.getSubject().toString().equals("")) {
-            attributeTags.add(new Tag(personToEdit.getSubject().toString(), Tag.AllTagTypes.SUBJECT));
-        }
-        if (!personToEdit.getStatus().toString().equals("")) {
-            attributeTags.add(new Tag(personToEdit.getStatus().toString(), Tag.AllTagTypes.STATUS));
-        }
-        if (!personToEdit.getRole().toString().equals("")) {
-            attributeTags.add(new Tag(personToEdit.getRole().toString(), Tag.AllTagTypes.ROLE));
-        }
+        Set<Tag> attributeTags = new HashSet<>(personToEdit.getTags());
+        attributeTags = AttributeTagSetter.addNewAttributeTags(attributeTags, price, subject, level, status, role);
 
         return new Person(name, phone, email, address, price, subject, level, status, role,
-                          attributeTags, remark, newRate, pairHash);
+                          attributeTags, remark, newRate, pairHashes);
     }
 
     @Override

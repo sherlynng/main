@@ -99,15 +99,6 @@ public class FilterCommandParser implements Parser<FilterCommand> {
         }
         return allPredicates;
     }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
-    }
-
 }
 ```
 ###### \java\seedu\address\ui\ChartsPanel.java
@@ -124,7 +115,11 @@ public class ChartsPanel extends UiPart<Region> {
     private ObservableList<Person> personList;
 
     @FXML
-    private PieChart RoleDistribution;
+    private PieChart roleDistribution;
+    @FXML
+    private BarChart<?, ?> tutorSubject;
+    @FXML
+    private BarChart<?, ?> studentSubject;
 
 
     public ChartsPanel(ObservableList<Person> personList) {
@@ -146,9 +141,62 @@ public class ChartsPanel extends UiPart<Region> {
 
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                new PieChart.Data("Tutor", numTutor),
-                new PieChart.Data("student", numStudent));
-        RoleDistribution.setData(pieChartData);
+                new PieChart.Data("Tutor: " + numTutor, numTutor),
+                new PieChart.Data("Student: " + numStudent, numStudent));
+        roleDistribution.setData(pieChartData);
+
+        ObservableList<Person> tutorEngList =
+                tutorList.filtered(person -> person.getSubject().equals(new Subject("English")));
+        ObservableList<Person> tutorChiList =
+                tutorList.filtered(person -> person.getSubject().equals(new Subject("Chinese")));
+        ObservableList<Person> tutorMathList =
+                tutorList.filtered(person -> person.getSubject().equals(new Subject("Math")));
+        ObservableList<Person> tutorPhyList =
+                tutorList.filtered(person -> person.getSubject().equals(new Subject("Physics")));
+        ObservableList<Person> tutorChemList =
+                tutorList.filtered(person -> person.getSubject().equals(new Subject("Chemistry")));
+        int numEngTutor = tutorEngList.size();
+        int numChiTutor = tutorChiList.size();
+        int numMathTutor = tutorMathList.size();
+        int numPhyTutor = tutorPhyList.size();
+        int numChemTutor = tutorChemList.size();
+
+        XYChart.Series set1 = new XYChart.Series<>();
+        set1.getData().add(new XYChart.Data("English", numEngTutor));
+        set1.getData().add(new XYChart.Data("Chinese", numChiTutor));
+        set1.getData().add(new XYChart.Data("Math", numMathTutor));
+        set1.getData().add(new XYChart.Data("Physics", numPhyTutor));
+        set1.getData().add(new XYChart.Data("Chemistry", numChemTutor));
+        tutorSubject.getData().clear();
+        tutorSubject.layout();
+        tutorSubject.getData().addAll(set1);
+
+        ObservableList<Person> studentEngList =
+                studentList.filtered(person -> person.getSubject().equals(new Subject("English")));
+        ObservableList<Person> studentChiList =
+                studentList.filtered(person -> person.getSubject().equals(new Subject("Chinese")));
+        ObservableList<Person> studentMathList =
+                studentList.filtered(person -> person.getSubject().equals(new Subject("Math")));
+        ObservableList<Person> studentPhyList =
+                studentList.filtered(person -> person.getSubject().equals(new Subject("Physics")));
+        ObservableList<Person> studentChemList =
+                studentList.filtered(person -> person.getSubject().equals(new Subject("Chemistry")));
+        int numEngStudent = studentEngList.size();
+        int numChiStudent = studentChiList.size();
+        int numMathStudent = studentMathList.size();
+        int numPhyStudent = studentPhyList.size();
+        int numChemStudent = studentChemList.size();
+
+        XYChart.Series set2 = new XYChart.Series<>();
+        set2.getData().add(new XYChart.Data("English", numEngStudent));
+        set2.getData().add(new XYChart.Data("Chinese", numChiStudent));
+        set2.getData().add(new XYChart.Data("Math", numMathStudent));
+        set2.getData().add(new XYChart.Data("Physics", numPhyStudent));
+        set2.getData().add(new XYChart.Data("Chemistry", numChemStudent));
+        studentSubject.getData().clear();
+        studentSubject.layout();
+        studentSubject.getData().addAll(set2);
+
     }
 
     @Subscribe
@@ -218,11 +266,28 @@ public class InfoPanel extends UiPart<Region> {
 ```
 ###### \resources\view\ChartsPanel.fxml
 ``` fxml
+
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="900" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="606.0" style="-fx-background-color: #ffffff;">
          <children>
-            <PieChart fx:id="RoleDistribution" prefHeight="400.0" prefWidth="600.0" title="Role Distribution" />
+            <PieChart fx:id="roleDistribution" prefHeight="195.0" prefWidth="606.0" title="Role Distribution" />
+            <BarChart fx:id="tutorSubject" layoutY="200.0" prefHeight="203.0" prefWidth="298.0" title="Tutor Subjects">
+              <xAxis>
+                <CategoryAxis prefHeight="17.0" prefWidth="244.0" side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <BarChart fx:id="studentSubject" layoutX="305.0" layoutY="200.0" prefHeight="203.0" prefWidth="298.0" title="Student Subjects">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
          </children>
       </AnchorPane>
    </children>
