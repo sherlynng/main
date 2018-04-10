@@ -392,13 +392,14 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+// tag::attributetags[]
 === Automatic creation of tags from person attributes
 
 ==== Current implementation
 Each of the attributes `Price`, `Subject`, `Level` and `Status` of a person each have a tag with the value added to the person.
 This is done when user performs `add` or `edit` command.
 
-The creation of these tags from attributes is facilitated by static methods from a class in logic, called ``. This class contains methods to remove existing attribute tags from a person, which can be used when needing to edit or find non-attribute tags of the person.
+The creation of these tags from attributes is facilitated by static methods from a class in logic, called `AttributeTagSetter`. This class contains methods to remove existing attribute tags from a person, which can be used when needing to edit or find non-attribute tags of the person.
 Another method is to create the new attribute tags from provided input and return the new set of tags. This class is currently invoked from a static context, as its use currently is solely for managing the tags of a given `Person`.
 
 [NOTE]
@@ -623,6 +624,7 @@ To allow easy identification of the category that a tag belongs to, different co
 of a person. A standardized color is used for each attribute and its color is stored in `Tag` such that the color
 will be retained when the user reopens the application.
 
+// tag::optionaladd[]
 === Optional Fields for Add Command
 ==== Current Implementation
 
@@ -650,7 +652,11 @@ Must create a special constructor for the attribute class to accept a `null` for
 The intention and design behind this command is to pair with the allowing of users to leave fields for a person's values unentered.
 As the design of the command, parser and sequence when a user enters a find missing command to be very similar to the filter command, the documentation
 here will focus more on the design considerations and rationale instead of repeating sequence diagrams that are almost the same as given previously. +
-Currently, the command makes use of a new predicate, `FindMissingPredicate`, to perform the check.
+Currently, the command makes use of a new predicate, `FindMissingPredicate`, to perform the check. +
+The implementation of the OR search in the `FindMissingPredicate` is as follows - +
+For each entered field by the user, if that field is unentered by the user, then the predicate will immediately return `true` as the person fits the criteria. +
+If at the end of checking all values at the list, then the person has all fields specified by the user filled. Therefore, the predicate will return `false` in this case. +
++
 Rationale for having a new command and predicate is that reusing the `Filter` command or predicate would violate Single Responsibility Principle and the idea of Separation of Concerns. +
 The `Filter` command and classes associated closely to it should have the single concern of listing people according to a search term. +
 Therefore, it is better design to create a new command for this feature.
