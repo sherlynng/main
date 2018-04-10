@@ -538,6 +538,7 @@ For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com 
 
 // end::caseinsensitiveinput[]
 
+// tag::filter[]
 === Filter feature
 
 ==== Current Implementation
@@ -563,8 +564,12 @@ insensitive.
 * **Alternative 2:** Argument to be filtered can be incomplete and it is case insensitive.
 ** Pros: User can type less.
 ** Cons: Arguments such as `Not Matched` and `Matched` cannot be differentiated.
+<<<<<<< HEAD
+// end::filter[]
+=======
 
 // tag::uimodifications[]
+>>>>>>> 1e61c88e63ce26e8a0aee408055f0190f64b5628
 === UI Modifications
 
 ==== Browser Panel
@@ -746,6 +751,9 @@ manually having to shift the caret to change the index.
 ** Pros: Will not lead to confusion of expected keyboard functionalities.
 ** Cons: Not intuitive for users to use as they would not expect it to be a key for delete function.
 
+<<<<<<< HEAD
+// tag::viewstats[]
+=======
 ===== Aspect: Commands that can be autofilled
 
 * **Alternative 1 (current choice):** Commands that have a fixed fomat can be autofilled.
@@ -853,6 +861,7 @@ image::RateCommandSequenceDiagram1.png[width="550"]
 
 // end::review[]
 
+>>>>>>> 1e61c88e63ce26e8a0aee408055f0190f64b5628
 === View Stats Command
 ==== Current Implementation
 The intention behind creating this command is to consolidate statistical data about the people in the app.
@@ -861,7 +870,7 @@ Without this command, user will have to do manual consolidation which is ineffic
 Currently, the statistical data are presented in the form of pie chart which improves readability. A snapshot showing
 the role distribution between students and tutors is shown below.
 
-image::PieChartSnap.png[width="500"]
+image::CompleteChartSnap.png[width="500"]
 
 ==== Design Considerations
 
@@ -873,6 +882,7 @@ image::PieChartSnap.png[width="500"]
 * **Alternative 2:** Open a new window to show graph.
 ** Pros: Can use the app and view the statistical data simultaneously.
 ** Cons: Create inconvenience as user need to take additional steps to close the window.
+// end::viewstats[]
 
 // tag::matchunmatch[]
 === Match Command & Unmatch Command

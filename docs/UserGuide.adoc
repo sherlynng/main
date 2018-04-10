@@ -189,6 +189,8 @@ image::AutofillEdit.png[width="800"]
 // end::sampleautofill[]
 // end::edit[]
 
+// tag::filter[]
+
 ==== Filtering all persons list by subject, level, role or status: `*filter*` `[In V1.3]`
 Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain any of the given keywords. +
 
@@ -210,6 +212,8 @@ Examples:
 Returns persons with `Math` subject
 * `*filter* Student` +
 Returns persons with `Student` role
+
+// end::filter[]
 
 ==== Locating persons by name: `*find*` or `*f*`
 Finds persons whose NAME contain any of the given keywords. +
@@ -548,6 +552,9 @@ Gives an absolute rating of 2.0 to the 2nd person in STUtor.
 `*rate* 1 r/4.2` +
 Gives an accumulated rating for the 1st person in the results of the `*find*` command.
 
+<<<<<<< HEAD
+// tag::viewstats[]
+=======
 // end::rate[]
 
 [NOTE]
@@ -558,6 +565,7 @@ You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillRate.png[width="700"]
+>>>>>>> 1e61c88e63ce26e8a0aee408055f0190f64b5628
 
 ==== Viewing the statistic : `*viewStats*` `[In V1.4]`
 Shows statistical information such as role distribution(Student/Tutor ratio) in the form of a pie chart. +
@@ -569,6 +577,8 @@ Shows statistical information such as role distribution(Student/Tutor ratio) in 
 ****
 
 Format: `*viewStats*`
+
+// end::viewstats[]
 
 ==== Exiting the program : `*exit*`
 Exits the program. +
