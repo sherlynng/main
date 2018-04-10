@@ -48,6 +48,7 @@ public class PersonCardHandle extends NodeHandle<Node> {
                 .collect(Collectors.toList());
     }
 
+    //@@author dannyngmx94
     public List<String> getTagStyleClasses(String tag) {
         return tagLabels
                 .stream()

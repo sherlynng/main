@@ -19,7 +19,7 @@ Role: Project Supervisor
 
 === Danny Ng Ming Xuan
 image::dannyngmx94.jpg[width="150", align="left"]
-{empty}[http://github.com/dannyngmx94[github]] [<<johndoe#, portfolio>>]
+{empty}[http://github.com/dannyngmx94[github]] [<<dannyngmx94#, portfolio>>]
 
 Role: Testing
 Responsibilities: UI
@@ -28,7 +28,7 @@ Responsibilities: UI
 
 === Ng Xin Ler
 image::sherlynng.jpg[width="150", align="left"]
-{empty}[http://github.com/sherylnng[github]] [<<johndoe#, portfolio>>]
+{empty}[http://github.com/sherlynng[github]] [<<sherlynng#, portfolio>>]
 
 Role: Documentation, Code quality
 Responsibilities: Storage

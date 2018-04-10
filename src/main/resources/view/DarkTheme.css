@@ -160,7 +160,7 @@
 .browser_stackPane_even {
     -fx-background-color: #4C4C4C
 }
-/* @@author sherlynng */
+/* @@author */
 
 .anchor-pane {
      -fx-background-color: derive(#1d1d1d, 20%);
@@ -378,6 +378,7 @@
     -fx-font-size: 11;
 }
 
+<!-- @@author dannyngmx94 -->
 #tags .teal {
     -fx-text-fill: white;
     -fx-background-color: #3e7b91;
