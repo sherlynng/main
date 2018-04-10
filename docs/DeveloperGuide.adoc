@@ -749,8 +749,6 @@ manually having to shift the caret to change the index.
 ** Pros: Will not lead to confusion of expected keyboard functionalities.
 ** Cons: Not intuitive for users to use as they would not expect it to be a key for delete function.
 
-// tag::viewstats[]
-=======
 ===== Aspect: Commands that can be autofilled
 
 * **Alternative 1 (current choice):** Commands that have a fixed fomat can be autofilled.
