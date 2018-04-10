@@ -564,12 +564,13 @@ insensitive.
 ** Pros: User can type less.
 ** Cons: Arguments such as `Not Matched` and `Matched` cannot be differentiated.
 
+// tag::uimodifications[]
 === UI Modifications
 
 ==== Browser Panel
 The browser panel is modified to show the selected person’s details instead of opening up a URL.
-This allows better visualization of a person’s details as each person now has up 9 attributes: `Name`, `Phone`,
-`Address`, `Email`, `Role`, `Status`, `Subject`, `Level`, `Price` to be displayed.
+This allows better visualization of a person’s details as each person now has up 11 attributes: `Name`, `Phone`,
+`Address`, `Email`, `Role`, `Status`, `Subject`, `Level`, `Price`, `Remark`, `Rate` to be displayed.
 Below shows the modifications made:
 
 **Before**
@@ -580,6 +581,7 @@ image::OldBrowserPanel.png[width="500"]
 
 image::NewBrowserPanel.png[width="500"]
 
+
 ===== Current Implementation
 The UI is modified using `SceneBuilder` and the layout is specified in link:{repoURL}/blob/master/src/main/resources/view/BrowserPanel.fxml[`BrowserPanel.fxml`].
 link:{repoURL}/blob/master/src/main/java/seedu/address/ui/BrowserPanel.java[`BrowserPanel.java`] subscribes to `handlePersonPanelSelectionChangedEvent`, where this allows the browser panel to
@@ -588,9 +590,6 @@ be updated whenever the user selects on a specific person.
 We choose to place the person's name at the top of the browser panel for easy identification of a person while
 other details are organized in a table format for easy reference. Rows of the table are also alternately colored
 to increase readability.
-
-[NOTE]
-In the case if the person attribute is null (except `Name` cannot be null), it will be displayed as an empty string.
 
 ===== Design Considerations
 
@@ -603,6 +602,7 @@ and the other specifying the actual content.
 * **Alternative 2:** Centralized display of person details without usage of tables and reference to the type of attribute.
 ** Pros: More visually appealing as formatting is less rigid and squarish.
 ** Cons: Locating an attribute may not be easy due to lack of labelling.
+// end::uimodifications[]
 
 ==== Person Card
 Person card is improved to show the list of person’s details more concisely and clearly.
@@ -692,11 +692,13 @@ Current option used since it fits best with the user need of simply finding thos
 
 // end::optionaladd[]
 
+// tag::autofill[]
+
 === Autofill
 
 Due to the significant amount of attributes to type in, especially when adding or editing a person, we decided to create
 autofill feature to reduce the time taken to enter a person's details. Besides `add` and `edit`, commands with
-definite format (i.e. `delete` and `select`) have this feature implemented as well.
+definite format (i.e. `remark`, `rate`, `delete`, `select`, `unmatch`, `match`) have this feature implemented as well.
 
 ==== Current Implementation
 
@@ -705,7 +707,7 @@ When keyboard `Delete` or `Tab` is pressed, depending on the user input in the c
 will be shifted accordingly. Below shows the workflow when `Delete` or `Tab` is pressed.
 
 .Activity Diagram for Autofill
-image::AutofillActivityDiagram.png[width="700"]
+image::AutofillActivityDiagram.png[width="500"]
 
 ===== Find Next Field
 To find the next field to shift the caret to, manipulation of `String` is used to locate the next instance of `/` in the
@@ -722,6 +724,17 @@ then procedes to find next field to be shifted to. Below shows what happens when
 .Visualization for delete previous prefix
 image::AutofillAdd_Delete.png[width="700"]
 
+==== Select index to edit
+To select/highlight the index to edit, the first instance of a digit is searched from the current caret position. The index
+is then highlighted by selecting the caret forward.
+
+.Visualization for select index to edit
+image::AutofillMatch.png[width="700"]
+
+We decide to create shortcuts for even for commands that do not have lengthy inputs (e.g. `add` and `edit`) as it makes typing
+command easier for our user. By highlighting the index to edit, user can simply type the index they want to edit without
+manually having to shift the caret to change the index.
+
 ==== Design Considerations
 
 ===== Aspect: Keyboard key for `Delete`
@@ -732,6 +745,113 @@ image::AutofillAdd_Delete.png[width="700"]
 * **Alternative 2:** Use other keyboard keys that users typically do not use, for example `F2`.
 ** Pros: Will not lead to confusion of expected keyboard functionalities.
 ** Cons: Not intuitive for users to use as they would not expect it to be a key for delete function.
+
+===== Aspect: Commands that can be autofilled
+
+* **Alternative 1 (current choice):** Commands that have a fixed fomat can be autofilled.
+** Pros: Easy to use for the user as expected behavior of the autofill feature can be predicted.
+** Cons: May lead to some confusion as only selected commands can be autofilled.
+* **Alternative 2:** All commands can be autofilled.
+** Pros: Will not lead to confusion as to which commands can be autofilled.
+** Cons: For commands that do not have a definite format (e.g. `find KEYWORD [MORE_KEYWORDS]`), it can be confusing for the user if the app
+only autofills `find` and expects the user to remember the command format. Furthermore, using command alias (e.g. `f`) requires
+less typing from the user.
+
+// end::autofill[]
+
+// tag::review[]
+=== Review Feature
+As a tuition coordinator may receive feedback from students or tutors regarding their lessons, this feature helps the tuition coordinator
+to manage these information easily. Review feature in STUtor includes both adding a remark and rating for a student or tutor.
+
+==== Remark Command
+===== Current Implementation
+There are two ways users can interact with the Remark Command:
+
+. Create a new remark
+. Edit a current remark
+
+[NOTE]
+====
+By default, when a person is added into STUtor, we create an empty remark (i.e. empty string) as usually at the start, there will
+be no available feedback for a particular student or tutor yet.
+====
+
+`RemarkCommandParser` is implemented such that when creating a new remark, there is no restriction to the content of a
+remark. Any input indicated after the prefix `r/` will be taken to be the new remark created for the person indicated at
+the specified `INDEX`. If there is no remark indicated after `r/`, it is assumed that the user wants to remove the current remark.
+
+For editing a remark, prefix `r/` is not used to differentiate having the word 'edit' in the remark or executing edit remark command
+by getting the preamble in `RemarkCommandParser`. If it is an edit remark command, overloaded constructor for `RemarkCommand`
+with extra `isEditRemark` parameter is used instead of the constructor used when creating a new remark (without the extra parameter).
+As editing a remark requires making changes to the command box, `EditRemarkEvent` is used to signal `CommandBox` to make the
+appropriate modifications.
+
+The following sequence diagrams shows how the remark operation works:
+
+image::RemarkCommandSequenceDiagram.png[width="550"]
+.Sequence Diagram for `remark`
+
+image::RemarkCommandSequenceDiagram1.png[width="550"]
+
+
+==== Design Considerations
+===== Aspect: Constructor for Remark Command
+
+* **Alternative 1 (current choice):** Overloading constructor with extra parameter `isEditRemark`
+** Pros: Allows forward/backward compatibility such that methods that used the original constructor with two parameters can still
+be used since create remark command is implemented before edit remark.
+** Cons: May not be easy for new developers to understand at first glance when to use which constructor.
+* **Alternative 2:** Modify current constructor to take in new parameter.
+** Pros: Easy for new developers to understand at first glance as there is only one constructor.
+** Cons: May cause some methods and tests that uses the old constructor to break.
+
+==== Rate Command
+===== Current Implementation
+
+Rating is from 0.0 (worst performing) to 5.0 (best performing) and is stored as a `double` inside `Rate` class.
+Regex is used to limit user input to a maximum of 1 decimal place and any number below 0.0 or 5.0 is rejected.
+
+We have decided to allow two types of ratings:
+
+. Cumulative rating
+. Absolute rating
+
+Default will be cumulative rating as it is more natural and useful to combine all ratings given to a specific person to gauge his/her
+abilities. In this app, cumulative rating is calculated using the current rate `value` and `count` inside `accumulatedValue` method in `Rate` class.
+Every time a new rate is added, `count` increases incrementally and only the latest rate `value` is stored.
+
+Absolute rating is also implemented for users that wants to clear all old data or wants to shortlist/blacklist a student or tutor.
+`checkRateIsAbsolute` method in `ParserUtil` class is used to find out if the user requires an absolute rating by checking the last character
+in the user input. When setting an absolute rating, the app resets `count` back to 1 and rate `value` is set to the value indicated by the user.
+
+The following sequence diagrams shows how the rate operation works:
+
+image::RateCommandSequenceDiagram.png[width="550"]
+.Sequence Diagram for `rate`
+
+image::RateCommandSequenceDiagram1.png[width="550"]
+
+==== Design Considerations
+===== Aspect: Indication for Absolute Rating
+
+* **Alternative 1 (current choice):** Indicate using keyboard input `-`
+** Pros: Easy and quick to access `-`.
+** Cons: Not intuitive for new users that absolute rating is represented by `-`.
+* **Alternative 2:** Indicate using different prefix for absolute and cumulative rating
+** Pros: More intuitive for users to handle the different types of rating.
+** Cons: Implementation requires more complex handling (e.g. prefix can be omitted, presence of both prefixes).
+
+===== Aspect: Calculation for Cumulative Rating
+
+* **Alternative 1 (current choice):** Make use of only current rating and rate count
+** Pros: Takes up minimal storage space and simple to calculate.
+** Cons: May not be very accurate.
+* **Alternative 2:** Store all past ratings of a person and take the average
+** Pros: Produces accurate rating.
+** Cons: Can potentially take up lots of storage space as there is no limit to the number of times a person can be rated.
+
+// end::review[]
 
 === View Stats Command
 ==== Current Implementation
