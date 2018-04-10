@@ -861,7 +861,8 @@ image::RateCommandSequenceDiagram1.png[width="550"]
 
 // end::review[]
 
->>>>>>> 1e61c88e63ce26e8a0aee408055f0190f64b5628
+// tag::viewstats[]
+
 === View Stats Command
 ==== Current Implementation
 The intention behind creating this command is to consolidate statistical data about the people in the app.
