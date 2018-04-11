@@ -1,7 +1,6 @@
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.text.DecimalFormat;
 
@@ -56,24 +55,14 @@ public class Rate {
     }
 
     /**
-     * Calculates the accumulated value of a person's rating
+     * Accumulates a person's rating value
      * @param oldRate
      * @param newRate
      * @return {@code Rate} that contains updated value and count
      */
     public static Rate accumulatedValue (Rate oldRate, Rate newRate) {
-        /*
-        double value;
         double newValue;
 
-        value = oldRate.getValue() * oldRate.getCount();
-        newValue = (value + newRate.getValue()) / (oldRate.getCount() + 1);
-        newValue = Math.floor(newValue * 10) / 10;
-
-        newRate = new Rate(newValue, true);
-        newRate.setCount(oldRate.getCount() + 1);
-           */
-        double newValue;
         newValue = oldRate.getValue() + newRate.getValue();
         newRate = new Rate(newValue, true);
         newRate.setCount(oldRate.getCount() + 1);
@@ -92,6 +81,10 @@ public class Rate {
         return this.value;
     }
 
+    /**
+     * Gets displayed rate value, rounded off to nearest 1 deciimal place.
+     * @return {@code double} rate value to 1 decimal place
+     */
     public double getDisplayedValue() {
         double displayedValue = 0;
 
