@@ -503,8 +503,6 @@ Removes the remark for the 1st person in the results of the `*find*` command.
 `*remark* 1 edit` +
 Edits the remark of the 1st person in STUtor.
 
-// end::remark[]
-
 [NOTE]
 ====
 You can press kbd:[Tab] key once after typing `*remark*` or `*rk*` and it will autofill the command.
@@ -513,6 +511,8 @@ You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillRemark.png[width="700"]
+
+// end::remark[]
 
 // tag::rate[]
 ==== Giving a rating to a person : `*rate*` or `*rt*` `[In V1.4]`
@@ -536,8 +536,7 @@ and the person's average ratings will be displayed. Number of people who rated t
 
 [NOTE]
 ====
-STUtor does not keept track of all ratings of each person, hence accumulated rating value may be off by 0.2.
-Rating values are also rounded down.
+Rating value is rounded off to nearest 1 decimal place.
 ====
 ****
 
@@ -552,8 +551,6 @@ Gives an absolute rating of 2.0 to the 2nd person in STUtor.
 `*rate* 1 r/4.2` +
 Gives an accumulated rating for the 1st person in the results of the `*find*` command.
 
-// end::rate[]
-
 [NOTE]
 ====
 You can press kbd:[Tab] key once after typing `*rate*` or `*rt*` and it will autofill the command.
@@ -562,6 +559,8 @@ You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillRate.png[width="700"]
+
+// end::rate[]
 
 // tag::viewstats[]
 

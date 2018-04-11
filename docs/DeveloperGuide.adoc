@@ -812,17 +812,24 @@ be used since create remark command is implemented before edit remark.
 ==== Rate Command
 ===== Current Implementation
 
-Rating is from 0.0 (worst performing) to 5.0 (best performing) and is stored as a `double` inside `Rate` class.
-Regex is used to limit user input to a maximum of 1 decimal place and any number below 0.0 or 5.0 is rejected.
+Rating is from 0.0 (worst performing) to 5.0 (best performing).
+Regex is used to limit user input to a maximum of 1 decimal place and any number below 0.0 or above 5.0 is rejected.
+Sum of all ratings is stored as a `double` inside `Rate` class and the displayed value is calculated by taking the sum
+and divide it by the number of people who rated the person.
 
-We have decided to allow two types of ratings:
+When a person is first added to STUtor, both total rate `value` and `count` is initialized to 0.
+Since the person has yet been rated, rating will be displayed as `-` in the `BrowserPanel`.
+
+We have decided to allow two types of ratings in STUtor:
 
 . Cumulative rating
 . Absolute rating
 
 Default will be cumulative rating as it is more natural and useful to combine all ratings given to a specific person to gauge his/her
-abilities. In this app, cumulative rating is calculated using the current rate `value` and `count` inside `accumulatedValue` method in `Rate` class.
-Every time a new rate is added, `count` increases incrementally and only the latest rate `value` is stored.
+abilities. In this app, `value` in `Rate` class stores the total sum of all ratings given to the person.
+To display the cumulated rating, `BrowserPanel` calls `getDisplayedValue` method in `Rate` class and
+cumulated rating is calculated using the total `value` and divide it by `count`.
+Every time a new rate is added, `count` increases incrementally as well.
 
 Absolute rating is also implemented for users that wants to clear all old data or wants to shortlist/blacklist a student or tutor.
 `checkRateIsAbsolute` method in `ParserUtil` class is used to find out if the user requires an absolute rating by checking the last character
@@ -844,15 +851,6 @@ image::RateCommandSequenceDiagram1.png[width="550"]
 * **Alternative 2:** Indicate using different prefix for absolute and cumulative rating
 ** Pros: More intuitive for users to handle the different types of rating.
 ** Cons: Implementation requires more complex handling (e.g. prefix can be omitted, presence of both prefixes).
-
-===== Aspect: Calculation for Cumulative Rating
-
-* **Alternative 1 (current choice):** Make use of only current rating and rate count
-** Pros: Takes up minimal storage space and simple to calculate.
-** Cons: May not be very accurate.
-* **Alternative 2:** Store all past ratings of a person and take the average
-** Pros: Produces accurate rating.
-** Cons: Can potentially take up lots of storage space as there is no limit to the number of times a person can be rated.
 
 // end::review[]
 
