@@ -39,7 +39,6 @@ public class Rate {
      */
     public Rate (double rating, boolean isAbsolute) {
         requireNonNull(rating);
-        checkArgument(isValidRate(Double.toString(rating)), MESSAGE_RATE_CONSTRAINTS);
 
         this.value = rating;
         this.isAbsolute = isAbsolute;
@@ -49,9 +48,9 @@ public class Rate {
      * Creates a default rating.
      * @return {@code Rate} with default value of 3.0 and count 1.
      */
-    public static Rate getDefaultRate() {
-        Rate defaultRate = new Rate(3, true);
-        defaultRate.setCount(1);
+    public static Rate initializeRate() {
+        Rate defaultRate = new Rate(0, true);
+        defaultRate.setCount(0);
 
         return defaultRate;
     }
@@ -63,6 +62,7 @@ public class Rate {
      * @return {@code Rate} that contains updated value and count
      */
     public static Rate accumulatedValue (Rate oldRate, Rate newRate) {
+        /*
         double value;
         double newValue;
 
@@ -70,6 +70,11 @@ public class Rate {
         newValue = (value + newRate.getValue()) / (oldRate.getCount() + 1);
         newValue = Math.floor(newValue * 10) / 10;
 
+        newRate = new Rate(newValue, true);
+        newRate.setCount(oldRate.getCount() + 1);
+           */
+        double newValue;
+        newValue = oldRate.getValue() + newRate.getValue();
         newRate = new Rate(newValue, true);
         newRate.setCount(oldRate.getCount() + 1);
 
@@ -80,11 +85,20 @@ public class Rate {
      * Returns true if a given string is a valid person rate.
      */
     public static boolean isValidRate(String test) {
-        return test.equals("") || test.matches(RATE_VALIDATION_REGEX) || test.matches(RATE_VALIDATION_REGEX_ABSOLUTE);
+        return test.matches(RATE_VALIDATION_REGEX) || test.matches(RATE_VALIDATION_REGEX_ABSOLUTE);
     }
 
     public double getValue() {
         return this.value;
+    }
+
+    public double getDisplayedValue() {
+        double displayedValue = 0;
+
+        if (count != 0) {
+            displayedValue = (double) Math.round(((value / count) * 10)) / 10;
+        }
+        return displayedValue;
     }
 
     public int getCount() {

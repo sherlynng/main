@@ -85,7 +85,7 @@ public class RateCommandTest {
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), false);
         Rate accumulatedRate = personInFilteredList.getRate().accumulatedValue(personInFilteredList.getRate(), rate);
         Person editedPerson = new PersonBuilder(personInFilteredList)
-                .withRate(Double.toString(accumulatedRate.getValue()),
+                .withRate(Double.toString(accumulatedRate.getDisplayedValue()),
                         Integer.toString(accumulatedRate.getCount())).build();
 
         //rate.setCount(Integer.parseInt(RATECOUNT_AMY));

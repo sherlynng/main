@@ -40,7 +40,6 @@ public class XmlAdaptedPersonTest {
     private static final String INVALID_SUBJECT = "fake news";
     private static final String INVALID_ROLE = "nottutor";
     private static final String INVALID_STATUS = "very matched";
-    private static final String INVALID_RATE = "5.5";
 
     private static final String VALID_NAME = BENSON.getName().toString();
     private static final String VALID_PHONE = BENSON.getPhone().toString();
@@ -258,16 +257,6 @@ public class XmlAdaptedPersonTest {
                 VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, VALID_STATUS, VALID_ROLE, VALID_TAGS, null,
                 VALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName());
-        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
-    }
-
-    @Test
-    public void toModelType_invalidRate_throwsIllegalValueException() {
-        XmlAdaptedPerson person =
-                new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
-                        VALID_PRICE, VALID_SUBJECT, VALID_LEVEL, INVALID_STATUS, VALID_ROLE,
-                        VALID_TAGS, VALID_REMARK, INVALID_RATE, VALID_RATECOUNT, VALID_PAIRHASH);
-        String expectedMessage = Status.MESSAGE_STATUS_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 

@@ -395,7 +395,6 @@ public class ParserUtil {
 
         // user wants absolute rate value
         if (lastChar.equals('-')) {
-            rate = rate.substring(0, rate.length() - 1);
             return true;
         }
         return false;

@@ -36,7 +36,7 @@ public class SampleDataUtil {
                 new Role("Student"),
                 getTagSet("100", "Math", "Upper Sec", "Not Matched", "Student"),
                 new Remark("Hardworking student."),
-                Rate.getDefaultRate(),
+                Rate.initializeRate(),
                 PairHash.getDefaultPairHashSet()),
 
             new Person(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
@@ -48,7 +48,7 @@ public class SampleDataUtil {
                 new Role("Student"),
                 getTagSet("50", "English", "Upper Sec", "Not Matched", "Student"),
                 new Remark("Very active, requires more attention."),
-                Rate.getDefaultRate(),
+                Rate.initializeRate(),
                 PairHash.getDefaultPairHashSet()),
 
             new Person(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
@@ -60,7 +60,7 @@ public class SampleDataUtil {
                 new Role("Student"),
                 getTagSet("150", "Chinese", "Upper Sec", "Not Matched", "Student"),
                 new Remark("Hardworking but very weak in Chinese."),
-                Rate.getDefaultRate(),
+                Rate.initializeRate(),
                 PairHash.getDefaultPairHashSet()),
 
             new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
@@ -72,7 +72,7 @@ public class SampleDataUtil {
                 new Role("Tutor"),
                 getTagSet("70", "Chinese", "Upper Sec", "Not Matched", "Tutor"),
                 new Remark("Friendly and approachable."),
-                Rate.getDefaultRate(),
+                Rate.initializeRate(),
                 PairHash.getDefaultPairHashSet()),
 
             new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
@@ -84,7 +84,7 @@ public class SampleDataUtil {
                 new Role("Tutor"),
                 getTagSet("20", "English", "Lower Sec", "Not Matched", "Tutor"),
                 new Remark("Bad tutor, very impatient."),
-                Rate.getDefaultRate(),
+                Rate.initializeRate(),
                 PairHash.getDefaultPairHashSet()),
 
             new Person(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
@@ -96,7 +96,7 @@ public class SampleDataUtil {
                 new Role("Tutor"),
                 getTagSet("40", "English", "Upper Sec", "Not Matched", "Tutor"),
                 new Remark("Generally friendly, but not detailed in teaching."),
-                Rate.getDefaultRate(),
+                Rate.initializeRate(),
                 PairHash.getDefaultPairHashSet()),
         };
     }
