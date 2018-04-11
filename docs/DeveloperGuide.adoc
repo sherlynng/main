@@ -518,7 +518,8 @@ We made input of fields case-insensitive to reduce user input error.
 
 After parsing and validation, the field entered is converted to <<proper-case, proper case>> internally, so tags generated from the field information will be standardized and more readable for the user.
 
-The exceptions are `Price` and `Phone` as they consist only of numbers and require no conversion. `Email` is converted to all lower-case to follow the convention.
+The exceptions are `Price` and `Phone` as they consist only of numbers and require no conversion.
+`Email` and `Name` are kept in the same case in which they were entered.
 
 ==== Model Implementation
 We utilise the `ProperCaseConverter` object to convert all parsed and valid input into proper case.
@@ -533,8 +534,8 @@ The other classes utilise the `ProperCaseConverter` object in a similar way.
 
 [NOTE]
 The user can input shortcuts in case-insensitive fashion.
-For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com a/NUS #04-02 $/50 sub/PHy lvl/uP stat/nM t/T`
-, the stored entry will be `John Doe Phone: 98765432 Email: johnd@example.com Address: NUS #04-02 Tags: [Tutor][Upper Pri][50][Physics][Not Matched]`
+For instance, the user may input `add n/John al Doe p/98765432 e/johND@eXaMpLe.com a/NUS #04-02 $/50 sub/PHy lvl/uP stat/nM t/T`
+, the stored entry will be `John al Doe Phone: 98765432 Email: johND@eXaMpLe.com Address: NUS #04-02 Tags: [Tutor][Upper Pri][50][Physics][Not Matched]`
 
 // end::caseinsensitiveinput[]
 
