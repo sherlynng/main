@@ -488,6 +488,14 @@ Creates a remark for the person identified by the index number used in the *last
 * You can edit a remark by typing `edit` after indicating the index you want to edit.
 ****
 
+[NOTE]
+====
+The new remark created will not be shown automatically. You will have to select the person again to
+'refresh' the page.
+
+Auto-refreshing of person details will be done is V2.0.
+====
+
 Format: `*remark* INDEX r/REMARK` or `*remark* INDEX edit`
 
 Examples:
@@ -539,6 +547,14 @@ and the person's average ratings will be displayed. Number of people who rated t
 Rating value is rounded off to nearest 1 decimal place.
 ====
 ****
+
+[NOTE]
+====
+The new rating created will not be shown automatically. You will have to select the person again to
+'refresh' the page.
+
+Auto-refreshing of person details will be done is V2.0.
+====
 
 Format: `*rate* INDEX r/RATE`
 
