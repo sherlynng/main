@@ -88,7 +88,6 @@ public class RateCommandTest {
                 .withRate(Double.toString(accumulatedRate.getDisplayedValue()),
                         Integer.toString(accumulatedRate.getCount())).build();
 
-        //rate.setCount(Integer.parseInt(RATECOUNT_AMY));
         RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);
         rateCommand.preprocessUndoableCommand();
         String expectedMessage = String.format(MESSAGE_RATE_PERSON_SUCCESS,

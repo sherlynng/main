@@ -11,17 +11,6 @@ import java.text.DecimalFormat;
  */
 public class Rate {
 
-    /* Regex notation
-    ^                   # Start of string
-    (?:                 # Either match...
-    5(?:\.0)?           # 5.0 (or 5)
-    |                   # or
-    [0-4](?:\.[0-9])?   # 0.0-4.9 (or 1-4)
-    |                   # or
-    0?\.[1-9]           # 0.1-0.9 (or .1-.9)
-    )                   # End of alternation
-    $                   # End of string
-     */
     public static final String RATE_VALIDATION_REGEX = "^(?:5(?:\\.0)?|[0-4](?:\\.[0-9])?|0?\\.[0-9])$";
     public static final String RATE_VALIDATION_REGEX_ABSOLUTE = "^(?:5(?:\\.0)?|[0-4](?:\\.[0-9])?|0?\\.[0-9])" + "-";
     public static final String MESSAGE_RATE_CONSTRAINTS =
@@ -82,7 +71,7 @@ public class Rate {
     }
 
     /**
-     * Gets displayed rate value, rounded off to nearest 1 deciimal place.
+     * Gets displayed rate value, rounded off to nearest 1 decimal place.
      * @return {@code double} rate value to 1 decimal place
      */
     public double getDisplayedValue() {
