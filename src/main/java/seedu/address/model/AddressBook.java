@@ -219,7 +219,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         if (pairs.remove(key)) {
             PairHash pairHash = key.getPairHash();
             for (Person person : persons) {
-                if (person.getPairHashes().contains(pairHash)) {
+                if (person.containsPairHash(pairHash)) {
                     removePairHash(person, pairHash);
                 }
             }
@@ -239,7 +239,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person editedPerson;
         Set<PairHash> pairHashSet = new HashSet<PairHash>();
         pairHashSet.addAll(person.getPairHashes());
-        pairHashSet.add(pairHash);
+        if (!pairHashSet.contains(pairHash)) {
+            pairHashSet.add(pairHash);
+        }
 
         //update status to Matched if the person's original pairHash List is empty
         Set<Tag> attributeTags = new HashSet<Tag>();
@@ -273,7 +275,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person editedPerson;
         Set<PairHash> pairHashSet = new HashSet<PairHash>();
         pairHashSet.addAll(person.getPairHashes());
-        pairHashSet.remove(pairHash);
+        if (pairHashSet.contains(pairHash)) {
+            pairHashSet.remove(pairHash);
+        }
 
         Set<Tag> attributeTags = new HashSet<Tag>();
         attributeTags.add(new Tag(person.getRole().value, Tag.AllTagTypes.ROLE));

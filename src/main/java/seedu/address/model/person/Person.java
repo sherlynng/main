@@ -171,4 +171,7 @@ public class Person {
         return (getStatus().value.equals("Matched"));
     }
 
+    public boolean containsPairHash(PairHash pairHash) {
+        return (pairHashes.contains(pairHash));
+    }
 }
