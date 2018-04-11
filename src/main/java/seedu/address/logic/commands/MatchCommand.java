@@ -28,9 +28,7 @@ public class MatchCommand extends UndoableCommand {
     public static final String MESSAGE_MISMATCH_WRONG_ROLE = "Please provide indices of one student and one tutor.";
     public static final String MESSAGE_MISMATCH_WRONG_SUBJECT = "Not the same subject. ";
     public static final String MESSAGE_MISMATCH_WRONG_LEVEL = "Not the same level. ";
-    public static final String MESSAGE_MISMATCH_WRONG_PRICE = "Not the same price. ";
-    public static final String MESSAGE_MISMATCH_WRONG_STATUS = "Please provide indices of unmatched student and "
-            + "unmatched tutor.";
+    public static final String MESSAGE_MISMATCH_WRONG_PRICE = "Tutor charges higher price.";
     public static final String MESSAGE_MISMATCH_ALREADY_MATCHED = "The two persons are already matched.";
 
     private final Index indexA;
@@ -73,6 +71,14 @@ public class MatchCommand extends UndoableCommand {
         if (student.getRole().equals(tutor.getRole())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_ROLE));
         }
+
+        //standardize input order : person A is student, person B is tutor
+        if (!student.getRole().value.equals("Student")) {
+            Person temp = student;
+            student = tutor;
+            tutor = temp;
+        }
+
         if (!student.getSubject().equals(tutor.getSubject())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_SUBJECT));
         }
@@ -80,14 +86,8 @@ public class MatchCommand extends UndoableCommand {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_LEVEL));
         }
 
-        if (!student.getPrice().equals(tutor.getPrice())) {
+        if (Integer.parseInt(student.getPrice().value) < Integer.parseInt(tutor.getPrice().value)) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_PRICE));
-        }
-        //standardize input order : person A is student, person B is tutor
-        if (!student.getRole().value.equals("Student")) {
-            Person temp = student;
-            student = tutor;
-            tutor = temp;
         }
 
     }
