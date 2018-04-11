@@ -1,7 +1,6 @@
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.text.DecimalFormat;
 
@@ -12,17 +11,6 @@ import java.text.DecimalFormat;
  */
 public class Rate {
 
-    /* Regex notation
-    ^                   # Start of string
-    (?:                 # Either match...
-    5(?:\.0)?           # 5.0 (or 5)
-    |                   # or
-    [0-4](?:\.[0-9])?   # 0.0-4.9 (or 1-4)
-    |                   # or
-    0?\.[1-9]           # 0.1-0.9 (or .1-.9)
-    )                   # End of alternation
-    $                   # End of string
-     */
     public static final String RATE_VALIDATION_REGEX = "^(?:5(?:\\.0)?|[0-4](?:\\.[0-9])?|0?\\.[0-9])$";
     public static final String RATE_VALIDATION_REGEX_ABSOLUTE = "^(?:5(?:\\.0)?|[0-4](?:\\.[0-9])?|0?\\.[0-9])" + "-";
     public static final String MESSAGE_RATE_CONSTRAINTS =
@@ -39,7 +27,6 @@ public class Rate {
      */
     public Rate (double rating, boolean isAbsolute) {
         requireNonNull(rating);
-        checkArgument(isValidRate(Double.toString(rating)), MESSAGE_RATE_CONSTRAINTS);
 
         this.value = rating;
         this.isAbsolute = isAbsolute;
@@ -49,27 +36,23 @@ public class Rate {
      * Creates a default rating.
      * @return {@code Rate} with default value of 3.0 and count 1.
      */
-    public static Rate getDefaultRate() {
-        Rate defaultRate = new Rate(3, true);
-        defaultRate.setCount(1);
+    public static Rate initializeRate() {
+        Rate defaultRate = new Rate(0, true);
+        defaultRate.setCount(0);
 
         return defaultRate;
     }
 
     /**
-     * Calculates the accumulated value of a person's rating
+     * Accumulates a person's rating value
      * @param oldRate
      * @param newRate
      * @return {@code Rate} that contains updated value and count
      */
     public static Rate accumulatedValue (Rate oldRate, Rate newRate) {
-        double value;
         double newValue;
 
-        value = oldRate.getValue() * oldRate.getCount();
-        newValue = (value + newRate.getValue()) / (oldRate.getCount() + 1);
-        newValue = Math.floor(newValue * 10) / 10;
-
+        newValue = oldRate.getValue() + newRate.getValue();
         newRate = new Rate(newValue, true);
         newRate.setCount(oldRate.getCount() + 1);
 
@@ -80,11 +63,24 @@ public class Rate {
      * Returns true if a given string is a valid person rate.
      */
     public static boolean isValidRate(String test) {
-        return test.equals("") || test.matches(RATE_VALIDATION_REGEX) || test.matches(RATE_VALIDATION_REGEX_ABSOLUTE);
+        return test.matches(RATE_VALIDATION_REGEX) || test.matches(RATE_VALIDATION_REGEX_ABSOLUTE);
     }
 
     public double getValue() {
         return this.value;
+    }
+
+    /**
+     * Gets displayed rate value, rounded off to nearest 1 decimal place.
+     * @return {@code double} rate value to 1 decimal place
+     */
+    public double getDisplayedValue() {
+        double displayedValue = 0;
+
+        if (count != 0) {
+            displayedValue = (double) Math.round(((value / count) * 10)) / 10;
+        }
+        return displayedValue;
     }
 
     public int getCount() {

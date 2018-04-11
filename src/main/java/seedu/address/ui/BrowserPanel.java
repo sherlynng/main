@@ -83,7 +83,12 @@ public class BrowserPanel extends UiPart<Region> {
         price.setText("$" + person.getPrice().value + " / hr");
         role.setText(person.getRole().value);
         remark.setText(person.getRemark().value);
-        rating.setText(Double.toString(person.getRate().getValue()));
+
+        if (person.getRate().getCount() == 0) {
+            rating.setText("-");
+        } else {
+            rating.setText(Double.toString(person.getRate().getDisplayedValue()));
+        }
         rateCount.setText(Integer.toString(person.getRate().getCount()));
     }
 

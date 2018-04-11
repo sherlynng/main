@@ -78,8 +78,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             tagList = AttributeTagSetter.addNewAttributeTags(tagList, price, subject, level, status, role);
 
             Remark remark = new Remark("");  // default remark is empty string for newly added Person
-            Rate rate = new Rate(3, true); // default rating is 3
-            rate.setCount(1); // default rate count is 1
+            Rate rate = Rate.initializeRate(); // default rate has 0 people rating the person
 
             Person person = new Person(name, phone, email, address, price, subject, level,
                                        status, role, tagList, remark, rate, pairHashList);
