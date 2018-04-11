@@ -82,7 +82,6 @@ include::../UserGuide.adoc[tag=commandsummary]
 
 include::../UserGuide.adoc[tag=prefixshortcut]
 
-include::../UserGuide.adoc[tag=faq]
 
 == Contributions to the Developer Guide
 
