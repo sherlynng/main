@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,6 +24,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.Assert;
@@ -268,15 +270,40 @@ public class ParserUtilTest {
         assertEquals(Optional.of(expectedRemark), ParserUtil.parseRemark(Optional.of(remarkWithWhitespace)));
     }
 
+    //@@author aussiroth
+    @Test
+    public void parseRate_validValue_returnsRate() throws Exception {
+        Rate expectedRate = new Rate(4.0, false);
+        Rate result = ParserUtil.parseRate("4.0");
+        assertEquals(expectedRate, result);
+        expectedRate = new Rate(5.0, true);
+        result = ParserUtil.parseRate("5.0-");
+        assertEquals(expectedRate, result);
+    }
+
+    @Test
+    public void parseRate_invalidValue_throwsIllegalValueException() throws Exception {
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate(""));
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate("a.b"));
+    }
+
     @Test
     public void parsePairHash_validValue_returnsPairHash() throws Exception {
-        String pairHash = "1234123412";
-        PairHash expectedPairHash = new PairHash("1234123412");
+        String pairHash = "123412341";
+        PairHash expectedPairHash = new PairHash("123412341");
         assertEquals(expectedPairHash, ParserUtil.parsePairHash(pairHash));
     }
 
     @Test
     public void parsePairHash_invalidValue_throwsIllegalValueException() {
         Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parsePairHash("abcdefgh"));
+    }
+
+    @Test
+    public void parsePairHashes_invalidValues_throwsIllegalValueException() throws Exception {
+        ArrayList<String> pairHashes = new ArrayList<>();
+        pairHashes.add("1234");
+        pairHashes.add("abcd");
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parsePairHashes(pairHashes));
     }
 }
