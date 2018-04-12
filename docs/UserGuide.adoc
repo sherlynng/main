@@ -213,6 +213,10 @@ Returns persons with `Math` subject
 * `*filter* Student` +
 Returns persons with `Student` role
 
+Upcoming improvement [Coming in V2.0] +
+`*filter* multiple KEYWORD` +
+The proposed improvement of filter command will return you persons who matches all the KEYWORD specified
+
 // end::filter[]
 
 ==== Locating persons by name: `*find*` or `*f*`
@@ -591,6 +595,9 @@ Shows statistical information such as role distribution(Student/Tutor ratio) in 
 
 Format: `*viewStats*`
 
+Upcoming improvement [Coming in V2.0] +
+The proposed improvement of viewStats will provide user with more data such as people with different status and more.
+
 // end::viewstats[]
 
 ==== Exiting the program : `*exit*`
@@ -645,6 +652,7 @@ Note that there is no shortcuts for `help` and `exit` commands.
 |`remark`|`rk`|`remark INDEX r/`|`remark 2 r/Fast learner.`
 |`rate`|`rt`|`rate INDEX r/`|`rate INDEX r/3.5`
 |`list`|`l`||
+|`viewStats`|||
 |`clear`|`c`||
 |`history`|`h`||
 |`undo`|`u`||

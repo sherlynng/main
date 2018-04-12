@@ -871,7 +871,11 @@ image::CompleteChartSnap.png[width="500"]
 
 Whenever `viewStats` command is executed, a ShowChartEvent will be generated and posted to the EventCenter.
 Subsequently, the handleShowChartEvent from ChartPanel will be notified as it is subscribed to the EventCenter.
-ChartPanel will then generate the graph from the ObservableList<Person> and it will be displayed on the UI.
+ChartPanel will then generate the graph from the ObservableList and it will be displayed on the UI.
+
+[NOTE]
+Whenever any command which alters the information of people in the app is executed, execute the `viewStats` command to get the latest update.
+Why does this work? Executing the `viewStats` command will generate new graphs obtained from the updated ObservableList.
 
 ==== Design Considerations
 
@@ -883,6 +887,15 @@ ChartPanel will then generate the graph from the ObservableList<Person> and it w
 * **Alternative 2:** Open a new window to show graph.
 ** Pros: Can use the app and view the statistical data simultaneously.
 ** Cons: Create inconvenience as user need to take additional steps to close the window.
+
+===== Aspect: Displaying subjects data
+
+* **Alternative 1 (current choice):** Represent subjects taught by tutor and subjects student wants to learn in bar chart.
+** Pros: A subject with 0 tutor teaching or 0 student wanting to learn is well represented.
+** Cons: If the difference between 2 subjects is too large, it might be hard to read the number from y-axis.
+* **Alternative 2:** Represent subjects taught by tutor and subjects student wants to learn in pie chart.
+** Pros: Even if the difference between 2 subject is large, data will still be easy to read.
+** Cons: When there are multiple subjects with 0 tutor teaching or 0 student wanting to learn, the label of the subjects might overlap and it is hard to resolve.
 // end::viewstats[]
 
 // tag::matchunmatch[]
