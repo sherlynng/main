@@ -857,14 +857,21 @@ image::RateCommandSequenceDiagram1.png[width="550"]
 // tag::viewstats[]
 
 === View Stats Command
-==== Current Implementation
-The intention behind creating this command is to consolidate statistical data about the people in the app.
+As a tutor coordinator, it is important to have data of the people in the app at your fingertip.
+This can be achieved by the `viewStats` command as consolidate statistical data regarding the people in the app.
 With these data, user will be able to foresee issues such as insufficient tutor for a particular subject with ease.
 Without this command, user will have to do manual consolidation which is inefficient. +
 Currently, the statistical data are presented in the form of pie chart which improves readability. A snapshot showing
 the role distribution between students and tutors is shown below.
 
+.Snapshot of `viewStats`
 image::CompleteChartSnap.png[width="500"]
+
+==== Current Implementation
+
+Whenever `viewStats` command is executed, a ShowChartEvent will be generated and posted to the EventCenter.
+Subsequently, the handleShowChartEvent from ChartPanel will be notified as it is subscribed to the EventCenter.
+ChartPanel will then generate the graph from the ObservableList<Person> and it will be displayed on the UI.
 
 ==== Design Considerations
 
