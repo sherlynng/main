@@ -253,7 +253,6 @@ public class AddressBook implements ReadOnlyAddressBook {
                     person.getEmail(), person.getAddress(), person.getPrice(),
                     person.getSubject(), person.getLevel(), new Status("Matched"),
                     person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairHashSet);
-
         try {
             updatePerson(person, editedPerson);
         } catch (DuplicatePersonException e) {
