@@ -45,7 +45,12 @@ public class EditPersonDescriptorBuilder {
         descriptor.setRole(person.getRole());
         HashSet<Tag> correctTags = new HashSet<>();
         for (Tag tag : person.getTags()) {
-            if (tag.tagType == Tag.AllTagTypes.DEFAULT) {
+            if (tag.tagType == Tag.AllTagTypes.ROLE
+                    || tag.tagType == Tag.AllTagTypes.SUBJECT
+                    || tag.tagType == Tag.AllTagTypes.LEVEL
+                    || tag.tagType == Tag.AllTagTypes.STATUS
+                    || tag.tagType == Tag.AllTagTypes.PRICE
+                    || tag.tagType == Tag.AllTagTypes.DEFAULT) {
                 correctTags.add(tag);
             }
         }

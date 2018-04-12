@@ -9,7 +9,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -39,7 +38,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                        PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_STATUS, PREFIX_ROLE, PREFIX_TAG);
+                        PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_ROLE, PREFIX_TAG);
 
         Index index;
 
@@ -58,9 +57,7 @@ public class EditCommandParser implements Parser<EditCommand> {
             ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE)).ifPresent(editPersonDescriptor::setPrice);
             ParserUtil.parseSubject(argMultimap.getValue(PREFIX_SUBJECT)).ifPresent(editPersonDescriptor::setSubject);
             ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).ifPresent(editPersonDescriptor::setLevel);
-            ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).ifPresent(editPersonDescriptor::setStatus);
             ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).ifPresent(editPersonDescriptor::setRole);
-
             parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);

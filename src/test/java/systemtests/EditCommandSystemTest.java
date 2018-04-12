@@ -23,8 +23,6 @@ import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.ROLE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.ROLE_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.STATUS_DESC_UNMATCHED;
-import static seedu.address.logic.commands.CommandTestUtil.STATUS_UNMATCHED;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
@@ -40,6 +38,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_NINTH_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 import static seedu.address.testutil.TypicalPersons.AMY;
 import static seedu.address.testutil.TypicalPersons.BOB;
 import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
@@ -60,6 +60,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
 import seedu.address.model.person.Subject;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonMatchedCannotEditException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PersonBuilder;
@@ -77,13 +78,13 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
          Case: edit all fields, command with leading spaces, trailing spaces and multiple spaces between each field
          * -> edited
          */
-        Index index = INDEX_FIRST_PERSON;
+        Index index = INDEX_NINTH_PERSON;
         String command = " " + EditCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_BOB + "  "
                 + PHONE_DESC_BOB + " " + EMAIL_DESC_BOB + "  " + ADDRESS_DESC_BOB + " " + PRICE_DESC_BOB
-                + " " + SUBJECT_DESC_BOB + " " + LEVEL_DESC_BOB + " " + STATUS_DESC_UNMATCHED + TAG_DESC_FRIEND + " ";
+                + " " + SUBJECT_DESC_BOB + " " + LEVEL_DESC_BOB + " " + ROLE_DESC_BOB + TAG_DESC_FRIEND + " ";
         Person editedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPrice(VALID_PRICE_BOB)
-                .withSubject(VALID_SUBJECT_BOB).withLevel(VALID_LEVEL_BOB).withStatus(STATUS_UNMATCHED)
+                .withSubject(VALID_SUBJECT_BOB).withLevel(VALID_LEVEL_BOB)
                 .withTags(VALID_TAG_FRIEND).withRole(VALID_ROLE_BOB).build();
         assertCommandSuccess(command, index, editedPerson);
 
@@ -96,24 +97,24 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         command = RedoCommand.COMMAND_WORD;
         expectedResultMessage = RedoCommand.MESSAGE_SUCCESS;
         model.updatePerson(
-                getModel().getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), editedPerson);
+                getModel().getFilteredPersonList().get(INDEX_NINTH_PERSON.getZeroBased()), editedPerson);
         assertCommandSuccess(command, model, expectedResultMessage);
 
         /* Case: edit a person with new values same as existing values -> edited */
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED + SUBJECT_DESC_BOB
+                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB + SUBJECT_DESC_BOB
                 + ROLE_DESC_BOB + TAG_DESC_FRIEND;
         assertCommandSuccess(command, index, BOB);
 
         /* Case: edit some fields -> edited */
-        index = INDEX_FIRST_PERSON;
+        index = INDEX_NINTH_PERSON;
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND;
         Person personToEdit = getModel().getFilteredPersonList().get(index.getZeroBased());
         editedPerson = new PersonBuilder(personToEdit).withTags(VALID_TAG_FRIEND).build();
         assertCommandSuccess(command, index, editedPerson);
 
         /* Case: clear tags -> cleared */
-        index = INDEX_FIRST_PERSON;
+        index = INDEX_NINTH_PERSON;
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + " " + PREFIX_TAG.getPrefix();
         editedPerson = new PersonBuilder(personToEdit).withTags().build();
         assertCommandSuccess(command, index, editedPerson);
@@ -122,7 +123,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: filtered person list, edit index within bounds of address book and person list -> edited */
         showPersonsWithName(KEYWORD_MATCHING_MEIER);
-        index = INDEX_FIRST_PERSON;
+        index = INDEX_THIRD_PERSON;
         assertTrue(index.getZeroBased() < getModel().getFilteredPersonList().size());
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + " " + NAME_DESC_BOB;
         personToEdit = getModel().getFilteredPersonList().get(index.getZeroBased());
@@ -143,17 +144,12 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
          * browser url changes
          */
         showAllPersons();
-        index = INDEX_FIRST_PERSON;
+        index = INDEX_NINTH_PERSON;
         selectPerson(index);
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
-                + ADDRESS_DESC_AMY + PRICE_DESC_AMY + SUBJECT_DESC_AMY + LEVEL_DESC_AMY + STATUS_DESC_UNMATCHED
-                + ROLE_DESC_AMY
-
-
-
-                + TAG_DESC_FRIEND;
-        // this
-        // can be misleading: card selection actually remains unchanged but the
+                + ADDRESS_DESC_AMY + PRICE_DESC_AMY + SUBJECT_DESC_AMY + LEVEL_DESC_AMY
+                + ROLE_DESC_AMY + TAG_DESC_FRIEND;
+        // thiscan be misleading: card selection actually remains unchanged but the
         // browser's url is updated to reflect the new person's name
         assertCommandSuccess(command, index, AMY, index);
 
@@ -219,16 +215,16 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         /* Case: edit a person with new values same as another person's values -> rejected */
         executeCommand(PersonUtil.getAddCommand(BOB));
         assertTrue(getModel().getAddressBook().getPersonList().contains(BOB));
-        index = INDEX_FIRST_PERSON;
+        index = INDEX_NINTH_PERSON;
         assertFalse(getModel().getFilteredPersonList().get(index.getZeroBased()).equals(BOB));
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED + SUBJECT_DESC_BOB
+                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB + SUBJECT_DESC_BOB
                 + ROLE_DESC_BOB + TAG_DESC_FRIEND;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
 
         /* Case: edit a person with new values same as another person's values but with different tags -> rejected */
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED + SUBJECT_DESC_BOB
+                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB  + SUBJECT_DESC_BOB
                 + ROLE_DESC_BOB;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
         //@@author
@@ -262,6 +258,8 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         } catch (DuplicatePersonException | PersonNotFoundException e) {
             throw new IllegalArgumentException(
                     "editedPerson is a duplicate in expectedModel, or it isn't found in the model.");
+        } catch (PersonMatchedCannotEditException e) {
+            throw new AssertionError("Editing should not be rejected even if person is matched.");
         }
 
         assertCommandSuccess(command, expectedModel,
