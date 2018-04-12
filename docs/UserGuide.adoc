@@ -213,6 +213,10 @@ Returns persons with `Math` subject
 * `*filter* Student` +
 Returns persons with `Student` role
 
+Upcoming improvement [Coming in V2.0]
+* `*filter* multiple KEYWORD` +
+The improved version of filter command will return you persons who matches all the KEYWORD specified
+
 // end::filter[]
 
 ==== Locating persons by name: `*find*` or `*f*`
