@@ -213,6 +213,10 @@ Returns persons with `Math` subject
 * `*filter* Student` +
 Returns persons with `Student` role
 
+Upcoming improvement [Coming in V2.0] +
+`*filter* multiple KEYWORD` +
+The proposed improvement of filter command will return you persons who matches all the KEYWORD specified
+
 // end::filter[]
 
 ==== Locating persons by name: `*find*` or `*f*`
@@ -590,6 +594,9 @@ Shows statistical information such as role distribution(Student/Tutor ratio) in 
 ****
 
 Format: `*viewStats*`
+
+Upcoming improvement [Coming in V2.0] +
+The proposed improvement of viewStats will provide user with more data such as people with different status and more.
 
 // end::viewstats[]
 
