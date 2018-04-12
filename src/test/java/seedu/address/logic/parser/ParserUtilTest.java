@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -265,5 +266,17 @@ public class ParserUtilTest {
         Remark expectedRemark = new Remark(VALID_REMARK);
         assertEquals(expectedRemark, ParserUtil.parseRemark(remarkWithWhitespace));
         assertEquals(Optional.of(expectedRemark), ParserUtil.parseRemark(Optional.of(remarkWithWhitespace)));
+    }
+
+    @Test
+    public void parsePairHash_validValue_returnsPairHash() throws Exception {
+        String pairHash = "1234123412";
+        PairHash expectedPairHash = new PairHash("1234123412");
+        assertEquals(expectedPairHash, ParserUtil.parsePairHash(pairHash));
+    }
+
+    @Test
+    public void parsePairHash_invalidValue_throwsIllegalValueException() {
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parsePairHash("abcdefgh"));
     }
 }
