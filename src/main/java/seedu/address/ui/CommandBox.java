@@ -98,8 +98,8 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
-     * Sets {@code CommandBox}'s text field with input format and
-     * if next field is present, it positions the caret to the next field.
+     * Sets {@code CommandBox}'s text field with command format and
+     * if next field is present, caret is positioned to the next field.
      */
     private void autofillCommand() {
         String input = commandTextField.getText();
@@ -187,8 +187,8 @@ public class CommandBox extends UiPart<Region> {
         }
 
         if (isFirstTime) {
-            if (commandTextField.getText().length() >= 5
-                && commandTextField.getText().substring(0, 5).equals("match")) { // match command
+            if (commandTextField.getText().length() >= MatchCommand.COMMAND_WORD.length()
+                && commandTextField.getText().substring(0, 5).equals(MatchCommand.COMMAND_WORD)) { // match command
                 isMatchCommand = true;
             } else { // all other commands that have different behavior between first and other tabs
                 isFindNextField = true;
@@ -198,7 +198,7 @@ public class CommandBox extends UiPart<Region> {
 
     /**
      * Deletes the previous prefix from current caret position and
-     * if next field is present, it positions the caret to the next field.
+     * if next field is present, caret is positioned to the next field.
      */
     private void deletePreviousPrefix() {
         String text = commandTextField.getText();
@@ -213,7 +213,7 @@ public class CommandBox extends UiPart<Region> {
 
     /**
      * Finds the next input field from current caret position and
-     * if next field is present, it positions the caret to the next field.
+     * if next field is present, caret is positioned to the next field.
      */
     private int findNextField() {
         String text = commandTextField.getText();
@@ -224,8 +224,7 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
-     * Positions the caret to index position
-     * and selects the index to be edited.
+     * Positions the caret to index position and selects the index to be edited.
      */
     private void selectIndexToEdit() {
         String text = commandTextField.getText();
@@ -272,7 +271,6 @@ public class CommandBox extends UiPart<Region> {
 
         replaceText(historySnapshot.next());
     }
-
     /**
      * Sets {@code CommandBox}'s text field with {@code text} and
      * positions the caret to the end of the {@code text}.

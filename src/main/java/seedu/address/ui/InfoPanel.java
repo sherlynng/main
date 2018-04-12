@@ -23,13 +23,13 @@ public class InfoPanel extends UiPart<Region> {
 
     private final Logger logger = LogsCenter.getLogger(this.getClass());
 
-    private BrowserPanel browserPanel;
+    private DetailsPanel detailsPanel;
     private ChartsPanel pieChart;
 
     @FXML
     private StackPane infoPlaceHolder;
     @FXML
-    private StackPane browserPlaceholder;
+    private StackPane detailsPlaceholder;
     @FXML
     private StackPane chartPlaceholder;
 
@@ -38,7 +38,7 @@ public class InfoPanel extends UiPart<Region> {
 
         fillInnerParts(personList);
 
-        browserPlaceholder.toFront();
+        detailsPlaceholder.toFront();
         registerAsAnEventHandler(this);
     }
 
@@ -46,8 +46,8 @@ public class InfoPanel extends UiPart<Region> {
      * Helper method to fill UI placeholders
      */
     public void fillInnerParts(ObservableList<Person> personList) {
-        browserPanel = new BrowserPanel();
-        browserPlaceholder.getChildren().add(browserPanel.getRoot());
+        detailsPanel = new DetailsPanel();
+        detailsPlaceholder.getChildren().add(detailsPanel.getRoot());
 
         pieChart = new ChartsPanel(personList);
         chartPlaceholder.getChildren().add(pieChart.getRoot());
@@ -56,9 +56,9 @@ public class InfoPanel extends UiPart<Region> {
     @Subscribe
     private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        browserPanel.loadPersonDetails(event.getNewSelection().person);
+        detailsPanel.loadPersonDetails(event.getNewSelection().person);
 
-        browserPlaceholder.toFront();
+        detailsPlaceholder.toFront();
     }
 
     @Subscribe
