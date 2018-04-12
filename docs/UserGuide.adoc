@@ -652,6 +652,7 @@ Note that there is no shortcuts for `help` and `exit` commands.
 |`remark`|`rk`|`remark INDEX r/`|`remark 2 r/Fast learner.`
 |`rate`|`rt`|`rate INDEX r/`|`rate INDEX r/3.5`
 |`list`|`l`||
+|`viewStats`|||
 |`clear`|`c`||
 |`history`|`h`||
 |`undo`|`u`||
