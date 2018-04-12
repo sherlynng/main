@@ -33,7 +33,7 @@ import seedu.address.model.tag.Tag;
 
 //@@author sherlynng
 /**
- * Adds a remark to person to the address book.
+ * Adds a remark to person in STutor.
  */
 public class RemarkCommand extends UndoableCommand {
 
@@ -48,7 +48,7 @@ public class RemarkCommand extends UndoableCommand {
 
     public static final String MESSAGE_REMARK_PERSON_SUCCESS = "Added Remark to %1$s: " + "%2$s";
     public static final String MESSAGE_EDIT_REMARK_SUCCESS = "Editing Remark of %1$s...";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in STUtor.";
 
     private final Index targetIndex;
     private Remark newRemark;
@@ -105,8 +105,9 @@ public class RemarkCommand extends UndoableCommand {
         personToEdit = lastShownList.get(targetIndex.getZeroBased());
 
         if (isEditRemark) {
-            EventsCenter.getInstance().post(new EditRemarkEvent(COMMAND_WORD + " "
-                    + targetIndex.getOneBased() + " " + PREFIX_REMARK + personToEdit.getRemark().toString()));
+            String formattedRemark = COMMAND_WORD + " " + targetIndex.getOneBased() + " " + PREFIX_REMARK
+                                     + personToEdit.getRemark().toString();
+            EventsCenter.getInstance().post(new EditRemarkEvent(formattedRemark));
         } else {
             editedPerson = createPersonWithNewRemark(personToEdit, newRemark);
         }
