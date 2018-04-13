@@ -21,6 +21,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.pair.Pair;
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Person;
 
 public class UnmatchCommandTest {
@@ -36,6 +37,7 @@ public class UnmatchCommandTest {
         Person newBenson = model.getFilteredPersonList().get(1);
         newAlice.addPairHash(pairToDelete.getPairHash());
         newBenson.addPairHash(pairToDelete.getPairHash());
+        newBenson.addPairHash(new PairHash(1234)); //ensure benson status stays matched after unmatch
         model.updatePerson(newAlice, alice);
         model.updatePerson(newBenson, benson);
 
