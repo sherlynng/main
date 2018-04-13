@@ -278,6 +278,7 @@ public class ParserUtilTest extends ParserUtil {
 
     @Test
     public void parseRate_invalidValue_throwsIllegalValueException() {
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate(""));
         Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate(INVALID_RATE));
         Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate(Optional.of(INVALID_RATE)));
     }
