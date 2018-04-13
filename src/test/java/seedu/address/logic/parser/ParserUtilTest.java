@@ -269,7 +269,7 @@ public class ParserUtilTest extends ParserUtil {
         assertEquals(expectedRemark, ParserUtil.parseRemark(remarkWithWhitespace));
         assertEquals(Optional.of(expectedRemark), ParserUtil.parseRemark(Optional.of(remarkWithWhitespace)));
     }
-    
+
     @Test
     public void parseRate_null_throwsNullPointerException() {
         Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseRate((String) null));

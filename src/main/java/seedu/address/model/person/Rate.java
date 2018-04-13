@@ -70,8 +70,8 @@ public class Rate {
     }
 
     /**
-     * Gets displayed rate value, rounded off to nearest 1 decimal place.
-     * @return {@code double} rate value to nearest 1 decimal place.
+     * Gets rate value to be displayed.
+     * @return {@code double} rate value rounded off to nearest 1 decimal place.
      */
     public double getDisplayedValue() {
         double displayedValue = 0;
