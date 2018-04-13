@@ -11,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import seedu.address.model.pair.UniquePairHashList;
 import seedu.address.model.pair.UniquePairList;
 import seedu.address.model.pair.exceptions.DuplicatePairException;
 import seedu.address.model.pair.exceptions.PairNotFoundException;
@@ -105,5 +106,7 @@ public class UniquePairListTest {
         UniquePairList uniquePairList = new UniquePairList();
         uniquePairList.add(RANDOM_PAIR_B);
         assertThrows(PairNotFoundException.class, () -> uniquePairList.setPair(RANDOM_PAIR_A, RANDOM_PAIR_B));
+        uniquePairList.add(RANDOM_PAIR_A);
+        assertThrows(DuplicatePairException.class, () -> uniquePairList.setPair(RANDOM_PAIR_A, RANDOM_PAIR_B));
     }
 }
