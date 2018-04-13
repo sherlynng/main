@@ -84,4 +84,13 @@ public class UniquePairListTest {
         UniquePairList uniquePairList = new UniquePairList();
         assertThrows(PairNotFoundException.class, () -> uniquePairList.remove(RANDOM_PAIR_A));
     }
+
+    @Test
+    public void hashCodeMethod() throws Exception {
+        UniquePairList uniquePairListA = new UniquePairList();
+        UniquePairList uniquePairListB = new UniquePairList();
+        uniquePairListA.add(RANDOM_PAIR_A);
+        uniquePairListB.add(RANDOM_PAIR_A);
+        assertTrue(uniquePairListA.hashCode() == uniquePairListB.hashCode());
+    }
 }
