@@ -123,6 +123,10 @@ public class Person {
         return Collections.unmodifiableSet(pairHashes.toSet());
     }
 
+    public void addPairHash(PairHash pairHash) throws UniquePairHashList.DuplicatePairHashException {
+        pairHashes.add(pairHash);
+    }
+
 
     @Override
     public boolean equals(Object other) {
