@@ -213,6 +213,10 @@ Returns persons with `Math` subject
 * `*filter* Student` +
 Returns persons with `Student` role
 
+Upcoming improvement [Coming in V2.0] +
+`*filter* multiple KEYWORD` +
+The proposed improvement of filter command will return you persons who matches all the KEYWORD specified
+
 // end::filter[]
 
 ==== Locating persons by name: `*find*` or `*f*`
@@ -488,6 +492,14 @@ Creates a remark for the person identified by the index number used in the *last
 * You can edit a remark by typing `edit` after indicating the index you want to edit.
 ****
 
+[NOTE]
+====
+The new remark created will not be shown automatically. You will have to select the person again to
+'refresh' the page.
+
+Auto-refreshing of person details will be done is V2.0.
+====
+
 Format: `*remark* INDEX r/REMARK` or `*remark* INDEX edit`
 
 Examples:
@@ -503,8 +515,6 @@ Removes the remark for the 1st person in the results of the `*find*` command.
 `*remark* 1 edit` +
 Edits the remark of the 1st person in STUtor.
 
-// end::remark[]
-
 [NOTE]
 ====
 You can press kbd:[Tab] key once after typing `*remark*` or `*rk*` and it will autofill the command.
@@ -513,6 +523,8 @@ You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillRemark.png[width="700"]
+
+// end::remark[]
 
 // tag::rate[]
 ==== Giving a rating to a person : `*rate*` or `*rt*` `[In V1.4]`
@@ -536,10 +548,17 @@ and the person's average ratings will be displayed. Number of people who rated t
 
 [NOTE]
 ====
-STUtor does not keept track of all ratings of each person, hence accumulated rating value may be off by 0.2.
-Rating values are also rounded down.
+Rating value is rounded off to nearest 1 decimal place.
 ====
 ****
+
+[NOTE]
+====
+The new rating created will not be shown automatically. You will have to select the person again to
+'refresh' the page.
+
+Auto-refreshing of person details will be done is V2.0.
+====
 
 Format: `*rate* INDEX r/RATE`
 
@@ -552,8 +571,6 @@ Gives an absolute rating of 2.0 to the 2nd person in STUtor.
 `*rate* 1 r/4.2` +
 Gives an accumulated rating for the 1st person in the results of the `*find*` command.
 
-// end::rate[]
-
 [NOTE]
 ====
 You can press kbd:[Tab] key once after typing `*rate*` or `*rt*` and it will autofill the command.
@@ -562,6 +579,8 @@ You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillRate.png[width="700"]
+
+// end::rate[]
 
 // tag::viewstats[]
 
@@ -575,6 +594,9 @@ Shows statistical information such as role distribution(Student/Tutor ratio) in 
 ****
 
 Format: `*viewStats*`
+
+Upcoming improvement [Coming in V2.0] +
+The proposed improvement of viewStats will provide user with more data such as people with different status and more.
 
 // end::viewstats[]
 
@@ -630,6 +652,7 @@ Note that there is no shortcuts for `help` and `exit` commands.
 |`remark`|`rk`|`remark INDEX r/`|`remark 2 r/Fast learner.`
 |`rate`|`rt`|`rate INDEX r/`|`rate INDEX r/3.5`
 |`list`|`l`||
+|`viewStats`|||
 |`clear`|`c`||
 |`history`|`h`||
 |`undo`|`u`||

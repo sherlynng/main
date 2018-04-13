@@ -86,8 +86,6 @@ public class RemarkCommand extends UndoableCommand {
                 throw new AssertionError("The target person cannot be missing");
             }
             model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-            //PersonCard personCardChanged = new PersonCard(editedPerson, targetIndex.getOneBased());
-            //EventsCenter.getInstance().post(new PersonPanelSelectionChangedEvent(personCardChanged));
             return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,
                     editedPerson.getName(), editedPerson.getRemark()));
         } else {

@@ -220,9 +220,6 @@ public class XmlAdaptedPerson {
         if (this.rate == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Rate.class.getSimpleName()));
         }
-        if (!Rate.isValidRate(this.rate)) {
-            throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
-        }
         final Rate rate = new Rate(Double.parseDouble(this.rate), true);
         rate.setCount(Integer.parseInt(count));
 

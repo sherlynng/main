@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -17,15 +18,25 @@ public class RateTest {
     }
 
     @Test
-    public void checkRateAccumulatedValue() {
-        Rate oldRate = new Rate(2, true);
+    public void checkRateAccumulatedValue_success() {
+        Rate oldRate = new Rate(8, true);
         oldRate.setCount(2);
         Rate newRate = new Rate(3, true);
-        Rate expectedRate = new Rate(2.3, true);
+        Rate expectedRate = new Rate(11, true);
         expectedRate.setCount(3);
 
         Rate actualRate = Rate.accumulatedValue(oldRate, newRate);
         assertTrue(expectedRate.equals(actualRate));
+    }
+
+    @Test
+    public void getDisplayedValue_success() {
+        Rate rate = new Rate(13, true);
+        rate.setCount(4);
+        double expectedValue = 3.3;
+        double actualValue = rate.getDisplayedValue();
+
+        assertEquals(expectedValue, actualValue, 0.001);
     }
 
     @Test
