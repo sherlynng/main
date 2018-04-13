@@ -10,7 +10,6 @@ import org.junit.rules.ExpectedException;
 
 import seedu.address.model.pair.PairHash;
 import seedu.address.model.pair.UniquePairHashList;
-import seedu.address.model.pair.UniquePairList;
 
 //@@author alexawangzi
 public class UniquePairHashListTest {
@@ -42,6 +41,15 @@ public class UniquePairHashListTest {
         uniquePairHashList.add(new PairHash(1234));
         assertThrows(UniquePairHashList.DuplicatePairHashException.class, () ->
                 uniquePairHashList.add(new PairHash(1234)));
+    }
+
+    @Test
+    public void checkHashCodeMethod() throws Exception {
+        UniquePairHashList uniquePairHashListA = new UniquePairHashList();
+        UniquePairHashList uniquePairHashListB = new UniquePairHashList();
+        uniquePairHashListA.add(new PairHash(1234567));
+        uniquePairHashListB.add(new PairHash(1234567));
+        assertTrue(uniquePairHashListA.hashCode() == uniquePairHashListB.hashCode());
     }
 
 }

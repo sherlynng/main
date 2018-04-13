@@ -39,4 +39,13 @@ public class UniqueTagListTest {
         uniqueTagList.add(new Tag("Not Matched"));
         assertThrows(UniqueTagList.DuplicateTagException.class, () -> uniqueTagList.add(new Tag("Not Matched")));
     }
+
+    @Test
+    public void checkHashCodeMethod() throws Exception {
+        UniqueTagList uniqueTagListA = new UniqueTagList();
+        UniqueTagList uniqueTagListB = new UniqueTagList();
+        uniqueTagListA.add(new Tag("Not Matched"));
+        uniqueTagListB.add(new Tag("Not Matched"));
+        assertTrue(uniqueTagListA.hashCode() == uniqueTagListB.hashCode());
+    }
 }
