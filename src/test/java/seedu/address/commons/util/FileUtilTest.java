@@ -31,8 +31,10 @@ public class FileUtilTest extends FileUtil {
 
     @Test
     public void createFile() throws Exception {
-        FileUtil.createFile(new File("/src/test/data/sandbox/test.txt"));
-        assertFalse(FileUtil.createFile(new File("/src/test/data/sandbox/test.txt")));
+        FileUtil.createFile(new File("test.txt"));
+        assertFalse(FileUtil.createFile(new File("test.txt")));
+        //cleanup the file created for test
+        File file = new File("test.txt");
+        file.delete();
     }
-
 }
