@@ -22,7 +22,7 @@ public class RemarkTest {
 
     @Test
     public void checkRemarkEquality() {
-        //test remark against non-address type
+        //test remark against non-remark type
         assertFalse(new Remark("Friendly and patient.").equals(null));
         assertFalse(new Remark("Friendly and patient.").equals(new Address("Friendly and patient.")));
 
@@ -32,9 +32,9 @@ public class RemarkTest {
 
     @Test
     public void checkRemarkHashCode() {
-        Remark remark = new Remark("Friendly and patient.");
+        Remark remark = new Remark("");
         assertTrue(remark.hashCode() == remark.value.hashCode());
-        remark = new Remark(" - ");
+        remark = new Remark("Friendly and patient.");
         assertTrue(remark.hashCode() == remark.value.hashCode());
         remark = new Remark("Late and impatient tutor.");
         assertTrue(remark.hashCode() == remark.value.hashCode());

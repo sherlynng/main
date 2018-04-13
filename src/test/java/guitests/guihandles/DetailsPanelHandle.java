@@ -4,9 +4,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 
 /**
- * A handler for the {@code BrowserPanel} of the UI.
+ * A handler for the {@code DetailsPanel} of the UI.
  */
-public class BrowserPanelHandle extends NodeHandle<Node> {
+public class DetailsPanelHandle extends NodeHandle<Node> {
 
     private static final String NAME_FIELD_ID = "#name";
     private static final String ADDRESS_FIELD_ID = "#address";
@@ -34,8 +34,8 @@ public class BrowserPanelHandle extends NodeHandle<Node> {
     private final Label rateLabel;
     private final Label rateCountLabel;
 
-    public BrowserPanelHandle(Node browserPanelNode) {
-        super(browserPanelNode);
+    public DetailsPanelHandle(Node detailsPanelNode) {
+        super(detailsPanelNode);
 
         this.nameLabel = getChildNode(NAME_FIELD_ID);
         this.addressLabel = getChildNode(ADDRESS_FIELD_ID);

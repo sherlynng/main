@@ -6,7 +6,7 @@ import static seedu.address.ui.PersonCard.TAG_COLOR_STYLES;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import guitests.guihandles.BrowserPanelHandle;
+import guitests.guihandles.DetailsPanelHandle;
 import guitests.guihandles.PairCardHandle;
 import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
@@ -52,17 +52,21 @@ public class GuiTestAssert {
     }
 
     /**
-     * Asserts that {@code actualBrowser} displays the details of {@code expectedPerson}.
+     * Asserts that {@code actualPanel} displays the details of {@code expectedPerson}.
      */
-    public static void assertBrowserDisplaysPerson(Person expectedPerson, BrowserPanelHandle actualBrowser) {
+    public static void assertPanelDisplaysDetails(Person expectedPerson, DetailsPanelHandle actualBrowser) {
         assertEquals(expectedPerson.getName().fullName, actualBrowser.getName());
         assertEquals(expectedPerson.getPhone().value, actualBrowser.getPhone());
         assertEquals(expectedPerson.getEmail().value, actualBrowser.getEmail());
         assertEquals(expectedPerson.getAddress().value, actualBrowser.getAddress());
         assertEquals(expectedPerson.getStatus().value, actualBrowser.getStatus());
+        assertEquals(expectedPerson.getRole().value, actualBrowser.getRole());
         assertEquals(expectedPerson.getSubject().value, actualBrowser.getSubject());
         assertEquals(expectedPerson.getLevel().value, actualBrowser.getLevel());
         assertEquals("$" + expectedPerson.getPrice().value + " / hr", actualBrowser.getPrice());
+        assertEquals(expectedPerson.getRemark().value, actualBrowser.getRemark());
+        assertEquals(Double.toString(expectedPerson.getRate().getDisplayedValue()), actualBrowser.getRate());
+        assertEquals(Integer.toString(expectedPerson.getRate().getCount()), actualBrowser.getRateCount());
     }
 
     /**

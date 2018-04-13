@@ -33,6 +33,7 @@ public class ParserUtilTest extends ParserUtil {
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_RATE = "6.6";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
@@ -41,6 +42,7 @@ public class ParserUtilTest extends ParserUtil {
     private static final String VALID_TAG_1 = "Friend";
     private static final String VALID_TAG_2 = "Neighbour";
     private static final String VALID_REMARK = "Fast learner.";
+    private static final String VALID_RATE = "4.5";
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -243,9 +245,8 @@ public class ParserUtilTest extends ParserUtil {
 
     //@@author sherlynng
     @Test
-    public void parseRemark_null_returnsEmptyStringRemark() {
-        Remark expectedRemark = new Remark("");
-        assertEquals(expectedRemark, ParserUtil.parseRemark((String) null));
+    public void parseRemark_null_throwsNullPointerException() {
+        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseRemark((String) null));
         Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseRemark((Optional<String>) null));
     }
 
@@ -269,23 +270,53 @@ public class ParserUtilTest extends ParserUtil {
         assertEquals(Optional.of(expectedRemark), ParserUtil.parseRemark(Optional.of(remarkWithWhitespace)));
     }
 
-    //@@author aussiroth
     @Test
-    public void parseRate_validValue_returnsRate() throws Exception {
-        Rate expectedRate = new Rate(4.0, false);
-        Rate result = ParserUtil.parseRate("4.0");
-        assertEquals(expectedRate, result);
-        expectedRate = new Rate(5.0, true);
-        result = ParserUtil.parseRate("5.0-");
-        assertEquals(expectedRate, result);
+    public void parseRate_null_throwsNullPointerException() {
+        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseRate((String) null));
+        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseRate((Optional<String>) null));
     }
 
     @Test
-    public void parseRate_invalidValue_throwsIllegalValueException() throws Exception {
+    public void parseRate_invalidValue_throwsIllegalValueException() {
         Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate(""));
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate("a.b"));
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate(INVALID_RATE));
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate(Optional.of(INVALID_RATE)));
     }
 
+    @Test
+    public void parseRate_optionalEmpty_returnsOptionalEmpty() throws Exception {
+        assertFalse(ParserUtil.parseRate(Optional.empty()).isPresent());
+    }
+
+    @Test
+    public void parseRate_validValueWithoutWhitespace_returnsRate() throws Exception {
+        // cumulative rate
+        Rate expectedRate = new Rate(Double.parseDouble(VALID_RATE), false);
+        assertEquals(expectedRate, ParserUtil.parseRate(VALID_RATE));
+        assertEquals(Optional.of(expectedRate), ParserUtil.parseRate(Optional.of(VALID_RATE)));
+
+        // absolute rate
+        expectedRate = new Rate(Double.parseDouble(VALID_RATE), true);
+        assertEquals(expectedRate, ParserUtil.parseRate(VALID_RATE + "-"));
+        assertEquals(Optional.of(expectedRate), ParserUtil.parseRate(Optional.of(VALID_RATE + "-")));
+    }
+
+    @Test
+    public void parseRate_validValueWithWhitespace_returnsTrimmedRate() throws Exception {
+        // cumulative rate
+        String rateWithWhitespace = WHITESPACE + VALID_RATE + WHITESPACE;
+        Rate expectedRate = new Rate(Double.parseDouble(VALID_RATE), false);
+        assertEquals(expectedRate, ParserUtil.parseRate(rateWithWhitespace));
+        assertEquals(Optional.of(expectedRate), ParserUtil.parseRate(Optional.of(rateWithWhitespace)));
+
+        // absolute rate
+        rateWithWhitespace = WHITESPACE + VALID_RATE + "-" + WHITESPACE;
+        expectedRate = new Rate(Double.parseDouble(VALID_RATE), true);
+        assertEquals(expectedRate, ParserUtil.parseRate(rateWithWhitespace));
+        assertEquals(Optional.of(expectedRate), ParserUtil.parseRate(Optional.of(rateWithWhitespace)));
+    }
+
+    //@@author aussiroth
     @Test
     public void parsePairHash_validValue_returnsPairHash() throws Exception {
         String pairHash = "123412341";

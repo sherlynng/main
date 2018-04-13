@@ -332,9 +332,7 @@ public class ParserUtil {
      * Leading and trailing whitespaces will be trimmed.
      */
     public static Remark parseRemark(String remark) {
-        if (remark == null) {
-            remark = ""; // set it as empty string if there is no user input
-        }
+        requireNonNull(remark);
         String trimmedRemark = remark.trim();
 
         return new Remark(trimmedRemark);
@@ -361,14 +359,15 @@ public class ParserUtil {
             throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
         }
 
-        boolean isAbsolute = checkRateIsAbsolute(rate);
+        String trimmedRate = rate.trim();
+
+        boolean isAbsolute = checkRateIsAbsolute(trimmedRate);
 
         if (isAbsolute) {
-            rate = rate.substring(0, rate.length() - 1);
+            trimmedRate = trimmedRate.substring(0, trimmedRate.length() - 1);
         }
 
-        String trimmedRate = rate.trim();
-        if (!Rate.isValidRate(rate)) {
+        if (!Rate.isValidRate(trimmedRate)) {
             throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
         }
 

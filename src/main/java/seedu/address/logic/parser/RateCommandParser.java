@@ -20,7 +20,7 @@ import seedu.address.model.person.Rate;
 public class RateCommandParser implements Parser<RateCommand> {
 
     /**
-     * Parses the given {@code String} of rates in the context of the RateCommand
+     * Parses the given {@code String} with rate in the context of the RateCommand
      * and returns a RateCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */

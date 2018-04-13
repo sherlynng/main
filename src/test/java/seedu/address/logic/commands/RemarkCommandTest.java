@@ -137,7 +137,7 @@ public class RemarkCommandTest {
         remarkCommand.execute();
         undoRedoStack.push(remarkCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
+        // undo -> reverts STUtor back to previous state and filtered person list to show all persons
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         // redo -> same first person with remark added again
@@ -189,7 +189,7 @@ public class RemarkCommandTest {
         remarkCommand.execute();
         undoRedoStack.push(remarkCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
+        // undo -> reverts STUtor back to previous state and filtered person list to show all persons
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         expectedModel.updatePerson(personToEdit, editedPerson);
