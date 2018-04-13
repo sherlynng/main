@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.pair.PairHash;
 import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Price;
@@ -133,6 +134,13 @@ public class XmlAdaptedPairTest {
         Assert.assertThrows(IllegalValueException.class, expectedMessage, pair::toModelType);
     }
 
+    @Test
+    public void toModelType_nullPairHash_throwsIllegalValueException() {
+        XmlAdaptedPair pair = new XmlAdaptedPair(VALID_STUDENT_NAME, VALID_TUTOR_NAME,
+                VALID_SUBJECT, VALID_LEVEL, VALID_PRICE, VALID_TAGS, null);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, PairHash.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, pair::toModelType);
+    }
 
     @Test
     public void testXmlAdaptedPairEquality() {
