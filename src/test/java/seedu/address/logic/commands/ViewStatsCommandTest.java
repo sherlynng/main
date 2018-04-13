@@ -18,7 +18,7 @@ public class ViewStatsCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
-    public void executeViewStatsCommand_Success() {
+    public void executeViewStatsCommand_success() {
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         ViewStatsCommand command = new ViewStatsCommand();
         command.setData(model, new CommandHistory(), new UndoRedoStack());
