@@ -1,5 +1,6 @@
 package seedu.address.model;
 
+import static junit.framework.TestCase.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.Rule;
@@ -29,5 +30,14 @@ public class UniquePersonListTest {
         Person person = TypicalPersons.ALICE;
         assertThrows(PersonNotFoundException.class, () -> uniquePersonList.remove(person));
         assertThrows(PersonNotFoundException.class, () -> uniquePersonList.setPerson(person, person));
+    }
+
+    @Test
+    public void checkHashCodeMethod() throws Exception {
+        UniquePersonList uniquePersonListA = new UniquePersonList();
+        UniquePersonList uniquePersonListB = new UniquePersonList();
+        uniquePersonListA.add(TypicalPersons.ALICE);
+        uniquePersonListB.add(TypicalPersons.ALICE);
+        assertTrue(uniquePersonListA.hashCode() == uniquePersonListB.hashCode());
     }
 }
