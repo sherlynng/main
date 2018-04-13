@@ -1,8 +1,10 @@
 package seedu.address.model;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_UNUSED;
+import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.AMY;
 import static seedu.address.testutil.TypicalPersons.BOB;
@@ -21,11 +23,13 @@ import org.junit.rules.ExpectedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.pair.Pair;
+import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.TypicalPairs;
 
 
 public class AddressBookTest {
@@ -96,6 +100,19 @@ public class AddressBookTest {
         AddressBook expectedAddressBook = new AddressBookBuilder()
                 .withPerson(amyWithoutFriendTag).withPerson(bobWithoutFriendTag).build();
         assertEquals(expectedAddressBook, addressBookWithAmyandBob);
+    }
+
+    @Test
+    public void removePersonOrPair_doesNotExist_throwsNotFoundException() throws Exception {
+        assertThrows(PersonNotFoundException.class, () -> addressBook.removePerson(AMY));
+        assertThrows(PairNotFoundException.class, () -> addressBook.removePair(TypicalPairs.RANDOM_PAIR_A));
+    }
+
+    @Test
+    public void checkHashCodeMethod() {
+        AddressBook first = new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
+        AddressBook copy = new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
+        assertTrue(first.hashCode() == copy.hashCode());
     }
 
     /**
