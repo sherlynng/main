@@ -40,8 +40,8 @@ public class UniquePairHashListTest {
     public void addDuplicatePairHash_throwsDuplicatePairHashException() throws Exception {
         UniquePairHashList uniquePairHashList = new UniquePairHashList();
         uniquePairHashList.add(new PairHash(1234));
-        assertThrows(UniquePairHashList.DuplicatePairHashException.class,
-                () -> uniquePairHashList.add(new PairHash(1234)));
+        assertThrows(UniquePairHashList.DuplicatePairHashException.class, () ->
+                uniquePairHashList.add(new PairHash(1234)));
     }
 
 }
