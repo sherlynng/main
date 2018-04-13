@@ -21,7 +21,7 @@ It is written in Java, and has about 25 kLoC.
 
 * Added the ability to *match/unmatch a student and a tutor*
 ** What it does:
-allows the user to choose a student and a tutor to match.
+allows the user to choose a student and a tutor and match them.
 Compatibilty checking will be done to ensure validity of the pair(must be one student and one tutor,
 must be of the same subject, etc).
 Similarly, the user can choose a currently matched pair and unmatch it.
@@ -40,16 +40,13 @@ Please refer to my writings in the *"Contribution to the Developer Guide"* secti
 === Minor Enhancement
 * Added the ability to accept *case-insensitive input* and *shortcuts* for filling in personal information.
 ** What it does:
-When the user is editing information of a person, the
+When the user is editing information of a person, he/she can type in mixed case.
+Automatic conversion to <<proper-case, proper case>> will be done.
+Similarly, he/she can use shortcuts, and the input will be converted to full form.
 ** Justification:
 Since the application is CLI-based and the user has a large database to manage, a lot of typing is required.
-Having shortcuts saves time for typing, and acceptance of case-insensitive input means even if the user type
-in the wrong case, the input will not be rejected and the user does not need to enter the information all over
-again.
-** Highlights:
-On top of accepting the input as it is, storage format and display are made to follow <<proper-case, proper case>>.
-This means information are displayed in a more readable and standardized format, despite it might have been entered
-in various cases.
+Having shortcuts saves time for typing, and acceptance of case-insensitive input means data will be stored
+and displayed in an uniform format.
 
 === Code Contributed
 
@@ -61,13 +58,12 @@ in various cases.
 ** Enhancements to existing features:
 Added a remove tag function to remove a certain tag from all persons in the database.
 ** Documentation:
-*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com/CS2103JAN2018-W11-B1/main/pull/98/files[#98]
+*** Did cosmetic tweaks to existing contents of the User Guide to make is more end-user friendly: https://github.com/CS2103JAN2018-W11-B1/main/pull/98/files[#98]
 ** Community:
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-T15-B1/main/issues/62[1], https://github.com/CS2103JAN2018-T15-B1/main/issues/58[2], https://github.com/CS2103JAN2018-T15-B1/main/issues/71[3])
 
 
 == Contributions to the User Guide
-
 
 |===
 |_Given below are sections I contributed to the User Guide.
@@ -78,11 +74,7 @@ include::../UserGuide.adoc[tag=match]
 
 include::../UserGuide.adoc[tag=unmatch]
 
-include::../UserGuide.adoc[tag=commandsummary]
-
-include::../UserGuide.adoc[tag=prefixshortcut]
-
-include::../UserGuide.adoc[tag=faq]
+include::../UserGuide.adoc[tag=enterpriseVersion]
 
 == Contributions to the Developer Guide
 
@@ -107,7 +99,7 @@ For example, "This Is An Example Of Proper Case."
 The class used to store information about a person.
 
 .Person class diagram with methods omitted
-image::personClassDiagram.png[width="400"]
+image::personClassDiagram.png[width="300"]
 
 [[tag]] Tag::
 Tags are used to displayed personal information for easy referencing.
@@ -115,5 +107,5 @@ In STUtor, a person will have his/her role, subject, level, price, status displa
 A pair will have the level, price and subject displayed as tags.
 
 .Illustration of usage of tags. Tags appear below the person/pair name.
-image::tagExampleForWangZiPPP.png[width="800"]
+image::tagExampleForWangZiPPP.png[width="700"]
 
