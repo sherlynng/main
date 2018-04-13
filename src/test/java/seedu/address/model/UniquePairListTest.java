@@ -93,4 +93,17 @@ public class UniquePairListTest {
         uniquePairListB.add(RANDOM_PAIR_A);
         assertTrue(uniquePairListA.hashCode() == uniquePairListB.hashCode());
     }
+
+    @Test
+    public void editPair_targetNotFound_throwsPairNotFoundException() throws Exception {
+        UniquePairList uniquePairList = new UniquePairList();
+        assertThrows(PairNotFoundException.class, () -> uniquePairList.setPair(RANDOM_PAIR_A, RANDOM_PAIR_B));
+    }
+
+    @Test
+    public void editPair_pairInList_throwsDuplicatePairException() throws Exception {
+        UniquePairList uniquePairList = new UniquePairList();
+        uniquePairList.add(RANDOM_PAIR_B);
+        assertThrows(PairNotFoundException.class, () -> uniquePairList.setPair(RANDOM_PAIR_A, RANDOM_PAIR_B));
+    }
 }
