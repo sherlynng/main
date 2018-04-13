@@ -163,7 +163,7 @@ image::UiClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `InfoPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
@@ -568,7 +568,7 @@ insensitive.
 
 === UI Modifications
 
-==== Browser Panel
+==== Details Panel
 The browser panel is modified to show the selected person’s details instead of opening up a URL.
 This allows better visualization of a person’s details as each person now has up 11 attributes: `Name`, `Phone`,
 `Address`, `Email`, `Role`, `Status`, `Subject`, `Level`, `Price`, `Remark`, `Rate` to be displayed.
@@ -580,12 +580,12 @@ image::OldBrowserPanel.png[width="500"]
 
 **After**
 
-image::NewBrowserPanel.png[width="500"]
+image::NewDetailsPanel.png[width="500"]
 
 
 ===== Current Implementation
-The UI is modified using `SceneBuilder` and the layout is specified in link:{repoURL}/blob/master/src/main/resources/view/BrowserPanel.fxml[`BrowserPanel.fxml`].
-link:{repoURL}/blob/master/src/main/java/seedu/address/ui/BrowserPanel.java[`BrowserPanel.java`] subscribes to `handlePersonPanelSelectionChangedEvent`, where this allows the browser panel to
+The UI is modified using `SceneBuilder` and the layout is specified in link:{repoURL}/blob/master/src/main/resources/view/DetailsPanel.fxml[`DetailsPanel.fxml`].
+link:{repoURL}/blob/master/src/main/java/seedu/address/ui/DetailsPanel.java[`DetailsPanel.java`] subscribes to `handlePersonPanelSelectionChangedEvent`, where this allows the browser panel to
 be updated whenever the user selects on a specific person.
 
 We choose to place the person's name at the top of the browser panel for easy identification of a person while
@@ -594,7 +594,7 @@ to increase readability.
 
 ===== Design Considerations
 
-====== Aspect: Layout of Browser Panel
+====== Aspect: Layout of Details Panel
 
 * **Alternative 1 (current choice):** Use table to display person details with a column specifying the type of attribute
 and the other specifying the actual content.
@@ -816,7 +816,7 @@ Sum of all ratings is stored as a `double` inside `Rate` class and the displayed
 and divide it by the number of people who rated the person.
 
 When a person is first added to STUtor, both total rate `value` and `count` is initialized to 0.
-Since the person has yet been rated, rating will be displayed as `-` in the `BrowserPanel`.
+Since the person has yet been rated, rating will be displayed as `-` in the `DetailsPanel`.
 
 We have decided to allow two types of ratings in STUtor:
 
@@ -824,8 +824,8 @@ We have decided to allow two types of ratings in STUtor:
 . Absolute rating
 
 Default will be cumulative rating as it is more natural and useful to combine all ratings given to a specific person to gauge his/her
-abilities. In this app, `value` in `Rate` class stores the total sum of all ratings given to the person.
-To display the cumulated rating, `BrowserPanel` calls `getDisplayedValue` method in `Rate` class and
+abilities. In STUtor, `value` in `Rate` class stores the total sum of all ratings given to the person.
+To display the cumulated rating, `DetailsPanel` calls `getDisplayedValue` method in `Rate` class and
 cumulated rating is calculated using the total `value` and divide it by `count`.
 Every time a new rate is added, `count` increases incrementally as well.
 

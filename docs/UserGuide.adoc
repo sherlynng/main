@@ -406,7 +406,7 @@ he/she can mark the pair as `Matching in Progress`.
 
 ** Display of pair information
 *  The user will be able to view the schedule and billing information of the pair.
-After selecting a matched pair, such information will be displayed on the right-most vertical panel.
+After selecting a matched pair, such information will be displayed in the `Infomation Panel`.
 
 // tag::unmatch[]
 
@@ -512,12 +512,12 @@ Creates a remark for the person identified by the index number used in the *last
 [NOTE]
 ====
 The new remark created will not be shown automatically. You will have to select the person again to
-'refresh' the page.
+'refresh' the `Information Panel`.
 
 Auto-refreshing of person details will be done is V2.0.
 ====
 
-Format: `*remark* INDEX r/REMARK` or `*remark* INDEX edit`
+Format: `*remark* INDEX r/REMARK` or `*remark* INDEX edit` or `*remark* edit INDEX`
 
 Examples:
 
@@ -557,7 +557,7 @@ Gives a rating to the person identified by the index number used in the *last pe
 {nbsp}{nbsp}{nbsp}{nbsp} e.g `rate 1 r/2.0-` will set rating of the 1st person in the results
 to 2.0 and number of people who rated the person will be resetted to 1.
 
-* Without placing `-` after the rating gives an *accumulative rating* to the person specified.
+* Without placing `-` after the rating gives an *cumulative rating* to the person specified.
 
 [%hardbreak]
 {nbsp}{nbsp}{nbsp}{nbsp} e.g `rate 1 r/2.0` will add on to the current rating of the 1st person
@@ -572,7 +572,7 @@ Rating value is rounded off to nearest 1 decimal place.
 [NOTE]
 ====
 The new rating created will not be shown automatically. You will have to select the person again to
-'refresh' the page.
+'refresh' the `Information Panel`.
 
 Auto-refreshing of person details will be done is V2.0.
 ====

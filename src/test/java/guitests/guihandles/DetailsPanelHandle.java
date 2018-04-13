@@ -34,8 +34,8 @@ public class DetailsPanelHandle extends NodeHandle<Node> {
     private final Label rateLabel;
     private final Label rateCountLabel;
 
-    public DetailsPanelHandle(Node browserPanelNode) {
-        super(browserPanelNode);
+    public DetailsPanelHandle(Node detailsPanelNode) {
+        super(detailsPanelNode);
 
         this.nameLabel = getChildNode(NAME_FIELD_ID);
         this.addressLabel = getChildNode(ADDRESS_FIELD_ID);
