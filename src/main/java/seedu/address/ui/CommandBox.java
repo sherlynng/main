@@ -86,7 +86,7 @@ public class CommandBox extends UiPart<Region> {
         //@@author sherlynng
         case TAB:
             keyEvent.consume();
-            autofillCommand();
+            autofill();
             break;
         case DELETE:
             keyEvent.consume();
@@ -101,12 +101,22 @@ public class CommandBox extends UiPart<Region> {
      * Sets {@code CommandBox}'s text field with command format and
      * if next field is present, caret is positioned to the next field.
      */
-    private void autofillCommand() {
+    private void autofill() {
         String input = commandTextField.getText();
         int nextCaretPosition = -1;
         boolean isFirstTime = false; // check for commands that have different behaviors between first and other tabs
 
-        // first time tab is pressed
+        isFirstTime = autofillCommand(input, isFirstTime);
+        autofillBehavior(isFirstTime);
+    }
+
+    /**
+     * Autofills the command depending on user input.
+     * @param input
+     * @param isFirstTime
+     * @return true if it is the first time tab is pressed. Else false.
+     */
+    private boolean autofillCommand(String input, boolean isFirstTime) {
         switch (input) {
         case AddCommand.COMMAND_WORD:
         case AddCommand.COMMAND_WORD_ALIAS:
@@ -173,8 +183,15 @@ public class CommandBox extends UiPart<Region> {
         default:
             // no autofill
         }
+        return isFirstTime;
+    }
 
-        // subsequent times tab is pressed
+    /**
+     * Positions the caret according to command type.
+     * @param isFirstTime is used to differentiate commands that have different behaviors for different tabs.
+     */
+    private void autofillBehavior(boolean isFirstTime) {
+        int nextCaretPosition;
         if (isFindNextField) {
             nextCaretPosition = findNextField();
             if (nextCaretPosition != -1) {
@@ -188,9 +205,9 @@ public class CommandBox extends UiPart<Region> {
 
         if (isFirstTime) {
             if (commandTextField.getText().length() >= MatchCommand.COMMAND_WORD.length()
-                && commandTextField.getText().substring(0, 5).equals(MatchCommand.COMMAND_WORD)) { // match command
+                    && commandTextField.getText().substring(0, 5).equals(MatchCommand.COMMAND_WORD)) { // match command
                 isMatchCommand = true;
-            } else { // all other commands that have different behavior between first and other tabs
+            } else { // all other commands that has finding next field as its subsequent behavior
                 isFindNextField = true;
             }
         }
