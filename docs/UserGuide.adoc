@@ -193,7 +193,7 @@ image::AutofillEdit.png[width="800"]
 
 ==== Filtering all persons list by subject, level, role or status: `*filter*` `[In V1.3]`
 Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain any of the given keywords. +
-
+To get back the list of persons that is unfiltered, you can simply execute the `*list*` command. +
 ****
 * The filter is case insensitive.
 
@@ -202,6 +202,8 @@ Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain
 
 * Only full words will be matched e.g. `Eng` will not match `English`
 * Persons with matching keyword will be returned
+* Performing multiple filter does not return a list of persons that match multiple keywords. Instead, it will return
+a fitered list of persons that matches the lastest keyword used for `*filter*` command.
 ****
 
 Format: `*filter* KEYWORD`
