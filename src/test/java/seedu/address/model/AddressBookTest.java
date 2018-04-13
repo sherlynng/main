@@ -117,7 +117,8 @@ public class AddressBookTest {
 
     @Test
     public void removePersonOrPair_doesNotExist_throwsNotFoundException() throws Exception {
-        assertThrows(PersonNotFoundException.class, () -> addressBookWithAmyandBob.removePerson(TypicalPersons.DANIEL));
+        addressBook.addPerson(AMY);
+        assertThrows(PersonNotFoundException.class, () -> addressBook.removePerson(BOB));
         assertThrows(PairNotFoundException.class, () -> addressBook.removePair(TypicalPairs.RANDOM_PAIR_A));
     }
 

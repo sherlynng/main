@@ -44,7 +44,6 @@ public class NameContainsKeywordsPredicateTest {
             NameContainsKeywordsPredicatePair(firstPredicateKeywordList);
         NameContainsKeywordsPredicatePair secondPairPredicate = new
             NameContainsKeywordsPredicatePair(secondPredicateKeywordList);
-        
         assertTrue(firstPairPredicate.equals(firstPairPredicate));
         assertFalse(firstPairPredicate.equals(null));
         assertFalse(firstPairPredicate.equals(secondPairPredicate));
