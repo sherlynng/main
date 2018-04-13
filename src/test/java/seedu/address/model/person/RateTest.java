@@ -62,6 +62,11 @@ public class RateTest {
         //test rate against non-rate type
         assertFalse(new Rate(1, true).equals(null));
         assertFalse(new Rate(1, true).equals(new Tag("100")));
+
+        //test cumulative against absolute rate
+        assertFalse(new Rate(1, true).equals(new Rate(1, false)));
+        //test different rate values
+        assertFalse(new Rate(2, true).equals(new Rate(2.2, true)));
         //test correctly returns equal if rate string is the same
         assertTrue(new Rate(1, true).equals(new Rate(1, true)));
     }

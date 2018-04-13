@@ -105,7 +105,8 @@ public class Rate {
         return other == this // short circuit if same object
                 || (other instanceof Rate // instanceof handles nulls
                 && this.value == ((Rate) other).value
-                && this.count == ((Rate) other).count); // state check
+                && this.count == ((Rate) other).count
+                && this.isAbsolute == ((Rate) other).isAbsolute); // state check
     }
 
     @Override
