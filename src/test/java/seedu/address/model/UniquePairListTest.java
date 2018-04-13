@@ -3,6 +3,7 @@ package seedu.address.model;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPairs.RANDOM_PAIR_A;
 import static seedu.address.testutil.TypicalPairs.RANDOM_PAIR_B;
 
@@ -77,4 +78,10 @@ public class UniquePairListTest {
         assertEquals(listA, listB);
     }
 
+    //@@author aussiroth
+    @Test
+    public void deletePair_noMatchingPair_throwsPairNotFoundException() {
+        UniquePairList uniquePairList = new UniquePairList();
+        assertThrows(PairNotFoundException.class, () -> uniquePairList.remove(RANDOM_PAIR_A));
+    }
 }

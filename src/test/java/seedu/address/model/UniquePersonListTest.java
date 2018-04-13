@@ -22,6 +22,7 @@ public class UniquePersonListTest {
         uniquePersonList.asObservableList().remove(0);
     }
 
+    //@@author aussiroth
     @Test
     public void editAndDelete_noMatchingPerson_throwsPersonNotFoundException() {
         UniquePersonList uniquePersonList = new UniquePersonList();
