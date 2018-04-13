@@ -171,8 +171,4 @@ public class Person {
         return builder.toString();
     }
 
-    public boolean isMatched() {
-        return (getStatus().value.equals("Matched"));
-    }
-
 }

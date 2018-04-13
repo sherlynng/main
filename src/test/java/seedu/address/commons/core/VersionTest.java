@@ -138,6 +138,7 @@ public class VersionTest {
         assertTrue(one.equals(another));
         assertTrue(one.equals(one));
         assertFalse(one.equals(null));
+        assertFalse(one.equals(1));
     }
 
     private void verifyVersionParsedCorrectly(String versionString,
