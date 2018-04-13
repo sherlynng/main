@@ -30,6 +30,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TypicalPairs;
+import seedu.address.testutil.TypicalPersons;
 
 
 public class AddressBookTest {
@@ -73,6 +74,18 @@ public class AddressBookTest {
     }
 
     @Test
+    public void resetData_withDuplicatePairs_throwsAssertionError() {
+        // Repeat RANDOM_PAIR_A twice
+        List<Person> newPersons = Arrays.asList(ALICE);
+        List<Tag> newTags = new ArrayList<>(ALICE.getTags());
+        List<Pair> newPairs = Arrays.asList(TypicalPairs.RANDOM_PAIR_A, TypicalPairs.RANDOM_PAIR_A);
+        AddressBookStub newData = new AddressBookStub(newPersons, newTags, newPairs);
+
+        thrown.expect(AssertionError.class);
+        addressBook.resetData(newData);
+    }
+
+    @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
         addressBook.getPersonList().remove(0);
@@ -104,7 +117,7 @@ public class AddressBookTest {
 
     @Test
     public void removePersonOrPair_doesNotExist_throwsNotFoundException() throws Exception {
-        assertThrows(PersonNotFoundException.class, () -> addressBook.removePerson(AMY));
+        assertThrows(PersonNotFoundException.class, () -> addressBookWithAmyandBob.removePerson(TypicalPersons.DANIEL));
         assertThrows(PairNotFoundException.class, () -> addressBook.removePair(TypicalPairs.RANDOM_PAIR_A));
     }
 
@@ -121,10 +134,16 @@ public class AddressBookTest {
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
         private final ObservableList<Tag> tags = FXCollections.observableArrayList();
+        private final ObservableList<Pair> pairs = FXCollections.observableArrayList();
 
         AddressBookStub(Collection<Person> persons, Collection<? extends Tag> tags) {
             this.persons.setAll(persons);
             this.tags.setAll(tags);
+        }
+
+        AddressBookStub(Collection<Person> persons, Collection<? extends Tag> tags, Collection<Pair> pairs) {
+            this(persons, tags);
+            this.pairs.setAll(pairs);
         }
 
         @Override
@@ -135,7 +154,7 @@ public class AddressBookTest {
         //A dummy method, needs to be completed
         @Override
         public ObservableList<Pair> getPairList() {
-            return null;
+            return pairs;
         }
 
         @Override
