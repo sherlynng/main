@@ -28,7 +28,7 @@ public class UniquePersonListTest {
         UniquePersonList uniquePersonListA = new UniquePersonList();
         UniquePersonList uniquePersonListB = new UniquePersonList();
         uniquePersonListA.add(TypicalPersons.ALICE);
-        uniquePersonListB.add(TypicalPersons.ALICE);
+        uniquePersonListB.add(TypicalPersons.BENSON);
         assertTrue(uniquePersonListA.hashCode() == uniquePersonListB.hashCode());
     }
 
