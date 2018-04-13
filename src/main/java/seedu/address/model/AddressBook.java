@@ -174,9 +174,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         if (!key.getPairHashes().isEmpty()) {
             throw new PersonMatchedCannotDeleteException();
         }
-        if (persons.remove(key)) {
+        try {
+            persons.remove(key);
             return true;
-        } else {
+        } catch (PersonNotFoundException pnfe) {
             throw new PersonNotFoundException();
         }
     }
