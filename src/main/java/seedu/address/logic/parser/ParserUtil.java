@@ -107,9 +107,8 @@ public class ParserUtil {
     public static Address parseAddress(String address) throws IllegalValueException {
         requireNonNull(address);
         String trimmedAddress = address.trim();
-        if (!Address.isValidAddress(trimmedAddress)) {
-            throw new IllegalValueException(Address.MESSAGE_ADDRESS_CONSTRAINTS);
-        }
+        //Since any string of characters is accepted for address, and empty string indicates user did not enter
+        //a value, there is currently no invalid address. So just trim and return.
         return new Address(trimmedAddress);
     }
 

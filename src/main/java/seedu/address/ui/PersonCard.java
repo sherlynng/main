@@ -46,14 +46,6 @@ public class PersonCard extends UiPart<Region> {
         initTags(person);
     }
 
-    /**
-     * Returns the color style for {@code tagName}'s label.
-     */
-    private String getTagColorStyleFor(String tagName) {
-        // use hash code of tag name to generate a random color
-        return TAG_COLOR_STYLES[Math.abs(tagName.hashCode()) % TAG_COLOR_STYLES.length];
-    }
-
     //@@author aussiroth
     /**
      * Returns the color style for {@code tag}.
