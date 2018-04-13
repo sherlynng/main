@@ -30,7 +30,6 @@ import seedu.address.model.tag.Tag;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TypicalPairs;
-import seedu.address.testutil.TypicalPersons;
 
 
 public class AddressBookTest {
