@@ -20,6 +20,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Price;
 import seedu.address.model.person.Rate;
@@ -63,8 +64,10 @@ public class XmlAdaptedPersonTest {
 
     @Test
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {
-        XmlAdaptedPerson person = new XmlAdaptedPerson(BENSON);
-        assertEquals(BENSON, person.toModelType());
+        Person target = BENSON;
+        target.addPairHash(new PairHash(1234));
+        XmlAdaptedPerson person = new XmlAdaptedPerson(target);
+        assertEquals(target, person.toModelType());
     }
 
     @Test

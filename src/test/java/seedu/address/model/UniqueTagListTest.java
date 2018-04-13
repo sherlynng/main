@@ -30,7 +30,15 @@ public class UniqueTagListTest {
         assertFalse(uniqueTagListA.equals(uniqueTagListB));
         uniqueTagListB.add(new Tag("Not Matched"));
         assertTrue(uniqueTagListA.equals(uniqueTagListB));
+    }
 
+    @Test
+    public void hashCodeMethod() throws Exception {
+        UniqueTagList uniqueTagListA = new UniqueTagList();
+        UniqueTagList uniqueTagListB = new UniqueTagList();
+        uniqueTagListA.add(new Tag("Not Matched"));
+        uniqueTagListB.add(new Tag("Not Matched"));
+        assertTrue(uniqueTagListA.hashCode() == uniqueTagListB.hashCode());
     }
 
     @Test
