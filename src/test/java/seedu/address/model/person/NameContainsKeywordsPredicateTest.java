@@ -38,6 +38,16 @@ public class NameContainsKeywordsPredicateTest {
 
         // different person -> returns false
         assertFalse(firstPredicate.equals(secondPredicate));
+
+        //pair checks
+        NameContainsKeywordsPredicatePair firstPairPredicate = new
+            NameContainsKeywordsPredicatePair(firstPredicateKeywordList);
+        NameContainsKeywordsPredicatePair secondPairPredicate = new
+            NameContainsKeywordsPredicatePair(secondPredicateKeywordList);
+        
+        assertTrue(firstPairPredicate.equals(firstPairPredicate));
+        assertFalse(firstPairPredicate.equals(null));
+        assertFalse(firstPairPredicate.equals(secondPairPredicate));
     }
 
     @Test
