@@ -24,7 +24,7 @@ import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TestUtil;
 
-public class XmlUtilTest {
+public class XmlUtilTest extends XmlUtil {
 
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("src/test/data/XmlUtilTest/");
     private static final File EMPTY_FILE = new File(TEST_DATA_FOLDER + "empty.xml");

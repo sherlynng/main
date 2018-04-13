@@ -21,6 +21,8 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.pair.Pair;
+import seedu.address.model.pair.PairHash;
+import seedu.address.model.person.Person;
 
 public class UnmatchCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
@@ -28,6 +30,17 @@ public class UnmatchCommandTest {
     @Test
     public void execute_validIndexUnfilteredList_success() throws Exception {
         Pair pairToDelete = model.getFilteredPairList().get(INDEX_FIRST_PAIR.getZeroBased());
+        //update persons in model to have the correct pairhash to test deletion
+        Person alice = model.getFilteredPersonList().get(0);
+        Person benson = model.getFilteredPersonList().get(1);
+        Person newAlice = model.getFilteredPersonList().get(0);
+        Person newBenson = model.getFilteredPersonList().get(1);
+        newAlice.addPairHash(pairToDelete.getPairHash());
+        newBenson.addPairHash(pairToDelete.getPairHash());
+        newBenson.addPairHash(new PairHash(1234)); //ensure benson status stays matched after unmatch
+        model.updatePerson(newAlice, alice);
+        model.updatePerson(newBenson, benson);
+
         UnmatchCommand unmatchCommand = prepareCommand(INDEX_FIRST_PAIR);
 
         String expectedMessage = String.format(UnmatchCommand.MESSAGE_UNMATCH_PAIR_SUCCESS, pairToDelete);
@@ -111,7 +124,6 @@ public class UnmatchCommandTest {
         assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
         assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
     }
-
 
     @Test
     public void equals() throws Exception {

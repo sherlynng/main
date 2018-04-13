@@ -38,15 +38,7 @@ public class Pair  {
         this.tags = new UniqueTagList();
         try {
             tags.add(new Tag(price, Tag.AllTagTypes.PRICE));
-        } catch (UniqueTagList.DuplicateTagException e) {
-            e.printStackTrace();
-        }
-        try {
             tags.add(new Tag(subject, Tag.AllTagTypes.SUBJECT));
-        } catch (UniqueTagList.DuplicateTagException e) {
-            e.printStackTrace();
-        }
-        try {
             tags.add(new Tag(level, Tag.AllTagTypes.LEVEL));
         } catch (UniqueTagList.DuplicateTagException e) {
             e.printStackTrace();

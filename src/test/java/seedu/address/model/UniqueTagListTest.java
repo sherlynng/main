@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,5 +31,21 @@ public class UniqueTagListTest {
         uniqueTagListB.add(new Tag("Not Matched"));
         assertTrue(uniqueTagListA.equals(uniqueTagListB));
 
+    }
+
+    @Test
+    public void addTag_duplicateTag_throwsDuplicateTagException() throws Exception {
+        UniqueTagList uniqueTagList = new UniqueTagList();
+        uniqueTagList.add(new Tag("Not Matched"));
+        assertThrows(UniqueTagList.DuplicateTagException.class, () -> uniqueTagList.add(new Tag("Not Matched")));
+    }
+
+    @Test
+    public void checkHashCodeMethod() throws Exception {
+        UniqueTagList uniqueTagListA = new UniqueTagList();
+        UniqueTagList uniqueTagListB = new UniqueTagList();
+        uniqueTagListA.add(new Tag("Not Matched"));
+        uniqueTagListB.add(new Tag("Not Matched"));
+        assertTrue(uniqueTagListA.hashCode() == uniqueTagListB.hashCode());
     }
 }

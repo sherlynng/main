@@ -60,7 +60,7 @@ image::Ui_withLabels.png[width="500"]
 e.g. typing `*help*` and pressing kbd:[Enter] will open the help window.
 *  Some example commands you can try:
 ** To list all contacts: `*list*`
-** To add a contact named `John Doe` and his particulars to STUtor: `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
+** To add a contact named `John Doe` and his particulars to STUtor: `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec r/Student`
 ** To delete the 3rd contact shown in the current list: `*delete* 3`
 ** To exit the app: `*exit*`
 * For more details for each command, you can view <<Basic Features>>.
@@ -109,10 +109,13 @@ Format: `*help*`
 Adds a new person to STUtor. +
 
 ****
-* For PRICE, SUBJECT, EDUCATION_LEVEL, STATUS, ROLE:
+* For PRICE, SUBJECT, EDUCATION_LEVEL, ROLE:
 
 ** Alias can be used to reduce typing. Refer to <<Prefix Shortcut Summary>> for more details.
 ** These information is displayed as tags for easy reference.
+
+* For STATUS:
+**  Upon adding to STUtor, all persons will have a default status of "Not Matched".
 ****
 
 [NOTE]
@@ -121,12 +124,12 @@ Only the NAME field is required for the command to be accepted, all other fields
 To fill in the other fields later, you can use the edit command to edit the person with the new information. +
 ====
 
-Format: `*add* n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
+Format: `*add* n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL][r/ROLE] [t/TAG]...`
 
 Examples:
 
-* `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
-* `*add* n/Betsy Crowe p/91562389 e/betsycrowe@example.com a/Pasir Ris Drive 10, #06-02 $/30 sub/Chinese lvl/Upper Pri stat/Not Matched r/Tutor`
+* `*add* n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec  r/Student`
+* `*add* n/Betsy Crowe p/91562389 e/betsycrowe@example.com a/Pasir Ris Drive 10, #06-02 $/30 sub/Chinese lvl/Upper Pri  r/Tutor`
 * `*add* n/Carl Kurz`
 
 [NOTE]
@@ -158,13 +161,14 @@ This also allows you to fill in unentered attributes by simply editing that attr
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* A person's STATUS is not ediatble by you. It will automatically update after <<Matching a student and a tutor>>
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person's tags by typing `t/` without specifying any tags after it.
 * Attribute tags will still remain after any changes to the other tags.
 * Attribute tags will automatically update to reflect any changes to the actual attributes.
 ****
 
-Format: `*edit* INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...`
+Format: `*edit* INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [r/ROLE] [t/TAG]...`
 
 Examples:
 
@@ -193,7 +197,7 @@ image::AutofillEdit.png[width="800"]
 
 ==== Filtering all persons list by subject, level, role or status: `*filter*` `[In V1.3]`
 Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain any of the given keywords. +
-
+To get back the list of persons that is unfiltered, you can simply execute the `*list*` command. +
 ****
 * The filter is case insensitive.
 
@@ -202,6 +206,8 @@ Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain
 
 * Only full words will be matched e.g. `Eng` will not match `English`
 * Persons with matching keyword will be returned
+* Performing multiple filter does not return a list of persons that match multiple keywords. Instead, it will return
+a fitered list of persons that matches the lastest keyword used for `*filter*` command.
 ****
 
 Format: `*filter* KEYWORD`
@@ -213,7 +219,7 @@ Returns persons with `Math` subject
 * `*filter* Student` +
 Returns persons with `Student` role
 
-Upcoming improvement [Coming in V2.0] +
+===== Upcoming improvement [Coming in V2.0] +
 `*filter* multiple KEYWORD` +
 The proposed improvement of filter command will return you persons who matches all the KEYWORD specified
 
@@ -263,7 +269,6 @@ Otherwise, finds all people with an empty value in at least one entered FIELD.
 ** phone
 ** price
 ** role
-** status
 ** subject
 ****
 
@@ -357,7 +362,7 @@ They must have *the same subject, level and price*.
 Format: `*match* PERSON_A_INDEX PERSON_B_INDEX` or `*m* PERSON_A_INDEX PERSON_B_INDEX`
 
 Examples:
-* `*match* 1 3` +
+`*match* 1 3` +
 Match the person at index 1 to the person at index 3.
 
 [NOTE]
@@ -367,9 +372,9 @@ you will see a success message. +
 See the figure below for an illustration.
 ====
 .UI before `*match* 1 3` is executed.
-image::matchIllustration1.png[width="500"]
+image::matchIllustration1.png[width="800"]
 .UI after `*match* 1 3` is executed. New pair is dispalyed on the leftmost panel.
-image::matchIllustration2.png[width="500"]
+image::matchIllustration2.png[width="800"]
 
 [NOTE]
 ====
@@ -390,6 +395,18 @@ You can view the diagram below for a clearer visualization on how it works.
 ====
 
 image::AutofillMatch.png[width="700"]
+
+
+===== Upcoming improvement [Coming in V2.0] +
+** SmartMatch
+*  Upon selecting a person with his/her index, a list of compatible match choices will appear.
+The user can then mark the person with one of the choices.
+*  If the user cannot confirm the match yet but wishes to take note of a potential match,
+he/she can mark the pair as `Matching in Progress`.
+
+** Display of pair information
+*  The user will be able to view the schedule and billing information of the pair.
+After selecting a matched pair, such information will be displayed on the right-most vertical panel.
 
 // tag::unmatch[]
 
@@ -595,7 +612,7 @@ Shows statistical information such as role distribution(Student/Tutor ratio) in 
 
 Format: `*viewStats*`
 
-Upcoming improvement [Coming in V2.0] +
+===== Upcoming improvement [Coming in V2.0] +
 The proposed improvement of viewStats will provide user with more data such as people with different status and more.
 
 // end::viewstats[]
@@ -614,13 +631,26 @@ There is no need to save manually.
 
 === Advanced Features
 
-// tag::dataencryption[]
+// tag::enterpriseVersion[]
+==== Enterprise Version of STUtor `[Coming in V2.0]`
+With added functionalities, the Enterprise Version of STUtor will serve tuition centers and agencies.
+
+** Remote centralised database
+*  Real-time syncing will allow multiple coordinators will be able to work on the same database.
+* Information about the students, tutors and pairs will be stored securely, making backup and recovering
+of data easy.
+
+
+** Data Encryption
+*  The coordinator will need a password issued by the tuition center to access the application,
+therefore ensuring the confidentiality of the data.
+
+
+
+// end::enterpriseVersion[]
 
 ==== Matching by Location `[Coming in V2.0]`
 
-// end::dataencryption[]
-
-// tag::faq[]
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
@@ -630,7 +660,7 @@ There is no need to save manually.
 with the file of the same name found on your previous computer.
 You can the file under the same path of *main/data*
 
-// end::faq[]
+
 
 // tag::commandsummary[]
 == Command Summary
@@ -640,9 +670,9 @@ Note that there is no shortcuts for `help` and `exit` commands.
 [width="80%",cols="<20%,<20%,<20%,<20%",options="header",]
 |=======================================================================
 |Command |Shortcut |Format |Example
-|`add`  | `a` |`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS $/PRICE sub/SUBJECT lvl/EDUCATION_LEVEL stat/STATUS r/ROLE [t/TAG]...`|`add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec stat/Not Matched r/Student`
+|`add`  | `a` |`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS $/PRICE sub/SUBJECT lvl/EDUCATION_LEVEL  r/ROLE [t/TAG]...`|`add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec r/Student`
 |`delete`|`d`|`delete INDEX`|`delete 3`
-|`edit`|`e`|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [stat/STATUS] [r/ROLE] [t/TAG]...` |`edit 2 n/James Lee e/jameslee@example.com`
+|`edit`|`e`|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [r/ROLE] [t/TAG]...` |`edit 2 n/James Lee e/jameslee@example.com`
 |`find`|`f`|`find KEYWORD [MORE_KEYWORDS]`|`find James Jake`
 |`findmissing`|`fm`|`findmissing [FIELD]...`|`findmissing phone`
 |`select`|`s`|`select INDEX`|`select 2`
@@ -678,8 +708,6 @@ To save time in adding a person, or editing a person's details, use the followin
 |level | `lvl/ls`| `lvl/lower sec`
 |level | `lvl/up`| `lvl/upper pri`
 |level | `lvl/lp`| `lvl/lower pri`
-|status | `stat/nm`| `stat/not matched`
-|status | `stat/m`| `stat/matched`
 |role | `r/t`| `r/tutor`
 |role | `r/s`| `r/student`
 |=======================================================================

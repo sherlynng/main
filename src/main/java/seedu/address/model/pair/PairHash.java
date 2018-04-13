@@ -56,6 +56,11 @@ public class PairHash {
                 && this.value == (((PairHash) other).value)); // state check
     }
 
+    @Override
+    public int hashCode() {
+        return this.value;
+    }
+
     public int getValue() {
         return value;
     }

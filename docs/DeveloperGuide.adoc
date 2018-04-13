@@ -472,7 +472,7 @@ Due to the nature of the application, the user will input certain information re
 For example, `Role` can only be one of `Student` or `Tutor`.
 
 Thus, we have created shortcuts to improve efficiency in filling the fields.
-We currently support shortcuts for `Subject`, `Level`, `Status`, and `Role`.
+We currently support shortcuts for `Subject`, `Level`, and `Role`.
 
 [width="59%",cols="<30%,<35%,<35%",options="header",]
 |=======================================================================
@@ -485,8 +485,6 @@ We currently support shortcuts for `Subject`, `Level`, `Status`, and `Role`.
 |level | `lvl/ls`| `lvl/lower sec`
 |level | `lvl/up`| `lvl/upper pri`
 |level | `lvl/lp`| `lvl/lower pri`
-|status | `stat/nm`| `stat/not matched`
-|status | `stat/m`| `stat/matched`
 |role | `r/t`| `r/tutor`
 |role | `r/s`| `r/student`
 |=======================================================================
@@ -533,7 +531,7 @@ The other classes utilise the `ProperCaseConverter` object in a similar way.
 
 [NOTE]
 The user can input shortcuts in case-insensitive fashion.
-For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com a/NUS #04-02 $/50 sub/PHy lvl/uP stat/nM t/T`
+For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com a/NUS #04-02 $/50 sub/PHy lvl/uP t/T`
 , the stored entry will be `John Doe Phone: 98765432 Email: johnd@example.com Address: NUS #04-02 Tags: [Tutor][Upper Pri][50][Physics][Not Matched]`
 
 // end::caseinsensitiveinput[]
@@ -907,45 +905,56 @@ The matched pairs will be stored in STUtor.xml, and displayed on the pair list p
 
 ==== Current Implementation
 A matched pair is stored as a `Pair` object.
-To uniquely identify each pair, we utilise a `PairHash` class. +
+To uniquely identify each pair and 'mark' the persons in the pair, we use a `PairHash` class. +
 
-.Class diagram to show associations between Person, Pair and PairHash class.
+.Class diagram of Pair and PairHash class.
+image::PairPairHashClassDiagram.png[width="700"]
+
+.Diagram showing associations between Person, Pair and PairHash class.
 image::PairClassDiagram.png[width="700"]
 
-As seen above, a `Pair` is constructed using one `Student` and one `Tutor`.
-The association between a `PairHash` object and a `Pair` object is one-to-one.
-A `Person` (`Student` or `Tutor`) can have any number of unique `PairHash`, that is,
+Note that a person (`Student` or `Tutor`) can have any number of unique `PairHash`, that is,
 a student can be paired to multiple tutors and vice versa. +
 
-==== Design Considerations
+The current implementation of `match` and `unmatch` relies on the one-to-one association between `Pair` and `PairHash`.
+`PairHash` is used to facilitate matching and unmatching, as well as updating the status of a person. +
 
-===== Acceptance of Many-to-Many matches
-We allow a student to be paired to multiple tutors and vice versa,
-because one student may take tuition for several subjects, and a tutor
-is likely to take a few students. +
-On top of that, we also allow a student to be paired to multiple tutors
-for the same subject. To justify, consider a student who wants to receive English
-tuition and would like to have specialized tutors to train him on Comprehension and
-Composition separately.
+When a `Pair` is created through the `match` command, a `PairHash` is generated and automatically stored in the
+`Pair` itself, as well as in the `Student` and `Tutor` objects involved (see below).
+Similarly, when a `Pair` is removed through the `unmatch` command, its `PairHash` is extracted
+and used to retrieve the `Student` and `Tutor` marked by it. This `PairHash` is then deleted from the persons.
 
-===== The PairHash Class
-Due to the one-to-one association between `Pair` and `PairHash`, `PairHash` is used to
-facilitate matching and unmatching, as well as updating the status of a person.
-It helps to reduce coupling between `Pair` and `Person` objects. +
-
-When a `Pair` is created through the `match` command, a`PairHash` is generated and automatically stored in the
-`Pair` itself, as well as the `Student` and `Tutor` objects involved (see below).
 
 .Activity diagram for Match Command
-image::MatchActivityDiagram.png[width="700"]
+image::MatchActivityDiagram.png[width="800"]
 
-Similarly, when a `Pair` is removed through the `unmatch` command, its `PairHash` is extracted
-and used to retrieve the `Student` and `Tutor` involved. This `PairHash` is then deleted from the persons.
 
 [NOTE]
 `PairHash` objects associated with a particular `Person` object is stored inside that `Person` as a list. +
-Whenever a `PairHash` is add to/ removed from the list (a `match`/ `unmatch` command is executed), a check is done to makes sure the status
+Whenever a `PairHash` is add to/ removed from the list, a check is done to makes sure the status
 of the person remains correct. If the list is empty, that `Person` 's status will be `Not Matched`, else it will be `Matched`.
+
+==== Design Considerations
+
+===== Aspect: Acceptance of Many-to-Many matches
+* **Alternative 1:** Only allow one-to-one matches.
+** Pros: The `Person` class only need to store one `PairHash`.
+** Cons: Not realistic as one student may take tuition for several subjects, and a tutor is likely to take a few students.
+* **Alternative 2 (current choice):** Allow a student to be paired to multiple tutors and vice versa.
+** Pros: More realistic.
+** Cons: Requires the `Person` class to store multiple `PairHash` instead of one.
+Updating of status requires extra checkings to ensure correctness.
+
+===== Aspect: Creating, deleting and identifying a pair
+
+* **Alternative 1:** Store the `Pair` directly in `Person`.
+** Pros: Easy to code.
+** Cons: High degree of coupling between `Pair` and `Person`.
+* **Alternative 2 (current choice):** Use `PairHash` to to identify the `Pair` itself, and mark `Person` in the Pair.
+Saving the `PairHash` to the `Person` when `Pair` is created, delete the same `PairHash` from `Person`
+when this `Pair` is unmatched.
+** Pros: Reduce coupling between `Pair` and `Person`.
+** Cons: `PairHash` has a slight chance of having collisions, which might result in errors in data.
 
 
 // end::matchunmatch[]
