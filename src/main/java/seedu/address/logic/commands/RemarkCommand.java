@@ -44,7 +44,7 @@ public class RemarkCommand extends UndoableCommand {
             + ": Adds a remark to person identified by the index number used in the last person listing. "
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1 " + PREFIX_REMARK + "Hardworking student"
-            + "\t\t OR \t\t" + COMMAND_WORD + " 1 edit";
+            + "\t\t OR \t\t" + COMMAND_WORD + " 1 edit" + "\t\t OR \t\t" + COMMAND_WORD + " edit 1";
 
     public static final String MESSAGE_REMARK_PERSON_SUCCESS = "Added Remark to %1$s: " + "%2$s";
     public static final String MESSAGE_EDIT_REMARK_SUCCESS = "Editing Remark of %1$s...";

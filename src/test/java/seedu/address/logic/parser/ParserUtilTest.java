@@ -297,7 +297,7 @@ public class ParserUtilTest extends ParserUtil {
         // absolute rate
         expectedRate = new Rate(Double.parseDouble(VALID_RATE), true);
         assertEquals(expectedRate, ParserUtil.parseRate(VALID_RATE + "-"));
-        assertEquals(Optional.of(expectedRate), ParserUtil.parseRate(Optional.of(VALID_RATE)));
+        assertEquals(Optional.of(expectedRate), ParserUtil.parseRate(Optional.of(VALID_RATE + "-")));
     }
 
     @Test
