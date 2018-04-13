@@ -472,7 +472,7 @@ Due to the nature of the application, the user will input certain information re
 For example, `Role` can only be one of `Student` or `Tutor`.
 
 Thus, we have created shortcuts to improve efficiency in filling the fields.
-We currently support shortcuts for `Subject`, `Level`, `Status`, and `Role`.
+We currently support shortcuts for `Subject`, `Level`, and `Role`.
 
 [width="59%",cols="<30%,<35%,<35%",options="header",]
 |=======================================================================

@@ -60,7 +60,7 @@ Added a remove tag function to remove a certain tag from all persons in the data
 ** Documentation:
 *** Did cosmetic tweaks to existing contents of the User Guide to make is more end-user friendly: https://github.com/CS2103JAN2018-W11-B1/main/pull/98/files[#98]
 ** Community:
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-T15-B1/main/issues/62[1], https://github.com/CS2103JAN2018-T15-B1/main/issues/58[2], https://github.com/CS2103JAN2018-T15-B1/main/issues/71[3])
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-T15-B1/main/issues/58[1], https://github.com/CS2103JAN2018-T15-B1/main/issues/71[2])
 
 
 == Contributions to the User Guide

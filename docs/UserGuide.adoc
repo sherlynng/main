@@ -370,9 +370,9 @@ you will see a success message. +
 See the figure below for an illustration.
 ====
 .UI before `*match* 1 3` is executed.
-image::matchIllustration1.png[width="500"]
+image::matchIllustration1.png[width="800"]
 .UI after `*match* 1 3` is executed. New pair is dispalyed on the leftmost panel.
-image::matchIllustration2.png[width="500"]
+image::matchIllustration2.png[width="800"]
 
 [NOTE]
 ====
