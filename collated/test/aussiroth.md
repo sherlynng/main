@@ -379,13 +379,6 @@ public class ViewStatsCommandTest {
         assertEquals(targetCommand, parsedCommand);
     }
 
-    @Test
-    public void parseCommand_unmatch() throws Exception {
-        UnmatchCommand targetCommand = new UnmatchCommand(Index.fromOneBased(1));
-        UnmatchCommand parsedCommand = (UnmatchCommand) parser.parseCommand(UnmatchCommand.COMMAND_WORD + " 1");
-        assertEquals(targetCommand, parsedCommand);
-    }
-
 ```
 ###### \java\seedu\address\logic\parser\FindMissingCommandParserTest.java
 ``` java
