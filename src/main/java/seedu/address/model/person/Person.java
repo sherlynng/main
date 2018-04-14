@@ -171,12 +171,25 @@ public class Person {
         return builder.toString();
     }
 
+    //@@author alexawangzi
     public boolean isMatched() {
         return (getStatus().value.equals("Matched"));
     }
 
+    //@@author alexawangzi
     public boolean containsPairHash(PairHash pairHash) {
         return (pairHashes.contains(pairHash));
     }
 
+    //@@author alexawangzi
+    /**
+     * Check if a person has missing fields
+     * @return
+     */
+    public boolean hasMissingFieldForMatch() {
+        return this.getSubject().value.equals("")
+                || this.getLevel().value.equals("")
+                || this.getRole().value.equals("")
+                || this.getPrice().value.equals("");
+    }
 }

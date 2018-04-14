@@ -20,7 +20,9 @@ import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.ROLE_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.ROLE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.ROLE_STUDENT;
 import static seedu.address.logic.commands.CommandTestUtil.STATUS_DESC_UNMATCHED;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_AMY;
@@ -147,7 +149,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: add a person with tags, command with parameters in random order -> added */
         toAdd = BOB;
         command = AddCommand.COMMAND_WORD + PHONE_DESC_BOB + ADDRESS_DESC_BOB + NAME_DESC_BOB
-                + TAG_DESC_FRIEND + TAG_DESC_FRIEND + EMAIL_DESC_BOB + LEVEL_DESC_BOB + SUBJECT_DESC_BOB;
+                + TAG_DESC_FRIEND + EMAIL_DESC_BOB + LEVEL_DESC_BOB + SUBJECT_DESC_BOB + ROLE_DESC_BOB
+                + PRICE_DESC_BOB;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a person, missing tags -> added */
@@ -221,19 +224,19 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: invalid level -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + INVALID_LEVEL_DESC + ROLE_DESC_AMY
+                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + INVALID_LEVEL_DESC + ROLE_DESC_AMY
                 + TAG_DESC_FRIEND;
         assertCommandFailure(command, Level.MESSAGE_LEVEL_CONSTRAINTS);
 
         /* Case: invalid role -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY + INVALID_ROLE_DESC
+                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + LEVEL_DESC_AMY + INVALID_ROLE_DESC
                 + TAG_DESC_FRIEND;
         assertCommandFailure(command, Role.MESSAGE_ROLE_CONSTRAINTS);
 
         /* Case: invalid tag -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY + ROLE_DESC_AMY
+                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + LEVEL_DESC_AMY + ROLE_DESC_AMY
                 + INVALID_TAG_DESC;
         assertCommandFailure(command, Tag.MESSAGE_TAG_CONSTRAINTS);
         //@@author
@@ -263,6 +266,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
      * @see AddCommandSystemTest#assertCommandSuccess(Person)
      */
     private void assertCommandSuccess(String command, Person toAdd) {
+        System.out.println("command is " + command);
         Model expectedModel = getModel();
         try {
             expectedModel.addPerson(toAdd);
@@ -270,7 +274,6 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
             throw new IllegalArgumentException("toAdd already exists in the model.");
         }
         String expectedResultMessage = String.format(AddCommand.MESSAGE_SUCCESS, toAdd);
-        System.out.println("expected message " + expectedResultMessage);
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
     }
 

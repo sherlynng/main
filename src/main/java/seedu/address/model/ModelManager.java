@@ -20,7 +20,6 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonMatchedCannotDeleteException;
 import seedu.address.model.person.exceptions.PersonMatchedCannotEditException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.model.tag.Tag;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -169,12 +168,6 @@ public class ModelManager extends ComponentManager implements Model {
         ModelManager other = (ModelManager) obj;
         return addressBook.equals(other.addressBook)
                 && filteredPersons.equals(other.filteredPersons);
-    }
-
-    @Override
-    public void deleteTag (Tag tag)throws PersonNotFoundException {
-        addressBook.removeTag(tag);
-        indicateAddressBookChanged();
     }
 
 

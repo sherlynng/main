@@ -126,7 +126,7 @@ public class RemarkCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().withName("Alice Pauline")
                 .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
-                .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
+                .withPrice("50").withSubject("math").withStatus("Not Matched").withLevel("lower Sec")
                 .withRole("Tutor").withRemark(REMARK_BOB).build();
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Remark remark = new Remark(REMARK_BOB);

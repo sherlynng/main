@@ -43,7 +43,7 @@ public class Pair  {
             tags.add(new Tag(subject, Tag.AllTagTypes.SUBJECT));
             tags.add(new Tag(level, Tag.AllTagTypes.LEVEL));
         } catch (UniqueTagList.DuplicateTagException e) {
-            e.printStackTrace();
+            throw new AssertionError("AddressBooks should not have duplicate tags from pair.");
         }
         this.pairHash = pairHash;
     }

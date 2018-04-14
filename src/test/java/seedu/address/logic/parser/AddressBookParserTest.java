@@ -7,7 +7,6 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.REMARK_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_RATE_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -39,7 +38,6 @@ import seedu.address.logic.commands.MatchCommand;
 import seedu.address.logic.commands.RateCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RemarkCommand;
-import seedu.address.logic.commands.RemoveTagCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.UnmatchCommand;
@@ -51,7 +49,6 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Rate;
 import seedu.address.model.person.Remark;
-import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -87,11 +84,8 @@ public class AddressBookParserTest {
     public void parseCommand_edit() throws Exception {
         Person person = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
-        descriptor.setStatus(null);
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_NINTH_PERSON.getOneBased() + " " + PersonUtil.getPersonDetailsWithoutStatus(person));
-        System.out.println(new EditCommand(INDEX_NINTH_PERSON, descriptor));
-        System.out.println(command.toString());
         assertEquals(new EditCommand(INDEX_NINTH_PERSON, descriptor), command);
 
     }
@@ -199,7 +193,6 @@ public class AddressBookParserTest {
     public void parseCommand_editAliased() throws Exception {
         Person person = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
-        descriptor.setStatus(null);
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD_ALIAS + " "
                 + INDEX_NINTH_PERSON.getOneBased() + " " + PersonUtil.getPersonDetailsWithoutStatus(person));
         assertEquals(new EditCommand(INDEX_NINTH_PERSON, descriptor), command);
@@ -271,21 +264,6 @@ public class AddressBookParserTest {
         UnmatchCommand targetCommand = new UnmatchCommand(Index.fromOneBased(1));
         UnmatchCommand parsedCommand = (UnmatchCommand) parser.parseCommand(UnmatchCommand.COMMAND_WORD + " 1");
         assertEquals(targetCommand, parsedCommand);
-    }
-
-    //@@author
-    @Test
-    public void parseCommand_removeTag() throws Exception {
-        RemoveTagCommand command = (RemoveTagCommand) parser.parseCommand(
-                RemoveTagCommand.COMMAND_WORD + " " + VALID_TAG_FRIEND);
-        assertEquals(new RemoveTagCommand(new Tag(VALID_TAG_FRIEND)), command);
-    }
-
-    @Test
-    public void parseCommand_removeTagAliased() throws Exception {
-        RemoveTagCommand command = (RemoveTagCommand) parser.parseCommand(
-                RemoveTagCommand.COMMAND_WORD_ALIAS + " " + VALID_TAG_FRIEND);
-        assertEquals(new RemoveTagCommand(new Tag(VALID_TAG_FRIEND)), command);
     }
 
     //@@author sherlynng
