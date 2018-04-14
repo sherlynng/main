@@ -34,13 +34,11 @@ public class RateCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
-            model.updatePerson(personToEdit, editedPerson);
+            model.rateRemarkPerson(personToEdit, editedPerson);
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("The target person cannot be missing");
-        } catch (PersonMatchedCannotEditException e) {
-            throw new AssertionError("Editing rate should not be rejected even if person is matched.");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_RATE_PERSON_SUCCESS, editedPerson.getName(), newRate));
@@ -150,13 +148,11 @@ public class RemarkCommand extends UndoableCommand {
     public CommandResult executeUndoableCommand() throws CommandException {
         if (!isEditRemark) {
             try {
-                model.updatePerson(personToEdit, editedPerson);
+                model.rateRemarkPerson(personToEdit, editedPerson);
             } catch (DuplicatePersonException dpe) {
                 throw new CommandException(MESSAGE_DUPLICATE_PERSON);
             } catch (PersonNotFoundException pnfe) {
                 throw new AssertionError("The target person cannot be missing");
-            } catch (PersonMatchedCannotEditException e) {
-                throw new AssertionError("Editing remark should not be rejected even if person is matched.");
             }
             model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,

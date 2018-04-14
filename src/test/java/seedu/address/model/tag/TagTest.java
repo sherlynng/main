@@ -39,6 +39,6 @@ public class TagTest {
     @Test
     public void toStringMethod() {
         Tag target = new Tag("Math", Tag.AllTagTypes.SUBJECT);
-        assertTrue("[math]".equals(target.toString()));
+        assertTrue("[Math]".equals(target.toString()));
     }
 }

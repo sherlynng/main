@@ -287,51 +287,6 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         removeUnusedTags();
     }
 
-    /**
-     *  Updates the master tag list to include tags in {@code person} that are not in the list.
-     *  @return a copy of this {@code person} such that every tag in this person points to a Tag object in the master
-     *  list.
-     */
-    private Person syncWithMasterTagList(Person person) {
-        Set<Tag> personTagsAsSet = new HashSet<>(person.getTags());
-        final UniqueTagList personTags = new UniqueTagList(personTagsAsSet);
-        tags.mergeFrom(personTags);
-
-        // Create map with values = tag object references in the master list
-        // used for checking person tag references
-        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
-        tags.forEach(tag -> masterTagObjects.put(tag, tag));
-
-        // Rebuild the list of person tags to point to the relevant tags in the master tag list.
-        final Set<Tag> correctTagReferences = new HashSet<>();
-        personTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
-        return new Person(
-                person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
-                person.getPrice(), person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                correctTagReferences, person.getRemark(), person.getRate(), person.getPairHashes());
-    }
-
-
-
-    /**
-     * Removes {@code key} from this {@code AddressBook}.
-     * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
-     */
-    public boolean removePerson(Person key) throws PersonNotFoundException, PersonMatchedCannotDeleteException {
-        if (!key.getPairHashes().isEmpty()) {
-            throw new PersonMatchedCannotDeleteException();
-        }
-        try {
-            persons.remove(key);
-            return true;
-        } catch (PersonNotFoundException pnfe) {
-            throw new PersonNotFoundException();
-        }
-    }
-
-
-    //// pair-level operations
-
 ```
 ###### \java\seedu\address\model\AddressBook.java
 ``` java
