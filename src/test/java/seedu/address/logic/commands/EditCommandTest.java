@@ -12,6 +12,7 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.commands.EditCommand.MESSAGE_MATCHED_CANNOT_EDIT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_NINTH_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
@@ -188,6 +189,19 @@ public class EditCommandTest {
         // no commands in undoRedoStack -> undoCommand and redoCommand fail
         assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
         assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
+    }
+
+    //@@author aussiroth
+    @Test
+    public void execute_validIndexUnfilteredList_throwsPersonMatchedCannotEditException() throws Exception {
+        //create a new pair for the test
+        Person student = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person tutor = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
+        model.addPair(student, tutor);
+        Person toEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withPrice("100").build();
+        EditCommand editCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
+        assertCommandFailure(editCommand, model, MESSAGE_MATCHED_CANNOT_EDIT);
     }
 
     /**
