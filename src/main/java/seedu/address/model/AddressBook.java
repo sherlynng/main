@@ -119,6 +119,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.add(person);
     }
 
+    //@@author alexawangzi
+    //I added an extra checking to prevent updating of person details is the person is matched
     /**
      * Replaces the given person {@code target} in the list with {@code editedPerson}.
      * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPerson}.

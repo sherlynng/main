@@ -171,10 +171,12 @@ public class Person {
         return builder.toString();
     }
 
+    //@@author alexawangzi
     public boolean isMatched() {
         return (getStatus().value.equals("Matched"));
     }
 
+    //@@author alexawangzi
     public boolean containsPairHash(PairHash pairHash) {
         return (pairHashes.contains(pairHash));
     }
