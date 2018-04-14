@@ -38,7 +38,7 @@ public class UnmatchCommand extends UndoableCommand {
         this.targetIndex = targetIndex;
     }
 
-    //@@author alexawangzi
+
     @Override
     public CommandResult executeUndoableCommand() {
         requireNonNull(pairToUnmatch);
@@ -50,7 +50,6 @@ public class UnmatchCommand extends UndoableCommand {
         return new CommandResult(String.format(MESSAGE_UNMATCH_PAIR_SUCCESS, pairToUnmatch));
     }
 
-    //@@author alexawangzi
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Pair> lastShownList = model.getFilteredPairList();
