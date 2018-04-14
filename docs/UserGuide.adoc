@@ -643,7 +643,7 @@ There is no need to save manually.
 === Advanced Features
 
 // tag::enterpriseVersion[]
-==== Enterprise Version`[Coming in V2.0]`
+==== Enterprise Version `[Coming in V2.0]`
 With added functionalities, the Enterprise Version of STUtor will serve tuition centers and agencies.
 
 ** Remote centralised database
