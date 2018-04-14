@@ -1645,7 +1645,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 . Saving window preferences
 
-.. Resize the window to an optimum size. Move the window to a different location. Close the window.
+.. Resize the window to an optimum size. Move the window to a different location. Close the window using `exit` or click on the x on the top right corner.
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
@@ -1653,9 +1653,19 @@ These instructions only provide a starting point for testers to work on; testers
 
 . Opening the help menu
 
-.. Prerequisites: None
+.. Prerequisites: None.
 .. Test case: `help` +
    Expected: A new window is opened. User guide is shown in the new window.
+
+=== Adding a person
+
+. Adding a person
+
+.. Prerequisites: None.
+.. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec  r/Student`` +
+   Expected: Person is added to the bottom of the  list. Details of the added person shown in the status message.
+.. Test case: `add` +
+   Expected: Detail panel will remain unchanged. Invalid command format, add command format and an example of add shown in the status message.
 
 === Selecting a person
 
@@ -1681,7 +1691,15 @@ These instructions only provide a starting point for testers to work on; testers
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
    Expected: Similar to previous.
 
-_{ more test cases ... }_
+=== Clearing all data
+
+. Clearing all data in app
+
+.. Prerequisites: None.
+.. Test case: `clear` +
+   Expected: All data in . Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `delete 0` +
+   Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 
 === Saving data
 

@@ -11,6 +11,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_NINTH_PERSON;
 
 import java.util.Arrays;
 import java.util.List;
@@ -86,9 +87,13 @@ public class AddressBookParserTest {
     public void parseCommand_edit() throws Exception {
         Person person = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
+        descriptor.setStatus(null);
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getPersonDetails(person));
-        assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
+                + INDEX_NINTH_PERSON.getOneBased() + " " + PersonUtil.getPersonDetailsWithoutStatus(person));
+        System.out.println(new EditCommand(INDEX_NINTH_PERSON, descriptor));
+        System.out.println(command.toString());
+        assertEquals(new EditCommand(INDEX_NINTH_PERSON, descriptor), command);
+
     }
 
     @Test
@@ -194,9 +199,10 @@ public class AddressBookParserTest {
     public void parseCommand_editAliased() throws Exception {
         Person person = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
+        descriptor.setStatus(null);
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD_ALIAS + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getPersonDetails(person));
-        assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
+                + INDEX_NINTH_PERSON.getOneBased() + " " + PersonUtil.getPersonDetailsWithoutStatus(person));
+        assertEquals(new EditCommand(INDEX_NINTH_PERSON, descriptor), command);
     }
 
     @Test

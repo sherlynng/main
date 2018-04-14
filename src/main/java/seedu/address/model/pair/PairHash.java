@@ -56,14 +56,15 @@ public class PairHash {
                 && this.value == (((PairHash) other).value)); // state check
     }
 
-    @Override
-    public int hashCode() {
-        return this.value;
-    }
-
     public int getValue() {
         return value;
     }
+
+    @Override
+    public int hashCode() {
+        return Integer.toString(value).hashCode();
+    }
+
 
     /**
      * Returns true if a given string is a valid pairHash

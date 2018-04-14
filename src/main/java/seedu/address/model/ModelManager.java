@@ -18,6 +18,7 @@ import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonMatchedCannotDeleteException;
+import seedu.address.model.person.exceptions.PersonMatchedCannotEditException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 
@@ -84,9 +85,9 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void updatePerson(Person target, Person editedPerson)
-            throws DuplicatePersonException, PersonNotFoundException {
+            throws DuplicatePersonException, PersonNotFoundException, PersonMatchedCannotEditException {
         requireAllNonNull(target, editedPerson);
-        addressBook.updatePerson(target, editedPerson);
+        addressBook.updatePersonForAddAndEdit(target, editedPerson);
         indicateAddressBookChanged();
     }
 

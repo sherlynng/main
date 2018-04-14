@@ -24,14 +24,14 @@ public class PersonUtil {
      * Returns an add command string for adding the {@code person}.
      */
     public static String getAddCommand(Person person) {
-        return AddCommand.COMMAND_WORD + " " + getPersonDetails(person);
+        return AddCommand.COMMAND_WORD + " " + getPersonDetailsWithoutStatus(person);
     }
 
     /**
      * Returns an add command string, using the add command alias, for adding the (@code person).
      */
     public static String getAddCommandAliased(Person person) {
-        return AddCommand.COMMAND_WORD_ALIAS + " " + getPersonDetails(person);
+        return AddCommand.COMMAND_WORD_ALIAS + " " + getPersonDetailsWithoutStatus(person);
     }
 
     /**
@@ -52,6 +52,26 @@ public class PersonUtil {
         person.getTags().stream().forEach(
             s -> {
                 if (s.tagType == Tag.AllTagTypes.DEFAULT) {
+                    sb.append(PREFIX_TAG + s.tagName + " ");
+                }
+            });
+        return sb.toString();
+    }
+
+    public static String getPersonDetailsWithoutStatus(Person person) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(PREFIX_NAME + person.getName().fullName + " ");
+        sb.append(PREFIX_PHONE + person.getPhone().value + " ");
+        sb.append(PREFIX_EMAIL + person.getEmail().value + " ");
+        sb.append(PREFIX_ADDRESS + person.getAddress().value + " ");
+        sb.append(PREFIX_PRICE + person.getPrice().value + " ");
+        sb.append(PREFIX_SUBJECT + person.getSubject().value + " ");
+        sb.append(PREFIX_LEVEL + person.getLevel().value + " ");
+        sb.append(PREFIX_ROLE + person.getRole().value + " ");
+
+        person.getTags().stream().forEach(
+            s -> {
+                if (s.tagType != Tag.AllTagTypes.DEFAULT) {
                     sb.append(PREFIX_TAG + s.tagName + " ");
                 }
             });

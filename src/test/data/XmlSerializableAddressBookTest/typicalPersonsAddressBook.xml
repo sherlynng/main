@@ -252,7 +252,7 @@ AddressBook save file which contains the same Person values as in
         <phone>8482131</phone>
         <email>hans@example.com</email>
         <address>chicago ave</address>
-        <price>120</price>
+        <price>100</price>
         <subject>English</subject>
         <level>Lower Sec</level>
         <status>Not Matched</status>
@@ -316,4 +316,5 @@ AddressBook save file which contains the same Person values as in
     <tags>Chinese,SUBJECT</tags>
     <tags>1234,PRICE</tags>
     <tags>4321,PRICE</tags>
+    <tags>100,PRICE</tags>
 </addressbook>

@@ -6,11 +6,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PAIRHASH;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -49,7 +47,8 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                        PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL, PREFIX_STATUS, PREFIX_ROLE, PREFIX_TAG);
+                        PREFIX_PRICE, PREFIX_SUBJECT, PREFIX_LEVEL,
+                        PREFIX_ROLE, PREFIX_TAG);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -66,10 +65,9 @@ public class AddCommandParser implements Parser<AddCommand> {
             Price price = ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE)).orElse(new Price(""));
             Subject subject = ParserUtil.parseSubject(argMultimap.getValue(PREFIX_SUBJECT)).orElse(new Subject(""));
             Level level = ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).orElse(new Level(""));
-            Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).orElse(new Status(""));
+            Status status = Status.DEFAULT_STATUS;
             Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).orElse(new Role(""));
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-            Set<PairHash> pairHashList = ParserUtil.parsePairHashes(argMultimap.getAllValues(PREFIX_PAIRHASH));
 
             //make sure name is never set to empty string as it is the only compulsory field.
             assert(!name.equals(""));
@@ -81,7 +79,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             Rate rate = Rate.initializeRate(); // default rate has 0 people rating the person
 
             Person person = new Person(name, phone, email, address, price, subject, level,
-                                       status, role, tagList, remark, rate, pairHashList);
+                                       status, role, tagList, remark, rate, PairHash.getDefaultPairHashSet());
             return new AddCommand(person);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
