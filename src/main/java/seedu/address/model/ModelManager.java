@@ -90,6 +90,14 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    @Override
+    public void rateRemarkPerson(Person target, Person editedPerson)
+            throws DuplicatePersonException, PersonNotFoundException {
+        requireAllNonNull(target, editedPerson);
+        addressBook.updatePersonForRateAndRemark(target, editedPerson);
+        indicateAddressBookChanged();
+    }
+
     //============Pair operation=============================================================================
     //@@author alexawangzi
     @Override

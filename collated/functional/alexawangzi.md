@@ -15,13 +15,12 @@ public class MatchCommand extends UndoableCommand {
 
     public static final String MESSAGE_MATCH_SUCCESS = "Created new match %1$s\n";
     public static final String MESSAGE_MATCH_FAILED = "Matching failed.\n %1$s";
-    public static final String MESSAGE_MISMATCH_WRONG_ROLE = "Please provide indices of one student and one tutor.";
-    public static final String MESSAGE_MISMATCH_WRONG_SUBJECT = "Not the same subject. ";
-    public static final String MESSAGE_MISMATCH_WRONG_LEVEL = "Not the same level. ";
-    public static final String MESSAGE_MISMATCH_WRONG_PRICE = "Not the same price. ";
-    public static final String MESSAGE_MISMATCH_WRONG_STATUS = "Please provide indices of unmatched student and "
-            + "unmatched tutor.";
-    public static final String MESSAGE_MISMATCH_ALREADY_MATCHED = "The two persons are already matched.";
+    public static final String MESSAGE_MISMATCH_WRONG_ROLE = "Incompatible role.";
+    public static final String MESSAGE_MISMATCH_WRONG_SUBJECT = "Incompatible subject. ";
+    public static final String MESSAGE_MISMATCH_WRONG_LEVEL = "Incompatible level. ";
+    public static final String MESSAGE_MISMATCH_WRONG_PRICE = "Incompatible price.";
+    public static final String MESSAGE_MISMATCH_ALREADY_MATCHED = "The two persons are already matched. ";
+    public static final String MESSAGE_MISSING_FIELDS = "The person has missing fields. ";
 
     private final Index indexA;
     private final Index indexB;
@@ -59,10 +58,22 @@ public class MatchCommand extends UndoableCommand {
         student = lastShownList.get(indexA.getZeroBased());
         tutor = lastShownList.get(indexB.getZeroBased());
 
+        if (student.hasMissingFieldForMatch() || tutor.hasMissingFieldForMatch()) {
+            throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISSING_FIELDS));
+        }
+
         //filter invalid matchings
         if (student.getRole().equals(tutor.getRole())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_ROLE));
         }
+
+        //standardize input order : person A is student, person B is tutor
+        if (!student.getRole().value.equals("Student")) {
+            Person temp = student;
+            student = tutor;
+            tutor = temp;
+        }
+
         if (!student.getSubject().equals(tutor.getSubject())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_SUBJECT));
         }
@@ -70,14 +81,8 @@ public class MatchCommand extends UndoableCommand {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_LEVEL));
         }
 
-        if (!student.getPrice().equals(tutor.getPrice())) {
+        if (Integer.parseInt(student.getPrice().value) < Integer.parseInt(tutor.getPrice().value)) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_PRICE));
-        }
-        //standardize input order : person A is student, person B is tutor
-        if (!student.getRole().value.equals("Student")) {
-            Person temp = student;
-            student = tutor;
-            tutor = temp;
         }
 
     }
@@ -117,9 +122,7 @@ public class UnmatchCommand extends UndoableCommand {
         this.targetIndex = targetIndex;
     }
 
-```
-###### \java\seedu\address\logic\commands\UnmatchCommand.java
-``` java
+
     @Override
     public CommandResult executeUndoableCommand() {
         requireNonNull(pairToUnmatch);
@@ -131,9 +134,6 @@ public class UnmatchCommand extends UndoableCommand {
         return new CommandResult(String.format(MESSAGE_UNMATCH_PAIR_SUCCESS, pairToUnmatch));
     }
 
-```
-###### \java\seedu\address\logic\commands\UnmatchCommand.java
-``` java
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Pair> lastShownList = model.getFilteredPairList();
@@ -235,6 +235,61 @@ public class MatchCommandParser implements Parser<MatchCommand> {
 ```
 ###### \java\seedu\address\model\AddressBook.java
 ``` java
+    //I added an extra checking to prevent updating of person details is the person is matched
+    /**
+     * Replaces the given person {@code target} in the list with {@code editedPerson}.
+     * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPerson}.
+     * Only applicable for Add and Edit
+     *
+     * @throws DuplicatePersonException if updating the person's details causes the person to be equivalent to
+     *      another existing person in the list.
+     * @throws PersonNotFoundException if {@code target} could not be found in the list.
+     *
+     * @see #syncWithMasterTagList(Person)
+     */
+    public void updatePersonForAddAndEdit(Person target, Person editedPerson)
+            throws DuplicatePersonException, PersonNotFoundException, PersonMatchedCannotEditException {
+        requireNonNull(editedPerson);
+        boolean isChanged = !target.getName().equals(editedPerson.getName())
+                || !target.getRole().equals(editedPerson.getRole())
+                || !target.getSubject().equals(editedPerson.getSubject())
+                || !target.getPrice().equals(editedPerson.getPrice())
+                || !target.getLevel().equals(editedPerson.getLevel())
+                || !target.getStatus().equals(editedPerson.getStatus());
+        if (target.isMatched() && isChanged) {
+            throw new PersonMatchedCannotEditException();
+        }
+        Person syncedEditedPerson = syncWithMasterTagList(editedPerson);
+        // TODO: the tags master list will be updated even though the below line fails.
+        // This can cause the tags master list to have additional tags that are not tagged to any person
+        // in the person list.
+        persons.setPerson(target, syncedEditedPerson);
+        removeUnusedTags();
+    }
+
+    /**
+     * Replaces the given person {@code target} in the list with {@code editedPerson}.
+     * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPerson}.
+     * Only applicable for Add and Edit
+     * @param target
+     * @param editedPerson
+     * @throws DuplicatePersonException
+     * @throws PersonNotFoundException
+     */
+    public void updatePersonForMatchUnmatch(Person target, Person editedPerson)
+            throws DuplicatePersonException, PersonNotFoundException {
+        requireNonNull(editedPerson);
+        Person syncedEditedPerson = syncWithMasterTagList(editedPerson);
+        // TODO: the tags master list will be updated even though the below line fails.
+        // This can cause the tags master list to have additional tags that are not tagged to any person
+        // in the person list.
+        persons.setPerson(target, syncedEditedPerson);
+        removeUnusedTags();
+    }
+
+```
+###### \java\seedu\address\model\AddressBook.java
+``` java
     /**
      * Adds a pair to the address book.
      * @param key
@@ -273,7 +328,7 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         if (pairs.remove(key)) {
             PairHash pairHash = key.getPairHash();
             for (Person person : persons) {
-                if (person.getPairHashes().contains(pairHash)) {
+                if (person.containsPairHash(pairHash)) {
                     removePairHash(person, pairHash);
                 }
             }
@@ -295,7 +350,9 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         Person editedPerson;
         Set<PairHash> pairHashSet = new HashSet<PairHash>();
         pairHashSet.addAll(person.getPairHashes());
-        pairHashSet.add(pairHash);
+        if (!pairHashSet.contains(pairHash)) {
+            pairHashSet.add(pairHash);
+        }
 
         //update status to Matched if the person's original pairHash List is empty
         Set<Tag> attributeTags = new HashSet<Tag>();
@@ -309,14 +366,16 @@ public class MatchCommandParser implements Parser<MatchCommand> {
                     person.getEmail(), person.getAddress(), person.getPrice(),
                     person.getSubject(), person.getLevel(), new Status("Matched"),
                     person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairHashSet);
-
         try {
-            updatePerson(person, editedPerson);
+            updatePersonForAddAndEdit(person, editedPerson);
         } catch (DuplicatePersonException e) {
             throw new AssertionError("Should not have duplicates");
         } catch (PersonNotFoundException e) {
             throw new AssertionError("Match exits means person must be in database.");
+        } catch (PersonMatchedCannotEditException e) {
+            throw new AssertionError("Match should not result in edit exception");
         }
+
     }
 
 ```
@@ -331,7 +390,9 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         Person editedPerson;
         Set<PairHash> pairHashSet = new HashSet<PairHash>();
         pairHashSet.addAll(person.getPairHashes());
-        pairHashSet.remove(pairHash);
+        if (pairHashSet.contains(pairHash)) {
+            pairHashSet.remove(pairHash);
+        }
 
         Set<Tag> attributeTags = new HashSet<Tag>();
         attributeTags.add(new Tag(person.getRole().value, Tag.AllTagTypes.ROLE));
@@ -355,7 +416,7 @@ public class MatchCommandParser implements Parser<MatchCommand> {
         }
 
         try {
-            updatePerson(person, editedPerson);
+            updatePersonForMatchUnmatch(person, editedPerson);
         } catch (DuplicatePersonException e) {
             throw new AssertionError("Should not have duplicates");
         } catch (PersonNotFoundException e) {
@@ -390,6 +451,24 @@ public class MatchCommandParser implements Parser<MatchCommand> {
     //=========== Filtered Person List Accessors =============================================================
 
 ```
+###### \java\seedu\address\model\pair\exceptions\DuplicatePairException.java
+``` java
+/**
+ * Signals that the operation will result in duplicate Pair objects.
+ */
+public class DuplicatePairException extends DuplicateDataException {
+    public DuplicatePairException() {
+        super("Operation would result in duplicate pairs");
+    }
+}
+```
+###### \java\seedu\address\model\pair\exceptions\PairNotFoundException.java
+``` java
+/**
+ * Signals that the operation is unable to find the specified pair.
+ */
+public class PairNotFoundException extends Exception {}
+```
 ###### \java\seedu\address\model\pair\Pair.java
 ``` java
 /**
@@ -417,18 +496,10 @@ public class Pair  {
         this.tags = new UniqueTagList();
         try {
             tags.add(new Tag(price, Tag.AllTagTypes.PRICE));
-        } catch (UniqueTagList.DuplicateTagException e) {
-            e.printStackTrace();
-        }
-        try {
             tags.add(new Tag(subject, Tag.AllTagTypes.SUBJECT));
-        } catch (UniqueTagList.DuplicateTagException e) {
-            e.printStackTrace();
-        }
-        try {
             tags.add(new Tag(level, Tag.AllTagTypes.LEVEL));
         } catch (UniqueTagList.DuplicateTagException e) {
-            e.printStackTrace();
+            throw new AssertionError("AddressBooks should not have duplicate tags from pair.");
         }
         this.pairHash = pairHash;
     }
@@ -471,8 +542,11 @@ public class Pair  {
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
     */
-    public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(tags.toSet());
+    public List<Tag> getTags() {
+        Set<Tag> setTags = tags.toSet();
+        List<Tag> tagsAsList = new ArrayList<>(setTags);
+        Collections.sort(tagsAsList);
+        return Collections.unmodifiableList(tagsAsList);
     }
 
     /**
@@ -578,11 +652,228 @@ public class PairHash {
         return value;
     }
 
+    @Override
+    public int hashCode() {
+        return Integer.toString(value).hashCode();
+    }
+
+
     /**
      * Returns true if a given string is a valid pairHash
      */
     public static boolean isValidPairHashValue(String test) {
         return test.matches(PAIRHASH_VALIDATION_REGEX);
+    }
+}
+```
+###### \java\seedu\address\model\pair\UniquePairHashList.java
+``` java
+/**
+ * A list of pairHashs that enforces no nulls and uniqueness between its elements.
+ *
+ * Supports minimal set of list operations for the app's features.
+ *
+ * @see PairHash#equals(Object)
+ */
+public class UniquePairHashList implements Iterable<PairHash> {
+
+    private final ObservableList<PairHash> internalList = FXCollections.observableArrayList();
+
+    /**
+     * Constructs empty PairHashList.
+     */
+    public UniquePairHashList() {}
+
+    /**
+     * Creates a UniquePairHashList using given pairHashs.
+     * Enforces no nulls.
+     */
+    public UniquePairHashList(Set<PairHash> pairHashs) {
+        requireAllNonNull(pairHashs);
+        internalList.addAll(pairHashs);
+
+        assert CollectionUtil.elementsAreUnique(internalList);
+    }
+
+    /**
+     * Returns all pairHashs in this list as a Set.
+     * This set is mutable and change-insulated against the internal list.
+     */
+    public Set<PairHash> toSet() {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        return new HashSet<>(internalList);
+    }
+
+    /**
+     * Returns true if the list contains an equivalent PairHash as the given argument.
+     */
+    public boolean contains(PairHash toCheck) {
+        requireNonNull(toCheck);
+        return internalList.contains(toCheck);
+    }
+
+    /**
+     * Adds a PairHash to the list.
+     *
+     * @throws DuplicatePairHashException if the PairHash to add is a duplicate of an existing PairHash in the list.
+     */
+    public void add(PairHash toAdd) throws DuplicatePairHashException {
+        requireNonNull(toAdd);
+        if (contains(toAdd)) {
+            throw new DuplicatePairHashException();
+        }
+        internalList.add(toAdd);
+
+        assert CollectionUtil.elementsAreUnique(internalList);
+    }
+
+    @Override
+    public Iterator<PairHash> iterator() {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        return internalList.iterator();
+    }
+
+    /**
+     * Returns the backing list as an unmodifiable {@code ObservableList}.
+     */
+    public ObservableList<PairHash> asObservableList() {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        return FXCollections.unmodifiableObservableList(internalList);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        return other == this // short circuit if same object
+                || (other instanceof UniquePairHashList // instanceof handles nulls
+                && this.internalList.equals(((UniquePairHashList) other).internalList));
+    }
+
+    @Override
+    public int hashCode() {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        return internalList.hashCode();
+    }
+
+    /**
+     * Signals that an operation would have violated the 'no duplicates' property of the list.
+     */
+    public static class DuplicatePairHashException extends DuplicateDataException {
+        protected DuplicatePairHashException() {
+            super("Operation would result in duplicate pairHashs");
+        }
+    }
+
+}
+```
+###### \java\seedu\address\model\pair\UniquePairList.java
+``` java
+/**
+ * A list of pairs that enforces uniqueness between its elements and does not allow nulls.
+ *
+ * Supports a minimal set of list operations.
+ *
+ * @see Pair#equals(Object)
+ * @see CollectionUtil#elementsAreUnique(Collection)
+ */
+public class UniquePairList implements Iterable<Pair> {
+
+    private final ObservableList<Pair> internalList = FXCollections.observableArrayList();
+
+    /**
+     * Returns true if the list contains an equivalent pair as the given argument.
+     */
+    public boolean contains(Pair toCheck) {
+        requireNonNull(toCheck);
+        return internalList.contains(toCheck);
+    }
+
+    /**
+     * Adds a pair to the list.
+     *
+     * @throws DuplicatePairException if the pair to add is a duplicate of an existing pair in the list.
+     */
+    public void add(Pair toAdd) throws DuplicatePairException {
+        requireNonNull(toAdd);
+        if (contains(toAdd)) {
+            throw new DuplicatePairException();
+        }
+        internalList.add(toAdd);
+    }
+
+    /**
+     * Replaces the pair {@code target} in the list with {@code editedPair}.
+     *
+     * @throws DuplicatePairException if the replacement is equivalent to another existing pair in the list.
+     * @throws PairNotFoundException if {@code target} could not be found in the list.
+     */
+    public void setPair(Pair target, Pair editedPair)
+            throws DuplicatePairException, PairNotFoundException {
+        requireNonNull(editedPair);
+
+        int index = internalList.indexOf(target);
+        if (index == -1) {
+            throw new PairNotFoundException();
+        }
+
+        if (!target.equals(editedPair) && internalList.contains(editedPair)) {
+            throw new DuplicatePairException();
+        }
+
+        internalList.set(index, editedPair);
+    }
+
+    /**
+     * Removes the equivalent pair from the list.
+     *
+     * @throws PairNotFoundException if no such pair could be found in the list.
+     */
+
+    public boolean remove(Pair toRemove) throws PairNotFoundException {
+        requireNonNull(toRemove);
+        final boolean pairFoundAndDeleted = internalList.remove(toRemove);
+        if (!pairFoundAndDeleted) {
+            throw new PairNotFoundException();
+        }
+        return pairFoundAndDeleted;
+    }
+
+
+    public void setPairs(UniquePairList replacement) {
+        this.internalList.setAll(replacement.internalList);
+    }
+
+    public void setPairs(List<Pair> pairs) throws DuplicatePairException {
+        requireAllNonNull(pairs);
+        final UniquePairList replacement = new UniquePairList();
+        for (final Pair pair : pairs) {
+            replacement.add(pair);
+        }
+        setPairs(replacement);
+    }
+
+    /**
+     * Returns the backing list as an unmodifiable {@code ObservableList}.
+     */
+    public ObservableList<Pair> asObservableList() {
+        return FXCollections.unmodifiableObservableList(internalList);
+    }
+
+    @Override
+    public Iterator<Pair> iterator() {
+        return internalList.iterator();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof UniquePairList // instanceof handles nulls
+                && this.internalList.equals(((UniquePairList) other).internalList));
+    }
+
+    @Override
+    public int hashCode() {
+        return internalList.hashCode();
     }
 }
 ```
@@ -592,6 +883,15 @@ public class PairHash {
  * Signals that the operation is invalid as the person is matched and cannot be deleted
  */
 public class PersonMatchedCannotDeleteException extends Exception {
+}
+```
+###### \java\seedu\address\model\person\exceptions\PersonMatchedCannotEditException.java
+``` java
+/**
+ * Signals that the operation is invalid as the person is matched and
+ * his status, subject, level and role cannot be changed
+ */
+public class PersonMatchedCannotEditException extends Exception {
 }
 ```
 ###### \java\seedu\address\model\person\Level.java
@@ -642,6 +942,34 @@ public class PersonMatchedCannotDeleteException extends Exception {
         }
         return cur;
     }
+```
+###### \java\seedu\address\model\person\Person.java
+``` java
+    public boolean isMatched() {
+        return (getStatus().value.equals("Matched"));
+    }
+
+```
+###### \java\seedu\address\model\person\Person.java
+``` java
+    public boolean containsPairHash(PairHash pairHash) {
+        return (pairHashes.contains(pairHash));
+    }
+
+```
+###### \java\seedu\address\model\person\Person.java
+``` java
+    /**
+     * Check if a person has missing fields
+     * @return
+     */
+    public boolean hasMissingFieldForMatch() {
+        return this.getSubject().value.equals("")
+                || this.getLevel().value.equals("")
+                || this.getRole().value.equals("")
+                || this.getPrice().value.equals("");
+    }
+}
 ```
 ###### \java\seedu\address\model\person\ProperCaseConverter.java
 ``` java

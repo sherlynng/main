@@ -69,6 +69,7 @@ public class AddressBookTest {
         addressBook.resetData(newData);
     }
 
+    //@@author aussiroth
     @Test
     public void resetData_withDuplicatePairs_throwsAssertionError() {
         // Repeat RANDOM_PAIR_A twice
@@ -81,6 +82,7 @@ public class AddressBookTest {
         addressBook.resetData(newData);
     }
 
+    //@@author
     @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
@@ -93,6 +95,7 @@ public class AddressBookTest {
         addressBook.getTagList().remove(0);
     }
 
+    //@@author aussiroth
     @Test
     public void removePersonOrPair_doesNotExist_throwsNotFoundException() throws Exception {
         addressBook.addPerson(AMY);
@@ -107,6 +110,7 @@ public class AddressBookTest {
         assertTrue(first.hashCode() == copy.hashCode());
     }
 
+    //@@author
     /**
      * A stub ReadOnlyAddressBook whose persons and tags lists can violate interface constraints.
      */

@@ -239,7 +239,7 @@ public class ChartsPanel extends UiPart<Region> {
 ###### \java\seedu\address\ui\InfoPanel.java
 ``` java
 /**
- * Container for both browser panel and charts panel
+ * Container for both details panel and charts panel
  */
 public class InfoPanel extends UiPart<Region> {
 
@@ -247,13 +247,13 @@ public class InfoPanel extends UiPart<Region> {
 
     private final Logger logger = LogsCenter.getLogger(this.getClass());
 
-    private BrowserPanel browserPanel;
+    private DetailsPanel detailsPanel;
     private ChartsPanel pieChart;
 
     @FXML
     private StackPane infoPlaceHolder;
     @FXML
-    private StackPane browserPlaceholder;
+    private StackPane detailsPlaceholder;
     @FXML
     private StackPane chartPlaceholder;
 
@@ -262,7 +262,7 @@ public class InfoPanel extends UiPart<Region> {
 
         fillInnerParts(personList);
 
-        browserPlaceholder.toFront();
+        detailsPlaceholder.toFront();
         registerAsAnEventHandler(this);
     }
 
@@ -270,8 +270,8 @@ public class InfoPanel extends UiPart<Region> {
      * Helper method to fill UI placeholders
      */
     public void fillInnerParts(ObservableList<Person> personList) {
-        browserPanel = new BrowserPanel();
-        browserPlaceholder.getChildren().add(browserPanel.getRoot());
+        detailsPanel = new DetailsPanel();
+        detailsPlaceholder.getChildren().add(detailsPanel.getRoot());
 
         pieChart = new ChartsPanel(personList);
         chartPlaceholder.getChildren().add(pieChart.getRoot());
@@ -280,9 +280,9 @@ public class InfoPanel extends UiPart<Region> {
     @Subscribe
     private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        browserPanel.loadPersonDetails(event.getNewSelection().person);
+        detailsPanel.loadPersonDetails(event.getNewSelection().person);
 
-        browserPlaceholder.toFront();
+        detailsPlaceholder.toFront();
     }
 
     @Subscribe
@@ -310,20 +310,20 @@ public class InfoPanel extends UiPart<Region> {
 ###### \resources\view\ChartsPanel.fxml
 ``` fxml
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="606.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="900" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="606.0" style="-fx-background-color: #ffffff;">
          <children>
-            <PieChart fx:id="roleDistribution" prefHeight="195.0" prefWidth="606.0" title="Role Distribution" />
-            <BarChart fx:id="tutorSubject" layoutY="200.0" prefHeight="203.0" prefWidth="298.0" title="Tutor Subjects">
+            <PieChart fx:id="roleDistribution" prefHeight="195.0" prefWidth="606.0" title="Role Distribution" AnchorPane.bottomAnchor="205.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <BarChart fx:id="tutorSubject" animated="false" layoutY="200.0" prefHeight="203.0" prefWidth="298.0" title="Tutor Subjects" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="308.0" AnchorPane.topAnchor="200.0">
               <xAxis>
-                <CategoryAxis prefHeight="17.0" prefWidth="244.0" side="BOTTOM" />
+                <CategoryAxis side="BOTTOM" />
               </xAxis>
               <yAxis>
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
-            <BarChart fx:id="studentSubject" layoutX="305.0" layoutY="200.0" prefHeight="203.0" prefWidth="298.0" title="Student Subjects">
+            <BarChart fx:id="studentSubject" animated="false" layoutX="305.0" layoutY="200.0" prefHeight="203.0" prefWidth="298.0" title="Student Subjects" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="308.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -338,9 +338,9 @@ public class InfoPanel extends UiPart<Region> {
 ```
 ###### \resources\view\DarkTheme.css
 ``` css
-#tags .teal {
+#tags .purple {
     -fx-text-fill: white;
-    -fx-background-color: #3e7b91;
+    -fx-background-color: #AB51FF;
 }
 
 #tags .red {
@@ -392,7 +392,7 @@ public class InfoPanel extends UiPart<Region> {
 ###### \resources\view\InfoPanel.fxml
 ``` fxml
 <StackPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-    <StackPane fx:id="browserPlaceholder" prefHeight="150.0" prefWidth="200.0" />
+    <StackPane fx:id="detailsPlaceholder" prefHeight="150.0" prefWidth="200.0" />
     <StackPane fx:id="chartPlaceholder" prefHeight="150.0" prefWidth="200.0" />
 </StackPane>
 ```

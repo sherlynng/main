@@ -27,7 +27,7 @@ public class RateCommandTest {
 
     @Test
     public void execute_filteredListAbsoluteRate_success() throws Exception {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showPersonAtIndex(model, INDEX_NINTH_PERSON);
 
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person editedPerson = new PersonBuilder(personInFilteredList).withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
@@ -46,16 +46,15 @@ public class RateCommandTest {
 
     @Test
     public void execute_filteredListAccumulatedRate_success() throws Exception {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showPersonAtIndex(model, INDEX_NINTH_PERSON);
 
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), false);
         Rate accumulatedRate = personInFilteredList.getRate().accumulatedValue(personInFilteredList.getRate(), rate);
         Person editedPerson = new PersonBuilder(personInFilteredList)
-                .withRate(Double.toString(accumulatedRate.getValue()),
+                .withRate(Double.toString(accumulatedRate.getDisplayedValue()),
                         Integer.toString(accumulatedRate.getCount())).build();
 
-        //rate.setCount(Integer.parseInt(RATECOUNT_AMY));
         RateCommand rateCommand = prepareCommand(INDEX_FIRST_PERSON, rate);
         rateCommand.preprocessUndoableCommand();
         String expectedMessage = String.format(MESSAGE_RATE_PERSON_SUCCESS,
@@ -102,7 +101,7 @@ public class RateCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().withName("Alice Pauline")
                 .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
-                .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
+                .withPrice("50").withSubject("math").withStatus("Not Matched").withLevel("lower Sec")
                 .withRole("Tutor").withRemark("Hardworking but slow learner.")
                 .withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
@@ -115,7 +114,7 @@ public class RateCommandTest {
         rateCommand.execute();
         undoRedoStack.push(rateCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
+        // undo -> reverts STUtor back to previous state and filtered person list to show all persons
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         // redo -> same first person with rate added again
@@ -170,7 +169,7 @@ public class RateCommandTest {
         rateCommand.execute();
         undoRedoStack.push(rateCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
+        // undo -> reverts STUtor back to previous state and filtered person list to show all persons
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         expectedModel.updatePerson(personToEdit, editedPerson);
@@ -313,7 +312,7 @@ public class RemarkCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().withName("Alice Pauline")
                 .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
-                .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
+                .withPrice("50").withSubject("math").withStatus("Not Matched").withLevel("lower Sec")
                 .withRole("Tutor").withRemark(REMARK_BOB).build();
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Remark remark = new Remark(REMARK_BOB);
@@ -324,7 +323,7 @@ public class RemarkCommandTest {
         remarkCommand.execute();
         undoRedoStack.push(remarkCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
+        // undo -> reverts STUtor back to previous state and filtered person list to show all persons
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         // redo -> same first person with remark added again
@@ -376,7 +375,7 @@ public class RemarkCommandTest {
         remarkCommand.execute();
         undoRedoStack.push(remarkCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
+        // undo -> reverts STUtor back to previous state and filtered person list to show all persons
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         expectedModel.updatePerson(personToEdit, editedPerson);
@@ -456,7 +455,7 @@ public class RemarkCommandTest {
     public void parseCommand_rate() throws Exception {
         RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY);
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
+        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), false);
         assertEquals(new RateCommand(INDEX_FIRST_PERSON, rate), command);
     }
 
@@ -464,16 +463,15 @@ public class RemarkCommandTest {
     public void parseCommand_rateAliased() throws Exception {
         RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD_ALIAS + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY);
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
+        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), false);
         assertEquals(new RateCommand(INDEX_FIRST_PERSON, rate), command);
     }
 ```
 ###### \java\seedu\address\logic\parser\ParserUtilTest.java
 ``` java
     @Test
-    public void parseRemark_null_returnsEmptyStringRemark() {
-        Remark expectedRemark = new Remark("");
-        assertEquals(expectedRemark, ParserUtil.parseRemark((String) null));
+    public void parseRemark_null_throwsNullPointerException() {
+        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseRemark((String) null));
         Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseRemark((Optional<String>) null));
     }
 
@@ -496,7 +494,53 @@ public class RemarkCommandTest {
         assertEquals(expectedRemark, ParserUtil.parseRemark(remarkWithWhitespace));
         assertEquals(Optional.of(expectedRemark), ParserUtil.parseRemark(Optional.of(remarkWithWhitespace)));
     }
-}
+
+    @Test
+    public void parseRate_null_throwsNullPointerException() {
+        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseRate((String) null));
+        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseRate((Optional<String>) null));
+    }
+
+    @Test
+    public void parseRate_invalidValue_throwsIllegalValueException() {
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate(""));
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate(INVALID_RATE));
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseRate(Optional.of(INVALID_RATE)));
+    }
+
+    @Test
+    public void parseRate_optionalEmpty_returnsOptionalEmpty() throws Exception {
+        assertFalse(ParserUtil.parseRate(Optional.empty()).isPresent());
+    }
+
+    @Test
+    public void parseRate_validValueWithoutWhitespace_returnsRate() throws Exception {
+        // cumulative rate
+        Rate expectedRate = new Rate(Double.parseDouble(VALID_RATE), false);
+        assertEquals(expectedRate, ParserUtil.parseRate(VALID_RATE));
+        assertEquals(Optional.of(expectedRate), ParserUtil.parseRate(Optional.of(VALID_RATE)));
+
+        // absolute rate
+        expectedRate = new Rate(Double.parseDouble(VALID_RATE), true);
+        assertEquals(expectedRate, ParserUtil.parseRate(VALID_RATE + "-"));
+        assertEquals(Optional.of(expectedRate), ParserUtil.parseRate(Optional.of(VALID_RATE + "-")));
+    }
+
+    @Test
+    public void parseRate_validValueWithWhitespace_returnsTrimmedRate() throws Exception {
+        // cumulative rate
+        String rateWithWhitespace = WHITESPACE + VALID_RATE + WHITESPACE;
+        Rate expectedRate = new Rate(Double.parseDouble(VALID_RATE), false);
+        assertEquals(expectedRate, ParserUtil.parseRate(rateWithWhitespace));
+        assertEquals(Optional.of(expectedRate), ParserUtil.parseRate(Optional.of(rateWithWhitespace)));
+
+        // absolute rate
+        rateWithWhitespace = WHITESPACE + VALID_RATE + "-" + WHITESPACE;
+        expectedRate = new Rate(Double.parseDouble(VALID_RATE), true);
+        assertEquals(expectedRate, ParserUtil.parseRate(rateWithWhitespace));
+        assertEquals(Optional.of(expectedRate), ParserUtil.parseRate(Optional.of(rateWithWhitespace)));
+    }
+
 ```
 ###### \java\seedu\address\logic\parser\RateCommandParserTest.java
 ``` java
@@ -542,9 +586,9 @@ public class RateCommandParserTest {
     }
 
     @Test
-    public void parse_allFieldsSpecifiedAbsoulteRate_success() {
+    public void parse_allFieldsSpecifiedAbsoluteRate_success() {
         Index targetIndex = INDEX_SECOND_PERSON;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY + "-";
 
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
         RateCommand expectedCommand = new RateCommand(targetIndex, rate);
@@ -557,7 +601,7 @@ public class RateCommandParserTest {
         Index targetIndex = INDEX_FIRST_PERSON;
         String userInput = targetIndex.getOneBased() + " " + PREFIX_RATE + VALID_RATE_BOB;
 
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
+        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), false);
         RateCommand expectedCommand = new RateCommand(targetIndex, rate);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -620,7 +664,7 @@ public class RemarkCommandParserTest {
     }
 
     @Test
-    public void parse_indexFieldSpecifiedNullRemark_success() {
+    public void parse_indexFieldSpecifiedNoRemark_success() {
         Index targetIndex = INDEX_SECOND_PERSON;
         String userInput = targetIndex.getOneBased() + " " + PREFIX_REMARK;
 
@@ -641,15 +685,25 @@ public class RateTest {
     }
 
     @Test
-    public void checkRateAccumulatedValue() {
-        Rate oldRate = new Rate(2, true);
+    public void checkRateAccumulatedValue_success() {
+        Rate oldRate = new Rate(8, true);
         oldRate.setCount(2);
         Rate newRate = new Rate(3, true);
-        Rate expectedRate = new Rate(2.3, true);
+        Rate expectedRate = new Rate(11, true);
         expectedRate.setCount(3);
 
         Rate actualRate = Rate.accumulatedValue(oldRate, newRate);
         assertTrue(expectedRate.equals(actualRate));
+    }
+
+    @Test
+    public void getDisplayedValue_success() {
+        Rate rate = new Rate(13, true);
+        rate.setCount(4);
+        double expectedValue = 3.3;
+        double actualValue = rate.getDisplayedValue();
+
+        assertEquals(expectedValue, actualValue, 0.001);
     }
 
     @Test
@@ -675,6 +729,11 @@ public class RateTest {
         //test rate against non-rate type
         assertFalse(new Rate(1, true).equals(null));
         assertFalse(new Rate(1, true).equals(new Tag("100")));
+
+        //test cumulative against absolute rate
+        assertFalse(new Rate(1, true).equals(new Rate(1, false)));
+        //test different rate values
+        assertFalse(new Rate(2, true).equals(new Rate(2.2, true)));
         //test correctly returns equal if rate string is the same
         assertTrue(new Rate(1, true).equals(new Rate(1, true)));
     }
@@ -706,7 +765,7 @@ public class RemarkTest {
 
     @Test
     public void checkRemarkEquality() {
-        //test remark against non-address type
+        //test remark against non-remark type
         assertFalse(new Remark("Friendly and patient.").equals(null));
         assertFalse(new Remark("Friendly and patient.").equals(new Address("Friendly and patient.")));
 
@@ -716,71 +775,12 @@ public class RemarkTest {
 
     @Test
     public void checkRemarkHashCode() {
-        Remark remark = new Remark("Friendly and patient.");
+        Remark remark = new Remark("");
         assertTrue(remark.hashCode() == remark.value.hashCode());
-        remark = new Remark(" - ");
+        remark = new Remark("Friendly and patient.");
         assertTrue(remark.hashCode() == remark.value.hashCode());
         remark = new Remark("Late and impatient tutor.");
         assertTrue(remark.hashCode() == remark.value.hashCode());
-    }
-}
-```
-###### \java\seedu\address\ui\BrowserPanelTest.java
-``` java
-public class BrowserPanelTest extends GuiUnitTest {
-    private PersonPanelSelectionChangedEvent selectionChangedEventStubStudent;
-    private PersonPanelSelectionChangedEvent selectionChangedEventStubTutor;
-    //private PersonPanelSelectionChangedEvent selectionChangedEventStubPersonOnlyNameSpecified;
-
-    private BrowserPanel browserPanel;
-    private BrowserPanelHandle browserPanelHandle;
-
-    //private Person personOnlyNameSpecified;
-
-    @Before
-    public void setUp() {
-        /*personOnlyNameSpecified  = new PersonBuilder().withName("Hilda Lim")
-                .withAddress(null).withEmail(null).withPhone(null)
-                .withPrice(null).withSubject(null).withStatus(null).withLevel(null)
-                .withTags(new String[0]).build();*/
-
-        selectionChangedEventStubStudent = new PersonPanelSelectionChangedEvent(new PersonCard(ALICE, 0));
-        selectionChangedEventStubTutor = new PersonPanelSelectionChangedEvent(new PersonCard(BENSON, 0));
-        //selectionChangedEventStubPersonOnlyNameSpecified =
-        //        new PersonPanelSelectionChangedEvent(new PersonCard(personOnlyNameSpecified, 0));
-
-
-        guiRobot.interact(() -> browserPanel = new BrowserPanel());
-        uiPartRule.setUiPart(browserPanel);
-
-        browserPanelHandle = new BrowserPanelHandle(browserPanel.getRoot());
-    }
-
-    @Test
-    public void display() {
-        // student
-        Person student = ALICE;
-        postNow(selectionChangedEventStubStudent);
-        assertBrowserDisplay(student);
-
-        // tutor
-        Person tutor = BENSON;
-        postNow(selectionChangedEventStubTutor);
-        assertBrowserDisplay(tutor);
-
-        // person with only name specified
-        //postNow(selectionChangedEventStubTutor);
-        //assertBrowserDisplay(personOnlyNameSpecified);
-    }
-
-    /**
-     * Asserts that {@code browserPanel} displays the details of {@code expectedPerson} correctly.
-     */
-    private void assertBrowserDisplay(Person expectedPerson) {
-        guiRobot.pauseForHuman();
-
-        // verify person details are displayed correctly
-        assertBrowserDisplaysPerson(expectedPerson, browserPanelHandle);
     }
 }
 ```
@@ -788,7 +788,7 @@ public class BrowserPanelTest extends GuiUnitTest {
 ``` java
     @Test
     public void handleKeyPress_addCommandPressTab_autofill() {
-        String expectedOutput = "add n/ p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+        String expectedOutput = "add n/ p/ e/ a/ $/ sub/ lvl/ r/";
 
         // checks for add command word
         commandBoxHandle.setInput("add");
@@ -804,14 +804,14 @@ public class BrowserPanelTest extends GuiUnitTest {
 
         // checks if tab works correctly
         expectedOutput = "add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50"
-                         + " sub/Math lvl/Lower Sec stat/Not Matched r/Student";
+                         + " sub/Math lvl/Lower Sec r/Student";
         actualOutput = enterPersonDetails();
         assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
     public void handleKeyPress_addCommandPressDelete_removePreviousPrefix() {
-        String expectedOutput = "add p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+        String expectedOutput = "add p/ e/ a/ $/ sub/ lvl/ r/";
 
         // checks for add command word
         commandBoxHandle.setInput("add");
@@ -924,7 +924,7 @@ public class BrowserPanelTest extends GuiUnitTest {
 
     @Test
     public void handleKeyPress_editCommandPressTab_autofill() {
-        String expectedOutput = "edit 1 n/ p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+        String expectedOutput = "edit 1 n/ p/ e/ a/ $/ sub/ lvl/ r/";
 
         // checks for edit command word
         commandBoxHandle.setInput("edit");
@@ -941,7 +941,7 @@ public class BrowserPanelTest extends GuiUnitTest {
 
     @Test
     public void handleKeyPress_editCommandPressDelete_removePreviousPrefix() {
-        String expectedOutput = "edit 1 p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+        String expectedOutput = "edit 1 p/ e/ a/ $/ sub/ lvl/ r/";
 
         // checks for edit command word
         commandBoxHandle.setInput("edit");
@@ -953,9 +953,9 @@ public class BrowserPanelTest extends GuiUnitTest {
         String actualOutput = commandBoxHandle.getInput();
         assertEquals(expectedOutput, actualOutput);
 
-        // delete 7 more times for testing repetitive pressing of delete button
+        // delete 6 more times for testing repetitive pressing of delete button
         int i = 0;
-        while (i < 7) {
+        while (i < 6) {
             guiRobot.push(KeyCode.DELETE);
             i++;
         }
@@ -1019,8 +1019,6 @@ public class BrowserPanelTest extends GuiUnitTest {
         guiRobot.push(KeyCode.TAB);
         commandBoxHandle.insertInput("Lower Sec");
         guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.insertInput("Not Matched");
-        guiRobot.push(KeyCode.TAB);
         commandBoxHandle.insertInput("Student");
 
         return commandBoxHandle.getInput();
@@ -1039,6 +1037,50 @@ public class BrowserPanelTest extends GuiUnitTest {
 
         guiRobot.pauseForHuman();
         assertEquals(expectedOutput, actualOutput);
+    }
+}
+```
+###### \java\seedu\address\ui\DetailsPanelTest.java
+``` java
+public class DetailsPanelTest extends GuiUnitTest {
+    private PersonPanelSelectionChangedEvent selectionChangedEventStubStudent;
+    private PersonPanelSelectionChangedEvent selectionChangedEventStubTutor;
+
+    private DetailsPanel detailsPanel;
+    private DetailsPanelHandle detailsPanelHandle;
+
+    @Before
+    public void setUp() {
+        selectionChangedEventStubStudent = new PersonPanelSelectionChangedEvent(new PersonCard(ALICE, 0));
+        selectionChangedEventStubTutor = new PersonPanelSelectionChangedEvent(new PersonCard(BENSON, 0));
+
+        guiRobot.interact(() -> detailsPanel = new DetailsPanel());
+        uiPartRule.setUiPart(detailsPanel);
+
+        detailsPanelHandle = new DetailsPanelHandle(detailsPanel.getRoot());
+    }
+
+    @Test
+    public void display() {
+        // student
+        Person student = ALICE;
+        postNow(selectionChangedEventStubStudent);
+        assertDetailsDisplay(student);
+
+        // tutor
+        Person tutor = BENSON;
+        postNow(selectionChangedEventStubTutor);
+        assertDetailsDisplay(tutor);
+    }
+
+    /**
+     * Asserts that {@code detailsPanel} displays the details of {@code expectedPerson} correctly.
+     */
+    private void assertDetailsDisplay(Person expectedPerson) {
+        guiRobot.pauseForHuman();
+
+        // verify person details are displayed correctly
+        assertPanelDisplaysDetails(expectedPerson, detailsPanelHandle);
     }
 }
 ```

@@ -40,9 +40,10 @@ Each attribute has a special color associated with it to make visual recognition
 * *Other contributions*:
 
 ** Project management:
-*** Managed releases `v1.2` - `v1.5rc` (4 releases) on GitHub
+*** Managed releases `v1.2` - `v1.5` (6 releases) on GitHub
 ** Enhancements to existing features:
-*** Wrote additional tests for existing features and tests across the work of all team members to improve coverage significantly. (Pull requests https://github.com/CS2103JAN2018-W11-B1/main/pull/40[#40], https://github.com/CS2103JAN2018-W11-B1/main/pull/64[#64], https://github.com/CS2103JAN2018-W11-B1/main/pull/155[#155])
+*** Wrote additional tests for existing features and tests across the work of all team members to improve coverage significantly. These tests are located across many different parts of the code base.
+(Pull requests https://github.com/CS2103JAN2018-W11-B1/main/pull/40[#40], https://github.com/CS2103JAN2018-W11-B1/main/pull/64[#64], https://github.com/CS2103JAN2018-W11-B1/main/pull/155[#155], https://github.com/CS2103JAN2018-W11-B1/main/pull/179[#179])
 ** Documentation:
 *** Did some changes to the developer guide to improve reader-friendliness of existing content: https://github.com/CS2103JAN2018-W11-B1/main/pull/96[#96]
 ** Community:

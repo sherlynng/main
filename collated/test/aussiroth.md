@@ -1,4 +1,31 @@
 # aussiroth
+###### \java\seedu\address\logic\commands\DeleteCommandTest.java
+``` java
+    @Test
+    public void execute_validIndexUnfilteredList_throwsPersonMatchedCannotDeleteException() throws Exception {
+        //create a new pair for the test
+        Person student = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person tutor = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
+        model.addPair(student, tutor);
+        DeleteCommand deleteCommand = prepareCommand(INDEX_SECOND_PERSON);
+        assertCommandSuccess(deleteCommand, model, MESSAGE_DELETE_PERSON_FAILURE_MATCHED, model);
+    }
+
+```
+###### \java\seedu\address\logic\commands\EditCommandTest.java
+``` java
+    @Test
+    public void execute_validIndexUnfilteredList_throwsPersonMatchedCannotEditException() throws Exception {
+        //create a new pair for the test
+        Person student = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person tutor = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
+        model.addPair(student, tutor);
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withPrice("100").build();
+        EditCommand editCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
+        assertCommandFailure(editCommand, model, MESSAGE_MATCHED_CANNOT_EDIT);
+    }
+
+```
 ###### \java\seedu\address\logic\commands\FindMissingCommandTest.java
 ``` java
 /**
@@ -99,6 +126,21 @@ public class FindMissingCommandTest {
     }
 }
 ```
+###### \java\seedu\address\logic\commands\ViewStatsCommandTest.java
+``` java
+public class ViewStatsCommandTest {
+
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+    @Test
+    public void executeViewStatsCommand_success() {
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        ViewStatsCommand command = new ViewStatsCommand();
+        command.setData(model, new CommandHistory(), new UndoRedoStack());
+        assertCommandSuccess(command, model, MESSAGE_VIEW_STATS_SUCCESS, expectedModel);
+    }
+}
+```
 ###### \java\seedu\address\logic\parser\AddCommandParserTest.java
 ``` java
     @Test
@@ -120,71 +162,64 @@ public class FindMissingCommandTest {
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
+        assertParseSuccess(parser, NAME_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //email
         expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withEmail("").withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //address
         expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress("").withSubject(VALID_SUBJECT_BOB)
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + SUBJECT_DESC_BOB + LEVEL_DESC_BOB
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //subject
         expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject("")
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + LEVEL_DESC_BOB
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //level
         expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
                 .withLevel("").withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + STATUS_DESC_UNMATCHED
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
-        //Status
-        expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
-                .withLevel(VALID_LEVEL_BOB).withStatus("").withPrice(VALID_PRICE_BOB)
-                .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB
-                + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
+
         //price
         expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
-                .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice("")
+                .withLevel(VALID_LEVEL_BOB).withPrice("")
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB
                 + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //role
         expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole("").withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB
                 + PRICE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //all missing but name
         expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone("")
                 .withEmail("").withAddress("").withSubject("")
-                .withLevel("").withStatus("").withPrice("")
+                .withLevel("").withPrice("")
                 .withRole("").build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB, new AddCommand(expectedPerson));
+        assertParseSuccess(parser, NAME_DESC_BOB, new AddCommand(expectedPerson));
 
     }
 
@@ -222,13 +257,9 @@ public class FindMissingCommandTest {
 
         // invalid tag
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_CHINESE + LEVEL_DESC_UPPER_SEC + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB
+                + SUBJECT_DESC_CHINESE + LEVEL_DESC_UPPER_SEC + PRICE_DESC_BOB
                 + ROLE_DESC_BOB + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_TAG_CONSTRAINTS);
 
-        // invalid status
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + SUBJECT_DESC_CHINESE + LEVEL_DESC_UPPER_SEC + INVALID_STATUS_DESC + PRICE_DESC_BOB
-                + ROLE_DESC_BOB + INVALID_TAG_DESC + VALID_TAG_FRIEND, Status.MESSAGE_STATUS_CONSTRAINTS);
 
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + VALID_ADDRESS_BOB
@@ -283,8 +314,8 @@ public class FindMissingCommandTest {
         Person person = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD_ALIAS + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getPersonDetails(person));
-        assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
+                + INDEX_NINTH_PERSON.getOneBased() + " " + PersonUtil.getPersonDetailsWithoutStatus(person));
+        assertEquals(new EditCommand(INDEX_NINTH_PERSON, descriptor), command);
     }
 
     @Test
@@ -390,6 +421,61 @@ public class FindMissingCommandParserTest {
         assertParseFailure(parser, "addres phon", String.format(expectedParseFailureMessage, "addres"));
     }
 }
+```
+###### \java\seedu\address\logic\parser\ParserUtilTest.java
+``` java
+    @Test
+    public void parsePairHash_validValue_returnsPairHash() throws Exception {
+        String pairHash = "123412341";
+        PairHash expectedPairHash = new PairHash("123412341");
+        assertEquals(expectedPairHash, ParserUtil.parsePairHash(pairHash));
+    }
+
+    @Test
+    public void parsePairHash_invalidValue_throwsIllegalValueException() {
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parsePairHash("abcdefgh"));
+    }
+
+    @Test
+    public void parsePairHashes_invalidValues_throwsIllegalValueException() throws Exception {
+        ArrayList<String> pairHashes = new ArrayList<>();
+        pairHashes.add("1234");
+        pairHashes.add("abcd");
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parsePairHashes(pairHashes));
+    }
+}
+```
+###### \java\seedu\address\model\AddressBookTest.java
+``` java
+    @Test
+    public void resetData_withDuplicatePairs_throwsAssertionError() {
+        // Repeat RANDOM_PAIR_A twice
+        List<Person> newPersons = Arrays.asList(ALICE);
+        List<Tag> newTags = new ArrayList<>(ALICE.getTags());
+        List<Pair> newPairs = Arrays.asList(TypicalPairs.RANDOM_PAIR_A, TypicalPairs.RANDOM_PAIR_A);
+        AddressBookStub newData = new AddressBookStub(newPersons, newTags, newPairs);
+
+        thrown.expect(AssertionError.class);
+        addressBook.resetData(newData);
+    }
+
+```
+###### \java\seedu\address\model\AddressBookTest.java
+``` java
+    @Test
+    public void removePersonOrPair_doesNotExist_throwsNotFoundException() throws Exception {
+        addressBook.addPerson(AMY);
+        assertThrows(PersonNotFoundException.class, () -> addressBook.removePerson(BOB));
+        assertThrows(PairNotFoundException.class, () -> addressBook.removePair(TypicalPairs.RANDOM_PAIR_A));
+    }
+
+    @Test
+    public void checkHashCodeMethod() {
+        AddressBook first = new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
+        AddressBook copy = new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
+        assertTrue(first.hashCode() == copy.hashCode());
+    }
+
 ```
 ###### \java\seedu\address\model\person\EmailTest.java
 ``` java
@@ -552,7 +638,8 @@ public class StatusTest {
         assertFalse(new Status("matched").equals(null));
         assertFalse(new Status("matched").equals(new Tag("matched")));
         //test correctly returns equal if status string is the same
-        assertTrue(new Status("matched").equals(new Status("matched")));
+        assertTrue(new Status("matched").equals(new Status("m")));
+        assertTrue(new Status("not matched").equals(new Status("nm")));
     }
 
     @Test
@@ -620,6 +707,127 @@ public class SubjectTest {
         assertTrue(Tag.isValidTagType("STATUS"));
     }
 
+    @Test
+    public void toStringMethod() {
+        Tag target = new Tag("Math", Tag.AllTagTypes.SUBJECT);
+        assertTrue("[Math]".equals(target.toString()));
+    }
+}
+```
+###### \java\seedu\address\model\UniquePairHashListTest.java
+``` java
+    @Test
+    public void addDuplicatePairHash_throwsDuplicatePairHashException() throws Exception {
+        UniquePairHashList uniquePairHashList = new UniquePairHashList();
+        uniquePairHashList.add(new PairHash(1234));
+        assertThrows(UniquePairHashList.DuplicatePairHashException.class, () ->
+                uniquePairHashList.add(new PairHash(1234)));
+    }
+
+    @Test
+    public void checkHashCodeMethod() throws Exception {
+        UniquePairHashList uniquePairHashListA = new UniquePairHashList();
+        UniquePairHashList uniquePairHashListB = new UniquePairHashList();
+        uniquePairHashListA.add(new PairHash(1234567));
+        uniquePairHashListB.add(new PairHash(1234567));
+        assertTrue(uniquePairHashListA.hashCode() == uniquePairHashListB.hashCode());
+    }
+
+}
+
+```
+###### \java\seedu\address\model\UniquePairListTest.java
+``` java
+    @Test
+    public void deletePair_noMatchingPair_throwsPairNotFoundException() {
+        UniquePairList uniquePairList = new UniquePairList();
+        assertThrows(PairNotFoundException.class, () -> uniquePairList.remove(RANDOM_PAIR_A));
+    }
+
+    @Test
+    public void checkHashCodeMethod() throws Exception {
+        UniquePairList uniquePairListA = new UniquePairList();
+        UniquePairList uniquePairListB = new UniquePairList();
+        uniquePairListA.add(RANDOM_PAIR_A);
+        uniquePairListB.add(RANDOM_PAIR_A);
+        assertTrue(uniquePairListA.hashCode() == uniquePairListB.hashCode());
+    }
+
+    @Test
+    public void editPair_targetNotFound_throwsPairNotFoundException() throws Exception {
+        UniquePairList uniquePairList = new UniquePairList();
+        assertThrows(PairNotFoundException.class, () -> uniquePairList.setPair(RANDOM_PAIR_A, RANDOM_PAIR_B));
+    }
+
+    @Test
+    public void editPair_pairInList_throwsDuplicatePairException() throws Exception {
+        UniquePairList uniquePairList = new UniquePairList();
+        uniquePairList.add(RANDOM_PAIR_B);
+        assertThrows(PairNotFoundException.class, () -> uniquePairList.setPair(RANDOM_PAIR_A, RANDOM_PAIR_B));
+        uniquePairList.add(RANDOM_PAIR_A);
+        assertThrows(DuplicatePairException.class, () -> uniquePairList.setPair(RANDOM_PAIR_A, RANDOM_PAIR_B));
+    }
+}
+```
+###### \java\seedu\address\model\UniquePersonListTest.java
+``` java
+    @Test
+    public void editAndDelete_noMatchingPerson_throwsPersonNotFoundException() {
+        UniquePersonList uniquePersonList = new UniquePersonList();
+        Person person = TypicalPersons.ALICE;
+        assertThrows(PersonNotFoundException.class, () -> uniquePersonList.remove(person));
+        assertThrows(PersonNotFoundException.class, () -> uniquePersonList.setPerson(person, person));
+    }
+
+    @Test
+    public void checkHashCodeMethod() throws Exception {
+        UniquePersonList uniquePersonListA = new UniquePersonList();
+        UniquePersonList uniquePersonListB = new UniquePersonList();
+        uniquePersonListA.add(TypicalPersons.ALICE);
+        uniquePersonListB.add(TypicalPersons.ALICE);
+        assertTrue(uniquePersonListA.hashCode() == uniquePersonListB.hashCode());
+    }
+}
+```
+###### \java\seedu\address\storage\StorageManagerTest.java
+``` java
+    @Test
+    public void addressBookBackupSave() throws Exception {
+        //Note: This test is essentially similar to addressBookReadSave above, but uses backup method instead.
+        AddressBook original = getTypicalAddressBook();
+        storageManager.backupAddressBook(original);
+        ReadOnlyAddressBook retrieved = storageManager.readAddressBook(getTempFilePath("ab.backup")).get();
+        assertEquals(original, new AddressBook(retrieved));
+    }
+
+```
+###### \java\seedu\address\storage\XmlAdaptedPairHashTest.java
+``` java
+public class XmlAdaptedPairHashTest {
+
+    @Test
+    public void toModelType_validPairHash_returnsPairHash() throws Exception {
+        PairHash expectedPairHash = new PairHash(12341);
+        XmlAdaptedPairHash xmlExpectedPairHash = new XmlAdaptedPairHash(expectedPairHash);
+        assertEquals(expectedPairHash, xmlExpectedPairHash.toModelType());
+    }
+
+    @Test
+    public void toModelType_invalidValue_throwsIllegalValueException() throws Exception {
+        XmlAdaptedPairHash invalidValueHash = new XmlAdaptedPairHash("abcde");
+        assertThrows(IllegalValueException.class, () -> invalidValueHash.toModelType());
+    }
+
+    @Test
+    public void testXmlAdaptedTagEquality() {
+        XmlAdaptedPairHash targetPairHash = new XmlAdaptedPairHash("12345");
+        XmlAdaptedPairHash copy = new XmlAdaptedPairHash("12345");
+        assertTrue(targetPairHash.equals(targetPairHash));
+        //check equality if values are equal
+        assertTrue(targetPairHash.equals(copy));
+        //check not equal if type is different
+        assertFalse(targetPairHash.equals(new PairHash("12345")));
+    }
 }
 ```
 ###### \java\seedu\address\storage\XmlAdaptedPersonTest.java
@@ -788,19 +996,19 @@ public class XmlAdaptedTagTest {
 
         /* Case: invalid level -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + INVALID_LEVEL_DESC + ROLE_DESC_AMY
+                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + INVALID_LEVEL_DESC + ROLE_DESC_AMY
                 + TAG_DESC_FRIEND;
         assertCommandFailure(command, Level.MESSAGE_LEVEL_CONSTRAINTS);
 
         /* Case: invalid role -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY + INVALID_ROLE_DESC
+                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + LEVEL_DESC_AMY + INVALID_ROLE_DESC
                 + TAG_DESC_FRIEND;
         assertCommandFailure(command, Role.MESSAGE_ROLE_CONSTRAINTS);
 
         /* Case: invalid tag -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + STATUS_DESC_UNMATCHED + LEVEL_DESC_AMY + ROLE_DESC_AMY
+                + PRICE_DESC_AMY + SUBJECT_DESC_AMY + LEVEL_DESC_AMY + ROLE_DESC_AMY
                 + INVALID_TAG_DESC;
         assertCommandFailure(command, Tag.MESSAGE_TAG_CONSTRAINTS);
 ```
@@ -829,16 +1037,16 @@ public class XmlAdaptedTagTest {
         /* Case: edit a person with new values same as another person's values -> rejected */
         executeCommand(PersonUtil.getAddCommand(BOB));
         assertTrue(getModel().getAddressBook().getPersonList().contains(BOB));
-        index = INDEX_FIRST_PERSON;
+        index = INDEX_NINTH_PERSON;
         assertFalse(getModel().getFilteredPersonList().get(index.getZeroBased()).equals(BOB));
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED + SUBJECT_DESC_BOB
+                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB + SUBJECT_DESC_BOB
                 + ROLE_DESC_BOB + TAG_DESC_FRIEND;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
 
         /* Case: edit a person with new values same as another person's values but with different tags -> rejected */
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED + SUBJECT_DESC_BOB
+                + ADDRESS_DESC_BOB + PRICE_DESC_BOB + LEVEL_DESC_BOB  + SUBJECT_DESC_BOB
                 + ROLE_DESC_BOB;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
 ```

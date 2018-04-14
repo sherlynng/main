@@ -36,4 +36,9 @@ public class TagTest {
         assertTrue(Tag.isValidTagType("STATUS"));
     }
 
+    @Test
+    public void toStringMethod() {
+        Tag target = new Tag("Math", Tag.AllTagTypes.SUBJECT);
+        assertTrue("[Math]".equals(target.toString()));
+    }
 }

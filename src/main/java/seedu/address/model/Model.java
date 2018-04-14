@@ -49,9 +49,22 @@ public interface Model {
      * @throws DuplicatePersonException if updating the person's details causes the person to be equivalent to
      *      another existing person in the list.
      * @throws PersonNotFoundException if {@code target} could not be found in the list.
+     *
+     * @throws PersonMatchedCannotEditException if {@code target} attributes cannot be edited due to being matched.
      */
     void updatePerson(Person target, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException, PersonMatchedCannotEditException;
+
+    /**
+     * Replaces the given person {@code target} with {@code editedPerson}.
+     * This is for use with rating and remark operations.
+     *
+     * @throws DuplicatePersonException if updating the person's details causes the person to be equivalent to
+     *      another existing person in the list.
+     * @throws PersonNotFoundException if {@code target} could not be found in the list.
+     */
+    void rateRemarkPerson(Person target, Person editedPerson)
+            throws DuplicatePersonException, PersonNotFoundException;
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
