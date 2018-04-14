@@ -173,6 +173,15 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     //@@author
+    /**
+     * Replaces the given person {@code target} in the list with {@code editedPerson}.
+     * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPerson}.
+     * This is meant to be used only for rating and remark changes for a person.
+     * @param target
+     * @param editedPerson
+     * @throws DuplicatePersonException
+     * @throws PersonNotFoundExceptiong
+     */
     public void updatePersonForRateAndRemark(Person target, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException {
         requireNonNull(editedPerson);
