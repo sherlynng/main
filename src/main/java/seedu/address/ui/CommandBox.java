@@ -9,7 +9,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 
 import java.util.logging.Logger;
@@ -122,7 +121,7 @@ public class CommandBox extends UiPart<Region> {
         case AddCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(AddCommand.COMMAND_WORD + " " + PREFIX_NAME + " " + PREFIX_PHONE + " "
                     + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
-                    + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
+                    + PREFIX_LEVEL + " " + PREFIX_ROLE);
             isFindNextField = true;
             isMatchCommand = false;
             break;
@@ -130,7 +129,7 @@ public class CommandBox extends UiPart<Region> {
         case EditCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(EditCommand.COMMAND_WORD + " 1 " + PREFIX_NAME + " " + PREFIX_PHONE + " "
                     + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
-                    + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
+                    + PREFIX_LEVEL + " " + PREFIX_ROLE);
             selectIndexToEdit();
             isFindNextField = false;
             isFirstTime = true;
