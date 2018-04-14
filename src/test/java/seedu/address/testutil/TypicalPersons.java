@@ -36,7 +36,7 @@ public class TypicalPersons {
 
     public static final Person ALICE = new PersonBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com").withPhone("85355255")
-            .withPrice("50").withSubject("math").withStatus("Matched").withLevel("lower Sec")
+            .withPrice("50").withSubject("math").withStatus("Not Matched").withLevel("lower Sec")
             .withRole("Tutor").withRemark("Hardworking but slow learner.").withRate("3.0", "1").build();
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
@@ -44,7 +44,7 @@ public class TypicalPersons {
             .withRole("Student").withRemark("Not self motivated.").withRate("2.1", "2").build();
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withEmail("heinz@example.com").withAddress("wall street")
-            .withPrice("20").withSubject("chemistry").withStatus("Matched").withLevel("upper Sec")
+            .withPrice("20").withSubject("chemistry").withStatus("Not Matched").withLevel("upper Sec")
             .withRole("Tutor").withRemark("Patient and clear in explanation.").withRate("4.2", "3").build();
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
             .withEmail("cornelia@example.com").withAddress("10th street")

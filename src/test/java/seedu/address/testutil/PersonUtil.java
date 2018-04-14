@@ -71,7 +71,7 @@ public class PersonUtil {
 
         person.getTags().stream().forEach(
             s -> {
-                if (s.tagType != Tag.AllTagTypes.DEFAULT) {
+                if (s.tagType == Tag.AllTagTypes.DEFAULT) {
                     sb.append(PREFIX_TAG + s.tagName + " ");
                 }
             });
