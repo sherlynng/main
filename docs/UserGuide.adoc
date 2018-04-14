@@ -412,6 +412,7 @@ you can mark the pair as `Matching in Progress`.
 *  You will be able to view the schedule and billing information of the pair.
 After selecting a matched pair, such information will be displayed on the `DetailsPanel`.
 
+
 // tag::unmatch[]
 
 ==== Unmatching a student and a tutor : `*ummatch*` or `*um*` `[In V1.4]`
