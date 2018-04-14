@@ -681,7 +681,7 @@ However, the current implementation can only filter for 1 argument.
 
 The following sequence diagram shows how the filter command works:
 
-image::FilterCommandSequenceDiagramV2.png[width="800"]
+image::FilterCommandSequenceDiagramV3.png[width="800"]
 
 [NOTE]
 The user must input arguments in case full fashion and it is case insensitive.
