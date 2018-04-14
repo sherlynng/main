@@ -388,7 +388,7 @@ For example: +
 ** `Incompatible price.`
 
 * If the tutor demands higher price than what the student offers, the matching will be deemed as incompatible.
-When the tutor can accept a price lower than what the student offers,
+When the tutor demands a price lower than what the student offers,
 the price for the pair will be the higher price offered by the student.
  +
 ====
