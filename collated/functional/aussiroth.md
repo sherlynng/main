@@ -159,10 +159,9 @@ public class FindMissingCommand extends Command {
             Price price = ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE)).orElse(new Price(""));
             Subject subject = ParserUtil.parseSubject(argMultimap.getValue(PREFIX_SUBJECT)).orElse(new Subject(""));
             Level level = ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL)).orElse(new Level(""));
-            Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)).orElse(new Status(""));
+            Status status = Status.DEFAULT_STATUS;
             Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE)).orElse(new Role(""));
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-            Set<PairHash> pairHashList = ParserUtil.parsePairHashes(argMultimap.getAllValues(PREFIX_PAIRHASH));
 
             //make sure name is never set to empty string as it is the only compulsory field.
             assert(!name.equals(""));
@@ -171,11 +170,10 @@ public class FindMissingCommand extends Command {
             tagList = AttributeTagSetter.addNewAttributeTags(tagList, price, subject, level, status, role);
 
             Remark remark = new Remark("");  // default remark is empty string for newly added Person
-            Rate rate = new Rate(3, true); // default rating is 3
-            rate.setCount(1); // default rate count is 1
+            Rate rate = Rate.initializeRate(); // default rate has 0 people rating the person
 
             Person person = new Person(name, phone, email, address, price, subject, level,
-                                       status, role, tagList, remark, rate, pairHashList);
+                                       status, role, tagList, remark, rate, PairHash.getDefaultPairHashSet());
             return new AddCommand(person);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
