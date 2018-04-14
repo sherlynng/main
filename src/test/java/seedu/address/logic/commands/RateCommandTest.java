@@ -148,7 +148,7 @@ public class RateCommandTest {
         rateCommand.execute();
         undoRedoStack.push(rateCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
+        // undo -> reverts STUtor back to previous state and filtered person list to show all persons
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         // redo -> same first person with rate added again
@@ -203,7 +203,7 @@ public class RateCommandTest {
         rateCommand.execute();
         undoRedoStack.push(rateCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
+        // undo -> reverts STUtor back to previous state and filtered person list to show all persons
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         expectedModel.updatePerson(personToEdit, editedPerson);

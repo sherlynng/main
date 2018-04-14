@@ -136,7 +136,6 @@ public class SampleDataUtil {
                 tags.add(new Tag(strings[i], Tag.AllTagTypes.ROLE));
                 break;
             default:
-                tags.add(new Tag(strings[i], Tag.AllTagTypes.DEFAULT));
                 break;
             }
         }

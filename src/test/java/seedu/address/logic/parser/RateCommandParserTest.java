@@ -61,9 +61,9 @@ public class RateCommandParserTest {
     }
 
     @Test
-    public void parse_allFieldsSpecifiedAbsoulteRate_success() {
+    public void parse_allFieldsSpecifiedAbsoluteRate_success() {
         Index targetIndex = INDEX_SECOND_PERSON;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY + "-";
 
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
         RateCommand expectedCommand = new RateCommand(targetIndex, rate);
@@ -76,7 +76,7 @@ public class RateCommandParserTest {
         Index targetIndex = INDEX_FIRST_PERSON;
         String userInput = targetIndex.getOneBased() + " " + PREFIX_RATE + VALID_RATE_BOB;
 
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), true);
+        Rate rate = new Rate(Double.parseDouble(VALID_RATE_BOB), false);
         RateCommand expectedCommand = new RateCommand(targetIndex, rate);
 
         assertParseSuccess(parser, userInput, expectedCommand);

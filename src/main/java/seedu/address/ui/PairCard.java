@@ -47,14 +47,6 @@ public class PairCard extends UiPart<Region> {
     }
 
     /**
-     * Returns the color style for {@code tagName}'s label.
-     */
-    private String getTagColorStyleFor(String tagName) {
-        // use hash code of tag name to generate a random color
-        return TAG_COLOR_STYLES[Math.abs(tagName.hashCode()) % TAG_COLOR_STYLES.length];
-    }
-
-    /**
      * Returns the color style for {@code tag}.
      * Uses the tagType value inside the Tag to determine the colour.
      */
@@ -64,11 +56,8 @@ public class PairCard extends UiPart<Region> {
             return TAG_COLOR_STYLES[0]; //subject is teal
         case LEVEL:
             return TAG_COLOR_STYLES[1]; //level is red
-        case STATUS:
-            return TAG_COLOR_STYLES[2]; //status is yellow
         case PRICE:
             return TAG_COLOR_STYLES[3]; //price is blue
-            //fall through to default
         default:
             return TAG_COLOR_STYLES[8]; //all non-attribute are black
         }

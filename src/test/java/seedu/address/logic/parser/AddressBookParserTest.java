@@ -93,6 +93,7 @@ public class AddressBookParserTest {
         System.out.println(new EditCommand(INDEX_NINTH_PERSON, descriptor));
         System.out.println(command.toString());
         assertEquals(new EditCommand(INDEX_NINTH_PERSON, descriptor), command);
+
     }
 
     @Test
@@ -308,7 +309,7 @@ public class AddressBookParserTest {
     public void parseCommand_rate() throws Exception {
         RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY);
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
+        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), false);
         assertEquals(new RateCommand(INDEX_FIRST_PERSON, rate), command);
     }
 
@@ -316,7 +317,7 @@ public class AddressBookParserTest {
     public void parseCommand_rateAliased() throws Exception {
         RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD_ALIAS + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_RATE + VALID_RATE_AMY);
-        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), true);
+        Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), false);
         assertEquals(new RateCommand(INDEX_FIRST_PERSON, rate), command);
     }
     //@@author

@@ -70,7 +70,7 @@ public class RemarkCommandParserTest {
     }
 
     @Test
-    public void parse_indexFieldSpecifiedNullRemark_success() {
+    public void parse_indexFieldSpecifiedNoRemark_success() {
         Index targetIndex = INDEX_SECOND_PERSON;
         String userInput = targetIndex.getOneBased() + " " + PREFIX_REMARK;
 

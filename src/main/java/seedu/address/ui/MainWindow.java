@@ -35,7 +35,6 @@ public class MainWindow extends UiPart<Stage> {
 
     // Independent Ui parts residing in this Ui container
     private InfoPanel infoPanel;
-    private BrowserPanel browserPanel;
     private PersonListPanel personListPanel;
     private PairListPanel pairListPanel;
     private Config config;

@@ -123,6 +123,10 @@ public class Person {
         return Collections.unmodifiableSet(pairHashes.toSet());
     }
 
+    public void addPairHash(PairHash pairHash) throws UniquePairHashList.DuplicatePairHashException {
+        pairHashes.add(pairHash);
+    }
+
 
     @Override
     public boolean equals(Object other) {
@@ -167,6 +171,7 @@ public class Person {
         return builder.toString();
     }
 
+
     public boolean isMatched() {
         return (getStatus().value.equals("Matched"));
     }
@@ -174,4 +179,5 @@ public class Person {
     public boolean containsPairHash(PairHash pairHash) {
         return (pairHashes.contains(pairHash));
     }
+
 }

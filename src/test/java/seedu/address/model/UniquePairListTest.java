@@ -3,6 +3,7 @@ package seedu.address.model;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPairs.RANDOM_PAIR_A;
 import static seedu.address.testutil.TypicalPairs.RANDOM_PAIR_B;
 
@@ -77,4 +78,34 @@ public class UniquePairListTest {
         assertEquals(listA, listB);
     }
 
+    //@@author aussiroth
+    @Test
+    public void deletePair_noMatchingPair_throwsPairNotFoundException() {
+        UniquePairList uniquePairList = new UniquePairList();
+        assertThrows(PairNotFoundException.class, () -> uniquePairList.remove(RANDOM_PAIR_A));
+    }
+
+    @Test
+    public void checkHashCodeMethod() throws Exception {
+        UniquePairList uniquePairListA = new UniquePairList();
+        UniquePairList uniquePairListB = new UniquePairList();
+        uniquePairListA.add(RANDOM_PAIR_A);
+        uniquePairListB.add(RANDOM_PAIR_A);
+        assertTrue(uniquePairListA.hashCode() == uniquePairListB.hashCode());
+    }
+
+    @Test
+    public void editPair_targetNotFound_throwsPairNotFoundException() throws Exception {
+        UniquePairList uniquePairList = new UniquePairList();
+        assertThrows(PairNotFoundException.class, () -> uniquePairList.setPair(RANDOM_PAIR_A, RANDOM_PAIR_B));
+    }
+
+    @Test
+    public void editPair_pairInList_throwsDuplicatePairException() throws Exception {
+        UniquePairList uniquePairList = new UniquePairList();
+        uniquePairList.add(RANDOM_PAIR_B);
+        assertThrows(PairNotFoundException.class, () -> uniquePairList.setPair(RANDOM_PAIR_A, RANDOM_PAIR_B));
+        uniquePairList.add(RANDOM_PAIR_A);
+        assertThrows(DuplicatePairException.class, () -> uniquePairList.setPair(RANDOM_PAIR_A, RANDOM_PAIR_B));
+    }
 }
