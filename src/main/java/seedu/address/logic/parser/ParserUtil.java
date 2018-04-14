@@ -233,17 +233,6 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code Optional<String> status} into an {@code Optional<Status>} if {@code status} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<Status> parseStatus(Optional<String> status) throws IllegalValueException {
-        requireNonNull(status);
-        return status.isPresent() ? Optional.of(parseStatus(status.get())) : Optional.empty();
-    }
-
-
-
-    /**
      * Parses a {@code String role} into a {@code Role}.
      * Leading and trailing whitespaces will be trimmed.
      *
