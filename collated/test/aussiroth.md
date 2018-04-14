@@ -20,82 +20,11 @@
         Person student = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person tutor = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         model.addPair(student, tutor);
-        Person toEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withPrice("100").build();
         EditCommand editCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
         assertCommandFailure(editCommand, model, MESSAGE_MATCHED_CANNOT_EDIT);
     }
 
-    /**
-     * 1. Edits a {@code Person} from a filtered list.
-     * 2. Undo the edit.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously edited person in the
-     * unfiltered list is different from the index at the filtered list.
-     * 4. Redo the edit. This ensures {@code RedoCommand} edits the person object regardless of indexing.
-     */
-    @Test
-    public void executeUndoRedo_validIndexFilteredList_samePersonEdited() throws Exception {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Person editedPerson = new PersonBuilder().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
-        EditCommand editCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-
-        showPersonAtIndex(model, INDEX_NINTH_PERSON);
-        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        // edit -> edits eighth person in unfiltered person list / first person in filtered person list
-        editCommand.execute();
-        undoRedoStack.push(editCommand);
-
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-        expectedModel.updatePerson(personToEdit, editedPerson);
-        assertNotEquals(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), personToEdit);
-        // redo -> edits same second person in unfiltered person list
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-
-    @Test
-    public void equals() throws Exception {
-        final EditCommand standardCommand = prepareCommand(INDEX_FIRST_PERSON, DESC_AMY);
-
-        // same values -> returns true
-        EditPersonDescriptor copyDescriptor = new EditPersonDescriptor(DESC_AMY);
-        EditCommand commandWithSameValues = prepareCommand(INDEX_FIRST_PERSON, copyDescriptor);
-        assertTrue(standardCommand.equals(commandWithSameValues));
-
-        // same object -> returns true
-        assertTrue(standardCommand.equals(standardCommand));
-
-        // one command preprocessed when previously equal -> returns false
-        commandWithSameValues.preprocessUndoableCommand();
-        assertFalse(standardCommand.equals(commandWithSameValues));
-
-        // null -> returns false
-        assertFalse(standardCommand.equals(null));
-
-        // different types -> returns false
-        assertFalse(standardCommand.equals(new ClearCommand()));
-
-        // different index -> returns false
-        assertFalse(standardCommand.equals(new EditCommand(INDEX_SECOND_PERSON, DESC_AMY)));
-
-        // different descriptor -> returns false
-        assertFalse(standardCommand.equals(new EditCommand(INDEX_FIRST_PERSON, DESC_BOB)));
-    }
-
-    /**
-     * Returns an {@code EditCommand} with parameters {@code index} and {@code descriptor}
-     */
-    private EditCommand prepareCommand(Index index, EditPersonDescriptor descriptor) {
-        EditCommand editCommand = new EditCommand(index, descriptor);
-        editCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return editCommand;
-    }
-}
 ```
 ###### \java\seedu\address\logic\commands\FindMissingCommandTest.java
 ``` java
@@ -516,6 +445,38 @@ public class FindMissingCommandParserTest {
     }
 }
 ```
+###### \java\seedu\address\model\AddressBookTest.java
+``` java
+    @Test
+    public void resetData_withDuplicatePairs_throwsAssertionError() {
+        // Repeat RANDOM_PAIR_A twice
+        List<Person> newPersons = Arrays.asList(ALICE);
+        List<Tag> newTags = new ArrayList<>(ALICE.getTags());
+        List<Pair> newPairs = Arrays.asList(TypicalPairs.RANDOM_PAIR_A, TypicalPairs.RANDOM_PAIR_A);
+        AddressBookStub newData = new AddressBookStub(newPersons, newTags, newPairs);
+
+        thrown.expect(AssertionError.class);
+        addressBook.resetData(newData);
+    }
+
+```
+###### \java\seedu\address\model\AddressBookTest.java
+``` java
+    @Test
+    public void removePersonOrPair_doesNotExist_throwsNotFoundException() throws Exception {
+        addressBook.addPerson(AMY);
+        assertThrows(PersonNotFoundException.class, () -> addressBook.removePerson(BOB));
+        assertThrows(PairNotFoundException.class, () -> addressBook.removePair(TypicalPairs.RANDOM_PAIR_A));
+    }
+
+    @Test
+    public void checkHashCodeMethod() {
+        AddressBook first = new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
+        AddressBook copy = new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
+        assertTrue(first.hashCode() == copy.hashCode());
+    }
+
+```
 ###### \java\seedu\address\model\person\EmailTest.java
 ``` java
     @Test
@@ -827,6 +788,18 @@ public class SubjectTest {
         assertTrue(uniquePersonListA.hashCode() == uniquePersonListB.hashCode());
     }
 }
+```
+###### \java\seedu\address\storage\StorageManagerTest.java
+``` java
+    @Test
+    public void addressBookBackupSave() throws Exception {
+        //Note: This test is essentially similar to addressBookReadSave above, but uses backup method instead.
+        AddressBook original = getTypicalAddressBook();
+        storageManager.backupAddressBook(original);
+        ReadOnlyAddressBook retrieved = storageManager.readAddressBook(getTempFilePath("ab.backup")).get();
+        assertEquals(original, new AddressBook(retrieved));
+    }
+
 ```
 ###### \java\seedu\address\storage\XmlAdaptedPairHashTest.java
 ``` java

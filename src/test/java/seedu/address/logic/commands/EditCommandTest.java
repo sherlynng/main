@@ -198,12 +198,12 @@ public class EditCommandTest {
         Person student = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person tutor = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         model.addPair(student, tutor);
-        Person toEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withPrice("100").build();
         EditCommand editCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
         assertCommandFailure(editCommand, model, MESSAGE_MATCHED_CANNOT_EDIT);
     }
 
+    //@@author
     /**
      * 1. Edits a {@code Person} from a filtered list.
      * 2. Undo the edit.
