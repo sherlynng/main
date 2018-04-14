@@ -133,7 +133,7 @@ public class ParserUtil {
         if (!Email.isValidEmail(trimmedEmail)) {
             throw new IllegalValueException(Email.MESSAGE_EMAIL_CONSTRAINTS);
         }
-        return new Email(trimmedEmail.toLowerCase());
+        return new Email(trimmedEmail);
     }
 
     /**

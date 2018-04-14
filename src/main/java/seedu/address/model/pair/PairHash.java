@@ -65,6 +65,12 @@ public class PairHash {
         return value;
     }
 
+    @Override
+    public int hashCode() {
+        return Integer.toString(value).hashCode();
+    }
+
+
     /**
      * Returns true if a given string is a valid pairHash
      */

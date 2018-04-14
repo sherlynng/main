@@ -85,7 +85,7 @@ public class TypicalPersons {
             .withRole("Student").withRemark("Hardworking.").withRate("4.3", "1").build();
     public static final Person MARY = new PersonBuilder().withName("Mary Lou").withPhone("8482131")
             .withEmail("hans@example.com").withAddress("chicago ave").withSubject("english")
-            .withLevel("lower Sec").withPrice("120").withStatus("not Matched")
+            .withLevel("lower Sec").withPrice("100").withStatus("not Matched")
             .withRole("Tutor").withRemark("Hardworking.").withRate("4.3", "1").build();
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("8482424")
             .withEmail("stefan@example.com").withAddress("little india").withSubject("chinese")

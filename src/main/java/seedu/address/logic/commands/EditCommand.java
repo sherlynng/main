@@ -34,6 +34,7 @@ import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonMatchedCannotEditException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 
@@ -61,6 +62,8 @@ public class EditCommand extends UndoableCommand {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_MATCHED_CANNOT_EDIT =
+            "This person is currently matched. Unmatch before editing.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -88,6 +91,8 @@ public class EditCommand extends UndoableCommand {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("The target person cannot be missing");
+        } catch (PersonMatchedCannotEditException e) {
+            throw new CommandException(MESSAGE_MATCHED_CANNOT_EDIT);
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));

@@ -2,7 +2,9 @@ package seedu.address.model.pair;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import seedu.address.model.person.Level;
@@ -84,8 +86,11 @@ public class Pair  {
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
     */
-    public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(tags.toSet());
+    public List<Tag> getTags() {
+        Set<Tag> setTags = tags.toSet();
+        List<Tag> tagsAsList = new ArrayList<>(setTags);
+        Collections.sort(tagsAsList);
+        return Collections.unmodifiableList(tagsAsList);
     }
 
     /**

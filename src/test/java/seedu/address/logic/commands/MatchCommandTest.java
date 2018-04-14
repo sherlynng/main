@@ -23,6 +23,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
+//@@author alexawangzi
 public class MatchCommandTest {
 
     private Model model;
@@ -32,8 +33,6 @@ public class MatchCommandTest {
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     }
 
-
-    //@@author alexawangzi
     @Test
     public void execute_invalidIndexForPairAUnfilteredList_throwsCommandException() throws Exception {
         Index indexA = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
@@ -42,7 +41,6 @@ public class MatchCommandTest {
         assertCommandFailure(matchCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
-    //@@author alexawangzi
     @Test
     public void execute_invalidIndexforPairBUnfilteredList_throwsCommandException() {
         Index indexA = Index.fromOneBased(model.getFilteredPersonList().size());
@@ -51,7 +49,6 @@ public class MatchCommandTest {
         assertCommandFailure(matchCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
-    //@@author alexawangzi
     @Test
     public void execute_incompatibleSameRole_throwsCommandException() {
         Index indexA = Index.fromOneBased(7);
@@ -60,7 +57,6 @@ public class MatchCommandTest {
         assertCommandFailure(matchCommand, model, String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_ROLE));
     }
 
-    //@@author alexawangzi
     @Test
     public void execute_incompatibleAlreadyMatched_throwsCommandException() {
         Index indexA = Index.fromOneBased(1);
@@ -69,7 +65,6 @@ public class MatchCommandTest {
         assertCommandFailure(matchCommand, model, MESSAGE_MISMATCH_ALREADY_MATCHED);
     }
 
-    //@@author alexawangzi
     @Test
     public void execute_incompatibleDifferentSubject_throwsCommandException() {
         Index indexA = Index.fromOneBased(8);
@@ -78,7 +73,6 @@ public class MatchCommandTest {
         assertCommandFailure(matchCommand, model, String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_SUBJECT));
     }
 
-    //@@author alexawangzi
     @Test
     public void execute_incompatibleDifferentLevel_throwsCommandException() {
         Index indexA = Index.fromOneBased(9);
@@ -87,7 +81,6 @@ public class MatchCommandTest {
         assertCommandFailure(matchCommand, model, String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_LEVEL));
     }
 
-    //@@author alexawangzi
     @Test
     public void execute_incompatibleDifferentPrice_throwsCommandException() {
         Index indexA = Index.fromOneBased(10);
@@ -96,7 +89,6 @@ public class MatchCommandTest {
         assertCommandFailure(matchCommand, model, String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_PRICE));
     }
 
-    //@@author alexawangzi
     @Test
     public void execute_pairAcceptedByModel_matchSuccessful() throws Exception {
         Index indexA = Index.fromOneBased(12);

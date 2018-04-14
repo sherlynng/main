@@ -28,6 +28,7 @@ import seedu.address.model.person.Role;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Subject;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonMatchedCannotEditException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 
@@ -84,6 +85,8 @@ public class RemarkCommand extends UndoableCommand {
                 throw new CommandException(MESSAGE_DUPLICATE_PERSON);
             } catch (PersonNotFoundException pnfe) {
                 throw new AssertionError("The target person cannot be missing");
+            } catch (PersonMatchedCannotEditException e) {
+                throw new AssertionError("Editing remark should not be rejected even if person is matched.");
             }
             model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,

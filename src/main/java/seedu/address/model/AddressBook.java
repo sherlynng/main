@@ -21,6 +21,7 @@ import seedu.address.model.person.Status;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonMatchedCannotDeleteException;
+import seedu.address.model.person.exceptions.PersonMatchedCannotEditException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
@@ -121,6 +122,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      * Replaces the given person {@code target} in the list with {@code editedPerson}.
      * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPerson}.
+     * Only applicable for Add and Edit
      *
      * @throws DuplicatePersonException if updating the person's details causes the person to be equivalent to
      *      another existing person in the list.
@@ -128,10 +130,38 @@ public class AddressBook implements ReadOnlyAddressBook {
      *
      * @see #syncWithMasterTagList(Person)
      */
-    public void updatePerson(Person target, Person editedPerson)
+    public void updatePersonForAddAndEdit(Person target, Person editedPerson)
+            throws DuplicatePersonException, PersonNotFoundException, PersonMatchedCannotEditException {
+        requireNonNull(editedPerson);
+        boolean isChanged = !target.getName().equals(editedPerson.getName())
+                || !target.getRole().equals(editedPerson.getRole())
+                || !target.getSubject().equals(editedPerson.getSubject())
+                || !target.getPrice().equals(editedPerson.getPrice())
+                || !target.getLevel().equals(editedPerson.getLevel())
+                || !target.getStatus().equals(editedPerson.getStatus());
+        if (target.isMatched() && isChanged) {
+            throw new PersonMatchedCannotEditException();
+        }
+        Person syncedEditedPerson = syncWithMasterTagList(editedPerson);
+        // TODO: the tags master list will be updated even though the below line fails.
+        // This can cause the tags master list to have additional tags that are not tagged to any person
+        // in the person list.
+        persons.setPerson(target, syncedEditedPerson);
+        removeUnusedTags();
+    }
+
+    /**
+     * Replaces the given person {@code target} in the list with {@code editedPerson}.
+     * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPerson}.
+     * Only applicable for Add and Edit
+     * @param target
+     * @param editedPerson
+     * @throws DuplicatePersonException
+     * @throws PersonNotFoundException
+     */
+    public void updatePersonForMatchUnmatch(Person target, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException {
         requireNonNull(editedPerson);
-
         Person syncedEditedPerson = syncWithMasterTagList(editedPerson);
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any person
@@ -220,7 +250,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         if (pairs.remove(key)) {
             PairHash pairHash = key.getPairHash();
             for (Person person : persons) {
-                if (person.getPairHashes().contains(pairHash)) {
+                if (person.containsPairHash(pairHash)) {
                     removePairHash(person, pairHash);
                 }
             }
@@ -240,7 +270,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person editedPerson;
         Set<PairHash> pairHashSet = new HashSet<PairHash>();
         pairHashSet.addAll(person.getPairHashes());
-        pairHashSet.add(pairHash);
+        if (!pairHashSet.contains(pairHash)) {
+            pairHashSet.add(pairHash);
+        }
 
         //update status to Matched if the person's original pairHash List is empty
         Set<Tag> attributeTags = new HashSet<Tag>();
@@ -255,12 +287,15 @@ public class AddressBook implements ReadOnlyAddressBook {
                     person.getSubject(), person.getLevel(), new Status("Matched"),
                     person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairHashSet);
         try {
-            updatePerson(person, editedPerson);
+            updatePersonForAddAndEdit(person, editedPerson);
         } catch (DuplicatePersonException e) {
             throw new AssertionError("Should not have duplicates");
         } catch (PersonNotFoundException e) {
             throw new AssertionError("Match exits means person must be in database.");
+        } catch (PersonMatchedCannotEditException e) {
+            throw new AssertionError("Match should not result in edit exception");
         }
+
     }
 
     //@@author alexawangzi
@@ -273,7 +308,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person editedPerson;
         Set<PairHash> pairHashSet = new HashSet<PairHash>();
         pairHashSet.addAll(person.getPairHashes());
-        pairHashSet.remove(pairHash);
+        if (pairHashSet.contains(pairHash)) {
+            pairHashSet.remove(pairHash);
+        }
 
         Set<Tag> attributeTags = new HashSet<Tag>();
         attributeTags.add(new Tag(person.getRole().value, Tag.AllTagTypes.ROLE));
@@ -297,7 +334,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         try {
-            updatePerson(person, editedPerson);
+            updatePersonForMatchUnmatch(person, editedPerson);
         } catch (DuplicatePersonException e) {
             throw new AssertionError("Should not have duplicates");
         } catch (PersonNotFoundException e) {
@@ -377,10 +414,12 @@ public class AddressBook implements ReadOnlyAddressBook {
                person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
                 updatedTags, person.getRemark(), person.getRate(), person.getPairHashes());
         try {
-            updatePerson(person, updatedPerson);
+            updatePersonForAddAndEdit(person, updatedPerson);
         } catch (DuplicatePersonException dupe) {
             throw new AssertionError("Modifying a person's tags only should not result in a duplicate. "
                      + "See Person#equals(Object).");
+        } catch (PersonMatchedCannotEditException e) {
+            throw new AssertionError("Add pairHash to person should not result in edit exception");
         }
     }
 

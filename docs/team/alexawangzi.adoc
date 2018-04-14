@@ -10,16 +10,16 @@
 
 STUtor -v1.5 is a desktop application targeting tutor coordinators
 to help them _match_ and _manage_ a large database of tutors and students. +
-The user can perform actions such as adding/ removing a person, editing and view
-personal information, match a student with a tutor, and so on. +
-The user interacts with the application using a CLI, and it has a GUI created with JavaFX.
-It is written in Java, and has about 25 kLoC.
+The user can perform actions such as adding/ removing a person, editing and viewing
+personal information, matching a student with a tutor, and so on. +
+The user interacts with the application using a CLI, and it has a GUI created with JavaFX. +
+The application is written in Java, and has about 25 kLoC.
 
 == Summary of contributions
 
 === Major Enhancement
 
-* Added the ability to *match/unmatch a student and a tutor*
+* Added the ability to *match/unmatch a student with a tutor*
 ** What it does:
 allows the user to choose a student and a tutor and match them.
 Compatibilty checking will be done to ensure validity of the pair(must be one student and one tutor,
