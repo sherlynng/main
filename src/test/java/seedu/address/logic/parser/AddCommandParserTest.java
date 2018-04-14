@@ -176,7 +176,7 @@ public class AddCommandParserTest {
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + EMAIL_DESC_BOB
+        assertParseSuccess(parser, NAME_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //email
@@ -184,7 +184,7 @@ public class AddCommandParserTest {
                 .withEmail("").withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB
                 + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //address
@@ -192,7 +192,7 @@ public class AddCommandParserTest {
                 .withEmail(VALID_EMAIL_BOB).withAddress("").withSubject(VALID_SUBJECT_BOB)
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //subject
@@ -200,7 +200,7 @@ public class AddCommandParserTest {
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject("")
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //level
@@ -208,7 +208,7 @@ public class AddCommandParserTest {
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
                 .withLevel("").withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + STATUS_DESC_UNMATCHED
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //Status
@@ -216,7 +216,7 @@ public class AddCommandParserTest {
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
                 .withLevel(VALID_LEVEL_BOB).withStatus("").withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB
                 + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //price
@@ -224,7 +224,7 @@ public class AddCommandParserTest {
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice("")
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
                 + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //role
@@ -232,7 +232,7 @@ public class AddCommandParserTest {
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSubject(VALID_SUBJECT_BOB)
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole("").withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
                 + PRICE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
         //all missing but name
@@ -240,7 +240,7 @@ public class AddCommandParserTest {
                 .withEmail("").withAddress("").withSubject("")
                 .withLevel("").withStatus("").withPrice("")
                 .withRole("").build();
-        assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB, new AddCommand(expectedPerson));
+        assertParseSuccess(parser, NAME_DESC_BOB, new AddCommand(expectedPerson));
 
     }
 
@@ -306,42 +306,52 @@ public class AddCommandParserTest {
                 .withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB).withPrice(VALID_PRICE_BOB)
                 .withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
 
+        Person expectedPersonWithMixedCaseName = new PersonBuilder().withName("bOb cHoO")
+                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
+                .withSubject(VALID_SUBJECT_BOB).withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB)
+                .withPrice(VALID_PRICE_BOB).withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
+
+        Person expectedPersonWithMixedCaseEmail = new PersonBuilder().withName(VALID_NAME_BOB)
+                .withPhone(VALID_PHONE_BOB).withEmail("bOb@eXaMpLe.CoM").withAddress(VALID_ADDRESS_BOB)
+                .withSubject(VALID_SUBJECT_BOB).withLevel(VALID_LEVEL_BOB).withStatus(VALID_STATUS_BOB)
+                .withPrice(VALID_PRICE_BOB).withRole(VALID_ROLE_BOB).withTags(VALID_TAG_FRIEND).build();
+
         // name case insensitive - accepted
         assertParseSuccess(parser, CASE_INSENSITIVE_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
-                + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
+                + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPersonWithMixedCaseName));
 
-        // email case insentive - accepted
+        // email case insensitive - accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + CASE_INSENSITIVE_EMAIL_BOB
                 + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB + STATUS_DESC_UNMATCHED
-                + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
+                + PRICE_DESC_BOB + ROLE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPersonWithMixedCaseEmail));
 
-        // address case insentive - accepted
+        // address case insensitive - accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + CASE_INSENSITIVE_ADDRESS_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_BOB
                 + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB + ROLE_DESC_BOB
                 + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
 
 
-        // subject case insentive - accepted
+        // subject case insensitive - accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB  + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + CASE_INSENSITIVE_SUBJECT_BOB + LEVEL_DESC_UPPER_SEC
                 + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB + ROLE_DESC_BOB
                 + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
 
-        // level case insentive - accepted
+        // level case insensitive - accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB  + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + CASE_INSENSITIVE_LEVEL_BOB
                 + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB + ROLE_DESC_BOB
                 + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
 
-        // status case insentive - accepted
+        // status case insensitive - accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB  + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_UPPER_SEC
                 + CASE_INSENSITIVE_STATUS_BOB + PRICE_DESC_BOB + ROLE_DESC_BOB
                 + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
 
-        // role case insentive - accepted
+        // role case insensitive - accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB  + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + SUBJECT_DESC_BOB + LEVEL_DESC_UPPER_SEC
                 + STATUS_DESC_UNMATCHED + PRICE_DESC_BOB + CASE_INSENSITIVE_ROLE_BOB
