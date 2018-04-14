@@ -27,8 +27,15 @@ public class PairHash {
 
 
     public PairHash (Person student, Person tutor, Subject subject, Level level, Price price) {
-        requireAllNonNull(student, tutor, subject, level, price);
-        this.value = Objects.hash(student.toString(), tutor.toString(), subject, level, price);
+        this(student.toString(), tutor.toString(), subject, level, price);
+    }
+
+    //toString() is used instead of the Person object itself to prevent duplicate pairs
+    //(Person stores a list of pairHashes, direct hashing with the person object will give different hashes but
+    //essentially adding duplicates to the UniquePairList in model
+    public PairHash (String studentDescription, String tutorDescription, Subject subject, Level level, Price price) {
+        requireAllNonNull(studentDescription, tutorDescription, subject, level, price);
+        this.value = Objects.hash(studentDescription, tutorDescription, subject, level, price);
     }
 
     public PairHash(String input) {

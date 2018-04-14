@@ -233,6 +233,30 @@ public class MatchCommandParser implements Parser<MatchCommand> {
 
 
 ```
+###### \java\seedu\address\logic\parser\UnmatchCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new UnmatchCommand object
+ */
+public class UnmatchCommandParser implements Parser<UnmatchCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the UnmatchCommand
+     * and returns an UnmatchCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public UnmatchCommand parse(String args) throws ParseException {
+        try {
+            Index index = ParserUtil.parseIndex(args);
+            return new UnmatchCommand(index);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnmatchCommand.MESSAGE_USAGE));
+        }
+    }
+
+}
+```
 ###### \java\seedu\address\model\AddressBook.java
 ``` java
     //I added an extra checking to prevent updating of person details is the person is matched
@@ -619,8 +643,15 @@ public class PairHash {
 
 
     public PairHash (Person student, Person tutor, Subject subject, Level level, Price price) {
-        requireAllNonNull(student, tutor, subject, level, price);
-        this.value = Objects.hash(student.toString(), tutor.toString(), subject, level, price);
+        this(student.toString(), tutor.toString(), subject, level, price);
+    }
+
+    //toString() is used instead of the Person object itself to prevent duplicate pairs
+    //(Person stores a list of pairHashes, direct hashing with the person object will give different hashes but
+    //essentially adding duplicates to the UniquePairList in model
+    public PairHash (String studentDescription, String tutorDescription, Subject subject, Level level, Price price) {
+        requireAllNonNull(studentDescription, tutorDescription, subject, level, price);
+        this.value = Objects.hash(studentDescription, tutorDescription, subject, level, price);
     }
 
     public PairHash(String input) {
@@ -896,6 +927,36 @@ public class PersonMatchedCannotEditException extends Exception {
 ```
 ###### \java\seedu\address\model\person\Level.java
 ``` java
+/**
+ * Represents a Person's level in the address book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidLevel(String)}
+ */
+public class Level {
+
+    public static final String[] LEVEL_VALUES =
+            new String[] { "lower sec", "ls", "upper sec", "us", "lower pri", "lp", "upper pri", "up", ""};
+    public static final HashSet<String> SET_ALL_LEVEL = new HashSet<>(Arrays.asList(LEVEL_VALUES));
+
+    public static final String MESSAGE_LEVEL_CONSTRAINTS = "Person Level should be "
+            + "of the format <grade><education> "
+            + "and adhere to the following constraints:\n"
+            + "1. The education should be one of the education system listed in.\n"
+            + "2. This is followed by a whitespace and then a number to represent the grade. "
+            + "The grade must be consistent with the specific education system indicated earlier.\n";
+
+    public final String value;
+
+    /**
+     * Constructs an {@code Level}.
+     * @param level A valid level description.
+     */
+    public Level(String level) {
+        requireNonNull(level);
+        level = validateLevel(level);
+        this.value = formatLevel(level);
+    }
+
+
     /**
      * format level into proper case
      * @param level
@@ -906,9 +967,7 @@ public class PersonMatchedCannotEditException extends Exception {
         return pc.convertToProperCase(level);
     }
 
-```
-###### \java\seedu\address\model\person\Level.java
-``` java
+
     /**
      * check validity of the level string supplied
      * @param level
@@ -921,9 +980,7 @@ public class PersonMatchedCannotEditException extends Exception {
         return level;
     }
 
-```
-###### \java\seedu\address\model\person\Level.java
-``` java
+
     /**
      * Convert a shortcut to full level name
      * @param original
@@ -942,6 +999,79 @@ public class PersonMatchedCannotEditException extends Exception {
         }
         return cur;
     }
+
+    /**
+     * Returns if a given string is a valid level description.
+     */
+    public static boolean isValidLevel(String test) {
+        test = test.toLowerCase();
+        return SET_ALL_LEVEL.contains(test);
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Level // instanceof handles nulls
+                && this.value.equals(((Level) other).value)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+
+}
+```
+###### \java\seedu\address\model\person\Person.java
+``` java
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Person)) {
+            return false;
+        }
+
+
+        Person otherPerson = (Person) other;
+        return otherPerson.getName().equals(this.getName())
+                && otherPerson.getPhone().equals(this.getPhone())
+                && otherPerson.getEmail().equals(this.getEmail())
+                && otherPerson.getAddress().equals(this.getAddress())
+                && otherPerson.getLevel().equals(this.getLevel())
+                && otherPerson.getSubject().equals(this.getSubject())
+                && otherPerson.getPrice().equals(this.getPrice())
+                && otherPerson.getRole().equals(this.getRole());
+    }
+
+    @Override
+    public int hashCode() {
+        // use this method for custom fields hashing instead of implementing your own
+        return Objects.hash(name, phone, email, address, price, subject, level, status, role, tags,
+                            remark, rate, pairHashes);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getName())
+                .append(" Phone: ")
+                .append(getPhone())
+                .append(" Email: ")
+                .append(getEmail())
+                .append(" Address: ")
+                .append(getAddress());
+        return builder.toString();
+    }
+
 ```
 ###### \java\seedu\address\model\person\Person.java
 ``` java
@@ -1000,6 +1130,195 @@ class ProperCaseConverter {
     }
 }
 ```
+###### \java\seedu\address\model\person\Role.java
+``` java
+/**
+ * Represents a Person's role in the address book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidRole(String)}
+ */
+public class Role {
+
+    public static final String[] ROLES_VALUES = new String[] { "student", "s", "tutor", "t", ""};
+    public static final HashSet<String> SET_ALL_ROLES = new HashSet<>(Arrays.asList(ROLES_VALUES));
+
+    public static final String MESSAGE_ROLE_CONSTRAINTS = "Role should be one of: \n"
+            + SET_ALL_ROLES.toString()
+            + "\n";
+
+    public final String value;
+
+    /**
+     * Constructs an {@code Role}.
+     *
+     * @param role A valid role description.
+     */
+    public Role(String role) {
+        requireNonNull(role);
+        role = validateRole(role);
+        this.value = formatRole(role);
+    }
+
+
+    /**
+     * Format the input into proper case
+     * @param role
+     * @return
+     */
+    private String formatRole(String role) {
+        ProperCaseConverter pc = new ProperCaseConverter();
+        return pc.convertToProperCase(role);
+    }
+
+
+    /**
+     * check validity of the status string supplied
+     * @param role
+     * @return string representing a valid role
+     */
+    private String validateRole(String role) {
+        role.toLowerCase();
+        checkArgument(isValidRole(role), MESSAGE_ROLE_CONSTRAINTS);
+        role = convertToFullRole(role);
+        return role;
+    }
+
+    /**
+     * Convert a shortcut to full role name
+     */
+    public String convertToFullRole(String original) {
+        String cur = original.toLowerCase();
+        if (cur.equals("s")) {
+            cur = "student";
+        } else if (cur.equals("t")) {
+            cur = "tutor";
+        }
+        return cur;
+    }
+
+
+    /**
+     * Returns if a given string is a valid role description.
+     */
+    public static boolean isValidRole(String test) {
+        test = test.toLowerCase();
+        return SET_ALL_ROLES.contains(test);
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Role // instanceof handles nulls
+                && this.value.equals(((Role) other).value)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+
+}
+```
+###### \java\seedu\address\model\person\Status.java
+``` java
+/**
+ * Represents a Person's status in the address book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidStatus(String)}
+ */
+public class Status {
+
+    public static final String[] STATUS_VALUES = new String[] { "matched", "m", "not matched", "nm", ""};
+    public static final HashSet<String> SET_ALL_STATUS = new HashSet<>(Arrays.asList(STATUS_VALUES));
+
+    public static final String MESSAGE_STATUS_CONSTRAINTS = "Status should be one of: \n"
+            + SET_ALL_STATUS.toString()
+            + "\n";
+    public static final Status DEFAULT_STATUS = new Status ("Not Matched");
+
+    public final String value;
+
+    /**
+     * Constructs an {@code Status}.
+     *
+     * @param status A valid statust description.
+     */
+    public Status(String status) {
+        requireNonNull(status);
+        status = validateStatus(status);
+        this.value = formatStatus(status);
+    }
+
+
+    /**
+     * format the input into proper case
+     * @param status
+     * @return
+     */
+    private String formatStatus(String status) {
+        ProperCaseConverter pc = new ProperCaseConverter();
+        return pc.convertToProperCase(status);
+    }
+
+
+    /**
+     * check validity of the status string supplied
+     * @param status
+     * @return string representing a valid status
+     */
+    private String validateStatus(String status) {
+        status.toLowerCase();
+        checkArgument(isValidStatus(status), MESSAGE_STATUS_CONSTRAINTS);
+        status = convertToFullStatus(status);
+        return status;
+    }
+
+
+    /**
+     * Convert a shortcut to full status name
+     */
+    public String convertToFullStatus(String original) {
+        String cur = original.toLowerCase();
+        if (cur.equals("nm")) {
+            cur = "not matched";
+        } else if (cur.equals("m")) {
+            cur = "matched";
+        }
+        return cur;
+    }
+
+
+    /**
+     * Returns if a given string is a valid status description.
+     */
+    public static boolean isValidStatus(String test) {
+        test = test.toLowerCase();
+        return SET_ALL_STATUS.contains(test);
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Status // instanceof handles nulls
+                && this.value.equals(((Status) other).value)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+}
+```
 ###### \java\seedu\address\model\person\Student.java
 ``` java
 /**
@@ -1030,6 +1349,98 @@ public class Student extends Person {
                    Set<Tag> tags, Remark remark, Rate rate,  Set<PairHash> pairhashes) {
         super(name, phone, email, address, price, subject, level, status, new Role("student"),
               tags, remark, rate, pairhashes);
+    }
+}
+```
+###### \java\seedu\address\model\person\Subject.java
+``` java
+/**
+ * Represents a Person's subject in the address book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidSubject(String)}
+ */
+public class Subject {
+
+    public static final String[] SUBJECT_VALUES =
+            new String[]{"english", "eng", "chinese", "chi", "math", "physics", "phy", "chemistry", "chem", ""};
+    public static final HashSet<String> SET_ALL_SUBJECT = new HashSet<>(Arrays.asList(SUBJECT_VALUES));
+
+    public static final String MESSAGE_SUBJECT_CONSTRAINTS = "Subject should be one of: \n"
+            + SET_ALL_SUBJECT.toString()
+            + "\n";
+
+    public final String value;
+
+    /**
+     * Constructs an {@code Subject}.
+     *
+     * @param subject A valid subject description.
+     */
+    public Subject(String subject) {
+        requireNonNull(subject);
+        subject = validateSubject(subject);
+        this.value = formatsubject(subject);
+    }
+
+    private String formatsubject(String subject) {
+        ProperCaseConverter pc = new ProperCaseConverter();
+        return pc.convertToProperCase(subject);
+    }
+
+
+    /**
+     * check validity of the subject string supplied
+     * @param subject
+     * @return string representing a valid subject
+     */
+    private String validateSubject(String subject) {
+
+        subject.toLowerCase();
+        checkArgument(isValidSubject(subject), MESSAGE_SUBJECT_CONSTRAINTS);
+        subject = convertToFullSubject(subject);
+        return subject;
+    }
+
+    /**
+     * Convert a shortcut to full subject name
+     */
+    public String convertToFullSubject(String original) {
+        String cur = original.toLowerCase();
+        if (cur.equals("eng")) {
+            cur = "english";
+        } else if (cur.equals("chi")) {
+            cur = "chinese";
+        } else if (cur.equals("phy")) {
+            cur = "physics";
+        } else if (cur.equals("chem")) {
+            cur = "chemistry";
+        }
+        return cur;
+    }
+
+
+    /**
+     * Returns if a given string is a valid subject description.
+     */
+    public static boolean isValidSubject(String test) {
+        test = test.toLowerCase();
+        return SET_ALL_SUBJECT.contains(test);
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Subject // instanceof handles nulls
+                && this.value.equals(((Subject) other).value)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
     }
 }
 ```

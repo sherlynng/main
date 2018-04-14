@@ -31,7 +31,7 @@ saving time in marking individual tutor or student and updating their status.
 All the user has to provide is the indices of the target student and tutor.
 
 ** Highlights:
-The new Pair class interact heavily with the existing <<person, Person>> and <<tag, Tag>> class,
+The commands spans multiple components in the architecture of the application.
 and careful thinking is required to ensure good usage of the existing classes
 without increasing the coupling.
 Please refer to my writings in the *"Contribution to the Developer Guide"* section for detailed explanations on implementation.
@@ -94,18 +94,3 @@ include::../DeveloperGuide.adoc[tag=caseinsensitiveinput]
 [[proper-case]] Proper case::
 Proper case is any text that is written with each of the first letters of every word being capitalized.
 For example, "This Is An Example Of Proper Case."
-
-[[person]] Person::
-The class used to store information about a person.
-
-.Person class diagram with methods omitted
-image::personClassDiagram.png[width="300"]
-
-[[tag]] Tag::
-Tags are used to displayed personal information for easy referencing.
-In STUtor, a person will have his/her role, subject, level, price, status displayed as tags.
-A pair will have the level, price and subject displayed as tags.
-
-.Illustration of usage of tags. Tags appear below the person/pair name.
-image::tagExampleForWangZiPPP.png[width="700"]
-

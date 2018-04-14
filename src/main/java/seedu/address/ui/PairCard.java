@@ -8,6 +8,7 @@ import javafx.scene.layout.Region;
 import seedu.address.model.pair.Pair;
 import seedu.address.model.tag.Tag;
 
+
 /**
  * An UI component that displays information of a {@code Pair}.
  */

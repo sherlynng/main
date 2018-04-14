@@ -907,61 +907,70 @@ Why does this work? Executing the `viewStats` command will generate new graphs o
 A tuition coordinator needs to record which students are receiving tuition from which tutors.
 Intuitively, the `match` command allows the user to pair a student with a tutor,
 while the `unmatch` command removes the pair. +
-The matched pairs will be stored in STUtor.xml, and displayed on the Pair List panel (the leftmost vertical panel).
+The matched pairs will be saved to `UniquePairList` in model,
+stored in STUtor.xml as a `XmlAdaptedPair`, and displayed on the Pair List panel (the leftmost vertical panel) for user to see.
 
 ==== Current Implementation
-A matched pair is stored as a `Pair` object.
-To uniquely identify each pair and 'mark' the persons in the pair, we use a `PairHash` class. +
+A matched pair is represented by a `Pair.java` object.
+We use a `PairHash.java` class to help with creating, deleting and identifying a pair,
+all of which are essential for the `match` and `unmatch` commands to work properly.
 
 .Class diagram of Pair and PairHash class.
 image::PairPairHashClassDiagram.png[width="700"]
 
+The `PairHash` is derived using Java's `Objects.hash()` method.
+Among the parameters, student.toString() and tutor.toString() are used instead of the actual
+`Student` or `Tutor` objects. The rational for this choice will become clearer later. +
+
 .Diagram showing associations between Person, Pair and PairHash class.
 image::PairClassDiagram.png[width="700"]
 
-Note that a person (`Student` or `Tutor`) can have any number of unique `PairHash`, that is,
-a student can be paired to multiple tutors and vice versa. +
+As seen from the above diagram, a person (`Student` or `Tutor`) can have any number of unique `PairHash`, that is,
+*a student can be paired to multiple tutors and vice versa.* +
 
 The current implementation of `match` and `unmatch` relies on the one-to-one association between `Pair` and `PairHash`.
 `PairHash` is used to facilitate matching and unmatching, as well as updating the status of a person. +
 
+`PairHash` objects associated with a particular `Person` object is stored inside that `Person` as a list.
 When a `Pair` is created through the `match` command, a `PairHash` is generated and automatically stored in the
 `Pair` itself, as well as in the `Student` and `Tutor` objects involved (see below).
 Similarly, when a `Pair` is removed through the `unmatch` command, its `PairHash` is extracted
 and used to retrieve the `Student` and `Tutor` marked by it. This `PairHash` is then deleted from the persons.
 
-
 .Activity diagram for Match Command
 image::MatchActivityDiagram.png[width="800"]
 
+Now the rational for using toString() instead of the `Person` object itself is clear:
+since the `Person` object stores a list of pairHashes, direct hashing with the person object will give different hashes but
+essentially adding duplicates to the `UniquePairList` in model.
+The toString() method only return fields that are not related to matching, therefore
+prevents duplicates from being saved to the database.
 
 [NOTE]
-`PairHash` objects associated with a particular `Person` object is stored inside that `Person` as a list. +
 Whenever a `PairHash` is add to/ removed from the list, a check is done to makes sure the status
 of the person remains correct. If the list is empty, that `Person` 's status will be `Not Matched`, else it will be `Matched`.
 
 ==== Design Considerations
 
 ===== Aspect: Acceptance of Many-to-Many matches
-* **Alternative 1:** Only allow one-to-one matches.
-** Pros: The `Person` class only need to store one `PairHash`.
-** Cons: Not realistic as one student may take tuition for several subjects, and a tutor is likely to take a few students.
-* **Alternative 2 (current choice):** Allow a student to be paired to multiple tutors and vice versa.
-** Pros: More realistic.
+* **Alternative 1 (current choice):** Allow a student to be paired to multiple tutors and vice versa.
+** Pros: Realistic as as one student may take tuition for several subjects, and a tutor is likely to take a few students.
 ** Cons: Requires the `Person` class to store multiple `PairHash` instead of one.
 Updating of status requires extra checkings to ensure correctness.
+* **Alternative 2:** Only allow one-to-one matches.
+** Pros: The `Person` class only need to store one `PairHash`.
+** Cons: Not realistic.
 
 ===== Aspect: Creating, deleting and identifying a pair
 
-* **Alternative 1:** Store the `Pair` directly in `Person`.
-** Pros: Easy to code.
-** Cons: High degree of coupling between `Pair` and `Person`.
-* **Alternative 2 (current choice):** Use `PairHash` to to identify the `Pair` itself, and mark `Person` in the Pair.
+* **Alternative 1 (current choice):** Use `PairHash` to to identify the `Pair` itself, and mark `Person` in the Pair.
 Saving the `PairHash` to the `Person` when `Pair` is created, delete the same `PairHash` from `Person`
 when this `Pair` is unmatched.
 ** Pros: Reduce coupling between `Pair` and `Person`.
-** Cons: `PairHash` has a slight chance of having collisions, which might result in errors in data.
-
+** Cons: `PairHash` has a very slight chance of having collisions, which might result in errors in data.
+* **Alternative 2:** Store the `Pair` directly in `Person`.
+** Pros: Easy to code.
+** Cons: High degree of coupling between `Pair` and `Person`.
 
 // end::matchunmatch[]
 

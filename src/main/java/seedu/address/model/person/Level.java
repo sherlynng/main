@@ -5,7 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.util.Arrays;
 import java.util.HashSet;
-
+//@@author alexawangzi
 /**
  * Represents a Person's level in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidLevel(String)}
@@ -35,7 +35,7 @@ public class Level {
         this.value = formatLevel(level);
     }
 
-    //@@author alexawangzi
+
     /**
      * format level into proper case
      * @param level
@@ -46,7 +46,7 @@ public class Level {
         return pc.convertToProperCase(level);
     }
 
-    //@@author alexawangzi
+
     /**
      * check validity of the level string supplied
      * @param level
@@ -59,7 +59,7 @@ public class Level {
         return level;
     }
 
-    //@@author alexawangzi
+
     /**
      * Convert a shortcut to full level name
      * @param original
@@ -78,7 +78,7 @@ public class Level {
         }
         return cur;
     }
-    //@@author
+
     /**
      * Returns if a given string is a valid level description.
      */

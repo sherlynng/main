@@ -37,19 +37,7 @@ public class PairListPanel extends UiPart<Region> {
                 pairList, (pair) -> new PairCard(pair, pairList.indexOf(pair) + 1));
         pairListView.setItems(mappedList);
         pairListView.setCellFactory(listView -> new PairListViewCell());
-        //setEventHandlerForSelectionChangeEvent();
     }
-
-    /**  private void setEventHandlerForSelectionChangeEvent() {
-        pairListView.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    if (newValue != null) {
-                        logger.fine("Selection in pair list panel changed to : '" + newValue + "'");
-                        raise(new PairPanelSelectionChangedEvent(newValue));
-                    }
-                });
-     }
-     /
 
     /**
      * Scrolls to the {@code PairCard} at the {@code index} and selects it.
