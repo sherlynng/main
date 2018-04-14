@@ -18,9 +18,9 @@ By: `Team W11-B1`      Since: `Jun 2016`      Licence: `MIT`
 
 == Introduction
 
-* STUtor is for *tutor coordinators* who prefer to use a *desktop app* for _matching_ and _managing_ a large database of tutors and students.
+* STUtor is a *desktop app* tailored for *tuition coordinators* to easily _match_ and _manage_ a database of tutors and students.
 * This app is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI).
-* If you can type fast, STUtor can get your *tutor and student management tasks done faster* than traditional GUI apps.
+* If you can type fast, STUtor can get your *tutor and student management tasks done efficiently*.
 
 [%hardbreaks]
 [%hardbreaks]
@@ -28,7 +28,6 @@ By: `Team W11-B1`      Since: `Jun 2016`      Licence: `MIT`
 [%hardbreaks]
 
 * This guide gives you an overview of the _basic_ and _advanced_ features of STUtor.
-* Interested? Jump to the <<Getting Started>> now! Enjoy!
 
 == Getting Started
 This section helps you set up your STUtor app on your computer.
@@ -56,7 +55,7 @@ image::Ui_withLabels.png[width="500"]
 ** Section 5: *Information Panel* to show all details of a person
 // end::ui[]
 
-*  Type the command in the command box and press kbd:[Enter] to execute it. +
+*  Type the command in the Command Box and press kbd:[Enter] to execute it. +
 e.g. typing `*help*` and pressing kbd:[Enter] will open the help window.
 *  Some example commands you can try:
 ** To list all contacts: `*list*`
@@ -68,7 +67,7 @@ e.g. typing `*help*` and pressing kbd:[Enter] will open the help window.
 
 [[Features]]
 == Features
-To use the features, you need to key in the commands in the *Command Box*.
+To use the features, you need to key in the commands in the Command Box.
 
 === Command Format
 
@@ -81,12 +80,12 @@ To use the features, you need to key in the commands in the *Command Box*.
 * Items in *square brackets* are *optional*
 
 [%hardbreak]
-{nbsp}{nbsp}{nbsp}{nbsp} e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+{nbsp}{nbsp}{nbsp}{nbsp} e.g `*add* n/NAME [$/PRICE]` can be used as `*add* n/John Doe $/40` or as `*add* n/John Doe`.
 
 * Items with `…`​ after them can be *used multiple times* including zero times
 
 [%hardbreak]
-{nbsp}{nbsp}{nbsp}{nbsp} e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+{nbsp}{nbsp}{nbsp}{nbsp} e.g. `*findmissing* [FIELD]...` can be used as `*findmissing*` (i.e. no field is supplied), `*findmissing* phone email`
 
 * Parameters can be in *any order*
 
@@ -107,21 +106,21 @@ Format: `*help*`
 // tag::add[]
 ==== Adding a person: `*add*` or `*a*`
 Adds a new person to STUtor. +
-A person can have the following fields: SUBJECT, EDUCATION_LEVEL, PRICE, ROLE, and STATUS.
+You can add a person with the following fields: NAME, PHONE, EMAIL, ADDRESS, SUBJECT, LEVEL, PRICE and ROLE.
+Take note that some fields are restricted to the following options:
 
-[width="80%",cols="<20%,<20%,<20%,<20%",options="header",]
+[width="80%",cols="<30%,<50%",options="header",]
 |=======================================================================
-|Field |Options |Field Editable by User |Comment
-|subject | English, Chinese,  Math, Chemistry, Physics| Yes |
-|level | Lower Primary, Upper Primary, Lower Secondary, Upper Secondary| Yes|
-|price | Must be a positive number| Yes |
-|role | Student, Tutor| Yes |
-|status| Matched, Not Matched | No | Upon adding to STUtor, all persons will have a default status of "Not Matched"
+|Field |Options
+|SUBJECT | English, Chinese,  Math, Chemistry, Physics
+|LEVEL | Lower Primary, Upper Primary, Lower Secondary, Upper Secondary
+|PRICE | Must be a positive number
+|ROLE | Student, Tutor
 |=======================================================================
 ****
-** Alias can be used to reduce typing. Refer to <<Prefix Shortcut Summary>> for more details.
+** Alias can be used to reduce typing. Refer to <<Field Shortcut Summary>> for more details.
 ** These information is displayed as tags for easy reference.
-**  Upon adding to STUtor, all persons will have a default status of "Not Matched".
+**  Upon adding to STUtor, all persons will have a default STATUS of "Not Matched".
 ****
 
 [NOTE]
@@ -130,7 +129,7 @@ Only the NAME field is required for the command to be accepted, all other fields
 To fill in the other fields later, you can use the edit command to edit the person with the new information. +
 ====
 
-Format: `*add* n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL][r/ROLE] [t/TAG]...`
+Format: `*add* n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/LEVEL] [r/ROLE] [t/TAG]...`
 
 Examples:
 
@@ -161,20 +160,18 @@ Format: `*list*`
 
 ==== Editing a person : `*edit*` or `*e*`
 Edits an existing person in STUtor. +
-This also allows you to fill in unentered attributes by simply editing that attribute.
+This also allows you to fill in unentered fields by simply editing that field.
 
 ****
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* A person's STATUS is not ediatble by you. It will automatically update after <<Matching a student and a tutor>>
+* A person's STATUS is not editable by you. It will automatically update after <<Matching a student and a tutor>>
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person's tags by typing `t/` without specifying any tags after it.
-* Attribute tags will still remain after any changes to the other tags.
-* Attribute tags will automatically update to reflect any changes to the actual attributes.
 ****
 
-Format: `*edit* INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [r/ROLE] [t/TAG]...`
+Format: `*edit* INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/LEVEL] [r/ROLE] [t/TAG]...`
 
 Examples:
 
@@ -202,7 +199,7 @@ image::AutofillEdit.png[width="800"]
 // tag::filter[]
 
 ==== Filtering all persons list by subject, level, role or status: `*filter*` `[In V1.3]`
-Filters all persons list whose SUBJECT, EDUCATION_LEVEL, STATUS, or ROLE contain any of the given keywords. +
+Filters all persons list whose SUBJECT, LEVEL, STATUS, or ROLE contain any of the given keywords. +
 To get back the list of persons that is unfiltered, you can simply execute the `*list*` command. +
 ****
 * The filter is case insensitive.
@@ -210,10 +207,9 @@ To get back the list of persons that is unfiltered, you can simply execute the `
 [%hardbreak]
 {nbsp}{nbsp}{nbsp}{nbsp} e.g `maTH` will match `Math`
 
-* Only full words will be matched e.g. `Eng` will not match `English`
-* Persons with matching keyword will be returned
-* Performing multiple filter does not return a list of persons that match multiple keywords. Instead, it will return
-a fitered list of persons that matches the lastest keyword used for `*filter*` command.
+* Only full words will be matched e.g. `Eng` will not match `English`.
+* Persons with matching keyword will be returned.
+* This command is unable to filter an already filtered list.
 ****
 
 Format: `*filter* KEYWORD`
@@ -222,12 +218,12 @@ Examples:
 
 * `*filter* Math` +
 Returns persons with `Math` subject
-* `*filter* Student` +
-Returns persons with `Student` role
+* `*filter* maTH` +
+Returns persons with `Math` subject
 
 ===== Upcoming improvement [Coming in V2.0] +
-`*filter* multiple KEYWORD` +
-The proposed improvement of filter command will return you persons who matches all the KEYWORD specified
+`*filter* KEYWORD [MORE_KEYWORDS]` +
+The proposed improvement of filter command will return you persons who matches all the KEYWORD specified.
 
 // end::filter[]
 
@@ -240,9 +236,9 @@ Finds persons whose NAME contain any of the given keywords. +
 [%hardbreak]
 {nbsp}{nbsp}{nbsp}{nbsp} e.g `hans` will match `Hans`
 
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`.
 * Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
+* Only full words will be matched e.g. `Han` will not match `Hans`.
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
 
 [%hardbreak]
@@ -267,8 +263,8 @@ If no arguments for FIELD is entered, lists all people with at least one field w
 Otherwise, finds all people with an empty value in at least one entered FIELD.
 
 ****
-* The field name is case insensitive
-* List of all possible attributes:
+* The field name is case insensitive.
+* List of all possible fields:
 ** address
 ** email
 ** level
@@ -353,12 +349,12 @@ image::AutofillSelect.png[width="500"]
 
 // tag::match[]
 ==== Matching a student with a tutor : `*match*` or `*m*` `[In V1.4]`
-You can easily match a student with a tutor as if they will have lessons together.
-To indicate who do you want to match, simply provide two index numbers used in the *last person listing*. +
+You can easily match a student with a tutor if they were to have lessons together.
+To indicate who you want to match, simply provide two index numbers used in the *last person listing*. +
 
 ****
 * The indices supplied must be *compatible*. They must correspond to one *student* and one *tutor*.
-They must have *the same subject, level and price*.
+They must have *the same subject and level*.
 * The order of entering indices does not matter.
   That is, you can enter the student's index first followed by the tutor's index,
   or the other way round.
@@ -377,9 +373,9 @@ you will see a success message. +
 See the figure below for an illustration.
 ====
 .UI before `*match* 1 3` is executed.
-image::matchIllustration1.png[width="800"]
-.UI after `*match* 1 3` is executed. New pair is dispalyed on the leftmost panel, with pair information displayed as tags.
-image::matchIllustration2.png[width="800"]
+image::matchIllustration1.png[width="700"]
+.UI after `*match* 1 3` is executed. New pair is dispalyed on the Pair List, with pair information displayed as tags.
+image::matchIllustration2.png[width="700"]
 
 [NOTE]
 ====
@@ -390,8 +386,8 @@ For example: +
 ** `Incompatible role`
 ** `Incompatible price.`
 
-* If the tutor demands higher price, the matching will be deemed as incompatible.
-When the tutor can accept a price lower than what the student offered,
+* If the tutor demands higher price than what the student offers, the matching will be deemed as incompatible.
+When the tutor can accept a price lower than what the student offers,
 the price for the pair will be the higher price offered by the student.
  +
 ====
@@ -410,8 +406,9 @@ image::AutofillMatch.png[width="700"]
 ===== Upcoming improvement [Coming in V2.0] +
 ** SmartMatch
 *  Upon selecting a person with his/her index, a list of compatible match choices will appear.
+You can sort the list based on price, location, rating, etc.
 You can then pair the person with one of the given choices.
-*  If the you cannot confirm the match yet but wishes to take note of a potential match,
+*  If you cannot confirm the match yet but wishes to take note of a potential match,
 you can mark the pair as `Matching in Progress`.
 
 ** Display of pair information
@@ -423,7 +420,7 @@ After selecting a matched pair, such information will be displayed on the `Detai
 
 ==== Unmatching a student and a tutor : `*ummatch*` or `*um*` `[In V1.4]`
 Once a pair finishes the course, you can unmatch them.
-Simply select the pair identified by the index numbers used in the *pair listing*. +
+Simply select the pair identified by the index numbers used in the Pair List. +
 
 Format: `*unmatch* INDEX` or `*um* INDEX`
 
@@ -448,7 +445,7 @@ You can list all the commands that you have entered in reverse chronological ord
 
 [NOTE]
 ====
-You can press kbd:[&uarr;] and kbd:[&darr;] arrows and it will display the previous and next input respectively in the command box.
+You can press kbd:[&uarr;] and kbd:[&darr;] arrows and it will display the previous and next input respectively in the Command Box.
 ====
 
 Format: `*history*`
@@ -459,7 +456,7 @@ You can easily restore STUtor to the state before the previous _undoable_ comman
 
 [NOTE]
 ====
-Undoable commands: those commands that modify STUtor's content (`*add*`, `*delete*`, `*edit*` and `*clear*`).
+Undoable commands: those commands that modify STUtor's content (e.g. `*add*`, `*delete*`, `*edit*` and `*clear*`).
 ====
 
 Format: `*undo*`
@@ -508,6 +505,22 @@ To clear all entries from your STUtor, use the `*clear*` command. +
 
 Format: `*clear*`
 
+
+
+==== Exiting the program : `*exit*`
+Exits the program. +
+
+Format: `*exit*`
+
+==== Saving the data
+
+STUtor data are saved in the hard disk automatically after any command that changes the data. +
+There is no need to save manually.
+
+
+
+=== Advanced Features
+
 // tag::remark[]
 
 ==== Creating a remark for a person : `*remark*` or `*rk*` `[In V1.3]`
@@ -525,10 +538,13 @@ Creates a remark for the person identified by the index number used in the *last
 The new remark created will not be shown automatically. You will have to select the person again to
 'refresh' the `Information Panel`.
 
-Auto-refreshing of person details will be done is V2.0.
+Auto-refreshing of person details will be done in V2.0.
 ====
 
-Format: `*remark* INDEX r/REMARK` or `*remark* INDEX edit` or `*remark* edit INDEX`
+Format: +
+
+* To create a new remark: `*remark* INDEX r/REMARK` +
+* To edit an existing remark: `*remark* INDEX edit` or `*remark* edit INDEX`
 
 Examples:
 
@@ -556,7 +572,8 @@ image::AutofillRemark.png[width="700"]
 
 // tag::rate[]
 ==== Giving a rating to a person : `*rate*` or `*rt*` `[In V1.4]`
-Gives a rating to the person identified by the index number used in the *last person listing*. +
+Gives a rating to the person identified by the index number used in the *last person listing*.
+By default, the rating will be accumulated.
 
 ****
 * The index refers to the index number shown in the most recent listing.
@@ -565,13 +582,13 @@ Gives a rating to the person identified by the index number used in the *last pe
 * Placing a `-` after the rating gives an *absolute rating* to the person specified.
 
 [%hardbreak]
-{nbsp}{nbsp}{nbsp}{nbsp} e.g `rate 1 r/2.0-` will set rating of the 1st person in the results
+{nbsp}{nbsp}{nbsp}{nbsp} e.g `*rate* 1 r/2.0-` will set rating of the 1st person in the results
 to 2.0 and number of people who rated the person will be resetted to 1.
 
 * Without placing `-` after the rating gives an *cumulative rating* to the person specified.
 
 [%hardbreak]
-{nbsp}{nbsp}{nbsp}{nbsp} e.g `rate 1 r/2.0` will add on to the current rating of the 1st person
+{nbsp}{nbsp}{nbsp}{nbsp} e.g `*rate* 1 r/2.0` will add on to the current rating of the 1st person
 and the person's average ratings will be displayed. Number of people who rated the person will also increase by 1.
 
 [NOTE]
@@ -585,7 +602,7 @@ Rating value is rounded off to nearest 1 decimal place.
 The new rating created will not be shown automatically. You will have to select the person again to
 'refresh' the `Information Panel`.
 
-Auto-refreshing of person details will be done is V2.0.
+Auto-refreshing of person details will be done in V2.0.
 ====
 
 Format: `*rate* INDEX r/RATE`
@@ -613,7 +630,9 @@ image::AutofillRate.png[width="700"]
 // tag::viewstats[]
 
 ==== Viewing the statistic : `*viewStats*` `[In V1.4]`
-Shows statistical information such as role distribution(Student/Tutor ratio) in the form of a pie chart. +
+Shows statistical information for role and subject distribution. +
+
+image::CompleteChartSnap.png[width="500"]
 
 ****
 * The statistic will not update in real time.
@@ -628,39 +647,20 @@ The proposed improvement of viewStats will provide user with more data such as p
 
 // end::viewstats[]
 
-==== Exiting the program : `*exit*`
-Exits the program. +
-
-Format: `*exit*`
-
-==== Saving the data
-
-STUtor data are saved in the hard disk automatically after any command that changes the data. +
-There is no need to save manually.
-
-
-
-=== Advanced Features
-
 // tag::enterpriseVersion[]
-==== Enterprise Version `[Coming in V2.0]`
+=== Enterprise Version `[Coming in V2.0]`
 With added functionalities, the Enterprise Version of STUtor will serve tuition centers and agencies.
 
 ** Remote centralised database
-*  Real-time syncing will allow multiple coordinators to work on the same database.
-* Information about the students, tutors and pairs will be stored securely, making backup and recovering
-of data easy.
+*  Real-time synchronization will allow multiple coordinators to work on the same database.
+* Information about the students, tutors and pairs will be stored securely, allowing easy backup and data recovery.
 
 
 ** Data Encryption
 *  The coordinator will need a password issued by the tuition center to access the application,
 therefore ensuring the confidentiality of the data.
 
-
-
 // end::enterpriseVersion[]
-
-==== Matching by Location `[Coming in V2.0]`
 
 == FAQ
 
@@ -681,17 +681,17 @@ Note that there is no shortcuts for `help` and `exit` commands.
 [width="80%",cols="<20%,<20%,<20%,<20%",options="header",]
 |=======================================================================
 |Command |Shortcut |Format |Example
-|`add`  | `a` |`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS $/PRICE sub/SUBJECT lvl/EDUCATION_LEVEL  r/ROLE [t/TAG]...`|`add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec r/Student`
+|`add`  | `a` |`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS $/PRICE sub/SUBJECT lvl/LEVEL  r/ROLE [t/TAG]...`|`add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec r/Student`
 |`delete`|`d`|`delete INDEX`|`delete 3`
-|`edit`|`e`|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/EDUCATION_LEVEL] [r/ROLE] [t/TAG]...` |`edit 2 n/James Lee e/jameslee@example.com`
+|`edit`|`e`|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [$/PRICE] [sub/SUBJECT] [lvl/LEVEL] [r/ROLE] [t/TAG]...` |`edit 2 n/James Lee e/jameslee@example.com`
+|`filter`| |`filter KEYWORD`|`filter Math`
 |`find`|`f`|`find KEYWORD [MORE_KEYWORDS]`|`find James Jake`
 |`findmissing`|`fm`|`findmissing [FIELD]...`|`findmissing phone`
-|`select`|`s`|`select INDEX`|`select 2`
 |`match`|`m`|`match INDEX_A INDEX_B`|`match 1 2`
 |`unmatch`|`um`|`unmatch INDEX`|`unmatch 2`
-|`filter`| |`filter KEYWORD`|`filter Math`
-|`remark`|`rk`|`remark INDEX r/`|`remark 2 r/Fast learner.`
 |`rate`|`rt`|`rate INDEX r/`|`rate INDEX r/3.5`
+|`remark`|`rk`|`remark INDEX r/`|`remark 2 r/Fast learner.`
+|`select`|`s`|`select INDEX`|`select 2`
 |`list`|`l`||
 |`viewStats`|||
 |`clear`|`c`||
@@ -705,21 +705,21 @@ Note that there is no shortcuts for `help` and `exit` commands.
 // end::commandsummary[]
 
 // tag::prefixshortcut[]
-== Prefix Shortcut Summary
+== Field Shortcut Summary
 To save time in adding a person, or editing a person's details, use the following shortcuts.
 
 [width="59%",cols="<30%,<35%,<35%",options="header",]
 |=======================================================================
 |Applicable field |Shortcut |Equivalence in full
-|subject | `sub/chem`| `sub/chemistry`
-|subject | `sub/phy`| `sub/physics`
-|subject | `sub/chi`| `sub/chinese`
-|subject | `sub/eng`| `sub/english`
-|level | `lvl/us`| `lvl/upper sec`
-|level | `lvl/ls`| `lvl/lower sec`
-|level | `lvl/up`| `lvl/upper pri`
-|level | `lvl/lp`| `lvl/lower pri`
-|role | `r/t`| `r/tutor`
-|role | `r/s`| `r/student`
+|SUBJECT | `sub/chem`| `sub/chemistry`
+|SUBJECT | `sub/phy`| `sub/physics`
+|SUBJECT | `sub/chi`| `sub/chinese`
+|SUBJECT | `sub/eng`| `sub/english`
+|LEVEL | `lvl/us`| `lvl/upper sec`
+|LEVEL | `lvl/ls`| `lvl/lower sec`
+|LEVEL | `lvl/up`| `lvl/upper pri`
+|LEVEL | `lvl/lp`| `lvl/lower pri`
+|ROLE | `r/t`| `r/tutor`
+|ROLE | `r/s`| `r/student`
 |=======================================================================
 // end::prefixshortcut[]

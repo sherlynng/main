@@ -71,7 +71,7 @@ Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> docume
 
 ==== Updating documentation to match your fork
 
-After forking the repo, links in the documentation will still point to the `se-edu/addressbook-level4` repo. If you plan to develop this as a separate product (i.e. instead of contributing to the `se-edu/addressbook-level4`) , you should replace the URL in the variable `repoURL` in `DeveloperGuide.adoc` and `UserGuide.adoc` with the URL of your fork.
+After forking the repo, links in the documentation will still point to the `CS2103JAN2018-W11-B1/main` repo. If you plan to develop this as a separate product (i.e. instead of contributing to the `CS2103JAN2018-W11-B1/main`) , you should replace the URL in the variable `repoURL` in `DeveloperGuide.adoc` and `UserGuide.adoc` with the URL of your fork.
 
 ==== Setting up CI
 
@@ -392,6 +392,139 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+// tag::uimodifications[]
+
+=== UI Modifications
+
+==== Details Panel
+The details panel is modified to show the selected person’s details instead of opening up a URL.
+This allows better visualization of a person’s details as each person now has up to 11 attributes: `Name`, `Phone`,
+`Address`, `Email`, `Role`, `Status`, `Subject`, `Level`, `Price`, `Remark`, `Rate` to be displayed.
+Below shows the modifications made:
+
+**Before**
+
+image::OlddetailsPanel.png[width="500"]
+
+**After**
+
+image::NewDetailsPanel.png[width="500"]
+
+
+===== Current Implementation
+The UI is modified using `SceneBuilder` and the layout is specified in link:{repoURL}/blob/master/src/main/resources/view/DetailsPanel.fxml[`DetailsPanel.fxml`].
+link:{repoURL}/blob/master/src/main/java/seedu/address/ui/DetailsPanel.java[`DetailsPanel.java`] subscribes to `handlePersonPanelSelectionChangedEvent`, where this allows the details panel to
+be updated whenever the user selects on a specific person.
+
+We choose to place the person's name at the top of the details panel for easy identification of a person while
+other details are organized in a table format for easy reference. Rows of the table are also alternately colored
+to increase readability.
+
+===== Design Considerations
+
+====== Aspect: Layout of Details Panel
+
+* **Alternative 1 (current choice):** Use table to display person details with a column specifying the type of attribute
+and the other specifying the actual content.
+** Pros: Easy to read and refer to.
+** Cons: May not look visually appealing due to grids and lines.
+* **Alternative 2:** Centralized display of person details without usage of tables and reference to the type of attribute.
+** Pros: More visually appealing as formatting is less rigid and squarish.
+** Cons: Locating an attribute may not be easy due to lack of labelling.
+// end::uimodifications[]
+
+==== Person Card
+Person card is improved to show the list of person’s details more concisely and clearly.
+Below shows the improvements made:
+
+**Before**
+
+image::OldPersonCard.png[width="300"]
+
+**After**
+
+image::NewPersonCard.png[width="300"]
+
+===== Removal of Unnecessary Information
+Besides `Name`, all other details are removed from the person card. We choose to remove it as these details can
+be easily viewed by selecting on the person card since the details panel now shows the full details of a person.
+
+As such, we decided to only leave the necessary details that the user will frequently refer
+to in the person card. This helps to reduce cluttering on the side panel and allows the user to be able to view a
+longer list of people at one time.
+
+===== Coloring of Tags
+To allow easy identification of the category that a tag belongs to, different colors are used for different attributes
+of a person. A standardized color is used for each attribute this colour is determined from the `tagType` attribute of the `Tag`.
+This ensures the color will be consistent for each person and the color will be retained when the user reopens the application.
+
+// tag::autofill[]
+
+=== Autofill
+
+Due to the significant amount of attributes to type in, especially when adding or editing a person, we decided to create
+autofill feature to reduce the time taken to enter a person's details. Besides `add` and `edit`, commands with
+definite format (i.e. `remark`, `rate`, `delete`, `select`, `unmatch`, `match`) have this feature implemented as well.
+
+==== Current Implementation
+
+Autofill feature is implemented in link:{repoURL}/blob/master/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox.java`].
+When keyboard `Delete` or `Tab` is pressed, depending on the user input in the command box, the caret position
+will be shifted accordingly. Below shows the workflow when `Delete` or `Tab` is pressed.
+
+.Activity Diagram for Autofill
+image::AutofillActivityDiagram.png[width="400"]
+
+===== Find Next Field
+To find the next field to shift the caret to, manipulation of `String` is used to locate the next instance of `/` in the
+command box. By searching the position of the next `/`, it indicates where the next field should be entered.
+
+.Visualization for find next field
+image::AutofillAdd_Tab2.png[width="700"]
+
+===== Delete Previous Prefix
+To delete the previous prefix, the last instance of `{nbsp}{nbsp}` from the current caret position is located. Any text
+between this position and the caret position is deleted to remove the desired prefix and user input (if any). The caret
+then procedes to find next field to be shifted to. Below shows what happens when `Delete` is pressed when caret position is at `n/`.
+
+.Visualization for delete previous prefix
+image::AutofillAdd_Delete.png[width="700"]
+
+==== Select index to edit
+To select/highlight the index to edit, the first instance of a digit is searched from the current caret position. The index
+is then highlighted by selecting the caret forward.
+
+.Visualization for select index to edit
+image::AutofillMatch.png[width="700"]
+
+We decide to create shortcuts for even for commands that do not have lengthy inputs (e.g. `add` and `edit`) as it makes typing
+command easier for our user. By highlighting the index to edit, user can simply type the index they want to edit without
+manually having to shift the caret to change the index.
+
+==== Design Considerations
+
+===== Aspect: Keyboard key for `Delete`
+
+* **Alternative 1 (current choice):** Use `Delete` button.
+** Pros: Intuitive to user.
+** Cons: May lead to confusion since the original functionality of the `DELETE` button does not work now.
+* **Alternative 2:** Use other keyboard keys that users typically do not use, for example `F2`.
+** Pros: Will not lead to confusion of expected keyboard functionalities.
+** Cons: Not intuitive for users to use as they would not expect it to be a key for delete function.
+
+===== Aspect: Commands that can be autofilled
+
+* **Alternative 1 (current choice):** Commands that have a fixed fomat can be autofilled.
+** Pros: Easy to use for the user as expected behavior of the autofill feature can be predicted.
+** Cons: May lead to some confusion as only selected commands can be autofilled.
+* **Alternative 2:** All commands can be autofilled.
+** Pros: Will not lead to confusion as to which commands can be autofilled.
+** Cons: For commands that do not have a definite format (e.g. `find KEYWORD [MORE_KEYWORDS]`), it can be confusing for the user if the app
+only autofills `find` and expects the user to remember the command format. Furthermore, using command alias (e.g. `f`) requires
+less typing from the user.
+
+// end::autofill[]
+
 // tag::attributetags[]
 === Automatic creation of tags from person attributes
 
@@ -532,7 +665,7 @@ The other classes utilise the `ProperCaseConverter` object in a similar way.
 [NOTE]
 The user can input shortcuts in case-insensitive fashion. +
 For instance, the user may input `add n/jOHN dOE p/98765432 e/johND@eXaMpLe.com a/NUS #04-02 $/50 sub/PHy lvl/uP t/T`
-, the stored entry will be `John Doe Phone: 98765432 Email: johnd@example.com Address: NUS #04-02 Tags: [Tutor][Upper Pri][50][Physics][Not Matched]`
+, the stored entry will be `jOHN dOE Phone: 98765432 Email: johND@eXaMpLe.com Address: NUS #04-02 Tags: [Tutor][Upper Pri][50][Physics][Not Matched]`
 
 
 // end::caseinsensitiveinput[]
@@ -565,71 +698,6 @@ insensitive.
 ** Cons: Arguments such as `Not Matched` and `Matched` cannot be differentiated.
 
 // end::filter[]
-// tag::uimodifications[]
-
-=== UI Modifications
-
-==== Details Panel
-The browser panel is modified to show the selected person’s details instead of opening up a URL.
-This allows better visualization of a person’s details as each person now has up 11 attributes: `Name`, `Phone`,
-`Address`, `Email`, `Role`, `Status`, `Subject`, `Level`, `Price`, `Remark`, `Rate` to be displayed.
-Below shows the modifications made:
-
-**Before**
-
-image::OldBrowserPanel.png[width="500"]
-
-**After**
-
-image::NewDetailsPanel.png[width="500"]
-
-
-===== Current Implementation
-The UI is modified using `SceneBuilder` and the layout is specified in link:{repoURL}/blob/master/src/main/resources/view/DetailsPanel.fxml[`DetailsPanel.fxml`].
-link:{repoURL}/blob/master/src/main/java/seedu/address/ui/DetailsPanel.java[`DetailsPanel.java`] subscribes to `handlePersonPanelSelectionChangedEvent`, where this allows the browser panel to
-be updated whenever the user selects on a specific person.
-
-We choose to place the person's name at the top of the browser panel for easy identification of a person while
-other details are organized in a table format for easy reference. Rows of the table are also alternately colored
-to increase readability.
-
-===== Design Considerations
-
-====== Aspect: Layout of Details Panel
-
-* **Alternative 1 (current choice):** Use table to display person details with a column specifying the type of attribute
-and the other specifying the actual content.
-** Pros: Easy to read and refer to.
-** Cons: May not look visually appealing due to grids and lines.
-* **Alternative 2:** Centralized display of person details without usage of tables and reference to the type of attribute.
-** Pros: More visually appealing as formatting is less rigid and squarish.
-** Cons: Locating an attribute may not be easy due to lack of labelling.
-// end::uimodifications[]
-
-==== Person Card
-Person card is improved to show the list of person’s details more concisely and clearly.
-Below shows the improvements made:
-
-**Before**
-
-image::OldPersonCard.png[width="300"]
-
-**After**
-
-image::NewPersonCard.png[width="300"]
-
-===== Removal of Unnecessary Information
-Besides `Name`, all other details are removed from the person card. We choose to remove it as these details can
-be easily viewed by selecting on the person card since the browser panel now shows the full details of a person.
-
-As such, we decided to only leave the necessary details that the user will frequently refer
-to in the person card. This helps to reduce cluttering on the side panel and allows the user to be able to view a
-longer list of people at one time.
-
-===== Coloring of Tags
-To allow easy identification of the category that a tag belongs to, different colors are used for different attributes
-of a person. A standardized color is used for each attribute this colour is determined from the `tagType` attribute of the `Tag`.
-This ensures the color will be consistent for each person and the color will be retained when the user reopens the application.
 
 // tag::optionaladd[]
 === Optional Fields for Add Command
@@ -656,7 +724,7 @@ Must create a special constructor for the attribute class to accept a `null` for
 
 === Find Missing Command
 ==== Current Implementation
-The intention and design behind this command is to pair with the allowing of users to leave fields for a person's values unentered.
+The intention and design behind this command is to complement the allowing of users to leave fields for a person's values unentered.
 As the design of the command, parser and sequence when a user enters a find missing command to be very similar to the filter command, the documentation
 here will focus more on the design considerations and rationale instead of repeating sequence diagrams that are almost the same as given previously. +
 
@@ -693,73 +761,6 @@ Current option used since it fits best with the user need of simply finding thos
 ** Cons: Artificially limits the command heavily for users, where those who want to search for multiple missing fields will not be able to.
 
 // end::optionaladd[]
-
-// tag::autofill[]
-
-=== Autofill
-
-Due to the significant amount of attributes to type in, especially when adding or editing a person, we decided to create
-autofill feature to reduce the time taken to enter a person's details. Besides `add` and `edit`, commands with
-definite format (i.e. `remark`, `rate`, `delete`, `select`, `unmatch`, `match`) have this feature implemented as well.
-
-==== Current Implementation
-
-Autofill feature is implemented in link:{repoURL}/blob/master/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox.java`].
-When keyboard `Delete` or `Tab` is pressed, depending on the user input in the command box, the caret position
-will be shifted accordingly. Below shows the workflow when `Delete` or `Tab` is pressed.
-
-.Activity Diagram for Autofill
-image::AutofillActivityDiagram.png[width="400"]
-
-===== Find Next Field
-To find the next field to shift the caret to, manipulation of `String` is used to locate the next instance of `/` in the
-command box. By searching the position of the next `/`, it indicates where the next field should be entered.
-
-.Visualization for find next field
-image::AutofillAdd_Tab2.png[width="700"]
-
-===== Delete Previous Prefix
-To delete the previous prefix, the last instance of `{nbsp}{nbsp}` from the current caret position is located. Any text
-between this position and the caret position is deleted to remove the desired prefix and user input (if any). The caret
-then procedes to find next field to be shifted to. Below shows what happens when `Delete` is pressed when caret position is at `n/`.
-
-.Visualization for delete previous prefix
-image::AutofillAdd_Delete.png[width="700"]
-
-==== Select index to edit
-To select/highlight the index to edit, the first instance of a digit is searched from the current caret position. The index
-is then highlighted by selecting the caret forward.
-
-.Visualization for select index to edit
-image::AutofillMatch.png[width="700"]
-
-We decide to create shortcuts for even for commands that do not have lengthy inputs (e.g. `add` and `edit`) as it makes typing
-command easier for our user. By highlighting the index to edit, user can simply type the index they want to edit without
-manually having to shift the caret to change the index.
-
-==== Design Considerations
-
-===== Aspect: Keyboard key for `Delete`
-
-* **Alternative 1 (current choice):** Use `Delete` button.
-** Pros: Intuitive to user.
-** Cons: May lead to confusion since the original functionality of the `DELETE` button does not work now.
-* **Alternative 2:** Use other keyboard keys that users typically do not use, for example `F2`.
-** Pros: Will not lead to confusion of expected keyboard functionalities.
-** Cons: Not intuitive for users to use as they would not expect it to be a key for delete function.
-
-===== Aspect: Commands that can be autofilled
-
-* **Alternative 1 (current choice):** Commands that have a fixed fomat can be autofilled.
-** Pros: Easy to use for the user as expected behavior of the autofill feature can be predicted.
-** Cons: May lead to some confusion as only selected commands can be autofilled.
-* **Alternative 2:** All commands can be autofilled.
-** Pros: Will not lead to confusion as to which commands can be autofilled.
-** Cons: For commands that do not have a definite format (e.g. `find KEYWORD [MORE_KEYWORDS]`), it can be confusing for the user if the app
-only autofills `find` and expects the user to remember the command format. Furthermore, using command alias (e.g. `f`) requires
-less typing from the user.
-
-// end::autofill[]
 
 // tag::review[]
 === Review Feature
@@ -811,24 +812,24 @@ be used since create remark command is implemented before edit remark.
 ==== Rate Command
 ===== Current Implementation
 
-Rating is from 0.0 (worst performing) to 5.0 (best performing).
+Rating is from 0.0 (low rating) to 5.0 (high rating).
 Regex is used to limit user input to a maximum of 1 decimal place and any number below 0.0 or above 5.0 is rejected.
 Sum of all ratings is stored as a `double` inside `Rate` class and the displayed value is calculated by taking the sum
 and divide it by the number of people who rated the person.
 
 When a person is first added to STUtor, both total rate `value` and `count` is initialized to 0.
-Since the person has yet been rated, rating will be displayed as `-` in the `DetailsPanel`.
+Since the person has yet to be rated, rating will be displayed as `-` in the `DetailsPanel`.
 
 We have decided to allow two types of ratings in STUtor:
 
-. Cumulative rating
-. Absolute rating
+* Cumulative rating
+* Absolute rating
 
 Default will be cumulative rating as it is more natural and useful to combine all ratings given to a specific person to gauge his/her
 abilities. In STUtor, `value` in `Rate` class stores the total sum of all ratings given to the person.
 To display the cumulated rating, `DetailsPanel` calls `getDisplayedValue` method in `Rate` class and
 cumulated rating is calculated using the total `value` and divide it by `count`.
-Every time a new rate is added, `count` increases incrementally as well.
+Every time a new rate is added, `count` increases as well.
 
 Absolute rating is also implemented for users that wants to clear all old data or wants to shortlist/blacklist a student or tutor.
 `checkRateIsAbsolute` method in `ParserUtil` class is used to find out if the user requires an absolute rating by checking the last character
@@ -868,9 +869,9 @@ image::CompleteChartSnap.png[width="500"]
 
 ==== Current Implementation
 
-Whenever `viewStats` command is executed, a ShowChartEvent will be generated and posted to the EventCenter.
-Subsequently, the handleShowChartEvent from ChartPanel will be notified as it is subscribed to the EventCenter.
-ChartPanel will then generate the graph from the ObservableList and it will be displayed on the UI.
+Whenever `viewStats` command is executed, a `ShowChartEvent` will be generated and posted to the `EventCenter`.
+Subsequently, the `handleShowChartEvent` from `ChartPanel` will be notified as it is subscribed to the `EventCenter`.
+`ChartPanel` will then generate the graph from the `ObservableList` and it will be displayed on the UI.
 
 [NOTE]
 Whenever any command which alters the information of people in the app is executed, execute the `viewStats` command to get the latest update.
@@ -880,7 +881,7 @@ Why does this work? Executing the `viewStats` command will generate new graphs o
 
 ===== Aspect: Displaying of statistical data
 
-* **Alternative 1 (current choice):** Replace the details in browser panel with graph.
+* **Alternative 1 (current choice):** Replace the details in details panel with graph.
 ** Pros: Do not have to deviate from the use of command line input.
 ** Cons: Cannot view person detail and statistical data simultaneously.
 * **Alternative 2:** Open a new window to show graph.
@@ -902,7 +903,7 @@ Why does this work? Executing the `viewStats` command will generate new graphs o
 A tuition coordinator needs to record which students are receiving tuition from which tutors.
 Intuitively, the `match` command allows the user to pair a student with a tutor,
 while the `unmatch` command removes the pair. +
-The matched pairs will be stored in STUtor.xml, and displayed on the pair list panel (the leftmost vertical panel).
+The matched pairs will be stored in STUtor.xml, and displayed on the Pair List panel (the leftmost vertical panel).
 
 ==== Current Implementation
 A matched pair is stored as a `Pair` object.
@@ -981,7 +982,7 @@ See <<UsingTravis#deploying-github-pages, UsingTravis.adoc>> to learn how to dep
 
 === Converting Documentation to PDF format
 
-We use https://www.google.com/chrome/browser/desktop/[Google Chrome] for converting documentation to PDF format, as Chrome's PDF engine preserves hyperlinks used in webpages.
+We use https://www.google.com/chrome/details/desktop/[Google Chrome] for converting documentation to PDF format, as Chrome's PDF engine preserves hyperlinks used in webpages.
 
 Here are the steps to convert the project documentation files to PDF format.
 
@@ -1081,14 +1082,13 @@ b. Require developers to download those libraries manually (this creates extra w
 
 *Target user profile*:
 
-* Tutor coordinator
+* Tuition coordinator
 * Has to manage a significant number of tutors and students
-* Prefer desktop application over other types
-* Can type fast
-* Prefers typing over mouse input
+* Prefers desktop application over other types
+* Prefers typing over mouse input and can type fast
 * Is reasonably comfortable using command line input (CLI) applications
 
-*Value proposition*: efficient matching of students and tutors based on criteria such as subject, level, price, location
+*Value proposition*: Efficient management of students and tutors information and matching them.
 
 *Feature Contributions*:
 
@@ -1100,12 +1100,12 @@ Person card. This will enable the user to view persons with attributes he/she is
 This allows the user to view information such as number of students/tutors/matched and more in the form of graph.
 |NG Xin Ler |Create autofill for commands that are longer or have fixed input. This helps to reduce the amount of time
 the user has to type in a command.|
-Allow writing of reviews (including `remark` and `rating` for a person. This allows the user to take note who are
-performing better or blacklisted, so that the user can refer to them for future matchings.
-|WANG Zi |Create shortcut for the user in filling subject, level, status and role. For instance, `sub/eng` and
+Allow writing of review (including `remark` and `rating` for a person. This allows the user to evaluate the performance
+of a person, so that the user can refer to them for future matching.
+|WANG Zi |Create shortcut for the user in filling subject, level and role. For instance, `sub/eng` and
 `sub/english` both result in adding the subject English. After that, accommodate case-insensitive input, and
 standardize display to follow <<proper-case, proper case>>.
-|Create `match` command. This allows the user to match a pair of Tutor and Student from a list of potential matches.
+|Create `match` and `unmatch` command. This allows the user to match/unmatch a pair of Tutor and Student.
 |YAN Hong Yao Alvin | Automatically generate tags for some attribute fields. This makes them easy to view by the user |
 Allow all non-name fields to be optional. This makes input easier for the user as the add command is extremely long otherwise.
 |=======================================================================
@@ -1116,7 +1116,7 @@ Allow all non-name fields to be optional. This makes input easier for the user a
 
 Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*`
 
-[width="59%",cols="22%,<23%,<25%,<30%",options="header",]
+[width="80%",cols="22%,<23%,<36%,<40%",options="header",]
 |=======================================================================
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
@@ -1127,25 +1127,25 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |find a tutor/student by name |locate details of persons without having to go through the entire list
 
-|`* * *` |user |edit the <<criteria, criteria>> of a tutor/student |change criteria without re-adding the entry
+|`* * *` |user |edit the <<fields, fields>> of a tutor/student |change fields without re-adding the entry
 
 |`* * *` |user |list all tutors or students separately |view a cleaner list without mixing tutors and students
 
-|`* * *` |user |set a tutor/student’s <<status, status>> |know who is available
+|`* * *` |user |see a tutor/student’s <<status, status>> |know who is not matched
 
-|`* * *` |user |mark a tutor/student as <<matched, matched>> with some other tutor/student for a certain subject |identify tutor/student status
+|`* * *` |user |mark a tutor/student as <<matched, matched>> with some other tutor/student |
+
+|`* *` |analytical user |view statistics on tutor/student numbers and statuses |have a clearer picture of the status of tutor/student
 
 |`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
 |`* *` |user |protect the app with a password |ensure confidentiality of the contacts
 
-|`* *` |user |tag a person with role, subject, level, and status |identify details of each tutor/student easily
-
 |`* *` |user |sort matching list by price |find the best match at the lowest price
 
-|`* *` |user |rate a tutor according to student’s feedback |identify tutors’ capability for future references
+|`* *` |user |rate a tutor according to student’s feedback |assess tutors’ capability
 
-|`* *` |user |store a list of all tutor/student that have been matched |I can have a cleaner list consisting of only unmatched tutor/student and also able to refer to past records if required
+|`* *` |user |store a list of all tutor/student that have been matched |have a cleaner list consisting of only unmatched tutor/student and also able to refer to past records if required
 
 |`* *` |user |find all pairs of tutor/students that are <<matching-in-progress, matching in progress>> |easily set a pair to matched or unmatched depending if they have agreed upon the tutoring
 
@@ -1165,15 +1165,11 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |user |automatically send an email to the matched pair of tutor and student |inform both parties efficiently
 
-|`*` |user |select a particular criteria and get tutors/students fulfilling that criteria | easily find a suitable tutor/student if one criteria takes priority
-
 |`*` |user |allow a tutor/student to have multiple subject to teach/learn |have more possibilities when matching tutors and students
 
 |`*` |user |sort the matching list by distance |pair tutor/student who lives nearer to each other
 
-|`*` |user |sync database to google |work on multiple devices without losing data
-
-|`*` |user |view statistics on tutor/student numbers and statuses |have a clearer picture of the status of tutor/student
+|`*` |user |sync database to remote centralized database |work on multiple devices without losing data
 
 |`*` |user |auto-match tutor and student based on available time slots |save time in matching schedules
 
@@ -1211,12 +1207,12 @@ Use case ends.
 Use case resumes at step 2.
 
 [discrete]
-=== Use case: Edit the criteria of a certain tutor/student
+=== Use case: Edit the field of a certain tutor/student
 
 *MSS*
 
-1.  User requests to edit a criteria of a certain tutor/student
-2.  STUtor updates the criteria
+1.  User requests to edit a field of a certain tutor/student
+2.  STUtor updates the field
 +
 Use case ends.
 
@@ -1238,8 +1234,8 @@ Use case ends.
 1.  User requests to show a list of all tutors/students
 2.  STUtor returns a list of all tutors/students
 3.  User selects a tutor/student for matching
-4.  STUtor returns a list of students/tutors that fulfils the criteria of tutor/student selected
-5.  User creates a match with the most suitable criteria
+4.  STUtor returns a list of students/tutors that fulfils the field of tutor/student selected
+5.  User creates a match with the most suitable field
 6.  STUtor creates the match and updates the status of the matched tutor and student to ‘Matching-in-progress’
 +
 Use case ends.
@@ -1255,7 +1251,7 @@ Use case ends.
 Use case resumes at step 2.
 
 [none]
-* 4a. The list is empty (no tutor/student fulfills the criteria)
+* 4a. The list is empty (no tutor/student fulfills the field)
 +
 Use case ends.
 
@@ -1292,10 +1288,7 @@ Use case resumes at step 2.
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `1.8.0_60` or higher installed.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-.  Should be fast in responding to request (within 2 seconds)
-
-
-_{More to be added}_
+.  Data can be easily transferred from one computer to another.
 
 [appendix]
 == Glossary
@@ -1310,8 +1303,8 @@ A contact detail that is not meant to be shared with others
 Proper case is any text that is written with each of the first letters of every word being capitalized.
 For example, "This Is An Example Of Proper Case."
 
-[[criteria]] Criteria::
-Subject and grade level
+[[fields]] Fields::
+Name, address, phone, email, subject, level, price and role
 
 [[match]] Match::
 A tutor and a student are paired for a subject
@@ -1323,27 +1316,7 @@ Tutor and student have confirmed the match and are ready to start lessons
 Waiting for tutor and student to confirm the match
 
 [[status]] Status::
-Includes unmatch, matching-in-progress, matched
-
-[[unmatch]] Unmatch::
-A tutor/student does not have any match
-
-[appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
+Includes not matched, matching-in-progress, matched
 
 // tag::manualtest[]
 
@@ -1385,10 +1358,10 @@ These instructions only provide a starting point for testers to work on; testers
 . Adding a person
 
 .. Prerequisites: None.
-.. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec  r/Student`` +
+.. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec  r/Student` +
    Expected: Person is added to the bottom of the  list. Details of the added person shown in the status message.
 .. Test case: `add` +
-   Expected: Detail panel will remain unchanged. Invalid command format, add command format and an example of add shown in the status message.
+   Expected: Details panel will remain unchanged. Invalid command format, add command format and an example of add shown in the status message.
 
 === Selecting a person
 
@@ -1396,9 +1369,9 @@ These instructions only provide a starting point for testers to work on; testers
 
 .. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 .. Test case: `select 1` +
-   Expected: First contact is selected from the list, details of person 1 is shown in the detail panel. Status message shows selected person: 1.
+   Expected: First contact is selected from the list, details of person 1 is shown in the Details Panel. Status message shows selected person: 1.
 .. Test case: `select 0` +
-   Expected: No person is selected, detail panel will remain unchanged. Invalid command format shown in the status message.
+   Expected: No person is selected, Details Panel will remain unchanged. Invalid command format shown in the status message.
 .. Other incorrect delete commands to try: `select`, `select x` (where x is larger than the list size) +
    Expected: Similar to previous.
 
@@ -1411,7 +1384,7 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 .. Test case: `delete 0` +
    Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
+.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) +
    Expected: Similar to previous.
 
 === Clearing all data
@@ -1425,13 +1398,5 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: All cleared data are restored. Undo success shown in status message.
 
 // end::manualtest[]
-
-=== Saving data
-
-. Dealing with missing/corrupted data files
-
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
-
-_{ more test cases ... }_
 
 
