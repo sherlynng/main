@@ -179,4 +179,15 @@ public class Person {
         return (pairHashes.contains(pairHash));
     }
 
+    //@@author alexawangzi
+    /**
+     * Check if a person has missing fields
+     * @return
+     */
+    public boolean hasMissingFieldForMatch() {
+        return this.getSubject().value.equals("")
+                || this.getLevel().value.equals("")
+                || this.getRole().value.equals("")
+                || this.getPrice().value.equals("");
+    }
 }

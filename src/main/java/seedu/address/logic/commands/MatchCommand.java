@@ -25,11 +25,12 @@ public class MatchCommand extends UndoableCommand {
 
     public static final String MESSAGE_MATCH_SUCCESS = "Created new match %1$s\n";
     public static final String MESSAGE_MATCH_FAILED = "Matching failed.\n %1$s";
-    public static final String MESSAGE_MISMATCH_WRONG_ROLE = "Incompatible level.";
+    public static final String MESSAGE_MISMATCH_WRONG_ROLE = "Incompatible role.";
     public static final String MESSAGE_MISMATCH_WRONG_SUBJECT = "Incompatible subject. ";
     public static final String MESSAGE_MISMATCH_WRONG_LEVEL = "Incompatible level. ";
     public static final String MESSAGE_MISMATCH_WRONG_PRICE = "Incompatible price.";
     public static final String MESSAGE_MISMATCH_ALREADY_MATCHED = "The two persons are already matched. ";
+    public static final String MESSAGE_MISSING_FIELDS = "The person has missing fields. ";
 
     private final Index indexA;
     private final Index indexB;
@@ -67,9 +68,12 @@ public class MatchCommand extends UndoableCommand {
         student = lastShownList.get(indexA.getZeroBased());
         tutor = lastShownList.get(indexB.getZeroBased());
 
+        if (student.hasMissingFieldForMatch() || tutor.hasMissingFieldForMatch()) {
+            throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISSING_FIELDS));
+        }
+
         //filter invalid matchings
-        if (student.getRole().equals(tutor.getRole()) || student.getRole().value.equals("")
-                || tutor.getRole().value.equals("")) {
+        if (student.getRole().equals(tutor.getRole())) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_ROLE));
         }
 
@@ -87,9 +91,7 @@ public class MatchCommand extends UndoableCommand {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_LEVEL));
         }
 
-        if (tutor.getPrice().value.equals("")
-                || student.getPrice().value.equals("")
-                || Integer.parseInt(student.getPrice().value) < Integer.parseInt(tutor.getPrice().value)) {
+        if (Integer.parseInt(student.getPrice().value) < Integer.parseInt(tutor.getPrice().value)) {
             throw new CommandException(String.format(MESSAGE_MATCH_FAILED, MESSAGE_MISMATCH_WRONG_PRICE));
         }
 
