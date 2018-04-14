@@ -533,7 +533,8 @@ Each of the attributes `Price`, `Subject`, `Level` and `Status` of a person each
 This is done when user performs `add` or `edit` command.
 
 The creation of these tags from attributes is facilitated by static methods from a class in logic, called `AttributeTagSetter`. This class contains methods to remove existing attribute tags from a person, which can be used when needing to edit or find non-attribute tags of the person.
-Another method is to create the new attribute tags from provided input and return the new set of tags. This class is currently invoked from a static context, as its use currently is solely for managing the tags of a given `Person`. +
+Another method is to create the new attribute tags from provided input and return the new set of tags. This class is currently invoked from a static context, as its use currently is solely for managing the tags of a given `Person`.
+When parsing and making an add or edit command, it makes use of these methods to obtain the correct attribute tags and sets them.
 The sequence diagram below (figure 18) shows where the creation of these tags in the sequence of parsing an `Add` command. +
 
 .Sequence diagram for creating attribute tags
@@ -546,6 +547,7 @@ The acceptable inputs for a `Tag` must necessarily allow all the acceptable inpu
 ==== Model Implementation
 The `Tag` class can support the ability to classify which attribute the tag was created from. This is done by adding an enum `AllTagsType` to the `Tag` class.
 A tag can be created without being from an attribute, with just a tag name. In this case, creating a `Tag` with no provided `AllTagsType` will initialise the `tagType` to `DEFAULT`.
+Otherwise, creation of the tag will require the tagType to be passed in.
 
 This is the current `Tag` class in UML notation
 
@@ -730,10 +732,10 @@ here will focus more on the design considerations and rationale instead of repea
 
 Currently, the command makes use of a new predicate, `FindMissingPredicate`, to perform the check. +
 The implementation of the OR search in the `FindMissingPredicate` is as follows: +
-For each entered field by the user, if that field is unentered by the user, then the predicate will immediately return `true` as the person fits the criteria. +
+For each entered field by the user, if that field is unentered by the user, then the predicate will immediately return `true` as the person fits the criteria.
 If at the end of checking all values at the list, then the person has all fields specified by the user filled. Therefore, the predicate will return `false` in this case. +
 
-Rationale for having a new command and predicate is that reusing the `Filter` command or predicate would violate Single Responsibility Principle and the idea of Separation of Concerns. +
+Rationale for having a new command and predicate is that reusing the `Filter` command or predicate would violate Single Responsibility Principle and the idea of Separation of Concerns.
 The `Filter` command and classes associated closely to it should have the single concern of listing people according to a search term. +
 Therefore, it is better design to create a new command for this feature.
 
@@ -741,7 +743,7 @@ Therefore, it is better design to create a new command for this feature.
 
 ===== Aspect: Design of predicate used
 * **Alternative 1 (current choice):** One single predicate, containing a `List` of entered user arguments.
-** Pros: Ensures the predicate used in the `FindMissingCommand` remains of type `FindMissingPredicate`, ensuring better controlled
+** Pros: Ensures the predicate used in the `FindMissingCommand` remains of type `FindMissingPredicate`. Easy to test and inspect manually and to update the command predicate if needed.
 ** Cons: Increased complexity of ensuring the predicate test will correctly give a true or false value.
 
 * **Alternative 2:** Create one predicate for each user argument, then make use of `Predicate` method to perform a logical OR.
@@ -755,6 +757,8 @@ Current option used since it fits best with the user need of simply finding thos
 
 * **Alternative 2:** Have user arguments be combined in an AND manner.
 ** Pros: Allows the user to narrow down a search, especially if the size of the stored contacts is large.
+** Cons: Might be too specific for the user, if they forget exactly which fields were left empty they will not be able to find the user. +
+This is the opposite of the OR choice, therefore the implementation depends on the user need.
 
 * **Alternative 3:** Allow user to enter only 1 argument
 ** Pros: Simplifies the command significantly with only 1 field to search for.
