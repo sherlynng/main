@@ -687,6 +687,8 @@ Current option used since it fits best with the user need of simply finding thos
 
 * **Alternative 2:** Have user arguments be combined in an AND manner.
 ** Pros: Allows the user to narrow down a search, especially if the size of the stored contacts is large.
+** Cons: Might be too specific for the user, if they forget exactly which fields were left empty they will not be able to find the user. +
+This is the opposite of the OR choice, therefore the implementation depends on the user need.
 
 * **Alternative 3:** Allow user to enter only 1 argument
 ** Pros: Simplifies the command significantly with only 1 field to search for.
