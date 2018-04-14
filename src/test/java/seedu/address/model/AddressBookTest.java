@@ -1,8 +1,10 @@
 package seedu.address.model;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_UNUSED;
+import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.AMY;
 import static seedu.address.testutil.TypicalPersons.BOB;
@@ -21,11 +23,13 @@ import org.junit.rules.ExpectedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.pair.Pair;
+import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.TypicalPairs;
 
 
 public class AddressBookTest {
@@ -69,6 +73,18 @@ public class AddressBookTest {
     }
 
     @Test
+    public void resetData_withDuplicatePairs_throwsAssertionError() {
+        // Repeat RANDOM_PAIR_A twice
+        List<Person> newPersons = Arrays.asList(ALICE);
+        List<Tag> newTags = new ArrayList<>(ALICE.getTags());
+        List<Pair> newPairs = Arrays.asList(TypicalPairs.RANDOM_PAIR_A, TypicalPairs.RANDOM_PAIR_A);
+        AddressBookStub newData = new AddressBookStub(newPersons, newTags, newPairs);
+
+        thrown.expect(AssertionError.class);
+        addressBook.resetData(newData);
+    }
+
+    @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
         addressBook.getPersonList().remove(0);
@@ -98,16 +114,36 @@ public class AddressBookTest {
         assertEquals(expectedAddressBook, addressBookWithAmyandBob);
     }
 
+    @Test
+    public void removePersonOrPair_doesNotExist_throwsNotFoundException() throws Exception {
+        addressBook.addPerson(AMY);
+        assertThrows(PersonNotFoundException.class, () -> addressBook.removePerson(BOB));
+        assertThrows(PairNotFoundException.class, () -> addressBook.removePair(TypicalPairs.RANDOM_PAIR_A));
+    }
+
+    @Test
+    public void checkHashCodeMethod() {
+        AddressBook first = new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
+        AddressBook copy = new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
+        assertTrue(first.hashCode() == copy.hashCode());
+    }
+
     /**
      * A stub ReadOnlyAddressBook whose persons and tags lists can violate interface constraints.
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
         private final ObservableList<Tag> tags = FXCollections.observableArrayList();
+        private final ObservableList<Pair> pairs = FXCollections.observableArrayList();
 
         AddressBookStub(Collection<Person> persons, Collection<? extends Tag> tags) {
             this.persons.setAll(persons);
             this.tags.setAll(tags);
+        }
+
+        AddressBookStub(Collection<Person> persons, Collection<? extends Tag> tags, Collection<Pair> pairs) {
+            this(persons, tags);
+            this.pairs.setAll(pairs);
         }
 
         @Override
@@ -118,7 +154,7 @@ public class AddressBookTest {
         //A dummy method, needs to be completed
         @Override
         public ObservableList<Pair> getPairList() {
-            return null;
+            return pairs;
         }
 
         @Override

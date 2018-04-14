@@ -6,8 +6,7 @@ import java.text.DecimalFormat;
 
 //@@author sherlynng
 /**
- * Represents a Person's rating in the address book.
- * Guarantees: immutable;
+ * Represents a Person's rating in STUtor.
  */
 public class Rate {
 
@@ -33,21 +32,21 @@ public class Rate {
     }
 
     /**
-     * Creates a default rating.
-     * @return {@code Rate} with default value of 3.0 and count 1.
+     * Initializes a person's rating.
+     * @return {@code Rate} with value of 0.0 and count 0.
      */
     public static Rate initializeRate() {
-        Rate defaultRate = new Rate(0, true);
-        defaultRate.setCount(0);
+        Rate initializedRate = new Rate(0.0, true);
+        initializedRate.setCount(0);
 
-        return defaultRate;
+        return initializedRate;
     }
 
     /**
-     * Accumulates a person's rating value
+     * Accumulates a person's rating value.
      * @param oldRate
      * @param newRate
-     * @return {@code Rate} that contains updated value and count
+     * @return {@code Rate} that contains updated value and count.
      */
     public static Rate accumulatedValue (Rate oldRate, Rate newRate) {
         double newValue;
@@ -71,8 +70,8 @@ public class Rate {
     }
 
     /**
-     * Gets displayed rate value, rounded off to nearest 1 decimal place.
-     * @return {@code double} rate value to 1 decimal place
+     * Gets rate value to be displayed.
+     * @return {@code double} rate value rounded off to nearest 1 decimal place.
      */
     public double getDisplayedValue() {
         double displayedValue = 0;
@@ -106,7 +105,8 @@ public class Rate {
         return other == this // short circuit if same object
                 || (other instanceof Rate // instanceof handles nulls
                 && this.value == ((Rate) other).value
-                && this.count == ((Rate) other).count); // state check
+                && this.count == ((Rate) other).count
+                && this.isAbsolute == ((Rate) other).isAbsolute); // state check
     }
 
     @Override

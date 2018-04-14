@@ -4,8 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 //@@author sherlynng
 /**
- * Represents a Person's remark in the address book.
- * Guarantees: immutable;
+ * Represents a Person's remark in STUtor.
  */
 public class Remark {
 

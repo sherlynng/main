@@ -204,9 +204,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         if (!key.getPairHashes().isEmpty()) {
             throw new PersonMatchedCannotDeleteException();
         }
-        if (persons.remove(key)) {
+        try {
+            persons.remove(key);
             return true;
-        } else {
+        } catch (PersonNotFoundException pnfe) {
             throw new PersonNotFoundException();
         }
     }
@@ -285,7 +286,6 @@ public class AddressBook implements ReadOnlyAddressBook {
                     person.getEmail(), person.getAddress(), person.getPrice(),
                     person.getSubject(), person.getLevel(), new Status("Matched"),
                     person.getRole(), attributeTags, person.getRemark(), person.getRate(), pairHashSet);
-
         try {
             updatePersonForAddAndEdit(person, editedPerson);
         } catch (DuplicatePersonException e) {

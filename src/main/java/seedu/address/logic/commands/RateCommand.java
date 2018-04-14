@@ -32,7 +32,7 @@ import seedu.address.model.tag.Tag;
 
 //@@author sherlynng
 /**
- * Adds a remark to person to the address book.
+ * Adds a rate to person in STUtor.
  */
 public class RateCommand extends UndoableCommand {
 
@@ -45,7 +45,7 @@ public class RateCommand extends UndoableCommand {
             + "Example: " + COMMAND_WORD + " 1 " + PREFIX_RATE + "4.5";
 
     public static final String MESSAGE_RATE_PERSON_SUCCESS = "Added Rating to %1$s: " + "%2$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in STUtor.";
 
     private final Index targetIndex;
     private Rate newRate;
@@ -73,8 +73,7 @@ public class RateCommand extends UndoableCommand {
             throw new AssertionError("Editing rate should not be rejected even if person is matched.");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_RATE_PERSON_SUCCESS,
-                                editedPerson.getName(), newRate));
+        return new CommandResult(String.format(MESSAGE_RATE_PERSON_SUCCESS, editedPerson.getName(), newRate));
     }
 
     @Override

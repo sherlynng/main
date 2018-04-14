@@ -15,13 +15,13 @@ import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.Person;
 
 /**
- * The Browser Panel of the App.
+ * The Details Panel of STUtor that shows a person's details.
  */
 
 //@@author sherlynng
-public class BrowserPanel extends UiPart<Region> {
+public class DetailsPanel extends UiPart<Region> {
 
-    private static final String FXML = "BrowserPanel.fxml";
+    private static final String FXML = "DetailsPanel.fxml";
 
     private final Logger logger = LogsCenter.getLogger(this.getClass());
 
@@ -56,7 +56,7 @@ public class BrowserPanel extends UiPart<Region> {
     @FXML
     private Label rateCount;
 
-    public BrowserPanel() {
+    public DetailsPanel() {
         super(FXML);
 
         name.setText("");
@@ -67,7 +67,7 @@ public class BrowserPanel extends UiPart<Region> {
     }
 
     /**
-     * Loads a {@code person}'s details into the browser panel.
+     * Loads a {@code person}'s details into the details panel.
      */
     public void loadPersonDetails(Person person) {
         grid.setVisible(true);

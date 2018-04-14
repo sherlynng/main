@@ -133,31 +133,31 @@
 }
 
 /* @@author sherlynng */
-.browser_big_label {
+.details_big_label {
      -fx-font-family: "Segoe UI";
      -fx-font-size: 40px;
      -fx-text-fill: #fffacd;
      -fx-text-weight: bold
  }
 
-.browser_label {
+.details_label {
      -fx-font-family: "Segoe UI";
      -fx-font-size: 15px;
      -fx-text-fill: #ffffff;
      -fx-text-weight: bold
  }
 
-.browser_label_details {
+.details_label_details {
     -fx-font-family: "Segoe UI";
     -fx-font-size: 14px;
     -fx-text-fill: #ffffff;
 }
 
-.browser_stackPane_odd {
+.details_stackPane_odd {
     -fx-background-color: #333333
 }
 
-.browser_stackPane_even {
+.details_stackPane_even {
     -fx-background-color: #4C4C4C
 }
 /* @@author */

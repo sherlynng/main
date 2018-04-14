@@ -100,10 +100,7 @@ public abstract class AddressBookSystemTest {
     public MainMenuHandle getMainMenu() {
         return mainWindowHandle.getMainMenu();
     }
-    /*
-    public BrowserPanelHandle getBrowserPanel() {
-        return mainWindowHandle.getBrowserPanel();
-    }*/
+
     public StatusBarFooterHandle getStatusBarFooter() {
         return mainWindowHandle.getStatusBarFooter();
     }
@@ -173,7 +170,7 @@ public abstract class AddressBookSystemTest {
     }
 
     /**
-     * Calls {@code BrowserPanelHandle}, {@code PersonListPanelHandle} and {@code StatusBarFooterHandle} to remember
+     * Calls {@code DetailsPanelHandle}, {@code PersonListPanelHandle} and {@code StatusBarFooterHandle} to remember
      * their current state.
      */
     private void rememberStates() {

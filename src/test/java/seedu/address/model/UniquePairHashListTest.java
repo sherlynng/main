@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,6 +32,24 @@ public class UniquePairHashListTest {
         uniquePairHashListB.add(new PairHash(1234567));
         assertTrue(uniquePairHashListA.equals(uniquePairHashListB));
 
+    }
+
+    //@@author aussiroth
+    @Test
+    public void addDuplicatePairHash_throwsDuplicatePairHashException() throws Exception {
+        UniquePairHashList uniquePairHashList = new UniquePairHashList();
+        uniquePairHashList.add(new PairHash(1234));
+        assertThrows(UniquePairHashList.DuplicatePairHashException.class, () ->
+                uniquePairHashList.add(new PairHash(1234)));
+    }
+
+    @Test
+    public void checkHashCodeMethod() throws Exception {
+        UniquePairHashList uniquePairHashListA = new UniquePairHashList();
+        UniquePairHashList uniquePairHashListB = new UniquePairHashList();
+        uniquePairHashListA.add(new PairHash(1234567));
+        uniquePairHashListB.add(new PairHash(1234567));
+        assertTrue(uniquePairHashListA.hashCode() == uniquePairHashListB.hashCode());
     }
 
 }

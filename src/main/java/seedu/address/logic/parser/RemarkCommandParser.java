@@ -20,7 +20,7 @@ import seedu.address.model.person.Remark;
 public class RemarkCommandParser implements Parser<RemarkCommand> {
 
     /**
-     * Parses the given {@code String} of remarks in the context of the RemarkCommand
+     * Parses the given {@code String} with remark in the context of the RemarkCommand
      * and returns a RemarkCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
@@ -33,13 +33,14 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
 
         isEditRemark = argMultimap.getPreamble().contains("edit");
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_REMARK) && !isEditRemark) {
+        if (!isEditRemark && !arePrefixesPresent(argMultimap, PREFIX_REMARK)) {
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
         }
 
         try {
             if (isEditRemark) {
-                index = ParserUtil.parseIndex(argMultimap.getPreamble().replace("edit", ""));
+                String replacedPreamble = argMultimap.getPreamble().replace("edit", "");
+                index = ParserUtil.parseIndex(replacedPreamble);
             } else {
                 index = ParserUtil.parseIndex(argMultimap.getPreamble());
             }
@@ -49,11 +50,10 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
 
         Remark remark;
         if (isEditRemark) {
-            remark = ParserUtil.parseRemark((String) null);
-
+            remark = ParserUtil.parseRemark("");
             return new RemarkCommand(index, remark, isEditRemark);
         } else {
-            remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
+            remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).orElse(new Remark(""));
         }
 
         return new RemarkCommand(index, remark);
@@ -66,6 +66,5 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
-
 
 }
