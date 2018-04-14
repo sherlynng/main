@@ -15,7 +15,7 @@ AddressBook save file which contains the same Person values as in
 		<price>50</price>
 		<subject>Math</subject>
 		<level>Lower Sec</level>
-		<status>Matched</status>
+		<status>Not Matched</status>
         <role>Tutor</role>
         <remark>Hardworking but slow learner.</remark>
         <rate>3.0</rate>
@@ -55,7 +55,7 @@ AddressBook save file which contains the same Person values as in
 		<price>20</price>
 		<subject>Chemistry</subject>
 		<level>Upper Sec</level>
-		<status>Matched</status>
+		<status>Not Matched</status>
         <role>Tutor</role>
         <remark>Patient and clear in explanation.</remark>
         <rate>4.0</rate>

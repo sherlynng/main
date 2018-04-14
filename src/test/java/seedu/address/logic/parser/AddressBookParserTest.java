@@ -87,11 +87,8 @@ public class AddressBookParserTest {
     public void parseCommand_edit() throws Exception {
         Person person = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
-        descriptor.setStatus(null);
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_NINTH_PERSON.getOneBased() + " " + PersonUtil.getPersonDetailsWithoutStatus(person));
-        System.out.println(new EditCommand(INDEX_NINTH_PERSON, descriptor));
-        System.out.println(command.toString());
         assertEquals(new EditCommand(INDEX_NINTH_PERSON, descriptor), command);
 
     }
@@ -199,7 +196,6 @@ public class AddressBookParserTest {
     public void parseCommand_editAliased() throws Exception {
         Person person = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
-        descriptor.setStatus(null);
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD_ALIAS + " "
                 + INDEX_NINTH_PERSON.getOneBased() + " " + PersonUtil.getPersonDetailsWithoutStatus(person));
         assertEquals(new EditCommand(INDEX_NINTH_PERSON, descriptor), command);
