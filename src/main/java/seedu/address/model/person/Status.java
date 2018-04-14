@@ -18,6 +18,7 @@ public class Status {
     public static final String MESSAGE_STATUS_CONSTRAINTS = "Status should be one of: \n"
             + SET_ALL_STATUS.toString()
             + "\n";
+    public static final Status DEFAULT_STATUS = new Status ("Not Matched");
 
     public final String value;
 

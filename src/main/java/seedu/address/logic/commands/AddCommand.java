@@ -8,7 +8,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -33,7 +32,6 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_PRICE + "BUDGET "
             + PREFIX_SUBJECT + "SUBJECT "
             + PREFIX_LEVEL + "LEVEL "
-            + PREFIX_STATUS + "STATUS "
             + PREFIX_ROLE + "ROLE"
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
@@ -44,7 +42,6 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_PRICE + "50 "
             + PREFIX_SUBJECT + "Math "
             + PREFIX_LEVEL + "Lower Sec "
-            + PREFIX_STATUS + "Not Matched "
             + PREFIX_ROLE + "Student";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";

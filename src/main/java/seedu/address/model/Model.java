@@ -9,6 +9,7 @@ import seedu.address.model.pair.exceptions.PairNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonMatchedCannotDeleteException;
+import seedu.address.model.person.exceptions.PersonMatchedCannotEditException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 
@@ -50,7 +51,7 @@ public interface Model {
      * @throws PersonNotFoundException if {@code target} could not be found in the list.
      */
     void updatePerson(Person target, Person editedPerson)
-            throws DuplicatePersonException, PersonNotFoundException;
+            throws DuplicatePersonException, PersonNotFoundException, PersonMatchedCannotEditException;
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();

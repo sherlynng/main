@@ -13,6 +13,7 @@ import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_NINTH_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -42,12 +43,13 @@ public class EditCommandTest {
     public void execute_allFieldsSpecifiedUnfilteredList_success() throws Exception {
         Person editedPerson = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
-        EditCommand editCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
+        descriptor.setStatus(null);
+        EditCommand editCommand = prepareCommand(INDEX_NINTH_PERSON, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedPerson);
+        expectedModel.updatePerson(model.getFilteredPersonList().get(8), editedPerson);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
@@ -87,7 +89,7 @@ public class EditCommandTest {
 
     @Test
     public void execute_filteredList_success() throws Exception {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showPersonAtIndex(model, INDEX_NINTH_PERSON);
 
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person editedPerson = new PersonBuilder(personInFilteredList).withName(VALID_NAME_BOB).build();
@@ -106,13 +108,13 @@ public class EditCommandTest {
     public void execute_duplicatePersonUnfilteredList_failure() {
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstPerson).build();
-        EditCommand editCommand = prepareCommand(INDEX_SECOND_PERSON, descriptor);
+        EditCommand editCommand = prepareCommand(INDEX_NINTH_PERSON, descriptor);
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PERSON);
     }
 
     @Test
     public void execute_duplicatePersonFilteredList_failure() {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showPersonAtIndex(model, INDEX_NINTH_PERSON);
 
         // edit person in filtered list into a duplicate in address book
         Person personInList = model.getAddressBook().getPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
@@ -154,9 +156,9 @@ public class EditCommandTest {
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().build();
-        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_NINTH_PERSON.getZeroBased());
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
-        EditCommand editCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
+        EditCommand editCommand = prepareCommand(INDEX_NINTH_PERSON, descriptor);
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
         // edit -> first person edited
@@ -205,9 +207,9 @@ public class EditCommandTest {
         EditCommand editCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
-        showPersonAtIndex(model, INDEX_SECOND_PERSON);
+        showPersonAtIndex(model, INDEX_NINTH_PERSON);
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        // edit -> edits second person in unfiltered person list / first person in filtered person list
+        // edit -> edits eighth person in unfiltered person list / first person in filtered person list
         editCommand.execute();
         undoRedoStack.push(editCommand);
 

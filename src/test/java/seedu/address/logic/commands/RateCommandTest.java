@@ -14,6 +14,7 @@ import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.logic.commands.RateCommand.MESSAGE_RATE_PERSON_SUCCESS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_NINTH_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -60,7 +61,7 @@ public class RateCommandTest {
 
     @Test
     public void execute_filteredListAbsoluteRate_success() throws Exception {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showPersonAtIndex(model, INDEX_NINTH_PERSON);
 
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person editedPerson = new PersonBuilder(personInFilteredList).withRate(VALID_RATE_BOB, RATECOUNT_BOB).build();
@@ -79,7 +80,7 @@ public class RateCommandTest {
 
     @Test
     public void execute_filteredListAccumulatedRate_success() throws Exception {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showPersonAtIndex(model, INDEX_NINTH_PERSON);
 
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Rate rate = new Rate(Double.parseDouble(VALID_RATE_AMY), false);
