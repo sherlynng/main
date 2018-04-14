@@ -1624,6 +1624,8 @@ Cons:
 * ...
 * ...
 
+// tag::manualtest[]
+
 [appendix]
 == Instructions for Manual Testing
 
@@ -1697,9 +1699,11 @@ These instructions only provide a starting point for testers to work on; testers
 
 .. Prerequisites: None.
 .. Test case: `clear` +
-   Expected: All data in . Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-.. Test case: `delete 0` +
-   Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+   Expected: All data in app is cleared. App has been cleared shown in status message.
+.. Test case: `undo` +
+   Expected: All cleared data are restored. Undo success shown in status message.
+
+// end::manualtest[]
 
 === Saving data
 
