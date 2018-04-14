@@ -34,7 +34,8 @@ public class StatusTest {
         assertFalse(new Status("matched").equals(null));
         assertFalse(new Status("matched").equals(new Tag("matched")));
         //test correctly returns equal if status string is the same
-        assertTrue(new Status("matched").equals(new Status("matched")));
+        assertTrue(new Status("matched").equals(new Status("m")));
+        assertTrue(new Status("not matched").equals(new Status("nm")));
     }
 
     @Test
