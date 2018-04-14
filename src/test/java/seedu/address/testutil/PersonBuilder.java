@@ -222,6 +222,11 @@ public class PersonBuilder {
         return this;
     }
 
+    public PersonBuilder withPairhash(int value) {
+        return this.withPairhash(new PairHash(value));
+    }
+
+    //@@author
     /**
      * Builds a person based off the attributes in this class
      * @return Person with set attributes

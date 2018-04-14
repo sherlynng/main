@@ -59,8 +59,8 @@ public class MatchCommandTest {
 
     @Test
     public void execute_incompatibleAlreadyMatched_throwsCommandException() {
-        Index indexA = Index.fromOneBased(1);
-        Index indexB = Index.fromOneBased(2);
+        Index indexA = Index.fromOneBased(5);
+        Index indexB = Index.fromOneBased(6);
         MatchCommand matchCommand = prepareCommand(indexA, indexB);
         assertCommandFailure(matchCommand, model, MESSAGE_MISMATCH_ALREADY_MATCHED);
     }

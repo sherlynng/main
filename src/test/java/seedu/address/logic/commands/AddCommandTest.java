@@ -54,6 +54,7 @@ public class AddCommandTest {
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
+    //@@author alexawangzi
     @Test
     public void execute_studentAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
@@ -67,6 +68,7 @@ public class AddCommandTest {
         assertTrue(modelStub.personsAdded.get(modelStub.personsAdded.size() - 1) instanceof Student);
     }
 
+    //@@author alexawangzi
     @Test
     public void execute_tutorAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();

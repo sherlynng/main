@@ -6,6 +6,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 import java.util.Arrays;
 import java.util.HashSet;
 
+//@@author alexawangzi
 /**
  * Represents a Person's status in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidStatus(String)}

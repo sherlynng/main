@@ -127,7 +127,7 @@ public class Person {
         pairHashes.add(pairHash);
     }
 
-
+    //@@author alexawangzi
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -146,7 +146,6 @@ public class Person {
                 && otherPerson.getAddress().equals(this.getAddress())
                 && otherPerson.getLevel().equals(this.getLevel())
                 && otherPerson.getSubject().equals(this.getSubject())
-                && otherPerson.getStatus().equals(this.getStatus())
                 && otherPerson.getPrice().equals(this.getPrice())
                 && otherPerson.getRole().equals(this.getRole());
     }

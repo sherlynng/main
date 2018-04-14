@@ -16,6 +16,8 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.model.pair.Pair;
 
+//@@author alexawangzi
+//adapted from PersonListPanel
 /**
  * Panel containing the list of pairs.
  */

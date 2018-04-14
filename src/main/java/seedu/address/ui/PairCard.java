@@ -8,6 +8,8 @@ import javafx.scene.layout.Region;
 import seedu.address.model.pair.Pair;
 import seedu.address.model.tag.Tag;
 
+//@@author alexawangzi
+//adapted from PersonCard
 /**
  * An UI component that displays information of a {@code Pair}.
  */
