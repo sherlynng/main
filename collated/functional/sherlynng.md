@@ -2,7 +2,7 @@
 ###### \java\seedu\address\logic\commands\RateCommand.java
 ``` java
 /**
- * Adds a remark to person to the address book.
+ * Adds a rate to person in STUtor.
  */
 public class RateCommand extends UndoableCommand {
 
@@ -15,7 +15,7 @@ public class RateCommand extends UndoableCommand {
             + "Example: " + COMMAND_WORD + " 1 " + PREFIX_RATE + "4.5";
 
     public static final String MESSAGE_RATE_PERSON_SUCCESS = "Added Rating to %1$s: " + "%2$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in STUtor.";
 
     private final Index targetIndex;
     private Rate newRate;
@@ -39,12 +39,11 @@ public class RateCommand extends UndoableCommand {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("The target person cannot be missing");
+        } catch (PersonMatchedCannotEditException e) {
+            throw new AssertionError("Editing rate should not be rejected even if person is matched.");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        //PersonCard personCardChanged = new PersonCard(editedPerson, targetIndex.getOneBased());
-        //EventsCenter.getInstance().post(new PersonPanelSelectionChangedEvent(personCardChanged));
-        return new CommandResult(String.format(MESSAGE_RATE_PERSON_SUCCESS,
-                                editedPerson.getName(), newRate));
+        return new CommandResult(String.format(MESSAGE_RATE_PERSON_SUCCESS, editedPerson.getName(), newRate));
     }
 
     @Override
@@ -105,7 +104,7 @@ public class RateCommand extends UndoableCommand {
 ###### \java\seedu\address\logic\commands\RemarkCommand.java
 ``` java
 /**
- * Adds a remark to person to the address book.
+ * Adds a remark to person in STutor.
  */
 public class RemarkCommand extends UndoableCommand {
 
@@ -116,11 +115,11 @@ public class RemarkCommand extends UndoableCommand {
             + ": Adds a remark to person identified by the index number used in the last person listing. "
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1 " + PREFIX_REMARK + "Hardworking student"
-            + "\t\t OR \t\t" + COMMAND_WORD + " 1 edit";
+            + "\t\t OR \t\t" + COMMAND_WORD + " 1 edit" + "\t\t OR \t\t" + COMMAND_WORD + " edit 1";
 
     public static final String MESSAGE_REMARK_PERSON_SUCCESS = "Added Remark to %1$s: " + "%2$s";
     public static final String MESSAGE_EDIT_REMARK_SUCCESS = "Editing Remark of %1$s...";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in STUtor.";
 
     private final Index targetIndex;
     private Remark newRemark;
@@ -156,10 +155,10 @@ public class RemarkCommand extends UndoableCommand {
                 throw new CommandException(MESSAGE_DUPLICATE_PERSON);
             } catch (PersonNotFoundException pnfe) {
                 throw new AssertionError("The target person cannot be missing");
+            } catch (PersonMatchedCannotEditException e) {
+                throw new AssertionError("Editing remark should not be rejected even if person is matched.");
             }
             model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-            //PersonCard personCardChanged = new PersonCard(editedPerson, targetIndex.getOneBased());
-            //EventsCenter.getInstance().post(new PersonPanelSelectionChangedEvent(personCardChanged));
             return new CommandResult(String.format(MESSAGE_REMARK_PERSON_SUCCESS,
                     editedPerson.getName(), editedPerson.getRemark()));
         } else {
@@ -179,8 +178,9 @@ public class RemarkCommand extends UndoableCommand {
         personToEdit = lastShownList.get(targetIndex.getZeroBased());
 
         if (isEditRemark) {
-            EventsCenter.getInstance().post(new EditRemarkEvent(COMMAND_WORD + " "
-                    + targetIndex.getOneBased() + " " + PREFIX_REMARK + personToEdit.getRemark().toString()));
+            String formattedRemark = COMMAND_WORD + " " + targetIndex.getOneBased() + " " + PREFIX_REMARK
+                                     + personToEdit.getRemark().toString();
+            EventsCenter.getInstance().post(new EditRemarkEvent(formattedRemark));
         } else {
             editedPerson = createPersonWithNewRemark(personToEdit, newRemark);
         }
@@ -230,9 +230,7 @@ public class RemarkCommand extends UndoableCommand {
      * Leading and trailing whitespaces will be trimmed.
      */
     public static Remark parseRemark(String remark) {
-        if (remark == null) {
-            remark = ""; // set it as empty string if there is no user input
-        }
+        requireNonNull(remark);
         String trimmedRemark = remark.trim();
 
         return new Remark(trimmedRemark);
@@ -259,14 +257,15 @@ public class RemarkCommand extends UndoableCommand {
             throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
         }
 
-        boolean isAbsolute = checkRateIsAbsolute(rate);
+        String trimmedRate = rate.trim();
+
+        boolean isAbsolute = checkRateIsAbsolute(trimmedRate);
 
         if (isAbsolute) {
-            rate = rate.substring(0, rate.length() - 1);
+            trimmedRate = trimmedRate.substring(0, trimmedRate.length() - 1);
         }
 
-        String trimmedRate = rate.trim();
-        if (!Rate.isValidRate(rate)) {
+        if (!Rate.isValidRate(trimmedRate)) {
             throw new IllegalValueException(Rate.MESSAGE_RATE_CONSTRAINTS);
         }
 
@@ -292,7 +291,6 @@ public class RemarkCommand extends UndoableCommand {
 
         // user wants absolute rate value
         if (lastChar.equals('-')) {
-            rate = rate.substring(0, rate.length() - 1);
             return true;
         }
         return false;
@@ -307,7 +305,7 @@ public class RemarkCommand extends UndoableCommand {
 public class RateCommandParser implements Parser<RateCommand> {
 
     /**
-     * Parses the given {@code String} of rates in the context of the RateCommand
+     * Parses the given {@code String} with rate in the context of the RateCommand
      * and returns a RateCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
@@ -356,7 +354,7 @@ public class RateCommandParser implements Parser<RateCommand> {
 public class RemarkCommandParser implements Parser<RemarkCommand> {
 
     /**
-     * Parses the given {@code String} of remarks in the context of the RemarkCommand
+     * Parses the given {@code String} with remark in the context of the RemarkCommand
      * and returns a RemarkCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
@@ -369,13 +367,14 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
 
         isEditRemark = argMultimap.getPreamble().contains("edit");
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_REMARK) && !isEditRemark) {
+        if (!isEditRemark && !arePrefixesPresent(argMultimap, PREFIX_REMARK)) {
             throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT + MESSAGE_USAGE);
         }
 
         try {
             if (isEditRemark) {
-                index = ParserUtil.parseIndex(argMultimap.getPreamble().replace("edit", ""));
+                String replacedPreamble = argMultimap.getPreamble().replace("edit", "");
+                index = ParserUtil.parseIndex(replacedPreamble);
             } else {
                 index = ParserUtil.parseIndex(argMultimap.getPreamble());
             }
@@ -385,11 +384,10 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
 
         Remark remark;
         if (isEditRemark) {
-            remark = ParserUtil.parseRemark((String) null);
-
+            remark = ParserUtil.parseRemark("");
             return new RemarkCommand(index, remark, isEditRemark);
         } else {
-            remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
+            remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).orElse(new Remark(""));
         }
 
         return new RemarkCommand(index, remark);
@@ -403,28 +401,15 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
-
 }
 ```
 ###### \java\seedu\address\model\person\Rate.java
 ``` java
 /**
- * Represents a Person's rating in the address book.
- * Guarantees: immutable;
+ * Represents a Person's rating in STUtor.
  */
 public class Rate {
 
-    /* Regex notation
-    ^                   # Start of string
-    (?:                 # Either match...
-    5(?:\.0)?           # 5.0 (or 5)
-    |                   # or
-    [0-4](?:\.[0-9])?   # 0.0-4.9 (or 1-4)
-    |                   # or
-    0?\.[1-9]           # 0.1-0.9 (or .1-.9)
-    )                   # End of alternation
-    $                   # End of string
-     */
     public static final String RATE_VALIDATION_REGEX = "^(?:5(?:\\.0)?|[0-4](?:\\.[0-9])?|0?\\.[0-9])$";
     public static final String RATE_VALIDATION_REGEX_ABSOLUTE = "^(?:5(?:\\.0)?|[0-4](?:\\.[0-9])?|0?\\.[0-9])" + "-";
     public static final String MESSAGE_RATE_CONSTRAINTS =
@@ -441,37 +426,32 @@ public class Rate {
      */
     public Rate (double rating, boolean isAbsolute) {
         requireNonNull(rating);
-        checkArgument(isValidRate(Double.toString(rating)), MESSAGE_RATE_CONSTRAINTS);
 
         this.value = rating;
         this.isAbsolute = isAbsolute;
     }
 
     /**
-     * Creates a default rating.
-     * @return {@code Rate} with default value of 3.0 and count 1.
+     * Initializes a person's rating.
+     * @return {@code Rate} with value of 0.0 and count 0.
      */
-    public static Rate getDefaultRate() {
-        Rate defaultRate = new Rate(3, true);
-        defaultRate.setCount(1);
+    public static Rate initializeRate() {
+        Rate initializedRate = new Rate(0.0, true);
+        initializedRate.setCount(0);
 
-        return defaultRate;
+        return initializedRate;
     }
 
     /**
-     * Calculates the accumulated value of a person's rating
+     * Accumulates a person's rating value.
      * @param oldRate
      * @param newRate
-     * @return {@code Rate} that contains updated value and count
+     * @return {@code Rate} that contains updated value and count.
      */
     public static Rate accumulatedValue (Rate oldRate, Rate newRate) {
-        double value;
         double newValue;
 
-        value = oldRate.getValue() * oldRate.getCount();
-        newValue = (value + newRate.getValue()) / (oldRate.getCount() + 1);
-        newValue = Math.floor(newValue * 10) / 10;
-
+        newValue = oldRate.getValue() + newRate.getValue();
         newRate = new Rate(newValue, true);
         newRate.setCount(oldRate.getCount() + 1);
 
@@ -482,11 +462,24 @@ public class Rate {
      * Returns true if a given string is a valid person rate.
      */
     public static boolean isValidRate(String test) {
-        return test.equals("") || test.matches(RATE_VALIDATION_REGEX) || test.matches(RATE_VALIDATION_REGEX_ABSOLUTE);
+        return test.matches(RATE_VALIDATION_REGEX) || test.matches(RATE_VALIDATION_REGEX_ABSOLUTE);
     }
 
     public double getValue() {
         return this.value;
+    }
+
+    /**
+     * Gets rate value to be displayed.
+     * @return {@code double} rate value rounded off to nearest 1 decimal place.
+     */
+    public double getDisplayedValue() {
+        double displayedValue = 0;
+
+        if (count != 0) {
+            displayedValue = (double) Math.round(((value / count) * 10)) / 10;
+        }
+        return displayedValue;
     }
 
     public int getCount() {
@@ -512,7 +505,8 @@ public class Rate {
         return other == this // short circuit if same object
                 || (other instanceof Rate // instanceof handles nulls
                 && this.value == ((Rate) other).value
-                && this.count == ((Rate) other).count); // state check
+                && this.count == ((Rate) other).count
+                && this.isAbsolute == ((Rate) other).isAbsolute); // state check
     }
 
     @Override
@@ -525,8 +519,7 @@ public class Rate {
 ###### \java\seedu\address\model\person\Remark.java
 ``` java
 /**
- * Represents a Person's remark in the address book.
- * Guarantees: immutable;
+ * Represents a Person's remark in STUtor.
  */
 public class Remark {
 
@@ -561,88 +554,11 @@ public class Remark {
 
 }
 ```
-###### \java\seedu\address\ui\BrowserPanel.java
-``` java
-public class BrowserPanel extends UiPart<Region> {
-
-    private static final String FXML = "BrowserPanel.fxml";
-
-    private final Logger logger = LogsCenter.getLogger(this.getClass());
-
-    @FXML
-    private GridPane grid;
-    @FXML
-    private HBox ratingBox;
-    @FXML
-    private Label name;
-    @FXML
-    private Label id;
-    @FXML
-    private Label phone;
-    @FXML
-    private Label address;
-    @FXML
-    private Label email;
-    @FXML
-    private Label role;
-    @FXML
-    private Label status;
-    @FXML
-    private Label subject;
-    @FXML
-    private Label level;
-    @FXML
-    private Label price;
-    @FXML
-    private Label remark;
-    @FXML
-    private Label rating;
-    @FXML
-    private Label rateCount;
-
-    public BrowserPanel() {
-        super(FXML);
-
-        name.setText("");
-        grid.setVisible(false);
-        ratingBox.setVisible(false);
-
-        registerAsAnEventHandler(this);
-    }
-
-    /**
-     * Loads a {@code person}'s details into the browser panel.
-     */
-    public void loadPersonDetails(Person person) {
-        grid.setVisible(true);
-        ratingBox.setVisible(true);
-
-        name.setText(person.getName().fullName);
-        phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
-        email.setText(person.getEmail().value);
-        status.setText(person.getStatus().value);
-        subject.setText(person.getSubject().value);
-        level.setText(person.getLevel().value);
-        price.setText("$" + person.getPrice().value + " / hr");
-        role.setText(person.getRole().value);
-        remark.setText(person.getRemark().value);
-        rating.setText(Double.toString(person.getRate().getValue()));
-        rateCount.setText(Integer.toString(person.getRate().getCount()));
-    }
-
-    @Subscribe
-    private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        loadPersonDetails(event.getNewSelection().person);
-    }
-}
-```
 ###### \java\seedu\address\ui\CommandBox.java
 ``` java
         case TAB:
             keyEvent.consume();
-            autofillCommand();
+            autofill();
             break;
         case DELETE:
             keyEvent.consume();
@@ -654,21 +570,31 @@ public class BrowserPanel extends UiPart<Region> {
     }
 
     /**
-     * Sets {@code CommandBox}'s text field with input format and
-     * if next field is present, it positions the caret to the next field.
+     * Sets {@code CommandBox}'s text field with command format and
+     * if next field is present, caret is positioned to the next field.
      */
-    private void autofillCommand() {
+    private void autofill() {
         String input = commandTextField.getText();
         int nextCaretPosition = -1;
         boolean isFirstTime = false; // check for commands that have different behaviors between first and other tabs
 
-        // first time tab is pressed
+        isFirstTime = autofillCommand(input, isFirstTime);
+        autofillBehavior(isFirstTime);
+    }
+
+    /**
+     * Autofills the command depending on user input.
+     * @param input
+     * @param isFirstTime
+     * @return true if it is the first time tab is pressed. Else false.
+     */
+    private boolean autofillCommand(String input, boolean isFirstTime) {
         switch (input) {
         case AddCommand.COMMAND_WORD:
         case AddCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(AddCommand.COMMAND_WORD + " " + PREFIX_NAME + " " + PREFIX_PHONE + " "
                     + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
-                    + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
+                    + PREFIX_LEVEL + " " + PREFIX_ROLE);
             isFindNextField = true;
             isMatchCommand = false;
             break;
@@ -676,7 +602,7 @@ public class BrowserPanel extends UiPart<Region> {
         case EditCommand.COMMAND_WORD_ALIAS:
             commandTextField.setText(EditCommand.COMMAND_WORD + " 1 " + PREFIX_NAME + " " + PREFIX_PHONE + " "
                     + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_PRICE + " " + PREFIX_SUBJECT + " "
-                    + PREFIX_LEVEL + " " + PREFIX_STATUS + " " + PREFIX_ROLE);
+                    + PREFIX_LEVEL + " " + PREFIX_ROLE);
             selectIndexToEdit();
             isFindNextField = false;
             isFirstTime = true;
@@ -729,8 +655,15 @@ public class BrowserPanel extends UiPart<Region> {
         default:
             // no autofill
         }
+        return isFirstTime;
+    }
 
-        // subsequent times tab is pressed
+    /**
+     * Positions the caret according to command type.
+     * @param isFirstTime is used to differentiate commands that have different behaviors for different tabs.
+     */
+    private void autofillBehavior(boolean isFirstTime) {
+        int nextCaretPosition;
         if (isFindNextField) {
             nextCaretPosition = findNextField();
             if (nextCaretPosition != -1) {
@@ -743,10 +676,10 @@ public class BrowserPanel extends UiPart<Region> {
         }
 
         if (isFirstTime) {
-            if (commandTextField.getText().length() >= 5
-                && commandTextField.getText().substring(0, 5).equals("match")) { // match command
+            if (commandTextField.getText().length() >= MatchCommand.COMMAND_WORD.length()
+                    && commandTextField.getText().substring(0, 5).equals(MatchCommand.COMMAND_WORD)) { // match command
                 isMatchCommand = true;
-            } else { // all other commands that have different behavior between first and other tabs
+            } else { // all other commands that has finding next field as its subsequent behavior
                 isFindNextField = true;
             }
         }
@@ -754,7 +687,7 @@ public class BrowserPanel extends UiPart<Region> {
 
     /**
      * Deletes the previous prefix from current caret position and
-     * if next field is present, it positions the caret to the next field.
+     * if next field is present, caret is positioned to the next field.
      */
     private void deletePreviousPrefix() {
         String text = commandTextField.getText();
@@ -769,7 +702,7 @@ public class BrowserPanel extends UiPart<Region> {
 
     /**
      * Finds the next input field from current caret position and
-     * if next field is present, it positions the caret to the next field.
+     * if next field is present, caret is positioned to the next field.
      */
     private int findNextField() {
         String text = commandTextField.getText();
@@ -780,8 +713,7 @@ public class BrowserPanel extends UiPart<Region> {
     }
 
     /**
-     * Positions the caret to index position
-     * and selects the index to be edited.
+     * Positions the caret to index position and selects the index to be edited.
      */
     private void selectIndexToEdit() {
         String text = commandTextField.getText();
@@ -812,26 +744,137 @@ public class BrowserPanel extends UiPart<Region> {
         isEditRemarkCommand = true;
     }
 ```
-###### \resources\view\BrowserPanel.fxml
+###### \java\seedu\address\ui\DetailsPanel.java
+``` java
+public class DetailsPanel extends UiPart<Region> {
+
+    private static final String FXML = "DetailsPanel.fxml";
+
+    private final Logger logger = LogsCenter.getLogger(this.getClass());
+
+    @FXML
+    private GridPane grid;
+    @FXML
+    private HBox ratingBox;
+    @FXML
+    private Label name;
+    @FXML
+    private Label id;
+    @FXML
+    private Label phone;
+    @FXML
+    private Label address;
+    @FXML
+    private Label email;
+    @FXML
+    private Label role;
+    @FXML
+    private Label status;
+    @FXML
+    private Label subject;
+    @FXML
+    private Label level;
+    @FXML
+    private Label price;
+    @FXML
+    private Label remark;
+    @FXML
+    private Label rating;
+    @FXML
+    private Label rateCount;
+
+    public DetailsPanel() {
+        super(FXML);
+
+        name.setText("");
+        grid.setVisible(false);
+        ratingBox.setVisible(false);
+
+        registerAsAnEventHandler(this);
+    }
+
+    /**
+     * Loads a {@code person}'s details into the details panel.
+     */
+    public void loadPersonDetails(Person person) {
+        grid.setVisible(true);
+        ratingBox.setVisible(true);
+
+        name.setText(person.getName().fullName);
+        phone.setText(person.getPhone().value);
+        address.setText(person.getAddress().value);
+        email.setText(person.getEmail().value);
+        status.setText(person.getStatus().value);
+        subject.setText(person.getSubject().value);
+        level.setText(person.getLevel().value);
+        price.setText("$" + person.getPrice().value + " / hr");
+        role.setText(person.getRole().value);
+        remark.setText(person.getRemark().value);
+
+        if (person.getRate().getCount() == 0) {
+            rating.setText("-");
+        } else {
+            rating.setText(Double.toString(person.getRate().getDisplayedValue()));
+        }
+        rateCount.setText(Integer.toString(person.getRate().getCount()));
+    }
+
+    @Subscribe
+    private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        loadPersonDetails(event.getNewSelection().person);
+    }
+}
+```
+###### \resources\view\DarkTheme.css
+``` css
+.details_big_label {
+     -fx-font-family: "Segoe UI";
+     -fx-font-size: 40px;
+     -fx-text-fill: #fffacd;
+     -fx-text-weight: bold
+ }
+
+.details_label {
+     -fx-font-family: "Segoe UI";
+     -fx-font-size: 15px;
+     -fx-text-fill: #ffffff;
+     -fx-text-weight: bold
+ }
+
+.details_label_details {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+}
+
+.details_stackPane_odd {
+    -fx-background-color: #333333
+}
+
+.details_stackPane_even {
+    -fx-background-color: #4C4C4C
+}
+```
+###### \resources\view\DetailsPanel.fxml
 ``` fxml
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.text.Font?>
-
-
-<StackPane styleClass="browser_stackPane_odd" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane styleClass="details_stackPane_odd" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane fx:id="browserPane" maxHeight="-Infinity" maxWidth="900" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="606.0">
+      <AnchorPane fx:id="detailsPane" maxHeight="-Infinity" maxWidth="900" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="606.0">
          <children>
-            <Label fx:id="name" layoutX="14.0" layoutY="56.0" prefHeight="59.0" prefWidth="462.0" styleClass="browser_big_label" text="Alex Yeoh" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0">
+            <Label fx:id="name" layoutX="14.0" layoutY="56.0" prefHeight="59.0" prefWidth="462.0" styleClass="details_big_label" text="Alex Yeoh" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0">
                <font>
                   <Font name="System Bold" size="32.0" />
                </font>
@@ -854,26 +897,26 @@ public class BrowserPanel extends UiPart<Region> {
                   <RowConstraints minHeight="60.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.rowIndex="1" />
-                  <StackPane prefHeight="52.0" prefWidth="373.0" styleClass="browser_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.rowIndex="2" />
-                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.rowIndex="4" />
-                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.rowIndex="6" />
-                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="browser_stackPane_even" GridPane.rowIndex="8" />
-                  <StackPane prefHeight="50.0" prefWidth="347.0" styleClass="browser_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.rowIndex="3" />
-                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.rowIndex="5" />
-                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.rowIndex="7" />
-                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.rowIndex="9" />
-                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="browser_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                  <Label fx:id="remark" prefHeight="60.0" prefWidth="400.0" styleClass="browser_label_details" text="\$remark" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                  <Label styleClass="browser_label" text="Phone:" GridPane.rowIndex="1">
+                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="details_stackPane_odd" GridPane.rowIndex="1" />
+                  <StackPane prefHeight="52.0" prefWidth="373.0" styleClass="details_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="details_stackPane_even" GridPane.rowIndex="2" />
+                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="details_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="details_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="details_stackPane_even" GridPane.rowIndex="4" />
+                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="details_stackPane_even" GridPane.rowIndex="6" />
+                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="details_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <StackPane prefHeight="22.0" prefWidth="539.0" styleClass="details_stackPane_even" GridPane.rowIndex="8" />
+                  <StackPane prefHeight="50.0" prefWidth="347.0" styleClass="details_stackPane_even" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="details_stackPane_odd" GridPane.rowIndex="3" />
+                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="details_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="details_stackPane_odd" GridPane.rowIndex="5" />
+                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="details_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="details_stackPane_odd" GridPane.rowIndex="7" />
+                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="details_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="details_stackPane_odd" GridPane.rowIndex="9" />
+                  <StackPane prefHeight="21.0" prefWidth="172.0" styleClass="details_stackPane_odd" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                  <Label fx:id="remark" prefHeight="60.0" prefWidth="400.0" styleClass="details_label_details" text="\$remark" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                  <Label styleClass="details_label" text="Phone:" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -881,7 +924,7 @@ public class BrowserPanel extends UiPart<Region> {
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label styleClass="browser_label" text="Address:" GridPane.rowIndex="2">
+                  <Label styleClass="details_label" text="Address:" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -889,7 +932,7 @@ public class BrowserPanel extends UiPart<Region> {
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Label styleClass="browser_label" text="Email:" GridPane.rowIndex="3">
+                  <Label styleClass="details_label" text="Email:" GridPane.rowIndex="3">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -897,7 +940,7 @@ public class BrowserPanel extends UiPart<Region> {
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Label styleClass="browser_label" text="Role:" GridPane.rowIndex="4">
+                  <Label styleClass="details_label" text="Role:" GridPane.rowIndex="4">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -905,7 +948,7 @@ public class BrowserPanel extends UiPart<Region> {
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Label styleClass="browser_label" text="Status:" GridPane.rowIndex="5">
+                  <Label styleClass="details_label" text="Status:" GridPane.rowIndex="5">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -913,7 +956,7 @@ public class BrowserPanel extends UiPart<Region> {
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Label styleClass="browser_label" text="Subject:" GridPane.rowIndex="6">
+                  <Label styleClass="details_label" text="Subject:" GridPane.rowIndex="6">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -921,7 +964,7 @@ public class BrowserPanel extends UiPart<Region> {
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Label styleClass="browser_label" text="Level:" GridPane.rowIndex="7">
+                  <Label styleClass="details_label" text="Level:" GridPane.rowIndex="7">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -929,7 +972,7 @@ public class BrowserPanel extends UiPart<Region> {
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Label styleClass="browser_label" text="Price:" GridPane.rowIndex="8">
+                  <Label styleClass="details_label" text="Price:" GridPane.rowIndex="8">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -937,15 +980,15 @@ public class BrowserPanel extends UiPart<Region> {
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="phone" styleClass="browser_label_details" text="\$phone" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="address" styleClass="browser_label_details" text="\\$address" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="email" styleClass="browser_label_details" text="\\$email" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label fx:id="role" styleClass="browser_label_details" text="\$role" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label fx:id="status" styleClass="browser_label_details" text="\$status" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label fx:id="subject" styleClass="browser_label_details" text="\$subject" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <Label fx:id="level" styleClass="browser_label_details" text="\$level" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <Label fx:id="price" styleClass="browser_label_details" text="\\$price" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                  <Label styleClass="browser_label" text="Remark:" GridPane.rowIndex="9">
+                  <Label fx:id="phone" styleClass="details_label_details" text="\$phone" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="address" styleClass="details_label_details" text="\\$address" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="email" styleClass="details_label_details" text="\\$email" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="role" styleClass="details_label_details" text="\$role" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label fx:id="status" styleClass="details_label_details" text="\$status" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label fx:id="subject" styleClass="details_label_details" text="\$subject" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Label fx:id="level" styleClass="details_label_details" text="\$level" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Label fx:id="price" styleClass="details_label_details" text="\\$price" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <Label styleClass="details_label" text="Remark:" GridPane.rowIndex="9">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -964,12 +1007,12 @@ public class BrowserPanel extends UiPart<Region> {
          </padding>
       <HBox fx:id="ratingBox" layoutX="297.0" layoutY="95.0" prefHeight="25.0" prefWidth="193.0">
          <children>
-            <Label styleClass="browser_label" text="Rating:">
+            <Label styleClass="details_label" text="Rating:">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Label>
-            <Label fx:id="rating" styleClass="browser_label_details" text="3.9">
+            <Label fx:id="rating" styleClass="details_label_details" text="3.9">
                <padding>
                   <Insets left="15.0" />
                </padding>
@@ -977,7 +1020,7 @@ public class BrowserPanel extends UiPart<Region> {
                   <Insets top="1.0" />
                </HBox.margin>
             </Label>
-            <Label styleClass="browser_label_details" text="/ 5.0">
+            <Label styleClass="details_label_details" text="/ 5.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -988,7 +1031,7 @@ public class BrowserPanel extends UiPart<Region> {
                   <Insets left="5.0" />
                </padding>
             </Label>
-            <Label fx:id="rateCount" styleClass="browser_label_details" text="3">
+            <Label fx:id="rateCount" styleClass="details_label_details" text="3">
                <HBox.margin>
                   <Insets left="30.0" top="8.0" />
                </HBox.margin>
@@ -1006,34 +1049,4 @@ public class BrowserPanel extends UiPart<Region> {
       </AnchorPane>
    </children>
 </StackPane>
-```
-###### \resources\view\DarkTheme.css
-``` css
-.browser_big_label {
-     -fx-font-family: "Segoe UI";
-     -fx-font-size: 40px;
-     -fx-text-fill: #fffacd;
-     -fx-text-weight: bold
- }
-
-.browser_label {
-     -fx-font-family: "Segoe UI";
-     -fx-font-size: 15px;
-     -fx-text-fill: #ffffff;
-     -fx-text-weight: bold
- }
-
-.browser_label_details {
-    -fx-font-family: "Segoe UI";
-    -fx-font-size: 14px;
-    -fx-text-fill: #ffffff;
-}
-
-.browser_stackPane_odd {
-    -fx-background-color: #333333
-}
-
-.browser_stackPane_even {
-    -fx-background-color: #4C4C4C
-}
 ```
