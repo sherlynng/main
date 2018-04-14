@@ -81,13 +81,4 @@ public interface Model {
      */
     void updateFilteredPairList(Predicate<seedu.address.model.pair.Pair> predicate);
 
-    /**
-     * Delete a tag from the addressbook
-     * @param tag
-     * @throws PersonNotFoundException
-     */
-    void deleteTag (Tag tag)throws PersonNotFoundException;
-
-
-
 }

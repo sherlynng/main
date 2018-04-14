@@ -387,43 +387,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Removes {@code tag} from this {@code AddressBook}.
-     * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
-     */
-
-    public void removeTag(Tag tag) throws PersonNotFoundException {
-        for (Person person : persons) {
-            removeTagFromPerson(tag, person);
-        }
-    }
-
-    /**
-     *
-     * Removes {@code tag} from {@code person} in this {@code AddressBook}.
-     * @throws PersonNotFoundException if the {@code person} is not in this {@code AddressBook}.
-     * Reused from https://github.com/se-edu/
-     * addressbook-level4/pull/790/commits/48ba8e95de5d7eae883504d40e6795c857dae3c2
-     */
-    private void removeTagFromPerson(Tag tag, Person person) throws PersonNotFoundException {
-        Set<Tag> updatedTags = new HashSet<>(person.getTags());
-        if (!updatedTags.remove(tag)) {
-            return;
-        }
-        Person updatedPerson = new Person (person.getName(), person.getPhone(),
-                person.getEmail(), person.getAddress(), person.getPrice(),
-               person.getSubject(), person.getLevel(), person.getStatus(), person.getRole(),
-                updatedTags, person.getRemark(), person.getRate(), person.getPairHashes());
-        try {
-            updatePersonForAddAndEdit(person, updatedPerson);
-        } catch (DuplicatePersonException dupe) {
-            throw new AssertionError("Modifying a person's tags only should not result in a duplicate. "
-                     + "See Person#equals(Object).");
-        } catch (PersonMatchedCannotEditException e) {
-            throw new AssertionError("Add pairHash to person should not result in edit exception");
-        }
-    }
-
-    /**
      *
      * Removes unsed {@code tag} from this {@code AddressBook}.
      * Reused from https://github.com/se-edu/
