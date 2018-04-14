@@ -1509,32 +1509,7 @@ Use case ends.
 Use case ends.
 
 [discrete]
-=== Use case: Input a certain criteria of a student/tutor and get back a list of tutor/student fulfilling that criteria
-
-*MSS*
-
-1.  User requests a certain criteria of student/tutor (e.g. budget: below 200)
-2.  STUtor shows a list of tutor/student fulfilling that criteria
-+
-Use case ends.
-
-*Extensions*
-
-[none]
-* 1a. The given criteria is invalid
-+
-[none]
-** 1a1. STUtor shows an error message.
-+
-Use case resumes at step 1.
-
-[none]
-* 2a. The list is empty.
-+
-Use case ends.
-
-[discrete]
-=== Use case: Match tutor and student
+=== Use case: Match tutor and student [Coming in V2.0]
 
 *MSS*
 
@@ -1563,7 +1538,7 @@ Use case resumes at step 2.
 Use case ends.
 
 [discrete]
-=== Use case: Confirm a match
+=== Use case: Confirm a match [Coming in V2.0]
 
 *MSS*
 
@@ -1651,7 +1626,7 @@ Cons:
 [appendix]
 == Instructions for Manual Testing
 
-Given below are instructions to test the app manually.
+The instructions given below aims to guide user on how to test the app manually.
 
 [NOTE]
 These instructions only provide a starting point for testers to work on; testers are expected to do more _exploratory_ testing.
@@ -1663,6 +1638,9 @@ These instructions only provide a starting point for testers to work on; testers
 .. Download the jar file and copy into an empty folder
 .. Double-click the jar file +
    Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+.. If jar file does not launch as instructed in the previous step, please follow the subsequent steps: +
+... Run command prompt and navigate to the directory where the jar file is
+... Run `java -jar FILENAME.jar`. Please change FILENAME to the saved name of the jar file
 
 . Saving window preferences
 
@@ -1670,7 +1648,25 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-_{ more test cases ... }_
+=== Opening the help menu
+
+. Opening the help menu
+
+.. Prerequisites: None
+.. Test case: `help` +
+   Expected: A new window is opened. User guide is shown in the new window.
+
+=== Selecting a person
+
+. Selecting a person while all persons are listed
+
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+.. Test case: `select 1` +
+   Expected: First contact is selected from the list, details of person 1 is shown in the detail panel. Status message shows selected person: 1.
+.. Test case: `select 0` +
+   Expected: No person is selected, detail panel will remain unchanged. Invalid command format shown in the status message.
+.. Other incorrect delete commands to try: `select`, `select x` (where x is larger than the list size) +
+   Expected: Similar to previous.
 
 === Deleting a person
 
