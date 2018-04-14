@@ -380,8 +380,8 @@ image::matchIllustration2.png[width="800"]
 `Matching failed.` +
 You will also see detailed information on what went wrong.
 For example: +
-** `Please provide indices of one student and one tutor.`
-** `Not the same subject.`
+** `Incompatible role`
+** `Incompatible subject.`
 ====
 // end::match[]
 
