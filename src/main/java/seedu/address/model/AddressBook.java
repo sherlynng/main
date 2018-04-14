@@ -172,6 +172,18 @@ public class AddressBook implements ReadOnlyAddressBook {
         removeUnusedTags();
     }
 
+    //@@author
+    public void updatePersonForRateAndRemark(Person target, Person editedPerson)
+            throws DuplicatePersonException, PersonNotFoundException {
+        requireNonNull(editedPerson);
+        Person syncedEditedPerson = syncWithMasterTagList(editedPerson);
+        // TODO: the tags master list will be updated even though the below line fails.
+        // This can cause the tags master list to have additional tags that are not tagged to any person
+        // in the person list.
+        persons.setPerson(target, syncedEditedPerson);
+        removeUnusedTags();
+    }
+
     /**
      *  Updates the master tag list to include tags in {@code person} that are not in the list.
      *  @return a copy of this {@code person} such that every tag in this person points to a Tag object in the master
