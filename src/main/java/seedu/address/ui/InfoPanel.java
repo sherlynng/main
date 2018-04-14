@@ -15,7 +15,7 @@ import seedu.address.model.person.Person;
 
 //@@author dannyngmx94
 /**
- * Container for both browser panel and charts panel
+ * Container for both details panel and charts panel
  */
 public class InfoPanel extends UiPart<Region> {
 
