@@ -187,11 +187,12 @@ Edits the name of the 2nd person to be `Betsy Crower` and clears all existing ta
 
 [NOTE]
 ====
-You can press kbd:[Tab] key once after typing `*edit*` or `*e*` and it will autofill the command.
-INDEX to be specified will be highlighted.
-Further pressing of kbd:[Tab] key will jump to the next field to be filled in.
-You can press kbd:[Delete] key to delete a field (and its prefix).
-You can view the diagram below for a clearer visualization on how it works.
+You can press kbd:[Tab] key once after typing `*edit*` or `*e*` and it will autofill the command. +
+INDEX to be specified will be highlighted. +
+Further pressing of kbd:[Tab] key will jump to the next field to be filled in. +
+You can press kbd:[Delete] key to delete a field (and its prefix). +
+You can view the diagram below for a clearer visualization on how it works. +
+*Important!* You will need to delete the prefixes for fields you are not intending to change.
 ====
 
 image::AutofillEdit.png[width="800"]
