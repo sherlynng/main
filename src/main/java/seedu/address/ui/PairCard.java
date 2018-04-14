@@ -14,7 +14,7 @@ import seedu.address.model.tag.Tag;
 public class PairCard extends UiPart<Region> {
 
     public static final String[] TAG_COLOR_STYLES =
-        {"teal", "red", "yellow", "blue", "orange", "brown", "green", "pink", "black", "grey"};
+        {"orange", "red", "yellow", "blue", "grey", "brown", "green", "pink", "black", "purple"};
 
     private static final String FXML = "PairListCard.fxml";
 

@@ -165,7 +165,7 @@ public class CommandBoxTest extends GuiUnitTest {
     //@@author sherlynng
     @Test
     public void handleKeyPress_addCommandPressTab_autofill() {
-        String expectedOutput = "add n/ p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+        String expectedOutput = "add n/ p/ e/ a/ $/ sub/ lvl/ r/";
 
         // checks for add command word
         commandBoxHandle.setInput("add");
@@ -181,14 +181,14 @@ public class CommandBoxTest extends GuiUnitTest {
 
         // checks if tab works correctly
         expectedOutput = "add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50"
-                         + " sub/Math lvl/Lower Sec stat/Not Matched r/Student";
+                         + " sub/Math lvl/Lower Sec r/Student";
         actualOutput = enterPersonDetails();
         assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
     public void handleKeyPress_addCommandPressDelete_removePreviousPrefix() {
-        String expectedOutput = "add p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+        String expectedOutput = "add p/ e/ a/ $/ sub/ lvl/ r/";
 
         // checks for add command word
         commandBoxHandle.setInput("add");
@@ -301,7 +301,7 @@ public class CommandBoxTest extends GuiUnitTest {
 
     @Test
     public void handleKeyPress_editCommandPressTab_autofill() {
-        String expectedOutput = "edit 1 n/ p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+        String expectedOutput = "edit 1 n/ p/ e/ a/ $/ sub/ lvl/ r/";
 
         // checks for edit command word
         commandBoxHandle.setInput("edit");
@@ -318,7 +318,7 @@ public class CommandBoxTest extends GuiUnitTest {
 
     @Test
     public void handleKeyPress_editCommandPressDelete_removePreviousPrefix() {
-        String expectedOutput = "edit 1 p/ e/ a/ $/ sub/ lvl/ stat/ r/";
+        String expectedOutput = "edit 1 p/ e/ a/ $/ sub/ lvl/ r/";
 
         // checks for edit command word
         commandBoxHandle.setInput("edit");
@@ -330,9 +330,9 @@ public class CommandBoxTest extends GuiUnitTest {
         String actualOutput = commandBoxHandle.getInput();
         assertEquals(expectedOutput, actualOutput);
 
-        // delete 7 more times for testing repetitive pressing of delete button
+        // delete 6 more times for testing repetitive pressing of delete button
         int i = 0;
-        while (i < 7) {
+        while (i < 6) {
             guiRobot.push(KeyCode.DELETE);
             i++;
         }
@@ -395,8 +395,6 @@ public class CommandBoxTest extends GuiUnitTest {
         commandBoxHandle.insertInput("Math");
         guiRobot.push(KeyCode.TAB);
         commandBoxHandle.insertInput("Lower Sec");
-        guiRobot.push(KeyCode.TAB);
-        commandBoxHandle.insertInput("Not Matched");
         guiRobot.push(KeyCode.TAB);
         commandBoxHandle.insertInput("Student");
 

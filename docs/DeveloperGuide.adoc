@@ -709,7 +709,7 @@ When keyboard `Delete` or `Tab` is pressed, depending on the user input in the c
 will be shifted accordingly. Below shows the workflow when `Delete` or `Tab` is pressed.
 
 .Activity Diagram for Autofill
-image::AutofillActivityDiagram.png[width="500"]
+image::AutofillActivityDiagram.png[width="400"]
 
 ===== Find Next Field
 To find the next field to shift the caret to, manipulation of `String` is used to locate the next instance of `/` in the

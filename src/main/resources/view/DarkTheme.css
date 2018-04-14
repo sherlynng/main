@@ -379,9 +379,9 @@
 }
 
 <!-- @@author dannyngmx94 -->
-#tags .teal {
+#tags .purple {
     -fx-text-fill: white;
-    -fx-background-color: #3e7b91;
+    -fx-background-color: #AB51FF;
 }
 
 #tags .red {
