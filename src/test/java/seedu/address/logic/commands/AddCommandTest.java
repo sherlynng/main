@@ -28,7 +28,6 @@ import seedu.address.model.person.Student;
 import seedu.address.model.person.Tutor;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.StudentBuilder;
 import seedu.address.testutil.TutorBuilder;
@@ -189,13 +188,6 @@ public class AddCommandTest {
         public void updateFilteredPairList(Predicate<Pair> predicate) {
 
         }
-
-        @Override
-        public void deleteTag(Tag tag) throws PersonNotFoundException {
-            fail("This method should not be called.");
-        }
-
-
 
     }
 

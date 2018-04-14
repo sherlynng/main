@@ -107,14 +107,20 @@ Format: `*help*`
 // tag::add[]
 ==== Adding a person: `*add*` or `*a*`
 Adds a new person to STUtor. +
+A person can have the following fields: SUBJECT, EDUCATION_LEVEL, PRICE, ROLE, and STATUS.
 
+[width="80%",cols="<20%,<20%,<20%,<20%",options="header",]
+|=======================================================================
+|Field |Options |Field Editable by User |Comment
+|subject | English, Chinese,  Math, Chemistry, Physics| Yes |
+|level | Lower Primary, Upper Primary, Lower Secondary, Upper Secondary| Yes|
+|price | Must be a positive number| Yes |
+|role | Student, Tutor| Yes |
+|status| Matched, Not Matched | No | Upon adding to STUtor, all persons will have a default status of "Not Matched"
+|=======================================================================
 ****
-* For PRICE, SUBJECT, EDUCATION_LEVEL, ROLE:
-
 ** Alias can be used to reduce typing. Refer to <<Prefix Shortcut Summary>> for more details.
 ** These information is displayed as tags for easy reference.
-
-* For STATUS:
 **  Upon adding to STUtor, all persons will have a default status of "Not Matched".
 ****
 
