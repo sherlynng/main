@@ -8,8 +8,7 @@
 
 == Overview
 
-STUtor -V1.5 is a desktop address book targeting tuition coordinators
-to help them _matching_ and _managing_ a large database of tutors and students. +
+STUtor -V1.5 is a *desktop app* tailored for *tuition coordinators* to easily _match_ and _manage_ a database of tutors and students. +
 The user interacts with it using a CLI, and it has a GUI created with JavaFX.
 It is written in Java, and has about 25 kLoC.
 
@@ -40,8 +39,10 @@ This facilitates the user when typing in commands, especially for long commands 
 ** Enhancements to existing features:
 *** Update BrowserPanel to reflect all attributes of a person (Pull requests https://github.com/CS2103JAN2018-W11-B1/main/pull/45[#45])
 ** Documentation:
-*** Creaate UI mock up for initial planning of UI (Pull requests https://github.com/CS2103JAN2018-W11-B1/main/pull/26[#26])
-
+*** Create UI mock up for initial planning of UI (Pull requests https://github.com/CS2103JAN2018-W11-B1/main/pull/26[#26])
+*** Did cosmetic tweaks to existing contents of the User Guide to make is more end-user friendly: https://github.com/CS2103JAN2018-W11-B1/main/pull/140/files[#140]
+** Community:
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W10-B4/main/issues/126[1], https://github.com/CS2103JAN2018-W10-B4/main/issues/127[2])
 
 == Contributions to the User Guide
 
