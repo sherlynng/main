@@ -1375,6 +1375,13 @@ These instructions only provide a starting point for testers to work on; testers
 .. Test case: `add` +
    Expected: Details panel will remain unchanged. Invalid command format, add command format and an example of add shown in the status message.
 
+. Adding a person using case insensitive input and shortcuts
+
+.. Prerequisites: None.
+.. Test case: `add n/John al Doe p/98765432 e/johnd@ExaMplE.com a/311, Clementi Ave 2, #02-25 $/50 sub/chEM lvl/Ls r/S` +
+   Expected: Person is added to the bottom of the list.Details of the added person shown in the status message.
+   The person will be tagged with "Chemistry", "Lower Sec", "Student". His name and email will be kept in mixed case.
+
 === Selecting a person
 
 . Selecting a person while all persons are listed
@@ -1419,3 +1426,35 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: Person is added to the bottom of the  list. Details of the added person shown in the status message. Person does not have an attribute other than name, and will not have any tags shown.
 .. Test case: `findmissing` +
    Expected: List of 1 person, containing only Johnny Doe as entered earlier. Message lists successful listing of 1 person.
+
+// tag::manualtestMatchUnmatch[]
+=== Testing match and unmatch
+
+. Match compatible student and tutor and then unmatch
+.. Prerequisites: clear your STUtor.
+.. Test case: +
+... `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec  r/Student` +
+... `add n/Mary Chang p/81890003 e/marychang@example.com a/178, Rosewood Garden, #03-01 $/50 sub/Math lvl/Lower Sec  r/Tutor` +
+... `match 1 2` +
+  Expected: Pair is added to Pair List panel. Details of the added pair shown in the status message.
+  "Math", "Lower Sec" and "50" will be displayed as tags below the newly created pair.
+  The two persons have status updated to "Matched".
+.. Test case: +
+   Continue form the previous test case, type the command `unmatch 1` +
+   Expected: Pair is remove from the Pair List panel. Details of the unmatched pair shown in the status message.
+               The two persons have status updated to "Not Matched".
+
+. Match incompatible student and tutor
+.. Prerequisites: clear your STUtor.
+.. Test case: +
+... `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/English lvl/Lower Sec  r/Student` +
+... `add n/Mary Chang p/81890003 e/marychang@example.com a/178, Rosewood Garden, #03-01 $/50 sub/Math lvl/Lower Sec  r/Tutor` +
+... `match 1 2` +
+  Expected: Error mesage of "Matching failed. Incompatible subject." shown in the status message.
+
+. Unmatch pair at invalid index
+.. Prerequisites: clear your STUtor.
+.. Test case: +
+... `unmatch 1` +
+  Expected: Error mesage of "The pair index provided is invalid." shown in the status message.
+// end::manualtestMatchUnmatch[]
