@@ -1457,5 +1457,4 @@ These instructions only provide a starting point for testers to work on; testers
 .. Test case: +
 ... `unmatch 1` +
   Expected: Error mesage of "The pair index provided is invalid." shown in the status message.
-  
 // end::manualtestMatchUnmatch[]
