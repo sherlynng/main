@@ -1409,6 +1409,30 @@ These instructions only provide a starting point for testers to work on; testers
 .. Test case: `undo` +
    Expected: All cleared data are restored. Undo success shown in status message.
 
+=== Filtering the list
+
+. Filtering the list by KEYWORD
+
+.. Prerequisites: None.
+.. Test case: `filter student` +
+   Expected: All persons with student tag are displayed in the list. The number of people that match the KEYWORD is shown in status message.
+.. Test case: `filter tutor math` +
+   Expected: No person is displayed in the list. 0 listed person shown in the status message.
+.. Other incorrect delete commands to try: `filter` +
+   Expected: Similar to previous.
+
+=== Viewing the statistics
+
+. Viewing statistics
+
+.. Prerequisites: None.
+.. Test case: `viewStats` +
+   Expected: A panel opens within Details Panel. Data represented in graph should match the persons in list.
+.. Test case: `viewStats 123` +
+   Expected: Similar to previous.
+.. Test case: `viewStats` followed by `add n/unknown r/tutor` and `viewStats` again +
+   Expected: The updated pie chart should show 1 more tutor than the previous pie chart.
+
 // end::manualtest[]
 
 
