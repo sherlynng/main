@@ -795,10 +795,10 @@ appropriate modifications.
 
 The following sequence diagrams shows how the remark operation works:
 
-image::RemarkCommandSequenceDiagram.png[width="550"]
+image::RemarkCommandSequenceDiagram.png[width="400"]
 .Sequence Diagram for `remark`
 
-image::RemarkCommandSequenceDiagram1.png[width="550"]
+image::RemarkCommandSequenceDiagram1.png[width="400"]
 
 
 ==== Design Considerations
@@ -840,10 +840,10 @@ in the user input. When setting an absolute rating, the app resets `count` back 
 
 The following sequence diagrams shows how the rate operation works:
 
-image::RateCommandSequenceDiagram.png[width="550"]
+image::RateCommandSequenceDiagram.png[width="400"]
 .Sequence Diagram for `rate`
 
-image::RateCommandSequenceDiagram1.png[width="550"]
+image::RateCommandSequenceDiagram1.png[width="400"]
 
 ==== Design Considerations
 ===== Aspect: Indication for Absolute Rating
