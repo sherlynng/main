@@ -1471,6 +1471,5 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: No rating is added as the index specified is not within the range of persons in the list.
    Error details shown in the status message.
 .. Test case: `rate 1 r/6.0` +
-  Expected: No rating is added as the rate specified is not within range.
-  Error details shown in the status message.
-  
+   Expected: No rating is added as the rate specified is not within range.
+   Error details shown in the status message.
