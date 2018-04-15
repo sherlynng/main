@@ -1420,6 +1420,3 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: Person is added to the bottom of the  list. Details of the added person shown in the status message. Person does not have an attribute other than name, and will not have any tags shown.
 .. Test case: `findmissing` +
    Expected: List of 1 person, containing only Johnny Doe as entered earlier. Message lists successful listing of 1 person.
-   
-
-
