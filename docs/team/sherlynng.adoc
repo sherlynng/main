@@ -30,7 +30,7 @@ requires a fixed format between 0.0 to 5.0 (decimal can be omitted). For editing
 
 
 * *Minor enhancement*:
-Added the ability to autofill commands using `TAB` key and delete prefixes using `DELETE` key.
+Added the ability to autofill commands using `Tab` key and delete prefixes using `Delete` key.
 This facilitates the user when typing in commands, especially for long commands such as `add` and `edit`.
 
 * *Code contributed*: [https://github.com/CS2103JAN2018-W11-B1/main/blob/master/collated/functional/sherlynng.md[Functional code]] [https://github.com/CS2103JAN2018-W11-B1/main/blob/master/collated/test/sherlynng.md[Test code]]
