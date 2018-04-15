@@ -1375,6 +1375,13 @@ These instructions only provide a starting point for testers to work on; testers
 .. Test case: `add` +
    Expected: Details panel will remain unchanged. Invalid command format, add command format and an example of add shown in the status message.
 
+. Adding a person using case insensitive input and shortcuts
+
+.. Prerequisites: None.
+.. Test case: `add n/John al Doe p/98765432 e/johnd@ExaMplE.com a/311, Clementi Ave 2, #02-25 $/50 sub/chEM lvl/Ls r/S` +
+   Expected: Person is added to the bottom of the list.Details of the added person shown in the status message.
+   The person will be tagged with "Chemistry", "Lower Sec", "Student". His name and email will be kept in mixed case.
+
 === Selecting a person
 
 . Selecting a person while all persons are listed
@@ -1408,6 +1415,30 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: All data in app is cleared. App has been cleared shown in status message.
 .. Test case: `undo` +
    Expected: All cleared data are restored. Undo success shown in status message.
+
+=== Filtering the list
+
+. Filtering the list by KEYWORD
+
+.. Prerequisites: None.
+.. Test case: `filter student` +
+   Expected: All persons with student tag are displayed in the list. The number of people that match the KEYWORD is shown in status message.
+.. Test case: `filter tutor math` +
+   Expected: No person is displayed in the list. 0 listed person shown in the status message.
+.. Other incorrect delete commands to try: `filter` +
+   Expected: Similar to previous.
+
+=== Viewing the statistics
+
+. Viewing statistics
+
+.. Prerequisites: None.
+.. Test case: `viewStats` +
+   Expected: A panel opens within Details Panel. Data represented in graph should match the persons in list.
+.. Test case: `viewStats 123` +
+   Expected: Similar to previous.
+.. Test case: `viewStats` followed by `add n/unknown r/tutor` and `viewStats` again +
+   Expected: The updated pie chart should show 1 more tutor than the previous pie chart.
 
 // end::manualtest[]
 
@@ -1472,3 +1503,35 @@ These instructions only provide a starting point for testers to work on; testers
    Error details shown in the status message.
 .. Test case: `rate 1 r/6.0` +
    Expected: No rating is added as the rate specified is not within range. Error details shown in the status message.
+
+// tag::manualtestMatchUnmatch[]
+=== Testing match and unmatch
+
+. Match compatible student and tutor and then unmatch
+.. Prerequisites: clear your STUtor.
+.. Test case: +
+... `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/Math lvl/Lower Sec  r/Student` +
+... `add n/Mary Chang p/81890003 e/marychang@example.com a/178, Rosewood Garden, #03-01 $/50 sub/Math lvl/Lower Sec  r/Tutor` +
+... `match 1 2` +
+  Expected: Pair is added to Pair List panel. Details of the added pair shown in the status message.
+  "Math", "Lower Sec" and "50" will be displayed as tags below the newly created pair.
+  The two persons have status updated to "Matched".
+.. Test case: +
+   Continue form the previous test case, type the command `unmatch 1` +
+   Expected: Pair is remove from the Pair List panel. Details of the unmatched pair shown in the status message.
+               The two persons have status updated to "Not Matched".
+
+. Match incompatible student and tutor
+.. Prerequisites: clear your STUtor.
+.. Test case: +
+... `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 $/50 sub/English lvl/Lower Sec  r/Student` +
+... `add n/Mary Chang p/81890003 e/marychang@example.com a/178, Rosewood Garden, #03-01 $/50 sub/Math lvl/Lower Sec  r/Tutor` +
+... `match 1 2` +
+  Expected: Error mesage of "Matching failed. Incompatible subject." shown in the status message.
+
+. Unmatch pair at invalid index
+.. Prerequisites: clear your STUtor.
+.. Test case: +
+... `unmatch 1` +
+  Expected: Error mesage of "The pair index provided is invalid." shown in the status message.
+// end::manualtestMatchUnmatch[]

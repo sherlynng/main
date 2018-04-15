@@ -1,6 +1,7 @@
 = Wang Zi - Project Portfolio
 :imagesDir: ../images
 :stylesDir: ../stylesheets
+:repoURL: https://github.com/CS2103JAN2018-W11-B1/main
 
 == PROJECT: STUtor - v1.5
 
@@ -87,6 +88,8 @@ include::../DeveloperGuide.adoc[tag=matchunmatch]
 include::../DeveloperGuide.adoc[tag=fillingshortcut]
 
 include::../DeveloperGuide.adoc[tag=caseinsensitiveinput]
+
+include::../DeveloperGuide.adoc[tag=manualtestMatchUnmatch]
 
 [appendix]
 == Glossary
