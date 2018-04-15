@@ -8,8 +8,7 @@
 
 == Overview
 
-STUtor -V1.5 is a desktop address book targeting tuition coordinators
-to help them _matching_ and _managing_ a large database of tutors and students. +
+STUtor -V1.5 is a *desktop app* tailored for *tuition coordinators* to easily _match_ and _manage_ a database of tutors and students. +
 The user interacts with it using a CLI, and it has a GUI created with JavaFX.
 It is written in Java, and has about 25 kLoC.
 
