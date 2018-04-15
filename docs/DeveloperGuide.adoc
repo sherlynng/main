@@ -404,7 +404,7 @@ Below shows the modifications made:
 
 **Before**
 
-image::OlddetailsPanel.png[width="500"]
+image::OldBrowserPanel.png[width="500"]
 
 **After**
 
@@ -467,7 +467,6 @@ autofill feature to reduce the time taken to enter a person's details. Besides `
 definite format (i.e. `remark`, `rate`, `delete`, `select`, `unmatch`, `match`) have this feature implemented as well.
 
 ==== Current Implementation
-
 Autofill feature is implemented in link:{repoURL}/blob/master/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox.java`].
 When keyboard `Delete` or `Tab` is pressed, depending on the user input in the command box, the caret position
 will be shifted accordingly. Below shows the workflow when `Delete` or `Tab` is pressed.
